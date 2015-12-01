@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Udacity Login View Controller-->
@@ -17,37 +18,73 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xq8-mA-jJA">
-                                <rect key="frame" x="252" y="267" width="97" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xq8-mA-jJA">
+                                <rect key="frame" x="20" y="179" width="560" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPA-zM-ZEF">
-                                <rect key="frame" x="281" y="343" width="38" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPA-zM-ZEF">
+                                <rect key="frame" x="20" y="285" width="560" height="30"/>
                                 <animations/>
-                                <state key="normal" title="Login"/>
+                                <state key="normal" title="Login to Udacity"/>
                                 <connections>
                                     <action selector="loginButtonTouchUpInside:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="K6N-6b-haH"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WK0-wC-EhJ">
-                                <rect key="frame" x="252" y="305" width="97" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WK0-wC-EhJ">
+                                <rect key="frame" x="20" y="217" width="560" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GG8-rI-UHC">
-                                <rect key="frame" x="276" y="381" width="48" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D08-sR-TmS">
+                                <rect key="frame" x="20" y="323" width="560" height="30"/>
                                 <animations/>
-                                <state key="normal" title="Logout"/>
+                                <state key="normal" title="Logout from Udacity"/>
                                 <connections>
-                                    <action selector="logoutButtonTouchUpInside:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="nQb-Mu-njk"/>
+                                    <action selector="logoutButtonTouchUpInside:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="jI0-ET-255"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZdK-Wm-5Md">
+                                <rect key="frame" x="20" y="376" width="560" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Get Student Locations"/>
+                                <connections>
+                                    <action selector="getStudentLocationsButtonDidTouchUpInside:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="GuK-Me-596"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alZ-rv-F3s">
+                                <rect key="frame" x="20" y="414" width="560" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Post Student Location"/>
+                                <connections>
+                                    <action selector="postStudentLocationButtonDidTouchUp:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="q0z-cd-deP"/>
                                 </connections>
                             </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="alZ-rv-F3s" firstAttribute="top" secondItem="ZdK-Wm-5Md" secondAttribute="bottom" constant="8" id="4Ze-np-cJm"/>
+                            <constraint firstItem="WK0-wC-EhJ" firstAttribute="top" secondItem="xq8-mA-jJA" secondAttribute="bottom" constant="8" id="8Yf-So-MMc"/>
+                            <constraint firstItem="WK0-wC-EhJ" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="Acj-k6-ySv"/>
+                            <constraint firstItem="D08-sR-TmS" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="Clb-TR-ZXY"/>
+                            <constraint firstItem="D08-sR-TmS" firstAttribute="top" secondItem="dPA-zM-ZEF" secondAttribute="bottom" constant="8" id="DZF-Ly-K1g"/>
+                            <constraint firstItem="xq8-mA-jJA" firstAttribute="top" secondItem="GmB-PQ-pDa" secondAttribute="bottom" constant="159" id="Ezu-Ah-FSq"/>
+                            <constraint firstItem="xq8-mA-jJA" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="Ixc-3Q-5zi"/>
+                            <constraint firstItem="alZ-rv-F3s" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="NRq-2i-QQ7"/>
+                            <constraint firstItem="dPA-zM-ZEF" firstAttribute="top" secondItem="WK0-wC-EhJ" secondAttribute="bottom" constant="38" id="NpD-CN-NMM"/>
+                            <constraint firstItem="dPA-zM-ZEF" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="OQD-za-rck"/>
+                            <constraint firstItem="ZdK-Wm-5Md" firstAttribute="top" secondItem="D08-sR-TmS" secondAttribute="bottom" constant="23" id="RGa-Sp-G4d"/>
+                            <constraint firstItem="ZdK-Wm-5Md" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="RaV-Sn-dy6"/>
+                            <constraint firstItem="WK0-wC-EhJ" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="TpO-Fn-dJf"/>
+                            <constraint firstItem="alZ-rv-F3s" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="YGx-pt-riP"/>
+                            <constraint firstItem="dPA-zM-ZEF" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="pY3-Ap-P1E"/>
+                            <constraint firstItem="D08-sR-TmS" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="pnu-di-Og7"/>
+                            <constraint firstItem="ZdK-Wm-5Md" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="rIu-rW-aJi"/>
+                            <constraint firstItem="xq8-mA-jJA" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="tvu-zh-quP"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="xq8-mA-jJA" id="ZtO-2c-1O6"/>
