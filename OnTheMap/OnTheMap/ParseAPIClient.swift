@@ -8,138 +8,67 @@
 
 import UIKit
 
-typealias ParseAPICompletionHandler = (result: AnyObject!, error: NSError?) -> Void
-
 class ParseAPIClient: NSObject {
 
-	class func getStudentLocations(completionHandler: ParseAPICompletionHandler) {
-		let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation?limit=5")!)
-		request.HTTPMethod = "GET"
-		request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-		request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+	// MARK: - Constants
 
-		let session = NSURLSession.sharedSession()
-		let task    = session.dataTaskWithRequest(request) { (rawJSONResponse, httpResponse, urlSessionError) in
-
-			guard urlSessionError == nil else {
-				let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey : "Network Error",
-					                                     NSUnderlyingErrorKey      : urlSessionError!]
-				let error = NSError(domain: "Parse API Get Student Locations", code: 1, userInfo: userInfo)
-
-				completionHandler(result: nil, error: error)
-				return
-			}
-
-			let httpURLResponse = httpResponse as? NSHTTPURLResponse
-
-			guard httpURLResponse?.statusCodeClass == .Successful else {
-				let httpStatusText = NSHTTPURLResponse.localizedStringForStatusCode((httpURLResponse?.statusCode)!)
-				let failureReason  = "HTTP status code = \(httpURLResponse?.statusCode), HTTP status text = \(httpStatusText)"
-
-				let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey        : "HTTP Error",
-																	 NSLocalizedFailureReasonErrorKey : failureReason]
-				let error = NSError(domain: "Parse API Get Student Locations", code: 2, userInfo: userInfo)
-
-				completionHandler(result: nil, error: error)
-				return
-			}
-
-			guard let rawJSONResponse = rawJSONResponse else {
-				let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey        : "JSON Error",
-																	 NSLocalizedFailureReasonErrorKey : "Could not find raw JSON data"]
-				let error = NSError(domain: "Parse API Get Student Locations", code: 3, userInfo: userInfo)
-
-				completionHandler(result: nil, error: error)
-				return
-			}
-
-			do {
-				let parsedJSONResponse = try NSJSONSerialization.JSONObjectWithData(rawJSONResponse, options: .AllowFragments) as! Dictionary<String, AnyObject>
-
-				completionHandler(result: parsedJSONResponse, error: nil)
-			} catch let jsonError as NSError {
-				let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey : "JSON Serialization Error",
-																	 NSUnderlyingErrorKey      : jsonError]
-				let error = NSError(domain: "Parse API Get Student Locations", code: 4, userInfo: userInfo)
-
-				completionHandler(result: nil, error: error)
-				return
-			}
-
-		}
-
-		task.resume()
+	struct API {
+		static let BaseURL = "https://api.parse.com/1/classes/StudentLocation"
 	}
 
-	class func postStudentLocation(completionHandler: ParseAPICompletionHandler) {
-		let student = [ "uniqueKey" : "blap",
-			"firstName" : "Jonathan",
-			"lastName" : "Hemlock",
-			"mapString" : "Dallas, TX",
-			"mediaURL" : "https://udacity.com",
-			"latitude" : 32.7767,
-			"longitude" : 96.797]
+	struct ParseAppIDField {
+		static let Name  = "X-Parse-Application-Id"
+		static let Value = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
 
-		let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation")!)
-
-		request.HTTPMethod = "POST"
-		request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-		request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-		request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(student, options: .PrettyPrinted)
-
-		let session = NSURLSession.sharedSession()
-		let task    = session.dataTaskWithRequest(request) { (rawJSONResponse, httpResponse, urlSessionError) in
-
-			guard urlSessionError == nil else {
-				let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey : "Network Error",
-					NSUnderlyingErrorKey      : urlSessionError!]
-				let error = NSError(domain: "Parse API Get Student Locations", code: 1, userInfo: userInfo)
-
-				completionHandler(result: nil, error: error)
-				return
-			}
-
-			let httpURLResponse = httpResponse as? NSHTTPURLResponse
-
-			guard httpURLResponse?.statusCodeClass == .Successful else {
-				let httpStatusText = NSHTTPURLResponse.localizedStringForStatusCode((httpURLResponse?.statusCode)!)
-				let failureReason  = "HTTP status code = \(httpURLResponse?.statusCode), HTTP status text = \(httpStatusText)"
-
-				let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey        : "HTTP Error",
-					NSLocalizedFailureReasonErrorKey : failureReason]
-				let error = NSError(domain: "Parse API Get Student Locations", code: 2, userInfo: userInfo)
-
-				completionHandler(result: nil, error: error)
-				return
-			}
-
-			guard let rawJSONResponse = rawJSONResponse else {
-				let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey        : "JSON Error",
-					NSLocalizedFailureReasonErrorKey : "Could not find raw JSON data"]
-				let error = NSError(domain: "Parse API Get Student Locations", code: 3, userInfo: userInfo)
-
-				completionHandler(result: nil, error: error)
-				return
-			}
-
-			do {
-				let parsedJSONResponse = try NSJSONSerialization.JSONObjectWithData(rawJSONResponse, options: .AllowFragments) as! Dictionary<String, AnyObject>
-
-				completionHandler(result: parsedJSONResponse, error: nil)
-			} catch let jsonError as NSError {
-				let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey : "JSON Serialization Error",
-					NSUnderlyingErrorKey      : jsonError]
-				let error = NSError(domain: "Parse API Get Student Locations", code: 4, userInfo: userInfo)
-
-				completionHandler(result: nil, error: error)
-				return
-			}
-
-		}
-
-		task.resume()
 	}
 
+	struct ParseRESTAPIKeyField {
+		static let Name  = "X-Parse-REST-API-Key"
+		static let Value = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+	}
+
+	struct StudentLocationKeys {
+		static let FirstName = "firstName"
+		static let LastName  = "lastName"
+		static let Lat			= "latitude"
+		static let Location  = "mapString"
+		static let Long		= "longitude"
+		static let MediaURL  = "mediaURL"
+		static let UniqueKey = "uniqueKey"
+	}
+	
+	// MARK: - API
+
+	class func getStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
+		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL + "?limit=5")!)
+
+		URLRequest.HTTPMethod = HTTPMethod.Get
+
+		URLRequest.addValue(ParseAppIDField.Value,      forHTTPHeaderField: ParseAppIDField.Name)
+		URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)
+
+		APIDataTaskWithRequest.resume(URLRequest, completionHandler: completionHandler)
+	}
+
+	class func postStudentLocation(completionHandler: APIDataTaskWithRequestCompletionHandler) {
+		let studentlocation = [ StudentLocationKeys.UniqueKey : "blap",
+										StudentLocationKeys.FirstName : "Jonathan",
+										StudentLocationKeys.LastName  : "Hemlock",
+										StudentLocationKeys.Location  : "Dallas, TX",
+										StudentLocationKeys.MediaURL  : "https://udacity.com",
+										StudentLocationKeys.Lat       : 32.7767,
+										StudentLocationKeys.Long      : 96.797]
+
+		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL)!)
+
+		URLRequest.HTTPMethod = HTTPMethod.Post
+		URLRequest.HTTPBody   = try! NSJSONSerialization.dataWithJSONObject(studentlocation, options: .PrettyPrinted)
+
+		URLRequest.addValue(ParseAppIDField.Value,      forHTTPHeaderField: ParseAppIDField.Name)
+		URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)
+      URLRequest.addValue(MIMEType.ApplicationJSON,   forHTTPHeaderField: HTTPHeaderField.ContentType)
+
+		APIDataTaskWithRequest.resume(URLRequest, completionHandler: completionHandler)
+	}
 
 }
