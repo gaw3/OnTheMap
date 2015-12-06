@@ -12,11 +12,13 @@ class UdacityAPIClient: NSObject {
 
 	// MARK: - Constants
 
-	private struct API {
-		static let BaseURL     = "https://www.udacity.com/api/session"
-		static let UdacityKey  = "udacity"
-		static let UserNameKey = "username"
-		static let PasswordKey = "password"
+	struct API {
+		static let BaseURL      = "https://www.udacity.com/api/session"
+		static let UdacityKey   = "udacity"
+		static let UserNameKey  = "username"
+		static let PasswordKey  = "password"
+		static let SessionKey   = "session"
+		static let SessionIDKey = "id"
 	}
 
 	private struct XSRFTokenField {
@@ -26,7 +28,7 @@ class UdacityAPIClient: NSObject {
 
 	// MARK: - API
 
-	class func loginWithUsername(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	class func login(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let JSONLogin  = [ API.UdacityKey : [ API.UserNameKey : username, API.PasswordKey : password ] ]
 		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL)!)
 

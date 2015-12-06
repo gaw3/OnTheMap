@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Udacity Login View Controller-->
@@ -18,82 +17,230 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xq8-mA-jJA">
-                                <rect key="frame" x="20" y="179" width="560" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Email" borderStyle="roundedRect" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pYB-0a-Lyc">
+                                <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <animations/>
+                                <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPA-zM-ZEF">
-                                <rect key="frame" x="20" y="285" width="560" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Login to Udacity"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                 <connections>
-                                    <action selector="loginButtonTouchUpInside:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="K6N-6b-haH"/>
+                                    <outlet property="delegate" destination="sA3-fQ-SkR" id="aGg-eg-8mk"/>
                                 </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WK0-wC-EhJ">
-                                <rect key="frame" x="20" y="217" width="560" height="30"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="r5Z-WY-PyL">
+                                <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <animations/>
+                                <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="sA3-fQ-SkR" id="cuk-sG-sBT"/>
+                                </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D08-sR-TmS">
-                                <rect key="frame" x="20" y="323" width="560" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upU-4a-NSX">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <animations/>
-                                <state key="normal" title="Logout from Udacity"/>
+                                <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
-                                    <action selector="logoutButtonTouchUpInside:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="jI0-ET-255"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZdK-Wm-5Md">
-                                <rect key="frame" x="20" y="376" width="560" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Get Student Locations"/>
-                                <connections>
-                                    <action selector="getStudentLocationsButtonDidTouchUpInside:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="GuK-Me-596"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alZ-rv-F3s">
-                                <rect key="frame" x="20" y="414" width="560" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Post Student Location"/>
-                                <connections>
-                                    <action selector="postStudentLocationButtonDidTouchUp:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="q0z-cd-deP"/>
+                                    <action selector="loginButtonDidTouchUpInside:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="kTx-U1-HdT"/>
                                 </connections>
                             </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="alZ-rv-F3s" firstAttribute="top" secondItem="ZdK-Wm-5Md" secondAttribute="bottom" constant="8" id="4Ze-np-cJm"/>
-                            <constraint firstItem="WK0-wC-EhJ" firstAttribute="top" secondItem="xq8-mA-jJA" secondAttribute="bottom" constant="8" id="8Yf-So-MMc"/>
-                            <constraint firstItem="WK0-wC-EhJ" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="Acj-k6-ySv"/>
-                            <constraint firstItem="D08-sR-TmS" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="Clb-TR-ZXY"/>
-                            <constraint firstItem="D08-sR-TmS" firstAttribute="top" secondItem="dPA-zM-ZEF" secondAttribute="bottom" constant="8" id="DZF-Ly-K1g"/>
-                            <constraint firstItem="xq8-mA-jJA" firstAttribute="top" secondItem="GmB-PQ-pDa" secondAttribute="bottom" constant="159" id="Ezu-Ah-FSq"/>
-                            <constraint firstItem="xq8-mA-jJA" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="Ixc-3Q-5zi"/>
-                            <constraint firstItem="alZ-rv-F3s" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="NRq-2i-QQ7"/>
-                            <constraint firstItem="dPA-zM-ZEF" firstAttribute="top" secondItem="WK0-wC-EhJ" secondAttribute="bottom" constant="38" id="NpD-CN-NMM"/>
-                            <constraint firstItem="dPA-zM-ZEF" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="OQD-za-rck"/>
-                            <constraint firstItem="ZdK-Wm-5Md" firstAttribute="top" secondItem="D08-sR-TmS" secondAttribute="bottom" constant="23" id="RGa-Sp-G4d"/>
-                            <constraint firstItem="ZdK-Wm-5Md" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="RaV-Sn-dy6"/>
-                            <constraint firstItem="WK0-wC-EhJ" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="TpO-Fn-dJf"/>
-                            <constraint firstItem="alZ-rv-F3s" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="YGx-pt-riP"/>
-                            <constraint firstItem="dPA-zM-ZEF" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="pY3-Ap-P1E"/>
-                            <constraint firstItem="D08-sR-TmS" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="pnu-di-Og7"/>
-                            <constraint firstItem="ZdK-Wm-5Md" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" id="rIu-rW-aJi"/>
-                            <constraint firstItem="xq8-mA-jJA" firstAttribute="trailing" secondItem="arE-nh-Ycg" secondAttribute="trailingMargin" id="tvu-zh-quP"/>
+                            <constraint firstItem="pYB-0a-Lyc" firstAttribute="top" secondItem="arE-nh-Ycg" secondAttribute="top" constant="238" id="3Cb-fy-cAb"/>
+                            <constraint firstAttribute="trailing" secondItem="upU-4a-NSX" secondAttribute="trailing" constant="50" id="4bg-GN-mxw"/>
+                            <constraint firstItem="r5Z-WY-PyL" firstAttribute="top" secondItem="pYB-0a-Lyc" secondAttribute="bottom" constant="8" id="E2M-Av-LIE"/>
+                            <constraint firstAttribute="trailing" secondItem="r5Z-WY-PyL" secondAttribute="trailing" constant="50" id="QH8-fg-pAh"/>
+                            <constraint firstItem="upU-4a-NSX" firstAttribute="top" secondItem="r5Z-WY-PyL" secondAttribute="bottom" constant="8" id="bo0-BC-Zgf"/>
+                            <constraint firstAttribute="trailing" secondItem="pYB-0a-Lyc" secondAttribute="trailing" constant="50" id="dum-ip-JcK"/>
+                            <constraint firstItem="pYB-0a-Lyc" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="fya-JY-BDT"/>
+                            <constraint firstItem="upU-4a-NSX" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="ug6-ua-ygc"/>
+                            <constraint firstItem="r5Z-WY-PyL" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="vIX-ET-whF"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="pYB-0a-Lyc"/>
+                                <exclude reference="r5Z-WY-PyL"/>
+                                <exclude reference="upU-4a-NSX"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="3Cb-fy-cAb"/>
+                                <exclude reference="dum-ip-JcK"/>
+                                <exclude reference="fya-JY-BDT"/>
+                                <exclude reference="E2M-Av-LIE"/>
+                                <exclude reference="QH8-fg-pAh"/>
+                                <exclude reference="vIX-ET-whF"/>
+                                <exclude reference="4bg-GN-mxw"/>
+                                <exclude reference="bo0-BC-Zgf"/>
+                                <exclude reference="ug6-ua-ygc"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="pYB-0a-Lyc"/>
+                                <include reference="r5Z-WY-PyL"/>
+                                <include reference="upU-4a-NSX"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="3Cb-fy-cAb"/>
+                                <include reference="dum-ip-JcK"/>
+                                <include reference="fya-JY-BDT"/>
+                                <include reference="E2M-Av-LIE"/>
+                                <include reference="QH8-fg-pAh"/>
+                                <include reference="vIX-ET-whF"/>
+                                <include reference="4bg-GN-mxw"/>
+                                <include reference="bo0-BC-Zgf"/>
+                                <include reference="ug6-ua-ygc"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
-                        <outlet property="emailTextField" destination="xq8-mA-jJA" id="ZtO-2c-1O6"/>
-                        <outlet property="passwordTextField" destination="WK0-wC-EhJ" id="ejH-rj-563"/>
+                        <outlet property="emailTextField" destination="pYB-0a-Lyc" id="ShX-wG-hZJ"/>
+                        <outlet property="passwordTextField" destination="r5Z-WY-PyL" id="qQX-eO-GAW"/>
+                        <segue destination="c3y-Xo-GXg" kind="show" identifier="SegueFromLoginToTabBarController" id="sQb-j0-4ne"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3xT-qG-xfO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-616" y="-143"/>
+            <point key="canvasLocation" x="-3400.5" y="-419.25"/>
+        </scene>
+        <!--Student Locations Map View Controller-->
+        <scene sceneID="EVw-LQ-Fsw">
+            <objects>
+                <viewController storyboardIdentifier="StudentLocationsMapViewController" title="Student Locations Map View Controller" id="YVe-Sc-WDq" customClass="StudentLocationsMapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cgt-ua-Jpt"/>
+                        <viewControllerLayoutGuide type="bottom" id="Dlh-FE-tjd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4Cf-B4-mKV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" image="Map" selectedImage="second" id="RwT-aF-5Pj"/>
+                    <navigationItem key="navigationItem" title="Student Locations" id="vVC-Yz-qre">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="UCZ-dk-mvC">
+                            <connections>
+                                <segue destination="xe0-lb-6sO" kind="unwind" unwindAction="unwindToLoginViewController:" id="h8b-Sf-nih"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c1Q-ew-RYV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="xe0-lb-6sO" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-732" y="-727.5"/>
+        </scene>
+        <!--Student Locations Table View Nav Controller-->
+        <scene sceneID="8MP-ae-LsP">
+            <objects>
+                <navigationController title="Student Locations Table View Nav Controller" id="sbR-uK-6zm" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="List" image="List" id="vPd-Qn-DOL"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tlo-Op-COe">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="u9p-1y-zKB" kind="relationship" relationship="rootViewController" id="Ahe-Gz-q6n"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A0P-L6-wDt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1573.5" y="-71.25"/>
+        </scene>
+        <!--Student Locations Map View Nav Controller-->
+        <scene sceneID="AJl-Yn-ZZ9">
+            <objects>
+                <navigationController title="Student Locations Map View Nav Controller" id="Kqv-RQ-N8R" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Map" image="Map" id="1rr-z0-scz"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yLV-Lm-ikx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="YVe-Sc-WDq" kind="relationship" relationship="rootViewController" id="1Y2-kw-jeT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HNZ-UJ-ff4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1573.5" y="-727.5"/>
+        </scene>
+        <!--Student Locations Tab Bar Controller-->
+        <scene sceneID="4d5-Cr-YaP">
+            <objects>
+                <tabBarController storyboardIdentifier="StudentLocationsTabBarController" title="Student Locations Tab Bar Controller" id="c3y-Xo-GXg" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="gOS-Xg-7HO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Kqv-RQ-N8R" kind="relationship" relationship="viewControllers" id="o4X-ky-CcY"/>
+                        <segue destination="sbR-uK-6zm" kind="relationship" relationship="viewControllers" id="afM-ZO-kcM"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0vC-6Y-oUN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2553" y="-419.25"/>
+        </scene>
+        <!--Student Locations Table View Controller-->
+        <scene sceneID="9We-IW-YS7">
+            <objects>
+                <tableViewController storyboardIdentifier="StudentLocationsTableViewController" title="Student Locations Table View Controller" id="u9p-1y-zKB" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="wW3-AS-Y7j">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3D1-Sw-xan">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3D1-Sw-xan" id="FhS-2e-hI0">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
+                                </tableViewCellContentView>
+                                <animations/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="u9p-1y-zKB" id="9Pf-B5-4xJ"/>
+                            <outlet property="delegate" destination="u9p-1y-zKB" id="Ten-q4-zkB"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="List" image="List" id="KSV-Tg-6SK"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Student Locations" id="HeB-8d-QSR">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="a74-EK-l5O">
+                            <connections>
+                                <segue destination="HOl-Ew-6FB" kind="unwind" unwindAction="unwindToLoginViewController:" id="6kY-M8-CAc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A2j-z4-WKB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="HOl-Ew-6FB" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-732" y="-71.25"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="List" width="32" height="32"/>
+        <image name="Map" width="32" height="32"/>
+        <image name="second" width="30" height="30"/>
+    </resources>
 </document>

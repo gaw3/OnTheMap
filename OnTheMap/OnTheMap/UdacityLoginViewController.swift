@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UdacityLoginViewController: UIViewController {
+class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 
 	// MARK: - IB Outlets
 
@@ -23,127 +23,111 @@ class UdacityLoginViewController: UIViewController {
 
    // MARK: - IB Actions
 
-	@IBAction func loginButtonTouchUpInside(sender: UIButton) {
-		UdacityAPIClient.loginWithUsername("gwhite2003@verizon.net", password: "chopper", completionHandler: completeLogin)
-		// 1. verify textfields have something in them
-		// 2. use udacity client to login
-		// 2.5 if logged in, move to main tabbar controller
-		// 3. provide error indicators to user
-	}
+	@IBAction func loginButtonDidTouchUpInside(sender: UIButton) {
 
-	@IBAction func logoutButtonTouchUpInside(sender: UIButton) {
-		UdacityAPIClient.logout(completeLogout)
-		// 1. verify textfields have something in them
-		// 2. use udacity client to login
-		// 2.5 if logged in, move to main tabbar controller
-		// 3. provide error indicators to user
-	}
-
-
-	@IBAction func getStudentLocationsButtonDidTouchUpInside(sender: UIButton) {
-		ParseAPIClient.getStudentLocations(completeGetStudentLocations)
-	}
-
-	@IBAction func postStudentLocationButtonDidTouchUp(sender: UIButton) {
-		ParseAPIClient.postStudentLocation(completePostStudentLocation)
-	}
-	
-	func completeGetStudentLocations(result: AnyObject!, error: NSError?) {
-
-		guard error == nil else {
-			// handle error
+		guard emailTextField.text != "" else {
+			// button is made inactive
+			// alert action view or whatever to notifiy of empty field
 			return
 		}
 
-		guard result != nil else {
-			// handle error
+		guard passwordTextField.text != "" else {
+			// button is made inactive
+			// alert action view or whatever to notifiy of empty field
 			return
 		}
 
-		let json = result as! Dictionary<String, AnyObject>
-
-		if let studentLocations = json["results"] {
-			print("student locations json = \(studentLocations)")
-		}
-
+		UdacityAPIClient.login(emailTextField.text! as String, password: passwordTextField.text! as String,
+																	 completionHandler: loginCompletionHandler)
 	}
 
-	func completePostStudentLocation(result: AnyObject!, error: NSError?) {
+	// MARK: - Navigation
 
-		guard error == nil else {
-			// handle error
-			return
-		}
+	@IBAction func unwindToLoginViewController(segue: UIStoryboardSegue) {
+		UdacityAPIClient.logout(logoutCompletionHandler)
+	}
 
-		guard result != nil else {
-			// handle error
-			return
-		}
+	// MARK: - UITextFieldDelegate
 
-		let json = result as! Dictionary<String, AnyObject>
-		print("post student location json = \(json)")
+	func textFieldShouldReturn(textField: UITextField) -> Bool {
+		assert(textField == emailTextField || textField == passwordTextField,
+			"received notification from unexpected UITextField")
+
+		textField.resignFirstResponder()
+		return true
 	}
 	
-	func completeLogin(result: AnyObject!, error: NSError?) {
+	// MARK: - Private Completion Handlers
 
-		guard error == nil else {
-			// handle error
-			return
-		}
+	private var loginCompletionHandler : APIDataTaskWithRequestCompletionHandler {
 
-		guard result != nil else {
-			// handle error
-			return
-		}
+		return { (result, error) in
 
-		let json = result as! Dictionary<String, AnyObject>
-		print("login json = \(json)")
-
-		if let jsonSession = json["session"] {
-
-			if let jsonSessionID = jsonSession["id"] {
-				// save session ID?
-				// save logged in state?
-				// segue to tabbar controller
-			} else {
-				// handle error
+			guard error == nil else {
+				print("error = \(error)")
+				// alert action view to the user that error occurred
+				return
 			}
 
-		} else {
-			//handle error
+			guard result != nil else {
+				print("no json data provided to login completion handler")
+				// alert action view again
+				return
+			}
+
+			let JSONData = result as! Dictionary<String, AnyObject>
+
+			if let session = JSONData[UdacityAPIClient.API.SessionKey] {
+
+				if let _ = session[UdacityAPIClient.API.SessionIDKey] {
+					let tabBarController = self.storyboard?.instantiateViewControllerWithIdentifier("StudentLocationsTabBarController")
+												  as! UITabBarController
+					self.presentViewController(tabBarController, animated: true, completion: nil)
+				} else {
+					print("no session ID")
+					// alert action view again
+				}
+
+			} else {
+				print("no session")
+				// alert action view again
+			}
+
 		}
 
 	}
 
-	func completeLogout(result: AnyObject!, error: NSError?) {
+	private var logoutCompletionHandler : APIDataTaskWithRequestCompletionHandler {
 
-		guard error == nil else {
-			// handle error
-			return
-		}
+		return { (result, error) in
 
-		guard result != nil else {
-			// handle error
-			return
-		}
-
-		let json = result as! Dictionary<String, AnyObject>
-		print("logout json = \(json)")
-
-		if let jsonSession = json["session"] {
-
-			if let jsonSessionID = jsonSession["id"] {
-				// save session ID?
-				// save logged in state?
-				// segue to tabbar controller
-			} else {
+			guard error == nil else {
 				// handle error
+				return
 			}
 
-		} else {
-			//handle error
+			guard result != nil else {
+				// handle error
+				return
+			}
+
+			let JSONData = result as! Dictionary<String, AnyObject>
+
+			if let session = JSONData[UdacityAPIClient.API.SessionKey] {
+
+				if let _ = session[UdacityAPIClient.API.SessionIDKey] {
+				} else {
+					print("no session ID")
+					// alert action view again
+				}
+
+			} else {
+				print("no session")
+				// alert action view again
+			}
+
 		}
-		
+
 	}
 
 }
