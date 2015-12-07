@@ -37,14 +37,14 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 			return
 		}
 
-		UdacityAPIClient.login(emailTextField.text! as String, password: passwordTextField.text! as String,
-																	 completionHandler: loginCompletionHandler)
+		UdacityAPIClient.sharedClient.login(emailTextField.text! as String, password: passwordTextField.text! as String,
+														completionHandler: loginCompletionHandler)
 	}
 
 	// MARK: - Navigation
 
 	@IBAction func unwindToLoginViewController(segue: UIStoryboardSegue) {
-		UdacityAPIClient.logout(logoutCompletionHandler)
+		UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
 	}
 
 	// MARK: - UITextFieldDelegate

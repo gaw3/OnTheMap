@@ -8,9 +8,11 @@
 
 import UIKit
 
+private let _sharedClient = UdacityAPIClient()
+
 class UdacityAPIClient: NSObject {
 
-	// MARK: - Constants
+	// MARK: - Public Constants
 
 	struct API {
 		static let BaseURL      = "https://www.udacity.com/api/session"
@@ -21,14 +23,22 @@ class UdacityAPIClient: NSObject {
 		static let SessionIDKey = "id"
 	}
 
+	// MARK: - Private Constants
+
 	private struct XSRFTokenField {
 		static let Name       = "X-XSRF-TOKEN"
 		static let CookieName = "XSRF-TOKEN"
 	}
 
+	// MARK: - Public Variables
+
+	class var sharedClient: UdacityAPIClient {
+		return _sharedClient
+	}
+
 	// MARK: - API
 
-	class func login(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	func login(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let JSONLogin  = [ API.UdacityKey : [ API.UserNameKey : username, API.PasswordKey : password ] ]
 		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL)!)
 
@@ -38,10 +48,11 @@ class UdacityAPIClient: NSObject {
 		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.Accept)
 		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.ContentType)
 
-		APIDataTaskWithRequest.resume(URLRequest, completionHandler: completionHandler)
+		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+		dataTaskWithRequest.resume()
 	}
 	
-	class func logout(completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	func logout(completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL)!)
 
 		URLRequest.HTTPMethod = HTTPMethod.Delete
@@ -56,7 +67,8 @@ class UdacityAPIClient: NSObject {
 			URLRequest.setValue(cookies[index].value, forHTTPHeaderField: XSRFTokenField.Name)
 		}
 
-		APIDataTaskWithRequest.resume(URLRequest, completionHandler: completionHandler)
+		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+		dataTaskWithRequest.resume()
 	}
 
 }

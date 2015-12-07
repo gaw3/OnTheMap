@@ -8,24 +8,11 @@
 
 import UIKit
 
+private let _sharedClient = ParseAPIClient()
+
 class ParseAPIClient: NSObject {
 
-	// MARK: - Constants
-
-	struct API {
-		static let BaseURL = "https://api.parse.com/1/classes/StudentLocation"
-	}
-
-	struct ParseAppIDField {
-		static let Name  = "X-Parse-Application-Id"
-		static let Value = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-
-	}
-
-	struct ParseRESTAPIKeyField {
-		static let Name  = "X-Parse-REST-API-Key"
-		static let Value = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
-	}
+	// MARK: - Public Constants
 
 	struct StudentLocationKeys {
 		static let FirstName = "firstName"
@@ -36,10 +23,33 @@ class ParseAPIClient: NSObject {
 		static let MediaURL  = "mediaURL"
 		static let UniqueKey = "uniqueKey"
 	}
+
+	// MARK: - Private Constants
+
+	private struct API {
+		static let BaseURL = "https://api.parse.com/1/classes/StudentLocation"
+	}
+
+	private struct ParseAppIDField {
+		static let Name  = "X-Parse-Application-Id"
+		static let Value = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
+
+	}
+
+	private struct ParseRESTAPIKeyField {
+		static let Name  = "X-Parse-REST-API-Key"
+		static let Value = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+	}
+
+	// MARK: - Public Variables
+
+	class var sharedClient: ParseAPIClient {
+		return _sharedClient
+	}
 	
 	// MARK: - API
 
-	class func getStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	func getStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL + "?limit=5")!)
 
 		URLRequest.HTTPMethod = HTTPMethod.Get
@@ -47,10 +57,11 @@ class ParseAPIClient: NSObject {
 		URLRequest.addValue(ParseAppIDField.Value,      forHTTPHeaderField: ParseAppIDField.Name)
 		URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)
 
-		APIDataTaskWithRequest.resume(URLRequest, completionHandler: completionHandler)
+		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+		dataTaskWithRequest.resume()
 	}
 
-	class func postStudentLocation(completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	func postStudentLocation(completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let studentlocation = [ StudentLocationKeys.UniqueKey : "blap",
 										StudentLocationKeys.FirstName : "Jonathan",
 										StudentLocationKeys.LastName  : "Hemlock",
@@ -68,7 +79,8 @@ class ParseAPIClient: NSObject {
 		URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)
       URLRequest.addValue(MIMEType.ApplicationJSON,   forHTTPHeaderField: HTTPHeaderField.ContentType)
 
-		APIDataTaskWithRequest.resume(URLRequest, completionHandler: completionHandler)
+		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+		dataTaskWithRequest.resume()
 	}
 
 }
