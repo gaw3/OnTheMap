@@ -8,10 +8,15 @@
 
 import UIKit
 
-class StudentLocationsMapViewController: StudentLocationsBaseViewController {
+class StudentLocationsMapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+
+	// MARK: - IB Actions
+
+	@IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
+	}
 
 }

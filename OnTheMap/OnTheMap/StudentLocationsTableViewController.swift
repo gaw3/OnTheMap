@@ -8,10 +8,13 @@
 
 import UIKit
 
-class StudentLocationsTableViewController: StudentLocationsBaseViewController {
+class StudentLocationsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
+	@IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
+	}
+	
 }
