@@ -9,6 +9,7 @@
 import UIKit
 
 typealias APIDataTaskWithRequestCompletionHandler = (result: AnyObject!, error: NSError?) -> Void
+typealias JSONDictionary = Dictionary<String, AnyObject>
 
 class APIDataTaskWithRequest: NSObject {
 
@@ -88,7 +89,7 @@ class APIDataTaskWithRequest: NSObject {
 			}
 
 			do {
-				let JSONData = try NSJSONSerialization.JSONObjectWithData(JSONDataToParse, options: .AllowFragments) as! Dictionary<String, AnyObject>
+				let JSONData = try NSJSONSerialization.JSONObjectWithData(JSONDataToParse, options: .AllowFragments) as! JSONDictionary
 
 				self.completeWithHandler(self.completionHandler, result: JSONData, error: nil)
 			} catch let JSONError as NSError {

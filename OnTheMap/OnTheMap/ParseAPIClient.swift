@@ -14,21 +14,21 @@ class ParseAPIClient: NSObject {
 
 	// MARK: - Public Constants
 
-	struct StudentLocationKeys {
-		static let FirstName = "firstName"
-		static let LastName  = "lastName"
-		static let Lat			= "latitude"
-		static let Location  = "mapString"
-		static let Long		= "longitude"
-		static let MediaURL  = "mediaURL"
-		static let UniqueKey = "uniqueKey"
+	struct API {
+		static let BaseURL        = "https://api.parse.com/1/classes/StudentLocation"
+		static let DateCreatedKey = "createdAt"
+		static let DateUpdatedKey = "updatedAt"
+		static let FirstNameKey   = "firstName"
+		static let LastNameKey    = "lastName"
+		static let LatKey			  = "latitude"
+		static let LocationKey    = "mapString"
+		static let LongKey		  = "longitude"
+		static let MediaURLKey    = "mediaURL"
+		static let ResultsKey     = "results"
+		static let UniqueKeyKey   = "uniqueKey"
 	}
 
 	// MARK: - Private Constants
-
-	private struct API {
-		static let BaseURL = "https://api.parse.com/1/classes/StudentLocation"
-	}
 
 	private struct ParseAppIDField {
 		static let Name  = "X-Parse-Application-Id"
@@ -62,13 +62,13 @@ class ParseAPIClient: NSObject {
 	}
 
 	func postStudentLocation(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let studentlocation = [ StudentLocationKeys.UniqueKey : "blap",
-										StudentLocationKeys.FirstName : "Jonathan",
-										StudentLocationKeys.LastName  : "Hemlock",
-										StudentLocationKeys.Location  : "Dallas, TX",
-										StudentLocationKeys.MediaURL  : "https://udacity.com",
-										StudentLocationKeys.Lat       : 32.7767,
-										StudentLocationKeys.Long      : 96.797]
+		let studentlocation = [ API.UniqueKeyKey : "blap",
+										API.FirstNameKey : "Jonathan",
+										API.LastNameKey  : "Hemlock",
+										API.LocationKey  : "Dallas, TX",
+										API.MediaURLKey  : "https://udacity.com",
+										API.LatKey       : 32.7767,
+										API.LongKey      : 96.797]
 
 		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL)!)
 

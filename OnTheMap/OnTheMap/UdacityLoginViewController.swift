@@ -61,7 +61,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 
 	private var loginCompletionHandler : APIDataTaskWithRequestCompletionHandler {
 
-		return { (result, error) in
+		return { (result, error) -> Void in
 
 			guard error == nil else {
 				print("error = \(error)")
@@ -99,7 +99,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 
 	private var logoutCompletionHandler : APIDataTaskWithRequestCompletionHandler {
 
-		return { (result, error) in
+		return { (result, error) -> Void in
 
 			guard error == nil else {
 				// handle error
