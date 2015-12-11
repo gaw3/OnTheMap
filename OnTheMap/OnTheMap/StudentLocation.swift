@@ -12,90 +12,186 @@ class StudentLocation: NSObject {
 
    // MARK: - Public Variables
 
-	var dateCreated: String? {
-		if let dateCreated = dictionary[ParseAPIClient.API.DateCreatedKey] as! String? {
-			return dateCreated
-		} else {
-			return nil
+	var dateCreated: String {
+
+		get {
+			if let dateCreated = _dictionary[ParseAPIClient.API.DateCreatedKey] as! String? {
+				return dateCreated
+			} else {
+				return String()
+			}
 		}
+
+		set(newDateCreated) {
+			_dictionary[ParseAPIClient.API.DateCreatedKey] = newDateCreated
+		}
+
 	}
 
-	var dateUpdated: String? {
-		if let dateUpdated = dictionary[ParseAPIClient.API.DateUpdatedKey] as! String? {
-			return dateUpdated
-		} else {
-			return nil
+	var dateUpdated: String {
+
+		get {
+			if let dateUpdated = _dictionary[ParseAPIClient.API.DateUpdatedKey] as! String? {
+				return dateUpdated
+			} else {
+				return String()
+			}
 		}
+
+		set(newDateUpdated) {
+			_dictionary[ParseAPIClient.API.DateUpdatedKey] = newDateUpdated
+		}
+
 	}
 
-	var firstName: String? {
-		if let firstName = dictionary[ParseAPIClient.API.FirstNameKey] as! String? {
-			return firstName
-		} else {
-			return nil
-		}
+	var dictionary: JSONDictionary {
+		return _dictionary
 	}
 
-	var fullName: String? {
-		return "\(firstName!) \(lastName!)"
+	var firstName: String {
+
+		get {
+			if let firstName = _dictionary[ParseAPIClient.API.FirstNameKey] as! String? {
+				return firstName
+			} else {
+				return String()
+			}
+		}
+
+		set(newFirstName) {
+			_dictionary[ParseAPIClient.API.FirstNameKey] = newFirstName
+		}
+
 	}
 
-	var lastName: String? {
-		if let lastName = dictionary[ParseAPIClient.API.LastNameKey] as! String? {
-			return lastName
-		} else {
-			return nil
+	var fullName: String {
+		return "\(firstName) \(lastName)"
+	}
+
+	var lastName: String {
+
+		get {
+			if let lastName = _dictionary[ParseAPIClient.API.LastNameKey] as! String? {
+				return lastName
+			} else {
+				return String()
+			}
 		}
+
+		set(newLastName) {
+			_dictionary[ParseAPIClient.API.LastNameKey] = newLastName
+		}
+
 	}
 
 	var latitude: Double? {
-		if let latitude = dictionary[ParseAPIClient.API.LatKey] as! Double? {
-			return latitude
-		} else {
-			return nil
+
+		get {
+			if let latitude = _dictionary[ParseAPIClient.API.LatKey] as! Double? {
+				return latitude
+			} else {
+				return nil
+			}
 		}
+
+		set(newLatitude) {
+			_dictionary[ParseAPIClient.API.LatKey] = newLatitude
+		}
+
 	}
 
-	var location: String? {
-		if let location = dictionary[ParseAPIClient.API.LocationKey] as! String? {
-			return location
-		} else {
-			return nil
+	var mapString: String {
+
+		get {
+			if let mapString = _dictionary[ParseAPIClient.API.MapStringKey] as! String? {
+				return mapString
+			} else {
+				return String()
+			}
 		}
+
+		set(newMapString) {
+			_dictionary[ParseAPIClient.API.MapStringKey] = newMapString
+		}
+
 	}
 
 	var longitude: Double? {
-		if let longitude = dictionary[ParseAPIClient.API.LongKey] as! Double? {
-			return longitude
-		} else {
-			return nil
+
+		get {
+			if let longitude = _dictionary[ParseAPIClient.API.LongKey] as! Double? {
+				return longitude
+			} else {
+				return nil
+			}
 		}
+
+		set(newLongitude) {
+			_dictionary[ParseAPIClient.API.LongKey] = newLongitude
+		}
+
 	}
 
-	var mediaURL: String? {
-		if let mediaURL = dictionary[ParseAPIClient.API.MediaURLKey] as! String? {
-			return mediaURL
-		} else {
-			return nil
+	var mediaURL: String {
+
+		get {
+			if let mediaURL = _dictionary[ParseAPIClient.API.MediaURLKey] as! String? {
+				return mediaURL
+			} else {
+				return String()
+			}
 		}
+
+		set(newMediaURL) {
+			_dictionary[ParseAPIClient.API.MediaURLKey] = newMediaURL
+		}
+
 	}
 
-	var uniqueKey: String? {
-		if let uniqueKey = dictionary[ParseAPIClient.API.UniqueKeyKey] as! String? {
-			return uniqueKey
-		} else {
-			return nil
+	var objectID: String {
+
+		get {
+			if let objectID = _dictionary[ParseAPIClient.API.ObjectIDKey] as! String? {
+				return objectID
+			} else {
+				return String()
+			}
 		}
+
+		set(newObjectID) {
+			_dictionary[ParseAPIClient.API.ObjectIDKey] = newObjectID
+		}
+
+	}
+	
+	var uniqueKey: String {
+
+		get {
+			if let uniqueKey = _dictionary[ParseAPIClient.API.UniqueKeyKey] as! String? {
+				return uniqueKey
+			} else {
+				return String()
+			}
+		}
+
+		set(newUniqueKey) {
+			_dictionary[ParseAPIClient.API.UniqueKeyKey] = newUniqueKey
+		}
+
 	}
 
 	// MARK: - Private Variables
 
-	private var dictionary: JSONDictionary
+	private var _dictionary: JSONDictionary
 
 	// MARK: - Public API
 
+	override init() {
+      _dictionary = JSONDictionary()
+	}
+
 	init(dictionary: JSONDictionary) {
-		self.dictionary = dictionary
+		self._dictionary = dictionary
 		super.init()
 	}
 

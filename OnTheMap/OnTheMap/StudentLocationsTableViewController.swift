@@ -18,6 +18,20 @@ class StudentLocationsTableViewController: UITableViewController {
 		StudentLocationsManager.sharedMgr.refreshStudentLocations()
 	}
 	
+	@IBAction func postButtonWasTapped(sender: UIBarButtonItem) {
+		let studentLocation = StudentLocation()
+
+		studentLocation.firstName = "Harry"
+		studentLocation.lastName  = "Callahan"
+		studentLocation.mapString = "Dallas, TX"
+		studentLocation.mediaURL  = "https://udacity.com"
+		studentLocation.latitude  = 32.7767
+		studentLocation.longitude = 96.797
+		studentLocation.uniqueKey = "blap"
+
+      StudentLocationsManager.sharedMgr.postStudentLocation(studentLocation)
+	}
+
 	// MARK: - View Events
 
 	override func viewDidLoad() {
@@ -26,15 +40,24 @@ class StudentLocationsTableViewController: UITableViewController {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
 																					  name: StudentLocationsDidGetRefreshedNotification,
 																					object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
+																					  name: StudentLocationDidGetPostedNotification,
+																					object: nil)
 	}
 
 	// MARK: - NSNotifications
+
+	func studentLocationDidGetPosted(notification: NSNotification) {
+		assert(notification.name == StudentLocationDidGetPostedNotification,
+											 "received unexpected NSNotification, name = \(notification.name)")
+
+		tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Top)
+	}
 
 	func studentLocationsDidGetRefreshed(notification: NSNotification) {
 		assert(notification.name == StudentLocationsDidGetRefreshedNotification,
 											 "received unexpected NSNotification, name = \(notification.name)")
 
-		print("table view is reloading data")
 		tableView.reloadData()
 	}
 

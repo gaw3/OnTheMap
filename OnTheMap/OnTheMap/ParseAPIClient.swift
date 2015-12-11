@@ -21,9 +21,10 @@ class ParseAPIClient: NSObject {
 		static let FirstNameKey   = "firstName"
 		static let LastNameKey    = "lastName"
 		static let LatKey			  = "latitude"
-		static let LocationKey    = "mapString"
+		static let MapStringKey   = "mapString"
 		static let LongKey		  = "longitude"
 		static let MediaURLKey    = "mediaURL"
+		static let ObjectIDKey    = "objectId"
 		static let ResultsKey     = "results"
 		static let UniqueKeyKey   = "uniqueKey"
 	}
@@ -61,19 +62,11 @@ class ParseAPIClient: NSObject {
 		dataTaskWithRequest.resume()
 	}
 
-	func postStudentLocation(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let studentlocation = [ API.UniqueKeyKey : "blap",
-										API.FirstNameKey : "Jonathan",
-										API.LastNameKey  : "Hemlock",
-										API.LocationKey  : "Dallas, TX",
-										API.MediaURLKey  : "https://udacity.com",
-										API.LatKey       : 32.7767,
-										API.LongKey      : 96.797]
-
+	func postStudentLocation(studentLocation: JSONDictionary, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL)!)
 
 		URLRequest.HTTPMethod = HTTPMethod.Post
-		URLRequest.HTTPBody   = try! NSJSONSerialization.dataWithJSONObject(studentlocation, options: .PrettyPrinted)
+		URLRequest.HTTPBody   = try! NSJSONSerialization.dataWithJSONObject(studentLocation, options: .PrettyPrinted)
 
 		URLRequest.addValue(ParseAppIDField.Value,      forHTTPHeaderField: ParseAppIDField.Name)
 		URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)

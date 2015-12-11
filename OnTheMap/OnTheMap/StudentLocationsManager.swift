@@ -9,6 +9,7 @@
 import UIKit
 
 let StudentLocationsDidGetRefreshedNotification = "StudentLocationsDidGetRefreshedNotification"
+let StudentLocationDidGetPostedNotification     = "StudentLocationDidGetPostedNotification"
 
 private let _sharedMgr = StudentLocationsManager()
 
@@ -23,11 +24,17 @@ class StudentLocationsManager: NSObject {
 	// MARK: - Private Variables
 
 	private var studentLocations: [StudentLocation]
+	private var studentLocationPOSTPending: StudentLocation
 
 	// MARK: - Public API
 
 	func count() -> Int {
 		return studentLocations.count
+	}
+
+	func postStudentLocation(studentLocation: StudentLocation) {
+		studentLocationPOSTPending = studentLocation
+		ParseAPIClient.sharedClient.postStudentLocation(studentLocation.dictionary, completionHandler: postStudentLocationCompletionHandler)
 	}
 
 	func refreshStudentLocations() {
@@ -40,6 +47,42 @@ class StudentLocationsManager: NSObject {
 
 	// MARK: - Private Completion Handlers
 
+	private var postStudentLocationCompletionHandler : APIDataTaskWithRequestCompletionHandler {
+
+		return { (result, error) -> Void in
+
+			guard error == nil else {
+				print("error = \(error)")
+				// alert action view to the user that error occurred
+				return
+			}
+
+			guard result != nil else {
+				print("no json data provided to request list completion handler")
+				// alert action view again
+				return
+			}
+
+			let JSONDict = result as! JSONDictionary
+			print("\(JSONDict)")
+
+			if let dateCreated = JSONDict[ParseAPIClient.API.DateCreatedKey] as! String? {
+				if let objectID = JSONDict[ParseAPIClient.API.ObjectIDKey] as! String? {
+					self.studentLocationPOSTPending.dateCreated = dateCreated
+					self.studentLocationPOSTPending.dateUpdated = dateCreated
+					self.studentLocationPOSTPending.objectID    = objectID
+
+					self.studentLocations.insert(self.studentLocationPOSTPending, atIndex: 0)
+
+					self.postNotification(StudentLocationDidGetPostedNotification)
+				}
+
+			}
+
+		}
+		
+	}
+	
 	private var refreshStudentLocationsCompletionHandler : APIDataTaskWithRequestCompletionHandler {
 
 		return { (result, error) -> Void in
@@ -78,7 +121,8 @@ class StudentLocationsManager: NSObject {
 	// MARK: - Private
 
 	private override init() {
-		studentLocations = [StudentLocation]()
+		studentLocations           = [StudentLocation]()
+		studentLocationPOSTPending = StudentLocation()
 		super.init()
 	}
 
