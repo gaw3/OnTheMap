@@ -91,6 +91,21 @@ class StudentLocationsTableViewController: UITableViewController {
 
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		assert(tableView == self.tableView, "Unexpected table view selected a row")
+      
+      let studentLocation = StudentLocationsManager.sharedMgr.studentLocationAtIndexPath(indexPath)
+      var validURL = false
+      
+      if let URL = NSURL(string: studentLocation.mediaURL) {
+         validURL = UIApplication.sharedApplication().openURL(URL)
+      }
+      
+      if !validURL {
+         tableView.deselectRowAtIndexPath(indexPath, animated: false)
+         let alert = UIAlertController(title: "Unable to open browser", message: "Malformed URL", preferredStyle: .Alert)
+         let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+         alert.addAction(action)
+         presentViewController(alert, animated: true, completion: nil)
+      }
 
 	}
 	
