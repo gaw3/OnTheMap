@@ -40,6 +40,10 @@ class StudentLocationsManager: NSObject {
 	func refreshStudentLocations() {
 		ParseAPIClient.sharedClient.getStudentLocations(refreshStudentLocationsCompletionHandler)
 	}
+   
+   func studentLocationAtIndex(index: Int) -> StudentLocation {
+      return studentLocations[index]
+   }
 
 	func studentLocationAtIndexPath(indexPath: NSIndexPath) -> StudentLocation {
 		return studentLocations[indexPath.row]

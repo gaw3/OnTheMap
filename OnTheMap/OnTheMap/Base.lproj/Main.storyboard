@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
@@ -117,10 +119,53 @@
                         <viewControllerLayoutGuide type="bottom" id="Dlh-FE-tjd"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="4Cf-B4-mKV">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="61F-3h-zTU">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <connections>
+                                    <outlet property="delegate" destination="YVe-Sc-WDq" id="ycW-eL-Xew"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="61F-3h-zTU" secondAttribute="trailing" id="Hyn-Ja-JxA"/>
+                            <constraint firstItem="61F-3h-zTU" firstAttribute="leading" secondItem="4Cf-B4-mKV" secondAttribute="leadingMargin" id="kcm-st-fRv"/>
+                            <constraint firstItem="61F-3h-zTU" firstAttribute="leading" secondItem="4Cf-B4-mKV" secondAttribute="leading" id="oYJ-Z0-UIe"/>
+                            <constraint firstAttribute="trailing" secondItem="61F-3h-zTU" secondAttribute="trailing" id="rjC-a7-yPI"/>
+                            <constraint firstItem="Dlh-FE-tjd" firstAttribute="top" secondItem="61F-3h-zTU" secondAttribute="bottom" id="taq-v5-qLF"/>
+                            <constraint firstItem="61F-3h-zTU" firstAttribute="top" secondItem="cgt-ua-Jpt" secondAttribute="bottom" id="wCh-pW-rIj"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="61F-3h-zTU"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="taq-v5-qLF"/>
+                                <exclude reference="Hyn-Ja-JxA"/>
+                                <exclude reference="kcm-st-fRv"/>
+                                <exclude reference="oYJ-Z0-UIe"/>
+                                <exclude reference="rjC-a7-yPI"/>
+                                <exclude reference="wCh-pW-rIj"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="61F-3h-zTU"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="taq-v5-qLF"/>
+                                <exclude reference="Hyn-Ja-JxA"/>
+                                <exclude reference="kcm-st-fRv"/>
+                                <include reference="oYJ-Z0-UIe"/>
+                                <include reference="rjC-a7-yPI"/>
+                                <include reference="wCh-pW-rIj"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Map" image="Map" selectedImage="second" id="RwT-aF-5Pj"/>
                     <navigationItem key="navigationItem" title="Student Locations" id="vVC-Yz-qre">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="UCZ-dk-mvC">
@@ -130,11 +175,14 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="DeH-vX-r4j">
                             <connections>
-                                <action selector="refreshButtonWasTapped:" destination="YVe-Sc-WDq" id="BZn-Sq-M0n"/>
+                                <action selector="refreshButtonWasTapped:" destination="YVe-Sc-WDq" id="ec1-yu-erj"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="mapView" destination="61F-3h-zTU" id="Qeg-zc-qw3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c1Q-ew-RYV" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="xe0-lb-6sO" userLabel="Exit" sceneMemberID="exit"/>
@@ -198,7 +246,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="StudentLocationsTableViewController" title="Student Locations Table View Controller" id="u9p-1y-zKB" customClass="StudentLocationsTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="wW3-AS-Y7j">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>

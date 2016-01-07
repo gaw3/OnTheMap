@@ -10,14 +10,12 @@ import UIKit
 
 class StudentLocationsTableViewController: UITableViewController {
 
+   // MARK: - Constants
+   
 	private let StudentLocationsTableViewCellReuseID = "StudentLocationsTableViewCell"
 	
 	// MARK: - IB Actions
 
-	@IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
-		StudentLocationsManager.sharedMgr.refreshStudentLocations()
-	}
-	
 	@IBAction func postButtonWasTapped(sender: UIBarButtonItem) {
 		let studentLocation = StudentLocation()
 
@@ -32,6 +30,10 @@ class StudentLocationsTableViewController: UITableViewController {
       StudentLocationsManager.sharedMgr.postStudentLocation(studentLocation)
 	}
 
+   @IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
+      StudentLocationsManager.sharedMgr.refreshStudentLocations()
+   }
+   
 	// MARK: - View Events
 
 	override func viewDidLoad() {

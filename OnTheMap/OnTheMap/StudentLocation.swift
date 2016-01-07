@@ -6,12 +6,14 @@
 //  Copyright © 2015 Gregory White. All rights reserved.
 //
 
+import CoreLocation
+import MapKit
 import UIKit
 
 class StudentLocation: NSObject {
 
    // MARK: - Public Variables
-
+   
 	var dateCreated: String {
 
 		get {
@@ -84,14 +86,10 @@ class StudentLocation: NSObject {
 
 	}
 
-	var latitude: Double? {
+	var latitude: Double {
 
 		get {
-			if let latitude = _dictionary[ParseAPIClient.API.LatKey] as! Double? {
-				return latitude
-			} else {
-				return nil
-			}
+         return _dictionary[ParseAPIClient.API.LatKey] as! Double
 		}
 
 		set(newLatitude) {
@@ -116,14 +114,10 @@ class StudentLocation: NSObject {
 
 	}
 
-	var longitude: Double? {
+	var longitude: Double {
 
 		get {
-			if let longitude = _dictionary[ParseAPIClient.API.LongKey] as! Double? {
-				return longitude
-			} else {
-				return nil
-			}
+         return _dictionary[ParseAPIClient.API.LongKey] as! Double
 		}
 
 		set(newLongitude) {
@@ -164,6 +158,16 @@ class StudentLocation: NSObject {
 
 	}
 	
+   var pointAnnotation: MKPointAnnotation {
+      let annotation = MKPointAnnotation()
+      
+      annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+      annotation.title      = fullName
+      annotation.subtitle   = mediaURL
+      
+      return annotation
+   }
+   
 	var uniqueKey: String {
 
 		get {
