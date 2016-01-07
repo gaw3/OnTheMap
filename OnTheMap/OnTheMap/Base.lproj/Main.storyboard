@@ -173,11 +173,14 @@
                                 <segue destination="xe0-lb-6sO" kind="unwind" unwindAction="unwindToLoginViewController:" id="h8b-Sf-nih"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="DeH-vX-r4j">
-                            <connections>
-                                <action selector="refreshButtonWasTapped:" destination="YVe-Sc-WDq" id="ec1-yu-erj"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="refresh" id="DeH-vX-r4j">
+                                <connections>
+                                    <action selector="refreshButtonWasTapped:" destination="YVe-Sc-WDq" id="ec1-yu-erj"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="Pin" id="g3b-UE-Aqs"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
@@ -300,7 +303,7 @@
                                     <action selector="refreshButtonWasTapped:" destination="u9p-1y-zKB" id="0kb-vh-q5U"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Post" id="0zB-5W-IHj">
+                            <barButtonItem image="Pin" id="0zB-5W-IHj">
                                 <connections>
                                     <action selector="postButtonWasTapped:" destination="u9p-1y-zKB" id="PNS-o6-jm6"/>
                                 </connections>
@@ -318,6 +321,7 @@
     <resources>
         <image name="List" width="32" height="32"/>
         <image name="Map" width="32" height="32"/>
+        <image name="Pin" width="32" height="32"/>
         <image name="second" width="30" height="30"/>
     </resources>
 </document>
