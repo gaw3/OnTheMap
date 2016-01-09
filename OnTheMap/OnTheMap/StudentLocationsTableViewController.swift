@@ -16,20 +16,11 @@ class StudentLocationsTableViewController: UITableViewController {
 	
 	// MARK: - IB Actions
 
-	@IBAction func postButtonWasTapped(sender: UIBarButtonItem) {
-		let studentLocation = StudentLocation()
-
-		studentLocation.firstName = "Harry"
-		studentLocation.lastName  = "Callahan"
-		studentLocation.mapString = "Dallas, TX"
-		studentLocation.mediaURL  = "https://udacity.com"
-		studentLocation.latitude  = 32.7767
-		studentLocation.longitude = 96.797
-		studentLocation.uniqueKey = "blap"
-
-      StudentLocationsManager.sharedMgr.postStudentLocation(studentLocation)
+	@IBAction func pinButtonWasTapped(sender: UIBarButtonItem) {
+		let postInfoVC = storyboard?.instantiateViewControllerWithIdentifier("StudentLocationsPostInformationViewController") as! StudentLocationsPostInformationViewController
+		presentViewController(postInfoVC, animated: true, completion: nil)
 	}
-
+	
    @IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
       StudentLocationsManager.sharedMgr.refreshStudentLocations()
    }

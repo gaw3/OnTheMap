@@ -176,21 +176,26 @@
                         <rightBarButtonItems>
                             <barButtonItem systemItem="refresh" id="DeH-vX-r4j">
                                 <connections>
-                                    <action selector="refreshButtonWasTapped:" destination="YVe-Sc-WDq" id="ec1-yu-erj"/>
+                                    <action selector="refreshButtonWasTapped:" destination="YVe-Sc-WDq" id="tVu-V4-EPf"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="Pin" id="g3b-UE-Aqs"/>
+                            <barButtonItem image="Pin" id="g3b-UE-Aqs">
+                                <connections>
+                                    <action selector="pinButtonWasTapped:" destination="YVe-Sc-WDq" id="0jZ-GE-jJV"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="mapView" destination="61F-3h-zTU" id="Qeg-zc-qw3"/>
+                        <segue destination="f1j-UQ-Sel" kind="presentation" identifier="SequeFromMapViewToInfoView" id="5Nn-2T-Kgu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c1Q-ew-RYV" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="xe0-lb-6sO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-732" y="-727.5"/>
+            <point key="canvasLocation" x="-732" y="-751.5"/>
         </scene>
         <!--Student Locations Table View Nav Controller-->
         <scene sceneID="8MP-ae-LsP">
@@ -213,7 +218,7 @@
         <scene sceneID="AJl-Yn-ZZ9">
             <objects>
                 <navigationController title="Student Locations Map View Nav Controller" id="Kqv-RQ-N8R" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" image="Map" id="1rr-z0-scz"/>
+                    <tabBarItem key="tabBarItem" title="Map" id="1rr-z0-scz"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="yLV-Lm-ikx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -224,7 +229,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HNZ-UJ-ff4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1573.5" y="-727.5"/>
+            <point key="canvasLocation" x="-1573.5" y="-751.5"/>
         </scene>
         <!--Student Locations Tab Bar Controller-->
         <scene sceneID="4d5-Cr-YaP">
@@ -305,23 +310,113 @@
                             </barButtonItem>
                             <barButtonItem image="Pin" id="0zB-5W-IHj">
                                 <connections>
-                                    <action selector="postButtonWasTapped:" destination="u9p-1y-zKB" id="PNS-o6-jm6"/>
+                                    <action selector="pinButtonWasTapped:" destination="u9p-1y-zKB" id="ute-8s-2cD"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <segue destination="f1j-UQ-Sel" kind="presentation" identifier="SegueFromTableViewToInfoView" id="nL7-7v-qug"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A2j-z4-WKB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="HOl-Ew-6FB" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-732" y="-71.25"/>
         </scene>
+        <!--Student Locations Post Information View Controller-->
+        <scene sceneID="MOY-4U-bRy">
+            <objects>
+                <viewController storyboardIdentifier="StudentLocationsPostInformationViewController" title="Student Locations Post Information View Controller" id="f1j-UQ-Sel" customClass="StudentLocationsPostInformationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kCt-Ip-PjA"/>
+                        <viewControllerLayoutGuide type="bottom" id="hk1-ND-IOn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="V3c-Mm-0xE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Af-wn-nfT">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KqO-d7-KQ8">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="YBj-QF-wgB"/>
+                                    <barButtonItem title="Find On The Map" id="59q-cR-AtN">
+                                        <connections>
+                                            <action selector="toolbarButtonWasTapped:" destination="f1j-UQ-Sel" id="xvz-tM-fUu"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="lvN-Zh-cUC"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.83529411760000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="hk1-ND-IOn" firstAttribute="top" secondItem="9Af-wn-nfT" secondAttribute="bottom" id="9rm-DK-kBk"/>
+                            <constraint firstItem="9Af-wn-nfT" firstAttribute="leading" secondItem="V3c-Mm-0xE" secondAttribute="leading" id="ARC-mZ-bhh"/>
+                            <constraint firstItem="KqO-d7-KQ8" firstAttribute="leading" secondItem="V3c-Mm-0xE" secondAttribute="leading" id="Cp4-kt-8Ma"/>
+                            <constraint firstAttribute="trailing" secondItem="9Af-wn-nfT" secondAttribute="trailing" id="HiL-Ud-HHs"/>
+                            <constraint firstItem="hk1-ND-IOn" firstAttribute="top" secondItem="KqO-d7-KQ8" secondAttribute="bottom" id="g0P-Rz-ddZ"/>
+                            <constraint firstAttribute="trailing" secondItem="KqO-d7-KQ8" secondAttribute="trailing" id="gTI-hw-Pzx"/>
+                            <constraint firstItem="9Af-wn-nfT" firstAttribute="top" secondItem="kCt-Ip-PjA" secondAttribute="bottom" constant="258" id="rac-lM-W6e"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="9Af-wn-nfT"/>
+                                <exclude reference="KqO-d7-KQ8"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="ARC-mZ-bhh"/>
+                                <exclude reference="HiL-Ud-HHs"/>
+                                <exclude reference="rac-lM-W6e"/>
+                                <exclude reference="Cp4-kt-8Ma"/>
+                                <exclude reference="gTI-hw-Pzx"/>
+                                <exclude reference="9rm-DK-kBk"/>
+                                <exclude reference="g0P-Rz-ddZ"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="9Af-wn-nfT"/>
+                                <include reference="KqO-d7-KQ8"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="ARC-mZ-bhh"/>
+                                <include reference="HiL-Ud-HHs"/>
+                                <include reference="rac-lM-W6e"/>
+                                <include reference="Cp4-kt-8Ma"/>
+                                <include reference="gTI-hw-Pzx"/>
+                                <include reference="9rm-DK-kBk"/>
+                                <include reference="g0P-Rz-ddZ"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="zpq-YQ-oMu"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="u6d-bZ-rrj"/>
+                    </toolbarItems>
+                    <connections>
+                        <outlet property="imageView" destination="9Af-wn-nfT" id="CLz-ss-3YQ"/>
+                        <outlet property="toolbar" destination="KqO-d7-KQ8" id="cuA-ty-qFd"/>
+                        <outlet property="toolbarButton" destination="59q-cR-AtN" id="s5S-1Z-AVw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ADl-hI-E3E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="169.5" y="-419.25"/>
+        </scene>
     </scenes>
     <resources>
         <image name="List" width="32" height="32"/>
         <image name="Map" width="32" height="32"/>
         <image name="Pin" width="32" height="32"/>
-        <image name="second" width="30" height="30"/>
+        <image name="second" width="32" height="32"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="5Nn-2T-Kgu"/>
+    </inferredMetricsTieBreakers>
 </document>
