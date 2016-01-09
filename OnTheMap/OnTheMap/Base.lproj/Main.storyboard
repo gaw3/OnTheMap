@@ -166,7 +166,7 @@
                         </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Map" image="Map" selectedImage="second" id="RwT-aF-5Pj"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="Map" id="RwT-aF-5Pj"/>
                     <navigationItem key="navigationItem" title="Student Locations" id="vVC-Yz-qre">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="UCZ-dk-mvC">
                             <connections>
