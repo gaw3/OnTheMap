@@ -341,68 +341,137 @@
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KqO-d7-KQ8">
+                            <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="abH-mC-ZKa">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <connections>
+                                    <outlet property="delegate" destination="f1j-UQ-Sel" id="dLC-FQ-z4x"/>
+                                </connections>
+                            </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y2V-YN-CRY">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="YBj-QF-wgB"/>
-                                    <barButtonItem title="Find On The Map" id="59q-cR-AtN">
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="g8v-np-fwa"/>
+                                    <barButtonItem title="Find On The Map" id="iX0-1c-srF">
                                         <connections>
-                                            <action selector="toolbarButtonWasTapped:" destination="f1j-UQ-Sel" id="xvz-tM-fUu"/>
+                                            <action selector="toolbarButtonWasTapped:" destination="f1j-UQ-Sel" id="rz8-90-dSL"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="lvN-Zh-cUC"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="zt7-ea-Bk5"/>
                                 </items>
                             </toolbar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter Media URL Here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vDn-yp-hTZ">
+                                <rect key="frame" x="-25" y="-30" width="97" height="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="URL"/>
+                                <connections>
+                                    <outlet property="delegate" destination="f1j-UQ-Sel" id="CmG-UD-zf4"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter Location Here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gxl-1y-Xo7">
+                                <rect key="frame" x="-25" y="-30" width="97" height="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="f1j-UQ-Sel" id="sTM-4x-Nrt"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.83529411760000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="abH-mC-ZKa" firstAttribute="top" secondItem="vDn-yp-hTZ" secondAttribute="bottom" constant="101" id="2Qq-rB-2pQ"/>
+                            <constraint firstItem="y2V-YN-CRY" firstAttribute="leading" secondItem="V3c-Mm-0xE" secondAttribute="leading" id="4Sg-NT-JeF"/>
+                            <constraint firstItem="gxl-1y-Xo7" firstAttribute="top" secondItem="kCt-Ip-PjA" secondAttribute="bottom" constant="258" id="7yA-mA-cKo"/>
                             <constraint firstItem="hk1-ND-IOn" firstAttribute="top" secondItem="9Af-wn-nfT" secondAttribute="bottom" id="9rm-DK-kBk"/>
                             <constraint firstItem="9Af-wn-nfT" firstAttribute="leading" secondItem="V3c-Mm-0xE" secondAttribute="leading" id="ARC-mZ-bhh"/>
-                            <constraint firstItem="KqO-d7-KQ8" firstAttribute="leading" secondItem="V3c-Mm-0xE" secondAttribute="leading" id="Cp4-kt-8Ma"/>
+                            <constraint firstItem="vDn-yp-hTZ" firstAttribute="top" secondItem="kCt-Ip-PjA" secondAttribute="bottom" constant="127" id="B1I-k1-eJd"/>
+                            <constraint firstItem="gxl-1y-Xo7" firstAttribute="leading" secondItem="V3c-Mm-0xE" secondAttribute="leading" id="BFd-vW-eGZ"/>
+                            <constraint firstItem="abH-mC-ZKa" firstAttribute="leading" secondItem="V3c-Mm-0xE" secondAttribute="leading" id="Fyz-Ls-eck"/>
                             <constraint firstAttribute="trailing" secondItem="9Af-wn-nfT" secondAttribute="trailing" id="HiL-Ud-HHs"/>
-                            <constraint firstItem="hk1-ND-IOn" firstAttribute="top" secondItem="KqO-d7-KQ8" secondAttribute="bottom" id="g0P-Rz-ddZ"/>
-                            <constraint firstAttribute="trailing" secondItem="KqO-d7-KQ8" secondAttribute="trailing" id="gTI-hw-Pzx"/>
+                            <constraint firstItem="abH-mC-ZKa" firstAttribute="top" secondItem="kCt-Ip-PjA" secondAttribute="bottom" constant="258" id="IYB-Rm-Ytc"/>
+                            <constraint firstItem="abH-mC-ZKa" firstAttribute="leading" secondItem="V3c-Mm-0xE" secondAttribute="leading" id="Ney-7v-fEG"/>
+                            <constraint firstAttribute="trailing" secondItem="gxl-1y-Xo7" secondAttribute="trailing" id="Uci-Tk-pFh"/>
+                            <constraint firstItem="hk1-ND-IOn" firstAttribute="top" secondItem="abH-mC-ZKa" secondAttribute="bottom" id="bUw-8w-vh0"/>
+                            <constraint firstAttribute="trailing" secondItem="y2V-YN-CRY" secondAttribute="trailing" id="gBE-Pq-BDm"/>
+                            <constraint firstAttribute="trailing" secondItem="abH-mC-ZKa" secondAttribute="trailing" id="m7z-px-2if"/>
+                            <constraint firstItem="hk1-ND-IOn" firstAttribute="top" secondItem="y2V-YN-CRY" secondAttribute="bottom" id="mJy-f4-89Q"/>
+                            <constraint firstAttribute="trailing" secondItem="vDn-yp-hTZ" secondAttribute="trailing" id="pmO-dZ-JJ8"/>
                             <constraint firstItem="9Af-wn-nfT" firstAttribute="top" secondItem="kCt-Ip-PjA" secondAttribute="bottom" constant="258" id="rac-lM-W6e"/>
+                            <constraint firstItem="vDn-yp-hTZ" firstAttribute="leading" secondItem="V3c-Mm-0xE" secondAttribute="leading" id="ttG-Sb-Jvu"/>
+                            <constraint firstAttribute="trailing" secondItem="abH-mC-ZKa" secondAttribute="trailing" id="wlP-M1-ypm"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="9Af-wn-nfT"/>
-                                <exclude reference="KqO-d7-KQ8"/>
+                                <exclude reference="abH-mC-ZKa"/>
+                                <exclude reference="y2V-YN-CRY"/>
+                                <exclude reference="vDn-yp-hTZ"/>
+                                <exclude reference="gxl-1y-Xo7"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="B1I-k1-eJd"/>
+                                <exclude reference="pmO-dZ-JJ8"/>
+                                <exclude reference="ttG-Sb-Jvu"/>
                                 <exclude reference="ARC-mZ-bhh"/>
                                 <exclude reference="HiL-Ud-HHs"/>
                                 <exclude reference="rac-lM-W6e"/>
-                                <exclude reference="Cp4-kt-8Ma"/>
-                                <exclude reference="gTI-hw-Pzx"/>
+                                <exclude reference="2Qq-rB-2pQ"/>
+                                <exclude reference="Fyz-Ls-eck"/>
+                                <exclude reference="IYB-Rm-Ytc"/>
+                                <exclude reference="Ney-7v-fEG"/>
+                                <exclude reference="m7z-px-2if"/>
+                                <exclude reference="wlP-M1-ypm"/>
+                                <exclude reference="7yA-mA-cKo"/>
+                                <exclude reference="BFd-vW-eGZ"/>
+                                <exclude reference="Uci-Tk-pFh"/>
+                                <exclude reference="4Sg-NT-JeF"/>
+                                <exclude reference="gBE-Pq-BDm"/>
                                 <exclude reference="9rm-DK-kBk"/>
-                                <exclude reference="g0P-Rz-ddZ"/>
+                                <exclude reference="bUw-8w-vh0"/>
+                                <exclude reference="mJy-f4-89Q"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="9Af-wn-nfT"/>
-                                <include reference="KqO-d7-KQ8"/>
+                                <include reference="abH-mC-ZKa"/>
+                                <include reference="y2V-YN-CRY"/>
+                                <include reference="vDn-yp-hTZ"/>
+                                <include reference="gxl-1y-Xo7"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="B1I-k1-eJd"/>
+                                <include reference="pmO-dZ-JJ8"/>
+                                <include reference="ttG-Sb-Jvu"/>
                                 <include reference="ARC-mZ-bhh"/>
                                 <include reference="HiL-Ud-HHs"/>
                                 <include reference="rac-lM-W6e"/>
-                                <include reference="Cp4-kt-8Ma"/>
-                                <include reference="gTI-hw-Pzx"/>
+                                <include reference="2Qq-rB-2pQ"/>
+                                <include reference="Fyz-Ls-eck"/>
+                                <include reference="IYB-Rm-Ytc"/>
+                                <include reference="Ney-7v-fEG"/>
+                                <include reference="m7z-px-2if"/>
+                                <include reference="wlP-M1-ypm"/>
+                                <include reference="7yA-mA-cKo"/>
+                                <include reference="BFd-vW-eGZ"/>
+                                <include reference="Uci-Tk-pFh"/>
+                                <include reference="4Sg-NT-JeF"/>
+                                <include reference="gBE-Pq-BDm"/>
                                 <include reference="9rm-DK-kBk"/>
-                                <include reference="g0P-Rz-ddZ"/>
+                                <include reference="bUw-8w-vh0"/>
+                                <include reference="mJy-f4-89Q"/>
                             </mask>
                         </variation>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="zpq-YQ-oMu"/>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="u6d-bZ-rrj"/>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <connections>
                         <outlet property="imageView" destination="9Af-wn-nfT" id="CLz-ss-3YQ"/>
-                        <outlet property="toolbar" destination="KqO-d7-KQ8" id="cuA-ty-qFd"/>
-                        <outlet property="toolbarButton" destination="59q-cR-AtN" id="s5S-1Z-AVw"/>
+                        <outlet property="locationTextField" destination="gxl-1y-Xo7" id="AnV-es-UUA"/>
+                        <outlet property="mapView" destination="abH-mC-ZKa" id="nfa-iQ-Qmf"/>
+                        <outlet property="mediaURLTextField" destination="vDn-yp-hTZ" id="l8M-WQ-HqP"/>
+                        <outlet property="toolbar" destination="y2V-YN-CRY" id="gdc-51-w9C"/>
+                        <outlet property="toolbarButton" destination="iX0-1c-srF" id="I17-QJ-TSe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ADl-hI-E3E" userLabel="First Responder" sceneMemberID="firstResponder"/>
