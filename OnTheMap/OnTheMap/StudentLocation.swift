@@ -12,7 +12,7 @@ import UIKit
 
 class StudentLocation: NSObject {
 
-   // MARK: - Public Variables
+   // MARK: - Public Computed Variables
    
 	var dateCreated: String {
 
@@ -184,11 +184,11 @@ class StudentLocation: NSObject {
 
 	}
 
-	// MARK: - Private Variables
+	// MARK: - Private Stored Variables
 
 	private var _dictionary: JSONDictionary
 
-	// MARK: - Public API
+	// MARK: - API
 
 	override init() {
       _dictionary = JSONDictionary()

@@ -92,7 +92,7 @@ struct UdacityLoginResponseData {
 
 	}
 
-	// MARK: - Private Store Variables
+	// MARK: - Private Stored Variables
 
 	private var _data: JSONDictionary
 

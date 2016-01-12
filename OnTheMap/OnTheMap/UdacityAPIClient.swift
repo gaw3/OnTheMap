@@ -12,6 +12,10 @@ private let _sharedClient = UdacityAPIClient()
 
 class UdacityAPIClient: NSObject {
 
+	class var sharedClient: UdacityAPIClient {
+		return _sharedClient
+	}
+
 	// MARK: - Public Constants
 
 	struct API {
@@ -38,12 +42,6 @@ class UdacityAPIClient: NSObject {
 	private struct XSRFTokenField {
 		static let Name       = "X-XSRF-TOKEN"
 		static let CookieName = "XSRF-TOKEN"
-	}
-
-	// MARK: - Public Variables
-
-	class var sharedClient: UdacityAPIClient {
-		return _sharedClient
 	}
 
 	// MARK: - API

@@ -13,21 +13,30 @@ import UIKit
 class StudentLocationsPostInformationViewController: UIViewController, MKMapViewDelegate,
 																	  UITextFieldDelegate {
 
-	// MARK: - Constants
+	// MARK: - Private Constants
 
-	private let FindButtonTitle      = "Find On The Map"
-	private let SubmitButtonTitle    = "Submit"
-	private let LocationInstructions = "Enter Location Here"
-	private let MediaURLInstructions = "Enter Media URL Here"
+	private struct AlertMessage {
+		static let EmptyPMArray = "Received an empty placemarks array"
+		static let NoLocation   = "Location not yet entered"
+		static let NoPMArray    = "Did not receive a placemarks array"
+		static let NoURL        = "Media URL not yet entered"
+	}
 
-	private let NoLocationAlertMsg   = "Location not yet entered"
-	private let NoURLAlertMsg        = "Media URL not yet entered"
-	private let NoPMArrayAlertMsg    = "Did not receive a placemarks array"
-	private let EmptyPMArrayAlertMsg = "Received an empty placemarks array"
+	private struct AlertTitle {
+		static let BadGeocode = "Unable to geocode location"
+		static let BadSubmit  = "Unable to submit location"
+		static let OK         = "OK"
+	}
 
-	private let BadGeocodeAlertTitle = "Unable to geocode location"
-	private let OKAlertTitle         = "OK"
-	private let BadSubmitAlertTitle  = "Unable to submit location"
+	private struct ButtonTitle {
+		static let Find   = "Find On The Map"
+		static let Submit = "Submit"
+	}
+
+	private struct InitialText {
+		static let LocationTextField = "Enter Location Here"
+		static let MediaURLTextField = "Enter Media URL Here"
+	}
 
 	// MARK: - IB Outlets
 
@@ -43,9 +52,9 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	@IBAction func toolbarButtonWasTapped(sender: UIBarButtonItem) {
 
-		if sender.title == FindButtonTitle {
+		if sender.title == ButtonTitle.Find {
 			findOnTheMap()
-		} else if sender.title == SubmitButtonTitle {
+		} else if sender.title == ButtonTitle.Submit {
 			submit()
 		}
 
@@ -59,32 +68,31 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		imageView.hidden = false
 
 		locationTextField.hidden = false
-		locationTextField.text   = LocationInstructions
+		locationTextField.text   = InitialText.LocationTextField
 
 		mediaURLTextField.hidden = true
-		mediaURLTextField.text   = MediaURLInstructions
+		mediaURLTextField.text   = InitialText.MediaURLTextField
 
 		mapView.hidden	= true
 
-		toolbarButton.title = FindButtonTitle
+		toolbarButton.title = ButtonTitle.Find
 	}
 	
 	// MARK: - UITextFieldDelegate
 
 	func textFieldShouldReturn(textField: UITextField) -> Bool {
-		assert(textField == mediaURLTextField || textField == locationTextField,
-				 "received notification from unexpected UITextField")
+		assert(textField == mediaURLTextField || textField == locationTextField, "unknown UITextField = \(textField)")
 
 		textField.resignFirstResponder()
 
-		if textField.text == ""  {
-			textField.text = (textField == locationTextField) ? LocationInstructions : MediaURLInstructions
+		if textField.text!.isEmpty  {
+			textField.text = (textField == locationTextField) ? InitialText.LocationTextField : InitialText.MediaURLTextField
 		}
 
 		return true
 	}
 	
-	// MARK: - Private:  Completion Handlers
+	// MARK: - Private:  Completion Handlers as Computed Variables
 
 	private var geocodeCompletionHandler : CLGeocodeCompletionHandler {
 
@@ -93,7 +101,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			guard error == nil else {
 
 				dispatch_async(dispatch_get_main_queue(), {
-					self.presentAlert(self.BadGeocodeAlertTitle, message: error!.localizedDescription)
+					self.presentAlert(AlertTitle.BadGeocode, message: error!.localizedDescription)
 				})
 
 				return
@@ -102,7 +110,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			guard placemarks != nil else {
 
 				dispatch_async(dispatch_get_main_queue(), {
-					self.presentAlert(self.BadGeocodeAlertTitle, message: self.NoPMArrayAlertMsg)
+					self.presentAlert(AlertTitle.BadGeocode, message: AlertMessage.NoPMArray)
 				})
 
 				return
@@ -111,7 +119,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			guard placemarks!.count > 0 else {
 
 				dispatch_async(dispatch_get_main_queue(), {
-					self.presentAlert(self.BadGeocodeAlertTitle, message: self.EmptyPMArrayAlertMsg)
+					self.presentAlert(AlertTitle.BadGeocode, message: AlertMessage.EmptyPMArray)
 				})
 
 				return
@@ -142,12 +150,12 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	}
 
-	// MARK: - Private:  UI
+	// MARK: - Private:  UI Helpers
 
 	private func findOnTheMap() {
 
-		if locationTextField.text == LocationInstructions {
-			presentAlert(BadGeocodeAlertTitle, message: NoLocationAlertMsg)
+		if locationTextField.text == InitialText.LocationTextField {
+			presentAlert(AlertTitle.BadGeocode, message: AlertMessage.NoLocation)
 		} else {
 			let geocoder = CLGeocoder()
 			geocoder.geocodeAddressString(locationTextField.text!, completionHandler: geocodeCompletionHandler)
@@ -157,15 +165,15 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	private func presentAlert(title: String, message: String) {
 		let alert  = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-		let action = UIAlertAction(title: OKAlertTitle, style: .Default, handler: nil)
+		let action = UIAlertAction(title: AlertTitle.OK, style: .Default, handler: nil)
 		alert.addAction(action)
 		presentViewController(alert, animated: true, completion: nil)
 	}
 
 	private func submit() {
 
-		if mediaURLTextField.text == MediaURLInstructions {
-			presentAlert(BadSubmitAlertTitle, message: NoURLAlertMsg)
+		if mediaURLTextField.text == InitialText.MediaURLTextField {
+			presentAlert(AlertTitle.BadSubmit, message: AlertMessage.NoURL)
 		} else {
 			print("media URL = \(mediaURLTextField.text)")
 		}
@@ -185,7 +193,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		mapView.setRegion(region, animated: true)
 		mapView.regionThatFits(region)
 
-		toolbarButton.title = SubmitButtonTitle
+		toolbarButton.title = ButtonTitle.Submit
 	}
 
 }

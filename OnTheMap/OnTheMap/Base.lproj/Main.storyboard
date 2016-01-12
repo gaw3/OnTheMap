@@ -234,7 +234,7 @@
         <!--Student Locations Tab Bar Controller-->
         <scene sceneID="4d5-Cr-YaP">
             <objects>
-                <tabBarController storyboardIdentifier="StudentLocationsTabBarController" title="Student Locations Tab Bar Controller" id="c3y-Xo-GXg" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="StudentLocsTabBarCtlr" title="Student Locations Tab Bar Controller" id="c3y-Xo-GXg" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="gOS-Xg-7HO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -258,7 +258,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentLocationsTableViewCell" textLabel="irp-fr-Dh8" detailTextLabel="Bgt-8r-VIs" style="IBUITableViewCellStyleSubtitle" id="3D1-Sw-xan">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentLocsTVCell" textLabel="irp-fr-Dh8" detailTextLabel="Bgt-8r-VIs" style="IBUITableViewCellStyleSubtitle" id="3D1-Sw-xan">
                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3D1-Sw-xan" id="FhS-2e-hI0">
@@ -328,7 +328,7 @@
         <!--Student Locations Post Information View Controller-->
         <scene sceneID="MOY-4U-bRy">
             <objects>
-                <viewController storyboardIdentifier="StudentLocationsPostInformationViewController" title="Student Locations Post Information View Controller" id="f1j-UQ-Sel" customClass="StudentLocationsPostInformationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StudentLocsPostInfoVC" title="Student Locations Post Information View Controller" id="f1j-UQ-Sel" customClass="StudentLocationsPostInformationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kCt-Ip-PjA"/>
                         <viewControllerLayoutGuide type="bottom" id="hk1-ND-IOn"/>

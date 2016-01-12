@@ -8,25 +8,20 @@
 
 import UIKit
 
-let StudentLocationsDidGetRefreshedNotification = "StudentLocationsDidGetRefreshedNotification"
-let StudentLocationDidGetPostedNotification     = "StudentLocationDidGetPostedNotification"
-
 private let _sharedMgr = StudentLocationsManager()
 
 class StudentLocationsManager: NSObject {
-
-	// MARK: - Public Variables
 
 	class var sharedMgr: StudentLocationsManager {
 		return _sharedMgr
 	}
 
-	// MARK: - Private Variables
+	// MARK: - Private Stored Variables
 
 	private var studentLocations: [StudentLocation]
 	private var studentLocationPOSTPending: StudentLocation
 
-	// MARK: - Public API
+	// MARK: - API
 
 	func count() -> Int {
 		return studentLocations.count
@@ -49,7 +44,7 @@ class StudentLocationsManager: NSObject {
 		return studentLocations[indexPath.row]
 	}
 
-	// MARK: - Private Completion Handlers
+	// MARK: - Private:  Completion Handlers as Computed Variables
 
 	private var postStudentLocationCompletionHandler : APIDataTaskWithRequestCompletionHandler {
 
@@ -78,7 +73,7 @@ class StudentLocationsManager: NSObject {
 
 					self.studentLocations.insert(self.studentLocationPOSTPending, atIndex: 0)
 
-					self.postNotification(StudentLocationDidGetPostedNotification)
+					self.postNotification(Notification.StudentLocationDidGetPosted)
 				}
 
 			}
@@ -115,7 +110,7 @@ class StudentLocationsManager: NSObject {
 					self.studentLocations.append(studentLocation)
 				}
 				
-				self.postNotification(StudentLocationsDidGetRefreshedNotification)
+				self.postNotification(Notification.StudentLocationsDidGetRefreshed)
 			}
 
 		}

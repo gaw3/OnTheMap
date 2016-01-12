@@ -45,25 +45,25 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		super.viewDidLoad()
 
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "accountDataDidGetSaved:",
-			name: LoginResponseDataDidGetSavedNotification, object: nil)
+																					  name: Notification.LoginResponseDataDidGetSaved, object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDataDidGetSaved:",
-			name: UserDataDidGetSavedNotification, object: nil)
+																					  name: Notification.UserDataDidGetSaved, object: nil)
 	}
 
 	// MARK: - NSNotifications
 
 	func accountDataDidGetSaved(notification: NSNotification) {
-		assert(notification.name == LoginResponseDataDidGetSavedNotification, "unknown notification = \(notification)")
+		assert(notification.name == Notification.LoginResponseDataDidGetSaved, "unknown notification = \(notification)")
 		
 		UdacityAPIClient.sharedClient.getUserData(UdacityUserManager.sharedMgr.accountUserID!,
 																completionHandler: getUserDataCompletionHandler)
 	}
 
 	func userDataDidGetSaved(notification: NSNotification) {
-		assert(notification.name == UserDataDidGetSavedNotification, "unknown notification = \(notification)")
+		assert(notification.name == Notification.UserDataDidGetSaved, "unknown notification = \(notification)")
 
 		if UdacityUserManager.sharedMgr.isLoginSuccessful {
-			let tabBarController = self.storyboard?.instantiateViewControllerWithIdentifier("StudentLocationsTabBarController") as! UITabBarController
+			let tabBarController = self.storyboard?.instantiateViewControllerWithIdentifier(StoryboardID.StudentLocationsTabBarController) as! UITabBarController
 			self.presentViewController(tabBarController, animated: true, completion: nil)
 		} else {
 			// alert action view
@@ -80,8 +80,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		return true
 	}
 	
-	// MARK: - Completion Handlers written as
-	// MARK: Private Computed Variables
+	// MARK: - Private:  Completion Handlers as Computed Variables
 
 	private var getUserDataCompletionHandler: APIDataTaskWithRequestCompletionHandler {
 

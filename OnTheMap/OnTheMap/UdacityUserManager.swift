@@ -8,9 +8,6 @@
 
 import Foundation
 
-let LoginResponseDataDidGetSavedNotification = "LoginResponseDataDidGetSavedNotification"
-let UserDataDidGetSavedNotification          = "UserDataDidGetSavedNotification"
-
 private let _sharedMgr = UdacityUserManager()
 
 class UdacityUserManager: NSObject {
@@ -78,12 +75,12 @@ class UdacityUserManager: NSObject {
 
 	func setLoginResponseData(data: UdacityLoginResponseData) {
 		self.loginResponseData = data
-		NSNotificationCenter.defaultCenter().postNotificationName(LoginResponseDataDidGetSavedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().postNotificationName(Notification.LoginResponseDataDidGetSaved, object: nil)
 	}
 
 	func setUserData(data: UdacityUserData) {
 		self.userData = data
-		NSNotificationCenter.defaultCenter().postNotificationName(UserDataDidGetSavedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().postNotificationName(Notification.UserDataDidGetSaved, object: nil)
 	}
 
 	// MARK: - Private

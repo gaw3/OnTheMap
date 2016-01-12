@@ -12,10 +12,15 @@ private let _sharedClient = ParseAPIClient()
 
 class ParseAPIClient: NSObject {
 
+	class var sharedClient: ParseAPIClient {
+		return _sharedClient
+	}
+
 	// MARK: - Public Constants
 
 	struct API {
 		static let BaseURL        = "https://api.parse.com/1/classes/StudentLocation"
+		
 		static let DateCreatedKey = "createdAt"
 		static let DateUpdatedKey = "updatedAt"
 		static let FirstNameKey   = "firstName"
@@ -34,7 +39,6 @@ class ParseAPIClient: NSObject {
 	private struct ParseAppIDField {
 		static let Name  = "X-Parse-Application-Id"
 		static let Value = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-
 	}
 
 	private struct ParseRESTAPIKeyField {
@@ -42,12 +46,6 @@ class ParseAPIClient: NSObject {
 		static let Value = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
 	}
 
-	// MARK: - Public Variables
-
-	class var sharedClient: ParseAPIClient {
-		return _sharedClient
-	}
-	
 	// MARK: - API
 
 	func getStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
@@ -76,4 +74,10 @@ class ParseAPIClient: NSObject {
 		dataTaskWithRequest.resume()
 	}
 
+	// MARK: - Private
+
+	private override init() {
+		super.init()
+	}
+	
 }

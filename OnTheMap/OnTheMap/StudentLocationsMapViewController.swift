@@ -11,10 +11,6 @@ import UIKit
 
 class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 
-   // MARK: - Constants
-   
-   private let StudentLocationsPinAnnotationViewReuseID = "StudentLocationsPinAnnotationView"
-   
    // MARK: - IB Outlets
    
    @IBOutlet weak var mapView: MKMapView!
@@ -22,7 +18,7 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    // MARK: - IB Actions
       
 	@IBAction func pinButtonWasTapped(sender: UIBarButtonItem) {
-		let postInfoVC = storyboard?.instantiateViewControllerWithIdentifier("StudentLocationsPostInformationViewController") as! StudentLocationsPostInformationViewController
+		let postInfoVC = storyboard?.instantiateViewControllerWithIdentifier(StoryboardID.StudentLocationsPostInformationVC) as! StudentLocationsPostInformationViewController
 		presentViewController(postInfoVC, animated: true, completion: nil)
 	}
 	
@@ -35,25 +31,21 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
-                                                                 name: StudentLocationsDidGetRefreshedNotification,
-                                                               object: nil)
-      NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
-                                                                 name: StudentLocationDidGetPostedNotification,
-                                                               object: nil)
-   }
-   
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
+																					  name: Notification.StudentLocationDidGetPosted, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
+																					  name: Notification.StudentLocationsDidGetRefreshed, object: nil)
+  }
+
    // MARK: - NSNotifications
-   
-   func studentLocationDidGetPosted(notification: NSNotification) {
-      assert(notification.name == StudentLocationDidGetPostedNotification,
-         "received unexpected NSNotification, name = \(notification.name)")
+
+	func studentLocationDidGetPosted(notification: NSNotification) {
+		assert(notification.name == Notification.StudentLocationDidGetPosted, "unknown notification = \(notification)")
    }
    
-   func studentLocationsDidGetRefreshed(notification: NSNotification) {
-      assert(notification.name == StudentLocationsDidGetRefreshedNotification,
-         "received unexpected NSNotification, name = \(notification.name)")
-      
+	func studentLocationsDidGetRefreshed(notification: NSNotification) {
+		assert(notification.name == Notification.StudentLocationsDidGetRefreshed, "unknown notification = \(notification)")
+
       var pointAnnotations = [MKPointAnnotation]()
       
       for index in 0...(StudentLocationsManager.sharedMgr.count() - 1) {
@@ -86,12 +78,12 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    }
 
    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(StudentLocationsPinAnnotationViewReuseID) as? MKPinAnnotationView
+      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(ReuseID.StudentLocationsPinAnnotationView) as? MKPinAnnotationView
       
       if let _ = pinAnnotationView {
          pinAnnotationView!.annotation = annotation
       } else {
-         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocationsPinAnnotationViewReuseID)
+         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: ReuseID.StudentLocationsPinAnnotationView)
          pinAnnotationView!.canShowCallout = true
          pinAnnotationView!.pinTintColor = MKPinAnnotationView.redPinColor()
          pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)

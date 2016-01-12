@@ -13,12 +13,11 @@ typealias JSONDictionary = Dictionary<String, AnyObject>
 
 class APIDataTaskWithRequest: NSObject {
 
-	// MARK: - Class Constants
+	// MARK: - Private Constants
 
 	private struct LocalizedError {
 		static let Domain          = "OnTheMapExternalAPIInterfaceError"
 		static let UdacityHostName = "www.udacity.com"
-
 	}
 	
 	private struct LocalizedErrorCode {
@@ -34,6 +33,8 @@ class APIDataTaskWithRequest: NSObject {
 		static let JSON	           = "JSON Error"
 		static let JSONSerialization = "JSON JSONSerialization Error"
 	}
+
+	// MARK: - Public Stored Variables
 
 	var URLRequest: NSMutableURLRequest
 	var completionHandler: APIDataTaskWithRequestCompletionHandler
@@ -90,6 +91,7 @@ class APIDataTaskWithRequest: NSObject {
 
 			do {
 				let JSONData = try NSJSONSerialization.JSONObjectWithData(JSONDataToParse, options: .AllowFragments) as! JSONDictionary
+				print("\(JSONData)")
 
 				self.completeWithHandler(self.completionHandler, result: JSONData, error: nil)
 			} catch let JSONError as NSError {

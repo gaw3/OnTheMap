@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Public Constants
+
 struct HTTPHeaderField {
 	static let Accept      = "Accept"
 	static let ContentType = "Content-Type"

@@ -10,14 +10,10 @@ import UIKit
 
 class StudentLocationsTableViewController: UITableViewController {
 
-   // MARK: - Constants
-   
-	private let StudentLocationsTableViewCellReuseID = "StudentLocationsTableViewCell"
-	
 	// MARK: - IB Actions
 
 	@IBAction func pinButtonWasTapped(sender: UIBarButtonItem) {
-		let postInfoVC = storyboard?.instantiateViewControllerWithIdentifier("StudentLocationsPostInformationViewController") as! StudentLocationsPostInformationViewController
+		let postInfoVC = storyboard?.instantiateViewControllerWithIdentifier(StoryboardID.StudentLocationsPostInformationVC) as! StudentLocationsPostInformationViewController
 		presentViewController(postInfoVC, animated: true, completion: nil)
 	}
 	
@@ -30,26 +26,22 @@ class StudentLocationsTableViewController: UITableViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
-																					  name: StudentLocationsDidGetRefreshedNotification,
-																					object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
-																					  name: StudentLocationDidGetPostedNotification,
-																					object: nil)
+																					  name: Notification.StudentLocationDidGetPosted, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
+																					  name: Notification.StudentLocationsDidGetRefreshed, object: nil)
 	}
 
 	// MARK: - NSNotifications
 
 	func studentLocationDidGetPosted(notification: NSNotification) {
-		assert(notification.name == StudentLocationDidGetPostedNotification,
-											 "received unexpected NSNotification, name = \(notification.name)")
+		assert(notification.name == Notification.StudentLocationDidGetPosted, "unknown notification = \(notification)")
 
 		tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Top)
 	}
 
 	func studentLocationsDidGetRefreshed(notification: NSNotification) {
-		assert(notification.name == StudentLocationsDidGetRefreshedNotification,
-											 "received unexpected NSNotification, name = \(notification.name)")
+		assert(notification.name == Notification.StudentLocationsDidGetRefreshed, "unknown notification = \(notification)")
 
 		tableView.reloadData()
 	}
@@ -66,7 +58,7 @@ class StudentLocationsTableViewController: UITableViewController {
 		assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
 
 		let studentLocation = StudentLocationsManager.sharedMgr.studentLocationAtIndexPath(indexPath)
-		let cell = tableView.dequeueReusableCellWithIdentifier(StudentLocationsTableViewCellReuseID, forIndexPath: indexPath)
+		let cell = tableView.dequeueReusableCellWithIdentifier(ReuseID.StudentLocationsTableViewCell, forIndexPath: indexPath)
 
 		cell.textLabel?.text       = studentLocation.fullName
 		cell.detailTextLabel?.text = studentLocation.mediaURL
