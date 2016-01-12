@@ -67,10 +67,7 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
          }
          
          if !validURL {
-            let alert = UIAlertController(title: "Unable to open browser", message: "Malformed URL", preferredStyle: .Alert)
-            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alert.addAction(action)
-            presentViewController(alert, animated: true, completion: nil)
+				presentAlert("Unable to open browser", message: "Malformed URL")
          }
 
       }

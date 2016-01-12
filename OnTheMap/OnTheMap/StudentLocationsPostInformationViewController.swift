@@ -163,13 +163,6 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	}
 
-	private func presentAlert(title: String, message: String) {
-		let alert  = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-		let action = UIAlertAction(title: AlertTitle.OK, style: .Default, handler: nil)
-		alert.addAction(action)
-		presentViewController(alert, animated: true, completion: nil)
-	}
-
 	private func submit() {
 
 		if mediaURLTextField.text == InitialText.MediaURLTextField {

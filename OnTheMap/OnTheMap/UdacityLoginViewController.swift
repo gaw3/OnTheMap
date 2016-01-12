@@ -19,20 +19,23 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 
 	@IBAction func loginButtonDidTouchUpInside(sender: UIButton) {
 
-		guard emailTextField.text != "" else {
-			// button is made inactive
-			// alert action view or whatever to notifiy of empty field
-			return
-		}
+		UdacityAPIClient.sharedClient.login("gwhite2003@verizon.net", password: "chopper",
+			completionHandler: loginCompletionHandler)
 
-		guard passwordTextField.text != "" else {
-			// button is made inactive
-			// alert action view or whatever to notifiy of empty field
-			return
-		}
-
-		UdacityAPIClient.sharedClient.login(emailTextField.text! as String, password: passwordTextField.text! as String,
-														completionHandler: loginCompletionHandler)
+//		guard emailTextField.text != "" else {
+//			// button is made inactive
+//			// alert action view or whatever to notifiy of empty field
+//			return
+//		}
+//
+//		guard passwordTextField.text != "" else {
+//			// button is made inactive
+//			// alert action view or whatever to notifiy of empty field
+//			return
+//		}
+//
+//		UdacityAPIClient.sharedClient.login(emailTextField.text! as String, password: passwordTextField.text! as String,
+//														completionHandler: loginCompletionHandler)
 	}
 
 	@IBAction func unwindToLoginViewController(segue: UIStoryboardSegue) {
