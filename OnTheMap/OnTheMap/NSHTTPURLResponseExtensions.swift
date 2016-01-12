@@ -10,6 +10,8 @@ import Foundation
 
 extension (NSHTTPURLResponse) {
 
+	// MARK: - Public Enums
+
 	enum HTTPStatusCodeClass: Int {
 		case Informational = 1,
 		     Successful,
@@ -17,6 +19,8 @@ extension (NSHTTPURLResponse) {
 		     ClientError,
 		     ServerError
 	}
+
+	// MARK: - Public Computed Variables
 
 	var statusCodeClass: HTTPStatusCodeClass {
 
