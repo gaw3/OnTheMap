@@ -52,6 +52,10 @@ class APIDataTaskWithRequest: NSObject {
 		
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(URLRequest) { (rawJSONResponse, HTTPResponse, URLSessionError) in
 
+			dispatch_async(dispatch_get_main_queue(), {
+				NetworkActivityIndicatorManager.sharedManager.endActivity()
+			})
+
 			guard URLSessionError == nil else {
 				let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey : LocalizedErrorDescription.Network,
 																	 NSUnderlyingErrorKey      : URLSessionError!]
@@ -105,6 +109,7 @@ class APIDataTaskWithRequest: NSObject {
 
 		}
 
+		NetworkActivityIndicatorManager.sharedManager.startActivity()
 		task.resume()
 	}
 

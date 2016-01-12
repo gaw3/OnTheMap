@@ -98,6 +98,10 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 		return { (placemarks, error) -> Void in
 
+			dispatch_async(dispatch_get_main_queue(), {
+				NetworkActivityIndicatorManager.sharedManager.endActivity()
+			})
+
 			guard error == nil else {
 
 				dispatch_async(dispatch_get_main_queue(), {
@@ -158,6 +162,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			presentAlert(AlertTitle.BadGeocode, message: AlertMessage.NoLocation)
 		} else {
 			let geocoder = CLGeocoder()
+			NetworkActivityIndicatorManager.sharedManager.startActivity();
 			geocoder.geocodeAddressString(locationTextField.text!, completionHandler: geocodeCompletionHandler)
 		}
 
