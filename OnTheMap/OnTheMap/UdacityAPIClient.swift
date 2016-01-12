@@ -15,12 +15,22 @@ class UdacityAPIClient: NSObject {
 	// MARK: - Public Constants
 
 	struct API {
-		static let BaseURL      = "https://www.udacity.com/api/session"
-		static let UdacityKey   = "udacity"
-		static let UserNameKey  = "username"
-		static let PasswordKey  = "password"
-		static let SessionKey   = "session"
-		static let SessionIDKey = "id"
+		static let BaseURL           = "https://www.udacity.com/api/"
+		static let SessionURL        = "\(BaseURL)session"
+		static let UsersURL          = "\(BaseURL)users/"
+
+		static let AccountKey        = "account"
+		static let ExpirationDateKey = "expiration"
+		static let FirstNameKey      = "first_name"
+		static let LastNameKey       = "last_name"
+		static let PasswordKey       = "password"
+		static let RegisteredKey     = "registered"
+		static let SessionIDKey      = "id"
+		static let SessionKey        = "session"
+		static let UdacityKey        = "udacity"
+		static let UserIDKey         = "key"
+		static let UserKey		     = "user"
+		static let UserNameKey       = "username"
 	}
 
 	// MARK: - Private Constants
@@ -38,9 +48,18 @@ class UdacityAPIClient: NSObject {
 
 	// MARK: - API
 
+	func getUserData(userID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+		let URLRequest = NSMutableURLRequest(URL: NSURL(string: "\(API.UsersURL)\(userID)")!)
+
+		URLRequest.HTTPMethod = HTTPMethod.Get
+		
+		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+		dataTaskWithRequest.resume()
+	}
+
 	func login(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let JSONLogin  = [ API.UdacityKey : [ API.UserNameKey : username, API.PasswordKey : password ] ]
-		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL)!)
+		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.SessionURL)!)
 
 		URLRequest.HTTPMethod = HTTPMethod.Post
 		URLRequest.HTTPBody   = try! NSJSONSerialization.dataWithJSONObject(JSONLogin, options: .PrettyPrinted)
@@ -53,7 +72,7 @@ class UdacityAPIClient: NSObject {
 	}
 	
 	func logout(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL)!)
+		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.SessionURL)!)
 
 		URLRequest.HTTPMethod = HTTPMethod.Delete
 
@@ -69,6 +88,12 @@ class UdacityAPIClient: NSObject {
 
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 		dataTaskWithRequest.resume()
+	}
+
+	// MARK: - Private
+
+	private override init() {
+		super.init()
 	}
 
 }
