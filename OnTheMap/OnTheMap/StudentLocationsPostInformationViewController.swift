@@ -15,18 +15,6 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	// MARK: - Private Constants
 
-	private struct AlertMessage {
-		static let EmptyPMArray = "Received an empty placemarks array"
-		static let NoLocation   = "Location not yet entered"
-		static let NoPMArray    = "Did not receive a placemarks array"
-		static let NoURL        = "Media URL not yet entered"
-	}
-
-	private struct AlertTitle {
-		static let BadGeocode = "Unable to geocode location"
-		static let BadSubmit  = "Unable to submit location"
-		static let OK         = "OK"
-	}
 
 	private struct ButtonTitle {
 		static let Find   = "Find On The Map"
@@ -103,29 +91,17 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			})
 
 			guard error == nil else {
-
-				dispatch_async(dispatch_get_main_queue(), {
-					self.presentAlert(AlertTitle.BadGeocode, message: error!.localizedDescription)
-				})
-
+				self.presentAlert(Constants.Alert.Title.BadGeocode, message: error!.localizedDescription)
 				return
 			}
 
 			guard placemarks != nil else {
-
-				dispatch_async(dispatch_get_main_queue(), {
-					self.presentAlert(AlertTitle.BadGeocode, message: AlertMessage.NoPMArray)
-				})
-
+				self.presentAlert(Constants.Alert.Title.BadGeocode, message: Constants.Alert.Message.NoPMArray)
 				return
 			}
 
 			guard placemarks!.count > 0 else {
-
-				dispatch_async(dispatch_get_main_queue(), {
-					self.presentAlert(AlertTitle.BadGeocode, message: AlertMessage.EmptyPMArray)
-				})
-
+				self.presentAlert(Constants.Alert.Title.BadGeocode, message: Constants.Alert.Message.EmptyPMArray)
 				return
 			}
 
@@ -146,10 +122,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			let studentLocationRegion = MKCoordinateRegion(center: (studentLocationPlacemark.location?.coordinate)!,
 																			 span: MKCoordinateSpanMake(deltaDegrees, deltaDegrees))
 
-			dispatch_async(dispatch_get_main_queue(), {
-            self.transitionToMapAndURL(studentLocationAnnotation, region: studentLocationRegion)
-			})
-
+			self.transitionToMapAndURL(studentLocationAnnotation, region: studentLocationRegion)
 		}
 
 	}
@@ -159,7 +132,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	private func findOnTheMap() {
 
 		if locationTextField.text == InitialText.LocationTextField {
-			presentAlert(AlertTitle.BadGeocode, message: AlertMessage.NoLocation)
+			presentAlert(Constants.Alert.Title.BadGeocode, message: Constants.Alert.Message.NoLocation)
 		} else {
 			let geocoder = CLGeocoder()
 			NetworkActivityIndicatorManager.sharedManager.startActivity();
@@ -171,7 +144,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	private func submit() {
 
 		if mediaURLTextField.text == InitialText.MediaURLTextField {
-			presentAlert(AlertTitle.BadSubmit, message: AlertMessage.NoURL)
+			presentAlert(Constants.Alert.Title.BadSubmit, message: Constants.Alert.Message.NoURL)
 		} else {
 			print("media URL = \(mediaURLTextField.text)")
 		}
@@ -179,19 +152,23 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	}
 
 	private func transitionToMapAndURL(annotation: MKPointAnnotation, region: MKCoordinateRegion) {
-		view.backgroundColor = imageView.backgroundColor
 
-		imageView.hidden         = true
-		locationTextField.hidden = true
+		dispatch_async(dispatch_get_main_queue(), {
+			self.view.backgroundColor = self.imageView.backgroundColor
 
-		mediaURLTextField.hidden = false
+			self.imageView.hidden         = true
+			self.locationTextField.hidden = true
 
-		mapView.hidden = false
-		mapView.addAnnotation(annotation)
-		mapView.setRegion(region, animated: true)
-		mapView.regionThatFits(region)
+			self.mediaURLTextField.hidden = false
 
-		toolbarButton.title = ButtonTitle.Submit
+			self.mapView.hidden = false
+			self.mapView.addAnnotation(annotation)
+			self.mapView.setRegion(region, animated: true)
+			self.mapView.regionThatFits(region)
+
+			self.toolbarButton.title = ButtonTitle.Submit
+		})
+
 	}
 
 }

@@ -73,7 +73,7 @@ class StudentLocationsManager: NSObject {
 
 					self.studentLocations.insert(self.studentLocationPOSTPending, atIndex: 0)
 
-					self.postNotification(Notification.StudentLocationDidGetPosted)
+					NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.StudentLocationDidGetPosted, object: nil)
 				}
 
 			}
@@ -110,7 +110,7 @@ class StudentLocationsManager: NSObject {
 					self.studentLocations.append(studentLocation)
 				}
 				
-				self.postNotification(Notification.StudentLocationsDidGetRefreshed)
+				NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.StudentLocationsDidGetRefreshed, object: nil)
 			}
 
 		}
@@ -123,10 +123,6 @@ class StudentLocationsManager: NSObject {
 		studentLocations           = [StudentLocation]()
 		studentLocationPOSTPending = StudentLocation()
 		super.init()
-	}
-
-	private func postNotification(name: String) {
-		NSNotificationCenter.defaultCenter().postNotificationName(name, object: nil)
 	}
 
 }

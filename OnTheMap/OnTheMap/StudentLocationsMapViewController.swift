@@ -18,7 +18,8 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    // MARK: - IB Actions
       
 	@IBAction func pinButtonWasTapped(sender: UIBarButtonItem) {
-		let postInfoVC = storyboard?.instantiateViewControllerWithIdentifier(StoryboardID.StudentLocationsPostInformationVC) as! StudentLocationsPostInformationViewController
+		let postInfoVC = storyboard?.instantiateViewControllerWithIdentifier(Constants.UI.StoryboardID.StudentLocationsPostInformationVC)
+							  as! StudentLocationsPostInformationViewController
 		presentViewController(postInfoVC, animated: true, completion: nil)
 	}
 	
@@ -32,19 +33,21 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
       super.viewDidLoad()
       
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
-																					  name: Notification.StudentLocationDidGetPosted, object: nil)
+																					  name: Constants.Notification.StudentLocationDidGetPosted,
+																					object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
-																					  name: Notification.StudentLocationsDidGetRefreshed, object: nil)
+																					  name: Constants.Notification.StudentLocationsDidGetRefreshed,
+																					object: nil)
   }
 
    // MARK: - NSNotifications
 
 	func studentLocationDidGetPosted(notification: NSNotification) {
-		assert(notification.name == Notification.StudentLocationDidGetPosted, "unknown notification = \(notification)")
+		assert(notification.name == Constants.Notification.StudentLocationDidGetPosted, "unknown notification = \(notification)")
    }
    
 	func studentLocationsDidGetRefreshed(notification: NSNotification) {
-		assert(notification.name == Notification.StudentLocationsDidGetRefreshed, "unknown notification = \(notification)")
+		assert(notification.name == Constants.Notification.StudentLocationsDidGetRefreshed, "unknown notification = \(notification)")
 
       var pointAnnotations = [MKPointAnnotation]()
       
@@ -67,7 +70,7 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
          }
          
          if !validURL {
-				presentAlert("Unable to open browser", message: "Malformed URL")
+				presentAlert(Constants.Alert.Title.BadBrowser, message: Constants.Alert.Message.BadURL)
          }
 
       }
@@ -75,12 +78,12 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    }
 
    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(ReuseID.StudentLocationsPinAnnotationView) as? MKPinAnnotationView
+      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(Constants.UI.ReuseID.StudentLocationsPinAnnotationView) as? MKPinAnnotationView
       
       if let _ = pinAnnotationView {
          pinAnnotationView!.annotation = annotation
       } else {
-         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: ReuseID.StudentLocationsPinAnnotationView)
+         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Constants.UI.ReuseID.StudentLocationsPinAnnotationView)
          pinAnnotationView!.canShowCallout = true
          pinAnnotationView!.pinTintColor = MKPinAnnotationView.redPinColor()
          pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)

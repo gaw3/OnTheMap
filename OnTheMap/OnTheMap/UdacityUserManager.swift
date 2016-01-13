@@ -75,12 +75,12 @@ class UdacityUserManager: NSObject {
 
 	func setLoginResponseData(data: UdacityLoginResponseData) {
 		loginResponseData = data
-		NSNotificationCenter.defaultCenter().postNotificationName(Notification.LoginResponseDataDidGetSaved, object: nil)
+		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LoginResponseDataDidGetSaved, object: nil)
 	}
 
 	func setUserData(data: UdacityUserData) {
 		userData = data
-		NSNotificationCenter.defaultCenter().postNotificationName(Notification.UserDataDidGetSaved, object: nil)
+		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.UserDataDidGetSaved, object: nil)
 	}
 
 	// MARK: - Private

@@ -14,9 +14,13 @@ extension (UIViewController) {
 
 	func presentAlert(title: String, message: String) {
 		let alert  = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-		let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+		let action = UIAlertAction(title: Constants.Alert.ActionTitle.OK, style: .Default, handler: nil)
 		alert.addAction(action)
-		presentViewController(alert, animated: true, completion: nil)
+
+		dispatch_async(dispatch_get_main_queue(), {
+			self.presentViewController(alert, animated: true, completion: nil)
+		})
+
 	}
 
 }

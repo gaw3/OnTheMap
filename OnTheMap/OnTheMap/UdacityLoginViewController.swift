@@ -47,26 +47,28 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "accountDataDidGetSaved:",
-																					  name: Notification.LoginResponseDataDidGetSaved, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginResponseDataDidGetSaved:",
+																					  name: Constants.Notification.LoginResponseDataDidGetSaved,
+																					object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDataDidGetSaved:",
-																					  name: Notification.UserDataDidGetSaved, object: nil)
+																					  name: Constants.Notification.UserDataDidGetSaved,
+																					object: nil)
 	}
 
 	// MARK: - NSNotifications
 
-	func accountDataDidGetSaved(notification: NSNotification) {
-		assert(notification.name == Notification.LoginResponseDataDidGetSaved, "unknown notification = \(notification)")
+	func loginResponseDataDidGetSaved(notification: NSNotification) {
+		assert(notification.name == Constants.Notification.LoginResponseDataDidGetSaved, "unknown notification = \(notification)")
 		
 		UdacityAPIClient.sharedClient.getUserData(UdacityUserManager.sharedMgr.accountUserID!,
 																completionHandler: getUserDataCompletionHandler)
 	}
 
 	func userDataDidGetSaved(notification: NSNotification) {
-		assert(notification.name == Notification.UserDataDidGetSaved, "unknown notification = \(notification)")
+		assert(notification.name == Constants.Notification.UserDataDidGetSaved, "unknown notification = \(notification)")
 
 		if UdacityUserManager.sharedMgr.isLoginSuccessful {
-			let tabBarController = self.storyboard?.instantiateViewControllerWithIdentifier(StoryboardID.StudentLocationsTabBarController) as! UITabBarController
+			let tabBarController = self.storyboard?.instantiateViewControllerWithIdentifier(Constants.UI.StoryboardID.StudentLocationsTabBarController) as! UITabBarController
 			self.presentViewController(tabBarController, animated: true, completion: nil)
 		} else {
 			// alert action view
@@ -90,25 +92,23 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				print("error = \(error)")
-				// alert action view to the user that error occurred
+				self.presentAlert(Constants.Alert.Title.BadUserData, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				print("no json data provided to login completion handler")
-				// alert action view again
+				self.presentAlert(Constants.Alert.Title.BadUserData, message: Constants.Alert.Message.NoUserData)
 				return
 			}
 
 			let userData = UdacityUserData(data: result as! JSONDictionary)
 
-			if userData.isValid {
-				UdacityUserManager.sharedMgr.setUserData(userData)
+			guard userData.isValid else {
+				self.presentAlert(Constants.Alert.Title.BadUserData, message: Constants.Alert.Message.BadUserData)
 				return
 			}
 
-			// alert action view if needed
+			UdacityUserManager.sharedMgr.setUserData(userData)
 		}
 
 	}
@@ -118,25 +118,23 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				print("error = \(error)")
-				// alert action view to the user that error occurred
+				self.presentAlert(Constants.Alert.Title.BadLoginResponseData, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				print("no json data provided to login completion handler")
-				// alert action view again
+				self.presentAlert(Constants.Alert.Title.BadLoginResponseData, message: Constants.Alert.Message.NoLoginResponseData)
 				return
 			}
 
 			let loginResponseData = UdacityLoginResponseData(data: result as! JSONDictionary)
 
-			if loginResponseData.isValid {
-				UdacityUserManager.sharedMgr.setLoginResponseData(loginResponseData)
+			guard loginResponseData.isValid else {
+				self.presentAlert(Constants.Alert.Title.BadLoginResponseData, message: Constants.Alert.Message.BadLoginResponseData)
 				return
 			}
 
-			// alert action view if needed
+			UdacityUserManager.sharedMgr.setLoginResponseData(loginResponseData)
 		}
 
 	}
