@@ -50,6 +50,9 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginResponseDataDidGetSaved:",
 																					  name: Constants.Notification.LoginResponseDataDidGetSaved,
 																					object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "logoutResponseDataDidGetSaved:",
+																					  name: Constants.Notification.LogoutResponseDataDidGetSaved,
+																					object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDataDidGetSaved:",
 																					  name: Constants.Notification.UserDataDidGetSaved,
 																					object: nil)
@@ -60,18 +63,25 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 	func loginResponseDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == Constants.Notification.LoginResponseDataDidGetSaved, "unknown notification = \(notification)")
 		
-		UdacityAPIClient.sharedClient.getUserData(UdacityUserManager.sharedMgr.accountUserID!,
+		UdacityAPIClient.sharedClient.getUserData(UdacityDataManager.sharedMgr.accountUserID!,
 																completionHandler: getUserDataCompletionHandler)
+	}
+
+	func logoutResponseDataDidGetSaved(notification: NSNotification) {
+		assert(notification.name == Constants.Notification.LogoutResponseDataDidGetSaved, "unknown notification = \(notification)")
+
+		if UdacityDataManager.sharedMgr.isLogoutSuccessful {
+			print("logged out successfully")
+		}
+
 	}
 
 	func userDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == Constants.Notification.UserDataDidGetSaved, "unknown notification = \(notification)")
 
-		if UdacityUserManager.sharedMgr.isLoginSuccessful {
+		if UdacityDataManager.sharedMgr.isLoginSuccessful {
 			let tabBarController = self.storyboard?.instantiateViewControllerWithIdentifier(Constants.UI.StoryboardID.StudentLocationsTabBarController) as! UITabBarController
 			self.presentViewController(tabBarController, animated: true, completion: nil)
-		} else {
-			// alert action view
 		}
 
 	}
@@ -92,23 +102,23 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				self.presentAlert(Constants.Alert.Title.BadUserData, message: error!.localizedDescription)
+				self.presentAlert(Constants.Alert.Title.BadLogin, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				self.presentAlert(Constants.Alert.Title.BadUserData, message: Constants.Alert.Message.NoUserData)
+				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.NoUserData)
 				return
 			}
 
 			let userData = UdacityUserData(data: result as! JSONDictionary)
 
 			guard userData.isValid else {
-				self.presentAlert(Constants.Alert.Title.BadUserData, message: Constants.Alert.Message.BadUserData)
+				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.BadUserData)
 				return
 			}
 
-			UdacityUserManager.sharedMgr.setUserData(userData)
+			UdacityDataManager.sharedMgr.setUserData(userData)
 		}
 
 	}
@@ -118,23 +128,23 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				self.presentAlert(Constants.Alert.Title.BadLoginResponseData, message: error!.localizedDescription)
+				self.presentAlert(Constants.Alert.Title.BadLogin, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				self.presentAlert(Constants.Alert.Title.BadLoginResponseData, message: Constants.Alert.Message.NoLoginResponseData)
+				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.NoLoginResponseData)
 				return
 			}
 
 			let loginResponseData = UdacityLoginResponseData(data: result as! JSONDictionary)
 
 			guard loginResponseData.isValid else {
-				self.presentAlert(Constants.Alert.Title.BadLoginResponseData, message: Constants.Alert.Message.BadLoginResponseData)
+				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.BadLoginResponseData)
 				return
 			}
 
-			UdacityUserManager.sharedMgr.setLoginResponseData(loginResponseData)
+			UdacityDataManager.sharedMgr.setLoginResponseData(loginResponseData)
 		}
 
 	}
@@ -144,30 +154,24 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				// handle error
+				self.presentAlert(Constants.Alert.Title.BadLogout, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				// handle error
+				self.presentAlert(Constants.Alert.Title.BadLogout, message: Constants.Alert.Message.NoLogoutResponseData)
 				return
 			}
 
-			let JSONData = result as! JSONDictionary
+			let logoutResponseData = UdacityLogoutResponseData(data: result as! JSONDictionary)
 
-			if let session = JSONData[UdacityAPIClient.API.SessionKey] {
 
-				if let _ = session[UdacityAPIClient.API.SessionIDKey] {
-				} else {
-					print("no session ID")
-					// alert action view again
-				}
-
-			} else {
-				print("no session")
-				// alert action view again
+			guard logoutResponseData.isValid else {
+				self.presentAlert(Constants.Alert.Title.BadLogout, message: Constants.Alert.Message.BadLogoutResponseData)
+				return
 			}
 
+			UdacityDataManager.sharedMgr.setLogoutResponseData(logoutResponseData)
 		}
 
 	}

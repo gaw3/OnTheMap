@@ -1,5 +1,5 @@
 //
-//  UdacityUserManager.swift
+//  UdacityDataManager.swift
 //  OnTheMap
 //
 //  Created by Gregory White on 1/11/16.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-private let _sharedMgr = UdacityUserManager()
+private let _sharedMgr = UdacityDataManager()
 
-class UdacityUserManager: NSObject {
+class UdacityDataManager: NSObject {
 
-	class var sharedMgr: UdacityUserManager {
+	class var sharedMgr: UdacityDataManager {
 		return _sharedMgr
 	}
 
@@ -50,6 +50,10 @@ class UdacityUserManager: NSObject {
 
 	}
 
+	var isLogoutSuccessful: Bool {
+		get { return (logoutResponseData != nil) }
+	}
+	
 	var usersUserID: String? {
 
 		get {
@@ -68,14 +72,20 @@ class UdacityUserManager: NSObject {
 	
 	// MARK: - Private Stored Variables
 
-	private var loginResponseData: UdacityLoginResponseData? = nil
-	private var userData:          UdacityUserData? = nil
+	private var loginResponseData:  UdacityLoginResponseData? = nil
+	private var logoutResponseData: UdacityLogoutResponseData? = nil
+	private var userData:           UdacityUserData? = nil
 
 	// MARK: - API
 
 	func setLoginResponseData(data: UdacityLoginResponseData) {
 		loginResponseData = data
 		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LoginResponseDataDidGetSaved, object: nil)
+	}
+
+	func setLogoutResponseData(data: UdacityLogoutResponseData) {
+		logoutResponseData = data
+		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LogoutResponseDataDidGetSaved, object: nil)
 	}
 
 	func setUserData(data: UdacityUserData) {

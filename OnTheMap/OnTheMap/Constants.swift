@@ -19,29 +19,32 @@ struct Constants {
 		}
 
 		struct Message {
-			static let BadLoginResponseData = "Received invalid login response data"
-			static let BadURL               = "Malformed URL"
-			static let BadUserData          = "Received invalid user data"
-			static let EmptyPMArray         = "Received an empty placemarks array"
-			static let NoLocation           = "Location not yet entered"
-			static let NoPMArray            = "Did not receive a placemarks array"
-			static let NoURL                = "Media URL not yet entered"
-			static let NoLoginResponseData  = "No login response data received"
-			static let NoUserData           = "No user data received"
+			static let BadLoginResponseData  = "Received invalid login response data"
+			static let BadLogoutResponseData = "Received invalid logout response data"
+			static let BadURL                = "Malformed URL"
+			static let BadUserData           = "Received invalid user data"
+			static let EmptyPMArray          = "Received an empty placemarks array"
+			static let NoLocation            = "Location not yet entered"
+			static let NoPMArray             = "Did not receive a placemarks array"
+			static let NoURL                 = "Media URL not yet entered"
+			static let NoLoginResponseData   = "No login response data received"
+			static let NoLogoutResponseData  = "No logout response data received"
+			static let NoUserData            = "No user data received"
 		}
 
 		struct Title {
-			static let BadBrowser           = "Unable to open browser"
-			static let BadGeocode           = "Unable to geocode location"
-			static let BadLoginResponseData = "Unable to process login response data"
-			static let BadSubmit            = "Unable to submit location"
-			static let BadUserData          = "Unable to process user data"
+			static let BadBrowser = "Unable to open browser"
+			static let BadGeocode = "Unable to geocode location"
+			static let BadLogin   = "Unable to login"
+			static let BadLogout  = "Unable to logout"
+			static let BadSubmit  = "Unable to submit location"
 		}
 		
 	}
 
 	struct Notification {
 		static let LoginResponseDataDidGetSaved    = "LoginResponseDataDidGetSavedNotification"
+		static let LogoutResponseDataDidGetSaved   = "LogoutResponseDataDidGetSavedNotification"
 		static let StudentLocationDidGetPosted     = "StudentLocationDidGetPostedNotification"
 		static let StudentLocationsDidGetRefreshed = "StudentLocationsDidGetRefreshedNotification"
 		static let UserDataDidGetSaved             = "UserDataDidGetSavedNotification"
