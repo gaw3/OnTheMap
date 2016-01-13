@@ -23,4 +23,36 @@ extension (UIViewController) {
 
 	}
 
+	var refreshStudentLocationsCompletionHandler : APIDataTaskWithRequestCompletionHandler {
+
+		return { (result, error) -> Void in
+
+			guard error == nil else {
+				self.presentAlert(Constants.Alert.Title.BadRefresh, message: error!.localizedDescription)
+				return
+			}
+
+			guard result != nil else {
+				self.presentAlert(Constants.Alert.Title.BadRefresh, message: Constants.Alert.Message.NoSLArray)
+				return
+			}
+
+			let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as! [JSONDictionary]?
+
+			guard !(results!.isEmpty) else {
+				self.presentAlert(Constants.Alert.Title.BadRefresh, message: Constants.Alert.Message.EmptySLArray)
+				return
+			}
+
+			var newStudentLocations = [StudentLocation]()
+
+			for newStudentLocation: JSONDictionary in results! {
+				newStudentLocations.append(StudentLocation(studentLocation: newStudentLocation))
+			}
+
+			StudentLocationsManager.sharedMgr.refreshStudentLocations(newStudentLocations)
+		}
+		
+	}
+	
 }

@@ -18,7 +18,7 @@ class StudentLocationsTableViewController: UITableViewController {
 	}
 	
    @IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
-      StudentLocationsManager.sharedMgr.refreshStudentLocations()
+		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
    }
    
 	// MARK: - View Events

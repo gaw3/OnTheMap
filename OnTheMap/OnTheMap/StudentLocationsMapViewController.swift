@@ -11,6 +11,8 @@ import UIKit
 
 class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 
+	private var pointAnnotations = [MKPointAnnotation]()
+
    // MARK: - IB Outlets
    
    @IBOutlet weak var mapView: MKMapView!
@@ -24,7 +26,7 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 	}
 	
    @IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
-      StudentLocationsManager.sharedMgr.refreshStudentLocations()
+      ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
    }
 
    // MARK: - View Events
@@ -38,8 +40,8 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
 																					  name: Constants.Notification.StudentLocationsDidGetRefreshed,
 																					object: nil)
-		
-		StudentLocationsManager.sharedMgr.refreshStudentLocations()
+
+		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
   }
 
    // MARK: - NSNotifications
@@ -51,8 +53,9 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 	func studentLocationsDidGetRefreshed(notification: NSNotification) {
 		assert(notification.name == Constants.Notification.StudentLocationsDidGetRefreshed, "unknown notification = \(notification)")
 
-      var pointAnnotations = [MKPointAnnotation]()
-      
+		mapView.removeAnnotations(pointAnnotations)
+		pointAnnotations.removeAll()
+
       for index in 0...(StudentLocationsManager.sharedMgr.count() - 1) {
          pointAnnotations.append(StudentLocationsManager.sharedMgr.studentLocationAtIndex(index).pointAnnotation)
       }

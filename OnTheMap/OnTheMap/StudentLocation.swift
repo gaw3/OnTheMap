@@ -17,7 +17,7 @@ class StudentLocation: NSObject {
 	var dateCreated: String {
 
 		get {
-			if let dateCreated = _dictionary[ParseAPIClient.API.DateCreatedKey] as! String? {
+			if let dateCreated = _studentLocation[ParseAPIClient.API.DateCreatedKey] as! String? {
 				return dateCreated
 			} else {
 				return String()
@@ -25,7 +25,7 @@ class StudentLocation: NSObject {
 		}
 
 		set(newDateCreated) {
-			_dictionary[ParseAPIClient.API.DateCreatedKey] = newDateCreated
+			_studentLocation[ParseAPIClient.API.DateCreatedKey] = newDateCreated
 		}
 
 	}
@@ -33,7 +33,7 @@ class StudentLocation: NSObject {
 	var dateUpdated: String {
 
 		get {
-			if let dateUpdated = _dictionary[ParseAPIClient.API.DateUpdatedKey] as! String? {
+			if let dateUpdated = _studentLocation[ParseAPIClient.API.DateUpdatedKey] as! String? {
 				return dateUpdated
 			} else {
 				return String()
@@ -41,19 +41,19 @@ class StudentLocation: NSObject {
 		}
 
 		set(newDateUpdated) {
-			_dictionary[ParseAPIClient.API.DateUpdatedKey] = newDateUpdated
+			_studentLocation[ParseAPIClient.API.DateUpdatedKey] = newDateUpdated
 		}
 
 	}
 
 	var dictionary: JSONDictionary {
-		return _dictionary
+		return _studentLocation
 	}
 
 	var firstName: String {
 
 		get {
-			if let firstName = _dictionary[ParseAPIClient.API.FirstNameKey] as! String? {
+			if let firstName = _studentLocation[ParseAPIClient.API.FirstNameKey] as! String? {
 				return firstName
 			} else {
 				return String()
@@ -61,7 +61,7 @@ class StudentLocation: NSObject {
 		}
 
 		set(newFirstName) {
-			_dictionary[ParseAPIClient.API.FirstNameKey] = newFirstName
+			_studentLocation[ParseAPIClient.API.FirstNameKey] = newFirstName
 		}
 
 	}
@@ -73,7 +73,7 @@ class StudentLocation: NSObject {
 	var lastName: String {
 
 		get {
-			if let lastName = _dictionary[ParseAPIClient.API.LastNameKey] as! String? {
+			if let lastName = _studentLocation[ParseAPIClient.API.LastNameKey] as! String? {
 				return lastName
 			} else {
 				return String()
@@ -81,7 +81,7 @@ class StudentLocation: NSObject {
 		}
 
 		set(newLastName) {
-			_dictionary[ParseAPIClient.API.LastNameKey] = newLastName
+			_studentLocation[ParseAPIClient.API.LastNameKey] = newLastName
 		}
 
 	}
@@ -89,11 +89,11 @@ class StudentLocation: NSObject {
 	var latitude: Double {
 
 		get {
-         return _dictionary[ParseAPIClient.API.LatKey] as! Double
+         return _studentLocation[ParseAPIClient.API.LatKey] as! Double
 		}
 
 		set(newLatitude) {
-			_dictionary[ParseAPIClient.API.LatKey] = newLatitude
+			_studentLocation[ParseAPIClient.API.LatKey] = newLatitude
 		}
 
 	}
@@ -101,7 +101,7 @@ class StudentLocation: NSObject {
 	var mapString: String {
 
 		get {
-			if let mapString = _dictionary[ParseAPIClient.API.MapStringKey] as! String? {
+			if let mapString = _studentLocation[ParseAPIClient.API.MapStringKey] as! String? {
 				return mapString
 			} else {
 				return String()
@@ -109,7 +109,7 @@ class StudentLocation: NSObject {
 		}
 
 		set(newMapString) {
-			_dictionary[ParseAPIClient.API.MapStringKey] = newMapString
+			_studentLocation[ParseAPIClient.API.MapStringKey] = newMapString
 		}
 
 	}
@@ -117,11 +117,11 @@ class StudentLocation: NSObject {
 	var longitude: Double {
 
 		get {
-         return _dictionary[ParseAPIClient.API.LongKey] as! Double
+         return _studentLocation[ParseAPIClient.API.LongKey] as! Double
 		}
 
 		set(newLongitude) {
-			_dictionary[ParseAPIClient.API.LongKey] = newLongitude
+			_studentLocation[ParseAPIClient.API.LongKey] = newLongitude
 		}
 
 	}
@@ -129,7 +129,7 @@ class StudentLocation: NSObject {
 	var mediaURL: String {
 
 		get {
-			if let mediaURL = _dictionary[ParseAPIClient.API.MediaURLKey] as! String? {
+			if let mediaURL = _studentLocation[ParseAPIClient.API.MediaURLKey] as! String? {
 				return mediaURL
 			} else {
 				return String()
@@ -137,7 +137,7 @@ class StudentLocation: NSObject {
 		}
 
 		set(newMediaURL) {
-			_dictionary[ParseAPIClient.API.MediaURLKey] = newMediaURL
+			_studentLocation[ParseAPIClient.API.MediaURLKey] = newMediaURL
 		}
 
 	}
@@ -145,7 +145,7 @@ class StudentLocation: NSObject {
 	var objectID: String {
 
 		get {
-			if let objectID = _dictionary[ParseAPIClient.API.ObjectIDKey] as! String? {
+			if let objectID = _studentLocation[ParseAPIClient.API.ObjectIDKey] as! String? {
 				return objectID
 			} else {
 				return String()
@@ -153,7 +153,7 @@ class StudentLocation: NSObject {
 		}
 
 		set(newObjectID) {
-			_dictionary[ParseAPIClient.API.ObjectIDKey] = newObjectID
+			_studentLocation[ParseAPIClient.API.ObjectIDKey] = newObjectID
 		}
 
 	}
@@ -171,7 +171,7 @@ class StudentLocation: NSObject {
 	var uniqueKey: String {
 
 		get {
-			if let uniqueKey = _dictionary[ParseAPIClient.API.UniqueKeyKey] as! String? {
+			if let uniqueKey = _studentLocation[ParseAPIClient.API.UniqueKeyKey] as! String? {
 				return uniqueKey
 			} else {
 				return String()
@@ -179,23 +179,24 @@ class StudentLocation: NSObject {
 		}
 
 		set(newUniqueKey) {
-			_dictionary[ParseAPIClient.API.UniqueKeyKey] = newUniqueKey
+			_studentLocation[ParseAPIClient.API.UniqueKeyKey] = newUniqueKey
 		}
 
 	}
 
 	// MARK: - Private Stored Variables
 
-	private var _dictionary: JSONDictionary
+	private var _studentLocation: JSONDictionary
 
 	// MARK: - API
 
 	override init() {
-      _dictionary = JSONDictionary()
+      _studentLocation = JSONDictionary()
+		super.init()
 	}
 
-	init(dictionary: JSONDictionary) {
-		self._dictionary = dictionary
+	init(studentLocation: JSONDictionary) {
+		_studentLocation = studentLocation
 		super.init()
 	}
 

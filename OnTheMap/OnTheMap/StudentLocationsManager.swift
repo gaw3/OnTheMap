@@ -32,8 +32,11 @@ class StudentLocationsManager: NSObject {
 		ParseAPIClient.sharedClient.postStudentLocation(studentLocation.dictionary, completionHandler: postStudentLocationCompletionHandler)
 	}
 
-	func refreshStudentLocations() {
-		ParseAPIClient.sharedClient.getStudentLocations(refreshStudentLocationsCompletionHandler)
+	func refreshStudentLocations(newStudentLocations: [StudentLocation]) {
+		studentLocations.removeAll()
+		studentLocations.appendContentsOf(newStudentLocations)
+
+		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.StudentLocationsDidGetRefreshed, object: nil)
 	}
    
    func studentLocationAtIndex(index: Int) -> StudentLocation {
@@ -82,41 +85,6 @@ class StudentLocationsManager: NSObject {
 		
 	}
 	
-	private var refreshStudentLocationsCompletionHandler : APIDataTaskWithRequestCompletionHandler {
-
-		return { (result, error) -> Void in
-
-			guard error == nil else {
-				print("error = \(error)")
-				// alert action view to the user that error occurred
-				return
-			}
-
-			guard result != nil else {
-				print("no json data provided to request list completion handler")
-				// alert action view again
-				return
-			}
-
-			let JSONDict = result as! JSONDictionary
-			print("\(JSONDict)")
-
-			if let dictArray = JSONDict[ParseAPIClient.API.ResultsKey] as! [JSONDictionary]? {
-				self.studentLocations.removeAll()
-
-				for dict: JSONDictionary in dictArray
-				{
-					let studentLocation = StudentLocation(dictionary: dict)
-					self.studentLocations.append(studentLocation)
-				}
-				
-				NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.StudentLocationsDidGetRefreshed, object: nil)
-			}
-
-		}
-
-	}
-
 	// MARK: - Private
 
 	private override init() {

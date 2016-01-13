@@ -24,8 +24,10 @@ struct Constants {
 			static let BadURL                = "Malformed URL"
 			static let BadUserData           = "Received invalid user data"
 			static let EmptyPMArray          = "Received an empty placemarks array"
+			static let EmptySLArray          = "Received an empty student locations array"
 			static let NoLocation            = "Location not yet entered"
 			static let NoPMArray             = "Did not receive a placemarks array"
+			static let NoSLArray             = "Did not receive a student locations array"
 			static let NoURL                 = "Media URL not yet entered"
 			static let NoLoginResponseData   = "No login response data received"
 			static let NoLogoutResponseData  = "No logout response data received"
@@ -37,6 +39,7 @@ struct Constants {
 			static let BadGeocode = "Unable to geocode location"
 			static let BadLogin   = "Unable to login"
 			static let BadLogout  = "Unable to logout"
+			static let BadRefresh = "Unable to refresh list of student locations"
 			static let BadSubmit  = "Unable to submit location"
 		}
 		

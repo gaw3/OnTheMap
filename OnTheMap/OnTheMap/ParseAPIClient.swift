@@ -48,7 +48,7 @@ class ParseAPIClient: NSObject {
 
 	// MARK: - API
 
-	func getStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	func refreshStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL + "?limit=5")!)
 
 		URLRequest.HTTPMethod = HTTPMethod.Get
