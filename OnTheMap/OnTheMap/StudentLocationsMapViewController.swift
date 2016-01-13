@@ -38,6 +38,8 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
 																					  name: Constants.Notification.StudentLocationsDidGetRefreshed,
 																					object: nil)
+		
+		StudentLocationsManager.sharedMgr.refreshStudentLocations()
   }
 
    // MARK: - NSNotifications
