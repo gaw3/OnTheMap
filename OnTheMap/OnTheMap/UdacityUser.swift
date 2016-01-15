@@ -1,5 +1,5 @@
 //
-//  UdacityUserData.swift
+//  UdacityUser.swift
 //  OnTheMap
 //
 //  Created by Gregory White on 1/11/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct UdacityUserData {
+struct UdacityUser {
 	
 	// MARK: - Public Computed Variables
 	
@@ -102,10 +102,10 @@ struct UdacityUserData {
 	
 	// MARK: - API
 
-	init(data: JSONDictionary) {
+	init(userDict: JSONDictionary) {
 
-		if let ud = data[UdacityAPIClient.API.UserKey] as! JSONDictionary? {
-			_user = ud
+		if let user = userDict[UdacityAPIClient.API.UserKey] as! JSONDictionary? {
+			_user = user
 		}
 
 	}

@@ -63,7 +63,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 	func loginResponseDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == Constants.Notification.LoginResponseDataDidGetSaved, "unknown notification = \(notification)")
 		
-		UdacityAPIClient.sharedClient.getUserData(UdacityDataManager.sharedMgr.accountUserID!,
+		UdacityAPIClient.sharedClient.getUserData(UdacityDataManager.sharedMgr.account!.userID!,
 																completionHandler: getUserDataCompletionHandler)
 	}
 
@@ -111,14 +111,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 				return
 			}
 
-			let userData = UdacityUserData(data: result as! JSONDictionary)
-
-			guard userData.isValid else {
-				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.BadUserData)
-				return
-			}
-
-			UdacityDataManager.sharedMgr.setUserData(userData)
+			UdacityDataManager.sharedMgr.user = UdacityUser(userDict: result as! JSONDictionary)
 		}
 
 	}
@@ -137,14 +130,20 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 				return
 			}
 
-			let loginResponseData = UdacityLoginResponseData(data: result as! JSONDictionary)
+			let loginResponseData = result as! JSONDictionary
 
-			guard loginResponseData.isValid else {
-				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.BadLoginResponseData)
-				return
+			var account: UdacityAccount? = nil
+			var session: UdacitySession? = nil
+
+			if let acc = loginResponseData[UdacityAPIClient.API.AccountKey] as? JSONDictionary {
+				account = UdacityAccount(accountDict: acc)
 			}
 
-			UdacityDataManager.sharedMgr.setLoginResponseData(loginResponseData)
+			if let sess = loginResponseData[UdacityAPIClient.API.SessionKey] as? JSONDictionary {
+				session = UdacitySession(sessionDict: sess)
+			}
+
+			UdacityDataManager.sharedMgr.loginData = (account, session)
 		}
 
 	}
@@ -171,7 +170,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 				return
 			}
 
-			UdacityDataManager.sharedMgr.setLogoutResponseData(logoutResponseData)
+//			UdacityDataManager.sharedMgr.setLogoutResponseData(logoutResponseData)
 		}
 
 	}

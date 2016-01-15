@@ -18,80 +18,46 @@ class UdacityDataManager: NSObject {
 
 	// MARK: - Public Computed Variables
 
-	var accountUserID: String? {
+	var account: UdacityAccount? {
+		get { return _account }
+	}
 
-		get {
-			var userID: String? = nil
+	var loginData: (UdacityAccount?, UdacitySession?) {
+		get { return (_account, _session) }
 
-			if let data = loginResponseData {
-				if let id = data.userID {
-					userID = id
-				}
-			}
-
-			return userID
+		set(newData) {
+			_account = newData.0
+			_session = newData.1
+			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LoginResponseDataDidGetSaved, object: nil)
 		}
-
 	}
 
 	var isLoginSuccessful: Bool {
-
-		get {
-			var success = false
-
-			if let _ = accountUserID {
-				if let _ = usersUserID {
-					success = (accountUserID == usersUserID)
-				}
-			}
-
-			return success
-		}
-
+		get {  return ((_account != nil) && (session != nil)) }
 	}
 
 	var isLogoutSuccessful: Bool {
-		get { return (logoutResponseData != nil) }
+		get { return true }
+	}
+
+	var session: UdacitySession? {
+		get { return _session }
 	}
 	
-	var usersUserID: String? {
+	var user: UdacityUser? {
+		get { return _user }
 
-		get {
-			var userID: String? = nil
-
-			if let data = userData {
-				if let id = data.userID {
-					userID = id
-				}
-			}
-
-			return userID
+		set(newUser) {
+			_user = newUser
+			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.UserDataDidGetSaved, object: nil)
 		}
-		
 	}
 	
 	// MARK: - Private Stored Variables
 
-	private var loginResponseData:  UdacityLoginResponseData? = nil
-	private var logoutResponseData: UdacityLogoutResponseData? = nil
-	private var userData:           UdacityUserData? = nil
-
-	// MARK: - API
-
-	func setLoginResponseData(data: UdacityLoginResponseData) {
-		loginResponseData = data
-		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LoginResponseDataDidGetSaved, object: nil)
-	}
-
-	func setLogoutResponseData(data: UdacityLogoutResponseData) {
-		logoutResponseData = data
-		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LogoutResponseDataDidGetSaved, object: nil)
-	}
-
-	func setUserData(data: UdacityUserData) {
-		userData = data
-		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.UserDataDidGetSaved, object: nil)
-	}
+	private var _account: UdacityAccount? = nil
+	private var _session: UdacitySession? = nil
+	private var _user:    UdacityUser?    = nil
 
 	// MARK: - Private
 
