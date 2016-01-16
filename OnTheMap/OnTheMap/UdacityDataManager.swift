@@ -22,26 +22,32 @@ class UdacityDataManager: NSObject {
 		get { return _account }
 	}
 
+	var isLoginSuccessful: Bool {
+		get {  return ((_account != nil) && (_loginSession != nil)) }
+	}
+
+	var isLogoutSuccessful: Bool {
+		get {  return (_logoutSession != nil) }
+	}
+
 	var loginData: (UdacityAccount?, UdacitySession?) {
-		get { return (_account, _session) }
+		get { return (_account, _loginSession) }
 
 		set(newData) {
-			_account = newData.0
-			_session = newData.1
+			_account      = newData.0
+			_loginSession = newData.1
 			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LoginResponseDataDidGetSaved, object: nil)
 		}
 	}
 
-	var isLoginSuccessful: Bool {
-		get {  return ((_account != nil) && (session != nil)) }
-	}
-
-	var isLogoutSuccessful: Bool {
-		get { return true }
-	}
-
-	var session: UdacitySession? {
-		get { return _session }
+	var logoutData: (UdacitySession) {
+		get {
+			return _logoutSession!
+		}
+		set(newData) {
+			_logoutSession = newData
+			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LogoutResponseDataDidGetSaved, object: nil)
+		}
 	}
 	
 	var user: UdacityUser? {
@@ -55,9 +61,10 @@ class UdacityDataManager: NSObject {
 	
 	// MARK: - Private Stored Variables
 
-	private var _account: UdacityAccount? = nil
-	private var _session: UdacitySession? = nil
-	private var _user:    UdacityUser?    = nil
+	private var _account:       UdacityAccount? = nil
+	private var _loginSession:  UdacitySession? = nil
+	private var _logoutSession: UdacitySession? = nil
+	private var _user:          UdacityUser?    = nil
 
 	// MARK: - Private
 

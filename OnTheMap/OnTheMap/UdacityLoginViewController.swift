@@ -130,18 +130,10 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 				return
 			}
 
-			let loginResponseData = result as! JSONDictionary
+			let JSONResult = result as! JSONDictionary
 
-			var account: UdacityAccount? = nil
-			var session: UdacitySession? = nil
-
-			if let acc = loginResponseData[UdacityAPIClient.API.AccountKey] as? JSONDictionary {
-				account = UdacityAccount(accountDict: acc)
-			}
-
-			if let sess = loginResponseData[UdacityAPIClient.API.SessionKey] as? JSONDictionary {
-				session = UdacitySession(sessionDict: sess)
-			}
+			let account = UdacityAccount(accountDict: JSONResult[UdacityAPIClient.API.AccountKey] as! JSONDictionary)
+			let session = UdacitySession(sessionDict: JSONResult[UdacityAPIClient.API.SessionKey] as! JSONDictionary)
 
 			UdacityDataManager.sharedMgr.loginData = (account, session)
 		}
@@ -162,14 +154,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 				return
 			}
 
-			let logoutResponseData = UdacityLogoutResponseData(data: result as! JSONDictionary)
-
-			guard logoutResponseData.isValid else {
-				self.presentAlert(Constants.Alert.Title.BadLogout, message: Constants.Alert.Message.BadLogoutResponseData)
-				return
-			}
-
-//			UdacityDataManager.sharedMgr.setLogoutResponseData(logoutResponseData)
+			UdacityDataManager.sharedMgr.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
 		}
 
 	}
