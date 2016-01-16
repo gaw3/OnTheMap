@@ -103,7 +103,7 @@
                     <connections>
                         <outlet property="emailTextField" destination="pYB-0a-Lyc" id="ShX-wG-hZJ"/>
                         <outlet property="passwordTextField" destination="r5Z-WY-PyL" id="qQX-eO-GAW"/>
-                        <segue destination="c3y-Xo-GXg" kind="show" identifier="SegueFromLoginToTabBarController" id="sQb-j0-4ne"/>
+                        <segue destination="JKc-yU-DQf" kind="presentation" identifier="SegueFromLoginToNavCtlr" id="0Vo-gR-ofr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3xT-qG-xfO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -167,87 +167,69 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Map" image="Map" id="RwT-aF-5Pj"/>
-                    <navigationItem key="navigationItem" title="Student Locations" id="vVC-Yz-qre">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="UCZ-dk-mvC">
-                            <connections>
-                                <segue destination="xe0-lb-6sO" kind="unwind" unwindAction="unwindToLoginViewController:" id="h8b-Sf-nih"/>
-                            </connections>
-                        </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="refresh" id="DeH-vX-r4j">
-                                <connections>
-                                    <action selector="refreshButtonWasTapped:" destination="YVe-Sc-WDq" id="tVu-V4-EPf"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="Pin" id="g3b-UE-Aqs">
-                                <connections>
-                                    <action selector="pinButtonWasTapped:" destination="YVe-Sc-WDq" id="0jZ-GE-jJV"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="mapView" destination="61F-3h-zTU" id="Qeg-zc-qw3"/>
                         <segue destination="f1j-UQ-Sel" kind="presentation" identifier="SequeFromMapViewToInfoView" id="5Nn-2T-Kgu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c1Q-ew-RYV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="xe0-lb-6sO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-732" y="-751.5"/>
+            <point key="canvasLocation" x="-669" y="-670.5"/>
         </scene>
-        <!--Student Locations Table View Nav Controller-->
-        <scene sceneID="8MP-ae-LsP">
+        <!--Student Locations Tab Bar Nav Controller-->
+        <scene sceneID="pUM-XE-RKr">
             <objects>
-                <navigationController title="Student Locations Table View Nav Controller" id="sbR-uK-6zm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="List" image="List" id="vPd-Qn-DOL"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tlo-Op-COe">
+                <navigationController storyboardIdentifier="StudentLocsTabBarNavCtlr" title="Student Locations Tab Bar Nav Controller" id="JKc-yU-DQf" sceneMemberID="viewController">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="039-jU-3ZX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="u9p-1y-zKB" kind="relationship" relationship="rootViewController" id="Ahe-Gz-q6n"/>
+                        <segue destination="c3y-Xo-GXg" kind="relationship" relationship="rootViewController" id="oli-iS-OqK"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="A0P-L6-wDt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jb1-OA-oZW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1573.5" y="-71.25"/>
-        </scene>
-        <!--Student Locations Map View Nav Controller-->
-        <scene sceneID="AJl-Yn-ZZ9">
-            <objects>
-                <navigationController title="Student Locations Map View Nav Controller" id="Kqv-RQ-N8R" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" id="1rr-z0-scz"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yLV-Lm-ikx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="YVe-Sc-WDq" kind="relationship" relationship="rootViewController" id="1Y2-kw-jeT"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HNZ-UJ-ff4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1573.5" y="-751.5"/>
+            <point key="canvasLocation" x="-2638.5" y="-419.25"/>
         </scene>
         <!--Student Locations Tab Bar Controller-->
         <scene sceneID="4d5-Cr-YaP">
             <objects>
-                <tabBarController storyboardIdentifier="StudentLocsTabBarCtlr" title="Student Locations Tab Bar Controller" id="c3y-Xo-GXg" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="StudentLocsTabBarCtlr" title="Student Locations Tab Bar Controller" id="c3y-Xo-GXg" customClass="StudentLocationsTabBarController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Student Locations" id="mTK-gH-gMm">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="8ms-fW-HPg">
+                            <connections>
+                                <segue destination="gwT-AK-n71" kind="unwind" unwindAction="unwindToLoginViewController:" id="jsZ-Zg-eYi"/>
+                            </connections>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="refresh" id="A5D-X1-ZNx">
+                                <connections>
+                                    <action selector="refreshButtonWasTapped:" destination="c3y-Xo-GXg" id="gaX-7q-wU2"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="Pin" id="aOl-eM-SqO">
+                                <connections>
+                                    <action selector="pinButtonWasTapped:" destination="c3y-Xo-GXg" id="yiW-D8-2IJ"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="gOS-Xg-7HO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Kqv-RQ-N8R" kind="relationship" relationship="viewControllers" id="o4X-ky-CcY"/>
-                        <segue destination="sbR-uK-6zm" kind="relationship" relationship="viewControllers" id="afM-ZO-kcM"/>
+                        <segue destination="YVe-Sc-WDq" kind="relationship" relationship="viewControllers" id="Ri6-1D-8jK"/>
+                        <segue destination="u9p-1y-zKB" kind="relationship" relationship="viewControllers" id="kqB-vI-CiH"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0vC-6Y-oUN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="gwT-AK-n71" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-2553" y="-419.25"/>
+            <point key="canvasLocation" x="-1681.5" y="-416.25"/>
         </scene>
         <!--Student Locations Table View Controller-->
         <scene sceneID="9We-IW-YS7">
@@ -296,34 +278,13 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="List" image="List" id="KSV-Tg-6SK"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Student Locations" id="HeB-8d-QSR">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="a74-EK-l5O">
-                            <connections>
-                                <segue destination="HOl-Ew-6FB" kind="unwind" unwindAction="unwindToLoginViewController:" id="6kY-M8-CAc"/>
-                            </connections>
-                        </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="refresh" id="QIN-Ch-AjE">
-                                <connections>
-                                    <action selector="refreshButtonWasTapped:" destination="u9p-1y-zKB" id="0kb-vh-q5U"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="Pin" id="0zB-5W-IHj">
-                                <connections>
-                                    <action selector="pinButtonWasTapped:" destination="u9p-1y-zKB" id="ute-8s-2cD"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <segue destination="f1j-UQ-Sel" kind="presentation" identifier="SegueFromTableViewToInfoView" id="nL7-7v-qug"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A2j-z4-WKB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="HOl-Ew-6FB" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-732" y="-71.25"/>
+            <point key="canvasLocation" x="-669" y="-11.25"/>
         </scene>
         <!--Student Locations Post Information View Controller-->
         <scene sceneID="MOY-4U-bRy">
@@ -476,7 +437,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ADl-hI-E3E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="169.5" y="-419.25"/>
+            <point key="canvasLocation" x="829.5" y="-416.25"/>
         </scene>
     </scenes>
     <resources>
@@ -485,6 +446,6 @@
         <image name="Pin" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5Nn-2T-Kgu"/>
+        <segue reference="nL7-7v-qug"/>
     </inferredMetricsTieBreakers>
 </document>

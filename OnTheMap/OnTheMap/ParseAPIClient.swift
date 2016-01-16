@@ -48,27 +48,24 @@ class ParseAPIClient: NSObject {
 
 	// MARK: - API
 
-	func refreshStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL + "?limit=5")!)
-
-		URLRequest.HTTPMethod = HTTPMethod.Get
-
-		URLRequest.addValue(ParseAppIDField.Value,      forHTTPHeaderField: ParseAppIDField.Name)
-		URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)
-
+	func getStudentLocation(udacityUserID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+		let URLRequest          = getURLRequest(HTTPMethod.Get, HTTPQuery: "where={\"\(API.UniqueKeyKey)\":\"\(udacityUserID)\"}")
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+
+		dataTaskWithRequest.resume()
+	}
+	
+	func refreshStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
+		let URLRequest          = getURLRequest(HTTPMethod.Get, HTTPQuery: "limit=5")
+		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+
 		dataTaskWithRequest.resume()
 	}
 
 	func postStudentLocation(studentLocation: JSONDictionary, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.BaseURL)!)
-
-		URLRequest.HTTPMethod = HTTPMethod.Post
-		URLRequest.HTTPBody   = try! NSJSONSerialization.dataWithJSONObject(studentLocation, options: .PrettyPrinted)
-
-		URLRequest.addValue(ParseAppIDField.Value,      forHTTPHeaderField: ParseAppIDField.Name)
-		URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)
-      URLRequest.addValue(MIMEType.ApplicationJSON,   forHTTPHeaderField: HTTPHeaderField.ContentType)
+		let URLRequest = getURLRequest(HTTPMethod.Get, HTTPQuery: nil)
+		URLRequest.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(studentLocation, options: .PrettyPrinted)
+		URLRequest.addValue(MIMEType.ApplicationJSON,   forHTTPHeaderField: HTTPHeaderField.ContentType)
 
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 		dataTaskWithRequest.resume()
@@ -79,5 +76,22 @@ class ParseAPIClient: NSObject {
 	private override init() {
 		super.init()
 	}
+
+	private func getURLRequest(HTTPMethod: String, HTTPQuery: String?) -> NSMutableURLRequest {
+		let components = NSURLComponents(string: API.BaseURL)
+
+		if let _ = HTTPQuery {
+			components?.query = HTTPQuery
+		}
+
+		let URLRequest = NSMutableURLRequest(URL: (components?.URL)!)
+
+		URLRequest.HTTPMethod = HTTPMethod
+		URLRequest.addValue(ParseAppIDField.Value,      forHTTPHeaderField: ParseAppIDField.Name)
+		URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)
+
+		return URLRequest
+	}
 	
+
 }

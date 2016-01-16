@@ -10,17 +10,6 @@ import UIKit
 
 class StudentLocationsTableViewController: UITableViewController {
 
-	// MARK: - IB Actions
-
-	@IBAction func pinButtonWasTapped(sender: UIBarButtonItem) {
-		let postInfoVC = storyboard?.instantiateViewControllerWithIdentifier(Constants.UI.StoryboardID.StudentLocationsPostInformationVC) as! StudentLocationsPostInformationViewController
-		presentViewController(postInfoVC, animated: true, completion: nil)
-	}
-	
-   @IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
-		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
-   }
-   
 	// MARK: - View Events
 
 	override func viewDidLoad() {

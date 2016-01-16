@@ -195,9 +195,14 @@ class StudentLocation: NSObject {
 		super.init()
 	}
 
-	init(studentLocation: JSONDictionary) {
-		_studentLocation = studentLocation
-		super.init()
+	convenience init(studentLocation: StudentLocation) {
+		self.init()
+		_studentLocation = studentLocation._studentLocation
+	}
+
+	convenience init(studentLocationDict: JSONDictionary) {
+		self.init()
+		_studentLocation = studentLocationDict
 	}
 
 }

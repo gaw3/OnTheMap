@@ -10,11 +10,12 @@ import CoreLocation
 import MapKit
 import UIKit
 
+typealias NewStudent = (firstName: String, lastName: String, udacityUserID: String)
+
 class StudentLocationsPostInformationViewController: UIViewController, MKMapViewDelegate,
 																	  UITextFieldDelegate {
 
 	// MARK: - Private Constants
-
 
 	private struct ButtonTitle {
 		static let Find   = "Find On The Map"
@@ -36,6 +37,29 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	@IBOutlet weak var mediaURLTextField: UITextField!
 	@IBOutlet weak var locationTextField: UITextField!
 
+	// MARK: - IB Outlets
+
+	var currentStudentLocation: StudentLocation? {
+		get { return _currentStudentLocation }
+
+		set(location) {
+			_currentStudentLocation = location
+			_newStudent = nil
+		}
+	}
+
+	var newStudent: NewStudent? {
+		get { return _newStudent }
+
+		set(student) {
+			_currentStudentLocation = nil
+			_newStudent = student
+		}
+	}
+
+	private var _currentStudentLocation: StudentLocation? = nil
+	private var _newStudent: NewStudent? = nil
+
 	// MARK: - IB Actions
 
 	@IBAction func toolbarButtonWasTapped(sender: UIBarButtonItem) {
@@ -53,17 +77,24 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		imageView.hidden = false
-
+		imageView.hidden         = false
 		locationTextField.hidden = false
-		locationTextField.text   = InitialText.LocationTextField
-
 		mediaURLTextField.hidden = true
-		mediaURLTextField.text   = InitialText.MediaURLTextField
+		mapView.hidden	          = true
+		toolbarButton.title      = ButtonTitle.Find
 
-		mapView.hidden	= true
+		if let _ = currentStudentLocation {
+			// updating
+			locationTextField.text = currentStudentLocation?.mapString
+			mediaURLTextField.text = currentStudentLocation?.mediaURL
+			// don't clear on edit
+			// cursor at end of string
+		} else {
+			// posting
+			locationTextField.text = InitialText.LocationTextField
+			mediaURLTextField.text = InitialText.MediaURLTextField
+		}
 
-		toolbarButton.title = ButtonTitle.Find
 	}
 	
 	// MARK: - UITextFieldDelegate

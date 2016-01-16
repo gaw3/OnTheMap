@@ -80,7 +80,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		assert(notification.name == Constants.Notification.UserDataDidGetSaved, "unknown notification = \(notification)")
 
 		if UdacityDataManager.sharedMgr.isLoginSuccessful {
-			let tabBarController = self.storyboard?.instantiateViewControllerWithIdentifier(Constants.UI.StoryboardID.StudentLocationsTabBarController) as! UITabBarController
+			let tabBarController = self.storyboard?.instantiateViewControllerWithIdentifier("StudentLocsTabBarNavCtlr") as! UINavigationController
 			self.presentViewController(tabBarController, animated: true, completion: nil)
 		}
 
@@ -163,7 +163,6 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 			}
 
 			let logoutResponseData = UdacityLogoutResponseData(data: result as! JSONDictionary)
-
 
 			guard logoutResponseData.isValid else {
 				self.presentAlert(Constants.Alert.Title.BadLogout, message: Constants.Alert.Message.BadLogoutResponseData)

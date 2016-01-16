@@ -17,18 +17,6 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    
    @IBOutlet weak var mapView: MKMapView!
    
-   // MARK: - IB Actions
-      
-	@IBAction func pinButtonWasTapped(sender: UIBarButtonItem) {
-		let postInfoVC = storyboard?.instantiateViewControllerWithIdentifier(Constants.UI.StoryboardID.StudentLocationsPostInformationVC)
-							  as! StudentLocationsPostInformationViewController
-		presentViewController(postInfoVC, animated: true, completion: nil)
-	}
-	
-   @IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
-      ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
-   }
-
    // MARK: - View Events
    
    override func viewDidLoad() {
@@ -40,8 +28,6 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
 																					  name: Constants.Notification.StudentLocationsDidGetRefreshed,
 																					object: nil)
-
-		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
   }
 
    // MARK: - NSNotifications

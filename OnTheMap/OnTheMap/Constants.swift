@@ -19,6 +19,7 @@ struct Constants {
 		}
 
 		struct Message {
+			static let BadGetSL					= "Received invalid student location data"
 			static let BadLoginResponseData  = "Received invalid login response data"
 			static let BadLogoutResponseData = "Received invalid logout response data"
 			static let BadURL                = "Malformed URL"
@@ -27,6 +28,7 @@ struct Constants {
 			static let EmptySLArray          = "Received an empty student locations array"
 			static let NoLocation            = "Location not yet entered"
 			static let NoPMArray             = "Did not receive a placemarks array"
+			static let NoSL						= "Did not receive a student location"
 			static let NoSLArray             = "Did not receive a student locations array"
 			static let NoURL                 = "Media URL not yet entered"
 			static let NoLoginResponseData   = "No login response data received"
@@ -37,6 +39,7 @@ struct Constants {
 		struct Title {
 			static let BadBrowser = "Unable to open browser"
 			static let BadGeocode = "Unable to geocode location"
+			static let BadGet     = "Unable to find student location"
 			static let BadLogin   = "Unable to login"
 			static let BadLogout  = "Unable to logout"
 			static let BadRefresh = "Unable to refresh list of student locations"
