@@ -22,33 +22,56 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
-																					  name: Constants.Notification.StudentLocationDidGetPosted,
-																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
-																					  name: Constants.Notification.StudentLocationsDidGetRefreshed,
-																					object: nil)
+		NSNotificationCenter.defaultCenter()
+								  .addObserver(self, selector: "studentLocationDidGetPosted:",
+				                                     name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
+															  object: nil)
+		NSNotificationCenter.defaultCenter()
+			                 .addObserver(self, selector: "studentLocationsDidGetRefreshed:",
+				                                     name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
+				                                   object: nil)
+		NSNotificationCenter.defaultCenter()
+			                 .addObserver(self, selector: "studentLocationDidGetUpdated:",
+				                                     name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
+				                                   object: nil)
   }
 
    // MARK: - NSNotifications
 
 	func studentLocationDidGetPosted(notification: NSNotification) {
-		assert(notification.name == Constants.Notification.StudentLocationDidGetPosted, "unknown notification = \(notification)")
+		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
+				 "unknown notification = \(notification)")
+
+		pointAnnotations.append(StudentLocationsManager.sharedMgr.postedLocation.pointAnnotation)
+		mapView.addAnnotation(StudentLocationsManager.sharedMgr.postedLocation.pointAnnotation)
    }
    
 	func studentLocationsDidGetRefreshed(notification: NSNotification) {
-		assert(notification.name == Constants.Notification.StudentLocationsDidGetRefreshed, "unknown notification = \(notification)")
+		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
+			    "unknown notification = \(notification)")
 
 		mapView.removeAnnotations(pointAnnotations)
 		pointAnnotations.removeAll()
 
-      for index in 0...(StudentLocationsManager.sharedMgr.count() - 1) {
+      for index in 0...(StudentLocationsManager.sharedMgr.count - 1) {
          pointAnnotations.append(StudentLocationsManager.sharedMgr.studentLocationAtIndex(index).pointAnnotation)
       }
       
       mapView.addAnnotations(pointAnnotations)
    }
    
+	func studentLocationDidGetUpdated(notification: NSNotification) {
+		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
+			    "unknown notification = \(notification)")
+
+		let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
+
+		mapView.removeAnnotation(pointAnnotations[indexOfUpdate])
+		mapView.addAnnotation(StudentLocationsManager.sharedMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation)
+
+		pointAnnotations[indexOfUpdate] = StudentLocationsManager.sharedMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation
+	}
+
    // MARK: - MKMapViewDelegate
    
    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {

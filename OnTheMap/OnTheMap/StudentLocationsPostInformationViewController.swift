@@ -39,12 +39,15 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	// MARK: - IB Outlets
 
+	struct UIConstants {
+		static let StoryboardID = "StudentLocsPostInfoVC"
+	}
+
 	var currentStudentLocation: StudentLocation? {
 		get { return _currentStudentLocation }
 
 		set(location) {
 			_currentStudentLocation = location
-			_newStudent = nil
 		}
 	}
 
@@ -52,13 +55,12 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		get { return _newStudent }
 
 		set(student) {
-			_currentStudentLocation = nil
 			_newStudent = student
 		}
 	}
 
 	private var _currentStudentLocation: StudentLocation? = nil
-	private var _newStudent: NewStudent? = nil
+	private var _newStudent:				 NewStudent?      = nil
 
 	// MARK: - IB Actions
 
@@ -83,16 +85,19 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		mapView.hidden	          = true
 		toolbarButton.title      = ButtonTitle.Find
 
-		if let _ = currentStudentLocation {
-			// updating
-			locationTextField.text = currentStudentLocation?.mapString
-			mediaURLTextField.text = currentStudentLocation?.mediaURL
-			// don't clear on edit
-			// cursor at end of string
-		} else {
-			// posting
+		if let _ = newStudent {
 			locationTextField.text = InitialText.LocationTextField
 			mediaURLTextField.text = InitialText.MediaURLTextField
+
+			currentStudentLocation = StudentLocation()
+			currentStudentLocation?.firstName = newStudent!.firstName
+			currentStudentLocation?.lastName  = newStudent!.lastName
+			currentStudentLocation?.uniqueKey = newStudent!.udacityUserID
+		} else {
+			locationTextField.text = currentStudentLocation?.mapString
+			mediaURLTextField.text = currentStudentLocation?.mediaURL
+			locationTextField.clearsOnBeginEditing = false
+			mediaURLTextField.clearsOnBeginEditing = false
 		}
 
 	}
@@ -137,6 +142,11 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			}
 
 			let studentLocationPlacemark = placemarks![0] as CLPlacemark
+
+			self.currentStudentLocation?.mapString = self.locationTextField.text!
+			self.currentStudentLocation?.latitude  = studentLocationPlacemark.location!.coordinate.latitude
+			self.currentStudentLocation?.longitude	= studentLocationPlacemark.location!.coordinate.longitude
+
 			var deltaDegrees: CLLocationDegrees
 
 			if let _ = studentLocationPlacemark.thoroughfare {
@@ -153,7 +163,68 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			let studentLocationRegion = MKCoordinateRegion(center: (studentLocationPlacemark.location?.coordinate)!,
 																			 span: MKCoordinateSpanMake(deltaDegrees, deltaDegrees))
 
-			self.transitionToMapAndURL(studentLocationAnnotation, region: studentLocationRegion)
+			dispatch_async(dispatch_get_main_queue(), {
+				self.transitionToMapAndURL(studentLocationAnnotation, region: studentLocationRegion)
+			})
+
+		}
+
+	}
+
+	private var postStudentLocationCompletionHandler : APIDataTaskWithRequestCompletionHandler {
+
+		return { (result, error) -> Void in
+
+			guard error == nil else {
+				print("error = \(error)")
+				// alert action view to the user that error occurred
+				return
+			}
+
+			guard result != nil else {
+				print("no json data provided to request list completion handler")
+				// alert action view again
+				return
+			}
+
+			let responseData = ParsePostStudentLocationResponseData(dict: result as! JSONDictionary)
+
+			self.currentStudentLocation!.dateCreated = responseData.dateCreated!
+			self.currentStudentLocation!.dateUpdated = responseData.dateCreated!
+			self.currentStudentLocation!.objectID    = responseData.id!
+
+			self.dismissViewControllerAnimated(true, completion: {
+				StudentLocationsManager.sharedMgr.postedLocation = self.currentStudentLocation!
+			})
+
+		}
+		
+	}
+
+	private var updateStudentLocationCompletionHandler : APIDataTaskWithRequestCompletionHandler {
+
+		return { (result, error) -> Void in
+
+			guard error == nil else {
+				print("error = \(error)")
+				// alert action view to the user that error occurred
+				return
+			}
+
+			guard result != nil else {
+				print("no json data provided to request list completion handler")
+				// alert action view again
+				return
+			}
+
+			let responseData = ParseUpdateStudentLocationResponseData(dict: result as! JSONDictionary)
+
+			self.currentStudentLocation!.dateUpdated = responseData.dateUpdated!
+
+			self.dismissViewControllerAnimated(true, completion: {
+				StudentLocationsManager.sharedMgr.updateStudentLocation(self.currentStudentLocation!)
+			})
+
 		}
 
 	}
@@ -177,29 +248,29 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		if mediaURLTextField.text == InitialText.MediaURLTextField {
 			presentAlert(Constants.Alert.Title.BadSubmit, message: Constants.Alert.Message.NoURL)
 		} else {
-			print("media URL = \(mediaURLTextField.text)")
+			currentStudentLocation?.mediaURL = mediaURLTextField.text!
+
+			if let _ = newStudent {
+				ParseAPIClient.sharedClient.postStudentLocation(currentStudentLocation!, completionHandler: postStudentLocationCompletionHandler)
+			} else {
+				ParseAPIClient.sharedClient.updateStudentLocation(currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
+			}
 		}
 		
 	}
 
 	private func transitionToMapAndURL(annotation: MKPointAnnotation, region: MKCoordinateRegion) {
+		view.backgroundColor = imageView.backgroundColor
+		toolbarButton.title  = ButtonTitle.Submit
 
-		dispatch_async(dispatch_get_main_queue(), {
-			self.view.backgroundColor = self.imageView.backgroundColor
+		mapView.addAnnotation(annotation)
+		mapView.setRegion(region, animated: true)
+		mapView.regionThatFits(region)
+		mapView.hidden = false
 
-			self.imageView.hidden         = true
-			self.locationTextField.hidden = true
-
-			self.mediaURLTextField.hidden = false
-
-			self.mapView.hidden = false
-			self.mapView.addAnnotation(annotation)
-			self.mapView.setRegion(region, animated: true)
-			self.mapView.regionThatFits(region)
-
-			self.toolbarButton.title = ButtonTitle.Submit
-		})
-
+		imageView.hidden         = true
+		locationTextField.hidden = true
+		mediaURLTextField.hidden = false
 	}
 
 }

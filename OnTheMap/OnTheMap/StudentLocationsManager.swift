@@ -16,27 +16,48 @@ class StudentLocationsManager: NSObject {
 		return _sharedMgr
 	}
 
+	struct Notifications {
+		static let StudentLocationDidGetPosted      = "StudentLocationDidGetPostedNotification"
+		static let StudentLocationsDidGetRefreshed  = "StudentLocationsDidGetRefreshedNotification"
+		static let StudentLocationDidGetUpdated     = "StudentLocationDidGetUpdatedNotification"
+		static let IndexOfUpdatedStudentLocationKey = "indexOfUpdate"
+	}
+
 	// MARK: - Private Stored Variables
 
 	private var studentLocations: [StudentLocation]
-	private var studentLocationPOSTPending: StudentLocation
 
-	// MARK: - API
-
-	func count() -> Int {
+	var count: Int {
 		return studentLocations.count
 	}
 
-	func postStudentLocation(studentLocation: StudentLocation) {
-		studentLocationPOSTPending = studentLocation
-		ParseAPIClient.sharedClient.postStudentLocation(studentLocation.dictionary, completionHandler: postStudentLocationCompletionHandler)
+	var postedLocation: StudentLocation {
+		get { return studentLocations[0] }
+
+		set (location) {
+			studentLocations.insert(location, atIndex: 0)
+			NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationDidGetPosted, object: nil)
+		}
 	}
+
+	// MARK: - API
 
 	func refreshStudentLocations(newStudentLocations: [StudentLocation]) {
 		studentLocations.removeAll()
 		studentLocations.appendContentsOf(newStudentLocations)
 
-		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.StudentLocationsDidGetRefreshed, object: nil)
+		NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationsDidGetRefreshed, object: nil)
+	}
+
+	func updateStudentLocation(studentLocation: StudentLocation) {
+		if let indexOfUpdate = studentLocations.indexOf({$0.objectID == studentLocation.objectID}) {
+		   studentLocations[indexOfUpdate] = studentLocation
+			NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationDidGetUpdated, object: nil,
+				                                                       userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey : indexOfUpdate])
+		} else {
+			// how to handle this error case
+		}
+
 	}
    
    func studentLocationAtIndex(index: Int) -> StudentLocation {
@@ -47,49 +68,10 @@ class StudentLocationsManager: NSObject {
 		return studentLocations[indexPath.row]
 	}
 
-	// MARK: - Private:  Completion Handlers as Computed Variables
-
-	private var postStudentLocationCompletionHandler : APIDataTaskWithRequestCompletionHandler {
-
-		return { (result, error) -> Void in
-
-			guard error == nil else {
-				print("error = \(error)")
-				// alert action view to the user that error occurred
-				return
-			}
-
-			guard result != nil else {
-				print("no json data provided to request list completion handler")
-				// alert action view again
-				return
-			}
-
-			let JSONDict = result as! JSONDictionary
-			print("\(JSONDict)")
-
-			if let dateCreated = JSONDict[ParseAPIClient.API.DateCreatedKey] as! String? {
-				if let objectID = JSONDict[ParseAPIClient.API.ObjectIDKey] as! String? {
-					self.studentLocationPOSTPending.dateCreated = dateCreated
-					self.studentLocationPOSTPending.dateUpdated = dateCreated
-					self.studentLocationPOSTPending.objectID    = objectID
-
-					self.studentLocations.insert(self.studentLocationPOSTPending, atIndex: 0)
-
-					NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.StudentLocationDidGetPosted, object: nil)
-				}
-
-			}
-
-		}
-		
-	}
-	
 	// MARK: - Private
 
 	private override init() {
-		studentLocations           = [StudentLocation]()
-		studentLocationPOSTPending = StudentLocation()
+		studentLocations = [StudentLocation]()
 		super.init()
 	}
 

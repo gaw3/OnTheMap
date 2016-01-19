@@ -50,6 +50,21 @@ class StudentLocation: NSObject {
 		return _studentLocation
 	}
 
+	var newStudentSerializedData: NSData {
+		get {
+			let newStudentDict = [ ParseAPIClient.API.UniqueKeyKey : uniqueKey,
+				                    ParseAPIClient.API.FirstNameKey : firstName,
+				                    ParseAPIClient.API.LastNameKey  : lastName,
+				                    ParseAPIClient.API.MapStringKey : mapString,
+				                    ParseAPIClient.API.MediaURLKey  : mediaURL,
+				                    ParseAPIClient.API.LatKey       : latitude,
+				                    ParseAPIClient.API.LongKey      : longitude ]
+
+			let newStudentData = try! NSJSONSerialization.dataWithJSONObject(newStudentDict, options: .PrettyPrinted)
+			return newStudentData
+		}
+	}
+
 	var firstName: String {
 
 		get {

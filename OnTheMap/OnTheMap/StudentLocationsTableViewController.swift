@@ -15,26 +15,43 @@ class StudentLocationsTableViewController: UITableViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
-																					  name: Constants.Notification.StudentLocationDidGetPosted,
-																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
-																					  name: Constants.Notification.StudentLocationsDidGetRefreshed,
-																					object: nil)
+		NSNotificationCenter.defaultCenter()
+								  .addObserver(self, selector: "studentLocationDidGetPosted:",
+																 name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
+															  object: nil)
+		NSNotificationCenter.defaultCenter()
+								  .addObserver(self, selector: "studentLocationsDidGetRefreshed:",
+																 name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
+															  object: nil)
+		NSNotificationCenter.defaultCenter()
+								  .addObserver(self, selector: "studentLocationDidGetUpdated:",
+															    name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
+				                                   object: nil)
 	}
 
 	// MARK: - NSNotifications
 
 	func studentLocationDidGetPosted(notification: NSNotification) {
-		assert(notification.name == Constants.Notification.StudentLocationDidGetPosted, "unknown notification = \(notification)")
+		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
+				 "unknown notification = \(notification)")
 
 		tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Top)
 	}
 
 	func studentLocationsDidGetRefreshed(notification: NSNotification) {
-		assert(notification.name == Constants.Notification.StudentLocationsDidGetRefreshed, "unknown notification = \(notification)")
+		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
+			    "unknown notification = \(notification)")
 
 		tableView.reloadData()
+	}
+
+	func studentLocationDidGetUpdated(notification: NSNotification) {
+		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
+			    "unknown notification = \(notification)")
+
+		let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
+
+      tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfUpdate, inSection: 0)], withRowAnimation: .Fade)
 	}
 
 	// MARK: - UITableViewDataSource
@@ -60,7 +77,7 @@ class StudentLocationsTableViewController: UITableViewController {
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		assert(tableView == self.tableView, "Unexpected table view requesting number of rows in section")
 
-		return StudentLocationsManager.sharedMgr.count()
+		return StudentLocationsManager.sharedMgr.count
 	}
 	
 	// MARK: - UITableViewDelegate

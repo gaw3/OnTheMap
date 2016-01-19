@@ -51,8 +51,6 @@ struct Constants {
 	struct Notification {
 		static let LoginResponseDataDidGetSaved    = "LoginResponseDataDidGetSavedNotification"
 		static let LogoutResponseDataDidGetSaved   = "LogoutResponseDataDidGetSavedNotification"
-		static let StudentLocationDidGetPosted     = "StudentLocationDidGetPostedNotification"
-		static let StudentLocationsDidGetRefreshed = "StudentLocationsDidGetRefreshedNotification"
 		static let UserDataDidGetSaved             = "UserDataDidGetSavedNotification"
 	}
 
@@ -64,7 +62,6 @@ struct Constants {
 		}
 
 		struct StoryboardID {
-			static let StudentLocationsPostInformationVC = "StudentLocsPostInfoVC"
 			static let StudentLocationsTabBarController  = "StudentLocsTabBarCtlr"
 		}
 

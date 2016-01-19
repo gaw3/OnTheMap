@@ -40,9 +40,12 @@ class StudentLocationsTabBarController: UITabBarController {
 			}
 
 			let results    = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as? [JSONDictionary]
-			let postInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier(Constants.UI.StoryboardID.StudentLocationsPostInformationVC)
+			let postInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier(StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
 								  as! StudentLocationsPostInformationViewController
 
+//			postInfoVC.newStudent = (UdacityDataManager.sharedMgr.user!.firstName!,
+//				UdacityDataManager.sharedMgr.user!.lastName!,
+//				UdacityDataManager.sharedMgr.user!.userID!)
 			if results!.isEmpty {
 				postInfoVC.newStudent = (UdacityDataManager.sharedMgr.user!.firstName!,
 												 UdacityDataManager.sharedMgr.user!.lastName!,
