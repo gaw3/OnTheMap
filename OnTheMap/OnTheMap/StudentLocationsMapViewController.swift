@@ -11,12 +11,18 @@ import UIKit
 
 class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 
-	private var pointAnnotations = [MKPointAnnotation]()
-
    // MARK: - IB Outlets
    
    @IBOutlet weak var mapView: MKMapView!
+
+	// MARK: - Private Constants
+
+	private let ReuseID = "StudentLocsPinAnnoView"
    
+	// MARK: - Private Stored Variables
+
+	private var pointAnnotations = [MKPointAnnotation]()
+
    // MARK: - View Events
    
    override func viewDidLoad() {
@@ -36,7 +42,7 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 				                                   object: nil)
   }
 
-   // MARK: - NSNotifications
+   // MARK: - Notifications
 
 	func studentLocationDidGetPosted(notification: NSNotification) {
 		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
@@ -92,12 +98,12 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    }
 
    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(Constants.UI.ReuseID.StudentLocationsPinAnnotationView) as? MKPinAnnotationView
+      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(ReuseID) as? MKPinAnnotationView
       
       if let _ = pinAnnotationView {
          pinAnnotationView!.annotation = annotation
       } else {
-         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Constants.UI.ReuseID.StudentLocationsPinAnnotationView)
+         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: ReuseID)
          pinAnnotationView!.canShowCallout = true
          pinAnnotationView!.pinTintColor = MKPinAnnotationView.redPinColor()
          pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)

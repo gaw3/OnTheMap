@@ -10,26 +10,42 @@ import Foundation
 
 struct UdacityUser {
 	
+	// MARK: - Private Stored Variables
+
+	private var _user: JSONDictionary? = nil
+
 	// MARK: - Public Computed Variables
 	
 	var firstName: String? {
-
 		get {
-			var firstName: String? = nil
-
-			if let user = _user {
-				if let fn = user[UdacityAPIClient.API.FirstNameKey] as! String? {
-					firstName = fn
-				}
+			if let _ = _user {
+				if let name = _user![UdacityAPIClient.API.FirstNameKey] as! String? { return name }
 			}
-
-			return firstName
+			return nil
 		}
-		
 	}
 
-	var fullName: String? {
+	var lastName: String? {
+		get {
+			if let _ = _user {
+				if let name = _user![UdacityAPIClient.API.LastNameKey] as! String? { return name }
+			}
+			return nil
+		}
+	}
 
+	var userID: String? {
+		get {
+			if let _ = _user {
+				if let id = _user![UdacityAPIClient.API.UserIDKey] as! String? { return id }
+			}
+			return nil
+		}
+	}
+	
+	// MARK: - Public Computed Meta Variables
+
+	var fullName: String? {
 		get {
 			var fullName = String()
 
@@ -45,61 +61,17 @@ struct UdacityUser {
 
 			return (!fullName.isEmpty) ? fullName : nil
 		}
-
 	}
 
 	var isValid: Bool {
-
 		get {
-			var isValid = false
-
 			if let _ = userID {
-				if let _ = fullName {
-					isValid = true
-				}
+				if let _ = fullName { return true }
 			}
-
-			return isValid
+			return false
 		}
-		
 	}
 
-	var lastName: String? {
-
-		get {
-			var lastName: String? = nil
-
-			if let user = _user {
-				if let ln = user[UdacityAPIClient.API.LastNameKey] as! String? {
-					lastName = ln
-				}
-			}
-
-			return lastName
-		}
-
-	}
-
-	var userID: String? {
-
-		get {
-			var userID: String? = nil
-
-			if let user = _user {
-				if let uID = user[UdacityAPIClient.API.UserIDKey] as! String? {
-					userID = uID
-				}
-			}
-
-			return userID
-		}
-		
-	}
-
-	// MARK: - Private Stored Variables
-
-	private var _user: JSONDictionary? = nil
-	
 	// MARK: - API
 
 	init(userDict: JSONDictionary) {

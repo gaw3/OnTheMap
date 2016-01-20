@@ -20,8 +20,8 @@ class UdacityAPIClient: NSObject {
 
 	struct API {
 		static let BaseURL           = "https://www.udacity.com/api/"
-		static let SessionURL        = "\(BaseURL)session"
-		static let UsersURL          = "\(BaseURL)users/"
+		static let SessionURL        = BaseURL + "session"
+		static let UsersURL          = BaseURL + "users/"
 
 		static let AccountKey        = "account"
 		static let ExpirationDateKey = "expiration"
@@ -47,21 +47,16 @@ class UdacityAPIClient: NSObject {
 	// MARK: - API
 
 	func getUserData(userID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = NSMutableURLRequest(URL: NSURL(string: "\(API.UsersURL)\(userID)")!)
-
-		URLRequest.HTTPMethod = HTTPMethod.Get
-		
+		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: API.UsersURL + userID, HTTPQuery: nil)
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+
 		dataTaskWithRequest.resume()
 	}
 
 	func login(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let JSONLogin  = [ API.UdacityKey : [ API.UserNameKey : username, API.PasswordKey : password ] ]
-		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.SessionURL)!)
+		let URLRequest = getURLRequest(HTTPMethod.Post, URLString: API.SessionURL, HTTPQuery: nil)
 
-		URLRequest.HTTPMethod = HTTPMethod.Post
-		URLRequest.HTTPBody   = try! NSJSONSerialization.dataWithJSONObject(JSONLogin, options: .PrettyPrinted)
-
+		URLRequest.HTTPBody = UdacityLogin(username: username, password: password).serializedData
 		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.Accept)
 		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.ContentType)
 
@@ -70,17 +65,10 @@ class UdacityAPIClient: NSObject {
 	}
 	
 	func logout(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = NSMutableURLRequest(URL: NSURL(string: API.SessionURL)!)
+		let URLRequest = getURLRequest(HTTPMethod.Delete, URLString: API.SessionURL, HTTPQuery: nil)
+		let cookies    = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookies!
 
-		URLRequest.HTTPMethod = HTTPMethod.Delete
-
-		let cookies: [NSHTTPCookie] = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookies!
-		
-		let index = cookies.indexOf { (cookie) -> Bool in
-			return (cookie.name == XSRFTokenField.CookieName)
-		}
-
-		if let index = index {
+		if let index = cookies.indexOf({ $0.name == XSRFTokenField.CookieName }) {
 			URLRequest.setValue(cookies[index].value, forHTTPHeaderField: XSRFTokenField.Name)
 		}
 
@@ -94,5 +82,15 @@ class UdacityAPIClient: NSObject {
 		super.init()
 	}
 
+	private func getURLRequest(HTTPMethod: String, URLString: String, HTTPQuery: String?) -> NSMutableURLRequest {
+		let components = NSURLComponents(string: URLString)
+
+		if let _ = HTTPQuery { components?.query = HTTPQuery }
+
+		let URLRequest = NSMutableURLRequest(URL: (components?.URL)!)
+		URLRequest.HTTPMethod = HTTPMethod
+
+		return URLRequest
+	}
 }
 

@@ -12,48 +12,104 @@ import UIKit
 
 class StudentLocation: NSObject {
 
+	// MARK: - Private Stored Variables
+
+	private var _studentLocation: JSONDictionary
+	
    // MARK: - Public Computed Variables
    
 	var dateCreated: String {
-
 		get {
-			if let dateCreated = _studentLocation[ParseAPIClient.API.DateCreatedKey] as! String? {
-				return dateCreated
-			} else {
-				return String()
-			}
+			if let date = _studentLocation[ParseAPIClient.API.DateCreatedKey] as! String? { return date }
+			return String()
 		}
 
-		set(newDateCreated) {
-			_studentLocation[ParseAPIClient.API.DateCreatedKey] = newDateCreated
-		}
-
+		set(date) { _studentLocation[ParseAPIClient.API.DateCreatedKey] = date }
 	}
 
 	var dateUpdated: String {
-
 		get {
-			if let dateUpdated = _studentLocation[ParseAPIClient.API.DateUpdatedKey] as! String? {
-				return dateUpdated
-			} else {
-				return String()
-			}
+			if let date = _studentLocation[ParseAPIClient.API.DateUpdatedKey] as! String? { return date }
+			return String()
 		}
 
-		set(newDateUpdated) {
-			_studentLocation[ParseAPIClient.API.DateUpdatedKey] = newDateUpdated
-		}
-
+		set(date) { _studentLocation[ParseAPIClient.API.DateUpdatedKey] = date }
 	}
 
-	var dictionary: JSONDictionary {
-		return _studentLocation
+	var firstName: String {
+		get {
+			if let name = _studentLocation[ParseAPIClient.API.FirstNameKey] as! String? { return name }
+			return String()
+		}
+
+		set(name) { _studentLocation[ParseAPIClient.API.FirstNameKey] = name }
+	}
+
+	var lastName: String {
+		get {
+			if let name = _studentLocation[ParseAPIClient.API.LastNameKey] as! String? { return name }
+			return String()
+		}
+
+		set(name) { _studentLocation[ParseAPIClient.API.LastNameKey] = name }
+	}
+
+	var latitude: Double {
+      get { return _studentLocation[ParseAPIClient.API.LatKey] as! Double}
+		set(lat) { _studentLocation[ParseAPIClient.API.LatKey] = lat }
+	}
+
+	var longitude: Double {
+		get { return _studentLocation[ParseAPIClient.API.LongKey] as! Double }
+		set(long) { _studentLocation[ParseAPIClient.API.LongKey] = long }
+	}
+
+	var mapString: String {
+		get {
+			if let str = _studentLocation[ParseAPIClient.API.MapStringKey] as! String? { return str }
+			return String()
+		}
+
+		set(str) { _studentLocation[ParseAPIClient.API.MapStringKey] = str }
+	}
+	
+	var mediaURL: String {
+		get {
+			if let stringURL = _studentLocation[ParseAPIClient.API.MediaURLKey] as! String? { return stringURL }
+			return String()
+		}
+
+		set(stringURL) { _studentLocation[ParseAPIClient.API.MediaURLKey] = stringURL }
+	}
+
+	var objectID: String {
+		get {
+			if let id = _studentLocation[ParseAPIClient.API.ObjectIDKey] as! String? { return id }
+				return String()
+		}
+
+		set(id) { _studentLocation[ParseAPIClient.API.ObjectIDKey] = id }
+	}
+	
+	var uniqueKey: String {
+		get {
+			if let key = _studentLocation[ParseAPIClient.API.UniqueKeyKey] as! String? { return key }
+			return String()
+		}
+
+		set(key) { _studentLocation[ParseAPIClient.API.UniqueKeyKey] = key }
+	}
+
+	// MARK: - Public Computed Meta Variables
+
+	var fullName: String {
+		get { return "\(firstName) \(lastName)" }
 	}
 
 	var newStudentSerializedData: NSData {
 		get {
 			let newStudentDict = [ ParseAPIClient.API.UniqueKeyKey : uniqueKey,
-				                    ParseAPIClient.API.FirstNameKey : firstName,
+										  ParseAPIClient.API.FirstNameKey : firstName,
 				                    ParseAPIClient.API.LastNameKey  : lastName,
 				                    ParseAPIClient.API.MapStringKey : mapString,
 				                    ParseAPIClient.API.MediaURLKey  : mediaURL,
@@ -65,143 +121,17 @@ class StudentLocation: NSObject {
 		}
 	}
 
-	var firstName: String {
-
+	var pointAnnotation: MKPointAnnotation {
 		get {
-			if let firstName = _studentLocation[ParseAPIClient.API.FirstNameKey] as! String? {
-				return firstName
-			} else {
-				return String()
-			}
-		}
+			let annotation = MKPointAnnotation()
 
-		set(newFirstName) {
-			_studentLocation[ParseAPIClient.API.FirstNameKey] = newFirstName
-		}
+			annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+			annotation.title      = fullName
+			annotation.subtitle   = mediaURL
 
+			return annotation
+		}
 	}
-
-	var fullName: String {
-		return "\(firstName) \(lastName)"
-	}
-
-	var lastName: String {
-
-		get {
-			if let lastName = _studentLocation[ParseAPIClient.API.LastNameKey] as! String? {
-				return lastName
-			} else {
-				return String()
-			}
-		}
-
-		set(newLastName) {
-			_studentLocation[ParseAPIClient.API.LastNameKey] = newLastName
-		}
-
-	}
-
-	var latitude: Double {
-
-		get {
-         return _studentLocation[ParseAPIClient.API.LatKey] as! Double
-		}
-
-		set(newLatitude) {
-			_studentLocation[ParseAPIClient.API.LatKey] = newLatitude
-		}
-
-	}
-
-	var mapString: String {
-
-		get {
-			if let mapString = _studentLocation[ParseAPIClient.API.MapStringKey] as! String? {
-				return mapString
-			} else {
-				return String()
-			}
-		}
-
-		set(newMapString) {
-			_studentLocation[ParseAPIClient.API.MapStringKey] = newMapString
-		}
-
-	}
-
-	var longitude: Double {
-
-		get {
-         return _studentLocation[ParseAPIClient.API.LongKey] as! Double
-		}
-
-		set(newLongitude) {
-			_studentLocation[ParseAPIClient.API.LongKey] = newLongitude
-		}
-
-	}
-
-	var mediaURL: String {
-
-		get {
-			if let mediaURL = _studentLocation[ParseAPIClient.API.MediaURLKey] as! String? {
-				return mediaURL
-			} else {
-				return String()
-			}
-		}
-
-		set(newMediaURL) {
-			_studentLocation[ParseAPIClient.API.MediaURLKey] = newMediaURL
-		}
-
-	}
-
-	var objectID: String {
-
-		get {
-			if let objectID = _studentLocation[ParseAPIClient.API.ObjectIDKey] as! String? {
-				return objectID
-			} else {
-				return String()
-			}
-		}
-
-		set(newObjectID) {
-			_studentLocation[ParseAPIClient.API.ObjectIDKey] = newObjectID
-		}
-
-	}
-	
-   var pointAnnotation: MKPointAnnotation {
-      let annotation = MKPointAnnotation()
-      
-      annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-      annotation.title      = fullName
-      annotation.subtitle   = mediaURL
-      
-      return annotation
-   }
-   
-	var uniqueKey: String {
-
-		get {
-			if let uniqueKey = _studentLocation[ParseAPIClient.API.UniqueKeyKey] as! String? {
-				return uniqueKey
-			} else {
-				return String()
-			}
-		}
-
-		set(newUniqueKey) {
-			_studentLocation[ParseAPIClient.API.UniqueKeyKey] = newUniqueKey
-		}
-
-	}
-
-	// MARK: - Private Stored Variables
-
-	private var _studentLocation: JSONDictionary
 
 	// MARK: - API
 

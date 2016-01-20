@@ -16,6 +16,8 @@ class StudentLocationsManager: NSObject {
 		return _sharedMgr
 	}
 
+	// MARK: - Public Constants
+
 	struct Notifications {
 		static let StudentLocationDidGetPosted      = "StudentLocationDidGetPostedNotification"
 		static let StudentLocationsDidGetRefreshed  = "StudentLocationsDidGetRefreshedNotification"
@@ -26,6 +28,8 @@ class StudentLocationsManager: NSObject {
 	// MARK: - Private Stored Variables
 
 	private var studentLocations: [StudentLocation]
+
+	// MARK: - Public Computed Variables
 
 	var count: Int {
 		return studentLocations.count
@@ -49,23 +53,23 @@ class StudentLocationsManager: NSObject {
 		NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationsDidGetRefreshed, object: nil)
 	}
 
-	func updateStudentLocation(studentLocation: StudentLocation) {
-		if let indexOfUpdate = studentLocations.indexOf({$0.objectID == studentLocation.objectID}) {
-		   studentLocations[indexOfUpdate] = studentLocation
-			NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationDidGetUpdated, object: nil,
-				                                                       userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey : indexOfUpdate])
-		} else {
-			// how to handle this error case
-		}
-
-	}
-   
    func studentLocationAtIndex(index: Int) -> StudentLocation {
       return studentLocations[index]
    }
 
 	func studentLocationAtIndexPath(indexPath: NSIndexPath) -> StudentLocation {
 		return studentLocations[indexPath.row]
+	}
+
+	func updateStudentLocation(studentLocation: StudentLocation) {
+		if let indexOfUpdate = studentLocations.indexOf({$0.objectID == studentLocation.objectID}) {
+			studentLocations[indexOfUpdate] = studentLocation
+			NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationDidGetUpdated, object: nil,
+				userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey : indexOfUpdate])
+		} else {
+			// how to handle this error case
+		}
+
 	}
 
 	// MARK: - Private

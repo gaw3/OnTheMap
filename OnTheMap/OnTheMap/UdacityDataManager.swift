@@ -16,6 +16,13 @@ class UdacityDataManager: NSObject {
 		return _sharedMgr
 	}
 
+	// MARK: - Private Stored Variables
+
+	private var _account:       UdacityAccount? = nil
+	private var _loginSession:  UdacitySession? = nil
+	private var _logoutSession: UdacitySession? = nil
+	private var _user:          UdacityUser?    = nil
+	
 	// MARK: - Public Computed Variables
 
 	var account: UdacityAccount? {
@@ -33,19 +40,18 @@ class UdacityDataManager: NSObject {
 	var loginData: (UdacityAccount?, UdacitySession?) {
 		get { return (_account, _loginSession) }
 
-		set(newData) {
-			_account      = newData.0
-			_loginSession = newData.1
+		set(data) {
+			_account      = data.0
+			_loginSession = data.1
 			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LoginResponseDataDidGetSaved, object: nil)
 		}
 	}
 
 	var logoutData: (UdacitySession) {
-		get {
-			return _logoutSession!
-		}
-		set(newData) {
-			_logoutSession = newData
+		get { return _logoutSession! }
+
+		set(data) {
+			_logoutSession = data
 			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LogoutResponseDataDidGetSaved, object: nil)
 		}
 	}
@@ -59,13 +65,6 @@ class UdacityDataManager: NSObject {
 		}
 	}
 	
-	// MARK: - Private Stored Variables
-
-	private var _account:       UdacityAccount? = nil
-	private var _loginSession:  UdacitySession? = nil
-	private var _logoutSession: UdacitySession? = nil
-	private var _user:          UdacityUser?    = nil
-
 	// MARK: - Private
 
 	private override init() {

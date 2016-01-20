@@ -91,9 +91,7 @@ class ParseAPIClient: NSObject {
 	private func getURLRequest(HTTPMethod: String, URLString: String, HTTPQuery: String?) -> NSMutableURLRequest {
 		let components = NSURLComponents(string: URLString)
 
-		if let _ = HTTPQuery {
-			components?.query = HTTPQuery
-		}
+		if let _ = HTTPQuery { components?.query = HTTPQuery }
 
 		let URLRequest = NSMutableURLRequest(URL: (components?.URL)!)
 

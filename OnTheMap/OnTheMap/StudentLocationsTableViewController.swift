@@ -10,6 +10,10 @@ import UIKit
 
 class StudentLocationsTableViewController: UITableViewController {
 
+	// MARK: - Private Constants
+
+	private let ReuseID = "StudentLocsTVCell"
+
 	// MARK: - View Events
 
 	override func viewDidLoad() {
@@ -29,7 +33,7 @@ class StudentLocationsTableViewController: UITableViewController {
 				                                   object: nil)
 	}
 
-	// MARK: - NSNotifications
+	// MARK: - Notifications
 
 	func studentLocationDidGetPosted(notification: NSNotification) {
 		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
@@ -66,7 +70,7 @@ class StudentLocationsTableViewController: UITableViewController {
 		assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
 
 		let studentLocation = StudentLocationsManager.sharedMgr.studentLocationAtIndexPath(indexPath)
-		let cell = tableView.dequeueReusableCellWithIdentifier(Constants.UI.ReuseID.StudentLocationsTableViewCell, forIndexPath: indexPath)
+		let cell = tableView.dequeueReusableCellWithIdentifier(ReuseID, forIndexPath: indexPath)
 
 		cell.textLabel?.text       = studentLocation.fullName
 		cell.detailTextLabel?.text = studentLocation.mediaURL

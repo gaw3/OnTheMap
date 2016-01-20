@@ -54,18 +54,5 @@ struct Constants {
 		static let UserDataDidGetSaved             = "UserDataDidGetSavedNotification"
 	}
 
-	struct UI {
-
-		struct ReuseID {
-			static let StudentLocationsPinAnnotationView = "StudentLocsPinAnnoView"
-			static let StudentLocationsTableViewCell     = "StudentLocsTVCell"
-		}
-
-		struct StoryboardID {
-			static let StudentLocationsTabBarController  = "StudentLocsTabBarCtlr"
-		}
-
-	}
-
 }
 

@@ -58,7 +58,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 																					object: nil)
 	}
 
-	// MARK: - NSNotifications
+	// MARK: - Notifications
 
 	func loginResponseDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == Constants.Notification.LoginResponseDataDidGetSaved, "unknown notification = \(notification)")

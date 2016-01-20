@@ -10,11 +10,6 @@ import UIKit
 
 class StudentLocationsTabBarController: UITabBarController {
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
-	}
-
 	// MARK: - IB Actions
 
 	@IBAction func pinButtonWasTapped(sender: UIBarButtonItem) {
@@ -25,7 +20,16 @@ class StudentLocationsTabBarController: UITabBarController {
 		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
 	}
 
-	var getStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+	// MARK: - View Events
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
+	}
+
+	// MARK: - Private:  Completion Handlers as Computed Variables
+
+	private var getStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
 
 		return { (result, error) -> Void in
 
@@ -43,9 +47,6 @@ class StudentLocationsTabBarController: UITabBarController {
 			let postInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier(StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
 								  as! StudentLocationsPostInformationViewController
 
-//			postInfoVC.newStudent = (UdacityDataManager.sharedMgr.user!.firstName!,
-//				UdacityDataManager.sharedMgr.user!.lastName!,
-//				UdacityDataManager.sharedMgr.user!.userID!)
 			if results!.isEmpty {
 				postInfoVC.newStudent = (UdacityDataManager.sharedMgr.user!.firstName!,
 												 UdacityDataManager.sharedMgr.user!.lastName!,

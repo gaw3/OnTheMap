@@ -15,6 +15,34 @@ typealias NewStudent = (firstName: String, lastName: String, udacityUserID: Stri
 class StudentLocationsPostInformationViewController: UIViewController, MKMapViewDelegate,
 																	  UITextFieldDelegate {
 
+	// MARK: - IB Outlets
+
+	@IBOutlet weak var questionLabel: UILabel!
+	@IBOutlet weak var mapView: MKMapView!
+	@IBOutlet weak var imageView: UIImageView!
+	@IBOutlet weak var toolbar: UIToolbar!
+	@IBOutlet weak var toolbarButton: UIBarButtonItem!
+	@IBOutlet weak var mediaURLTextField: UITextField!
+	@IBOutlet weak var locationTextField: UITextField!
+
+	// MARK: - IB Actions
+
+	@IBAction func toolbarButtonWasTapped(sender: UIBarButtonItem) {
+
+		if sender.title == ButtonTitle.Find {
+			findOnTheMap()
+		} else if sender.title == ButtonTitle.Submit {
+			submit()
+		}
+
+	}
+
+	// MARK: - Public Constants
+
+	struct UIConstants {
+		static let StoryboardID = "StudentLocsPostInfoVC"
+	}
+
 	// MARK: - Private Constants
 
 	private struct ButtonTitle {
@@ -26,22 +54,8 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		static let LocationTextField = "Enter Location Here"
 		static let MediaURLTextField = "Enter Media URL Here"
 	}
-
-	// MARK: - IB Outlets
-
-	@IBOutlet weak var questionLabel: UILabel!
-	@IBOutlet weak var mapView: MKMapView!
-	@IBOutlet weak var imageView: UIImageView!
-	@IBOutlet weak var toolbar: UIToolbar!
-	@IBOutlet weak var toolbarButton: UIBarButtonItem!
-	@IBOutlet weak var mediaURLTextField: UITextField!
-	@IBOutlet weak var locationTextField: UITextField!
-
-	// MARK: - IB Outlets
-
-	struct UIConstants {
-		static let StoryboardID = "StudentLocsPostInfoVC"
-	}
+	
+	// MARK: - Public Computed Variables
 
 	var currentStudentLocation: StudentLocation? {
 		get { return _currentStudentLocation }
@@ -59,20 +73,10 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		}
 	}
 
+	// MARK: - Private Stored Variables
+
 	private var _currentStudentLocation: StudentLocation? = nil
 	private var _newStudent:				 NewStudent?      = nil
-
-	// MARK: - IB Actions
-
-	@IBAction func toolbarButtonWasTapped(sender: UIBarButtonItem) {
-
-		if sender.title == ButtonTitle.Find {
-			findOnTheMap()
-		} else if sender.title == ButtonTitle.Submit {
-			submit()
-		}
-
-	}
 
 	// MARK: - View Events
 
