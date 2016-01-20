@@ -27,6 +27,10 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	// MARK: - IB Actions
 
+	@IBAction func cancelButtonWasTapped(sender: UIBarButtonItem) {
+		dismissViewControllerAnimated(true, completion: nil)
+	}
+
 	@IBAction func toolbarButtonWasTapped(sender: UIBarButtonItem) {
 
 		if sender.title == ButtonTitle.Find {
