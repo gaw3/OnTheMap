@@ -83,16 +83,7 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
       
       if control == view.rightCalloutAccessoryView {
-         var validURL = false
-         
-         if let URL = NSURL(string: (view.annotation?.subtitle!)!) {
-            validURL = UIApplication.sharedApplication().openURL(URL)
-         }
-         
-         if !validURL {
-				presentAlert(Constants.Alert.Title.BadBrowser, message: Constants.Alert.Message.BadURL)
-         }
-
+			openSystemBrowserWithURL((view.annotation!.subtitle!)!)
       }
       
    }

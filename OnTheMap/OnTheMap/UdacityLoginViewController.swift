@@ -38,10 +38,19 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 //														completionHandler: loginCompletionHandler)
 	}
 
+	@IBAction func signUpButtonDidTouchUpInside(sender: UIButton) {
+      openSystemBrowserWithURL(UdacitySignupURLString)
+	}
+
+
 	@IBAction func unwindToLoginViewController(segue: UIStoryboardSegue) {
 		UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
 	}
 
+	// MARK: - Private Constants
+
+	private let UdacitySignupURLString = "https://www.udacity.com/account/auth#!/signup"
+	
 	// MARK: - View Events
 
 	override func viewDidLoad() {
