@@ -14,11 +14,12 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 
 	@IBOutlet weak var emailTextField: UITextField!
 	@IBOutlet weak var passwordTextField: UITextField!
+	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
    // MARK: - IB Actions
 
 	@IBAction func loginButtonDidTouchUpInside(sender: UIButton) {
-
+		activityIndicator.startAnimating()
 		UdacityAPIClient.sharedClient.login("gwhite2003@verizon.net", password: "chopper",
 			completionHandler: loginCompletionHandler)
 
@@ -88,9 +89,11 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 	func userDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == Constants.Notification.UserDataDidGetSaved, "unknown notification = \(notification)")
 
+		activityIndicator.stopAnimating()
+
 		if UdacityDataManager.sharedMgr.isLoginSuccessful {
-			let tabBarController = self.storyboard?.instantiateViewControllerWithIdentifier("StudentLocsTabBarNavCtlr") as! UINavigationController
-			self.presentViewController(tabBarController, animated: true, completion: nil)
+			let navController = self.storyboard?.instantiateViewControllerWithIdentifier("StudentLocsTabBarNavCtlr") as! UINavigationController
+			self.presentViewController(navController, animated: true, completion: nil)
 		}
 
 	}
@@ -111,11 +114,13 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		return { (result, error) -> Void in
 
 			guard error == nil else {
+				self.activityIndicator.stopAnimating()
 				self.presentAlert(Constants.Alert.Title.BadLogin, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
+				self.activityIndicator.stopAnimating()
 				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.NoUserData)
 				return
 			}
@@ -130,11 +135,13 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 		return { (result, error) -> Void in
 
 			guard error == nil else {
+				self.activityIndicator.stopAnimating()
 				self.presentAlert(Constants.Alert.Title.BadLogin, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
+				self.activityIndicator.stopAnimating()
 				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.NoLoginResponseData)
 				return
 			}

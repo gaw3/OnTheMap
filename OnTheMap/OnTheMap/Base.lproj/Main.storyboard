@@ -57,6 +57,10 @@
                                     <action selector="signUpButtonDidTouchUpInside:" destination="sA3-fQ-SkR" eventType="touchUpInside" id="JbQ-LQ-fmS"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="kLs-bo-6P1">
+                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                                <color key="color" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -67,9 +71,11 @@
                             <constraint firstItem="r5Z-WY-PyL" firstAttribute="top" secondItem="pYB-0a-Lyc" secondAttribute="bottom" constant="8" id="E2M-Av-LIE"/>
                             <constraint firstItem="wah-zb-dN6" firstAttribute="top" secondItem="upU-4a-NSX" secondAttribute="bottom" constant="8" id="Gcq-S4-ENd"/>
                             <constraint firstAttribute="trailing" secondItem="r5Z-WY-PyL" secondAttribute="trailing" constant="50" id="QH8-fg-pAh"/>
+                            <constraint firstItem="kLs-bo-6P1" firstAttribute="top" secondItem="wah-zb-dN6" secondAttribute="bottom" constant="32" id="VnN-TR-ovZ"/>
                             <constraint firstItem="upU-4a-NSX" firstAttribute="top" secondItem="r5Z-WY-PyL" secondAttribute="bottom" constant="8" id="bo0-BC-Zgf"/>
                             <constraint firstAttribute="trailing" secondItem="pYB-0a-Lyc" secondAttribute="trailing" constant="50" id="dum-ip-JcK"/>
                             <constraint firstItem="pYB-0a-Lyc" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="fya-JY-BDT"/>
+                            <constraint firstItem="kLs-bo-6P1" firstAttribute="centerX" secondItem="arE-nh-Ycg" secondAttribute="centerX" id="jf7-wF-h4O"/>
                             <constraint firstItem="upU-4a-NSX" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="ug6-ua-ygc"/>
                             <constraint firstItem="r5Z-WY-PyL" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="vIX-ET-whF"/>
                         </constraints>
@@ -79,6 +85,7 @@
                                 <exclude reference="r5Z-WY-PyL"/>
                                 <exclude reference="upU-4a-NSX"/>
                                 <exclude reference="wah-zb-dN6"/>
+                                <exclude reference="kLs-bo-6P1"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="3Cb-fy-cAb"/>
@@ -93,6 +100,8 @@
                                 <exclude reference="0ws-xy-xRf"/>
                                 <exclude reference="1je-Za-5G3"/>
                                 <exclude reference="Gcq-S4-ENd"/>
+                                <exclude reference="VnN-TR-ovZ"/>
+                                <exclude reference="jf7-wF-h4O"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -101,6 +110,7 @@
                                 <include reference="r5Z-WY-PyL"/>
                                 <include reference="upU-4a-NSX"/>
                                 <include reference="wah-zb-dN6"/>
+                                <include reference="kLs-bo-6P1"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="3Cb-fy-cAb"/>
@@ -115,10 +125,13 @@
                                 <include reference="0ws-xy-xRf"/>
                                 <include reference="1je-Za-5G3"/>
                                 <include reference="Gcq-S4-ENd"/>
+                                <include reference="VnN-TR-ovZ"/>
+                                <include reference="jf7-wF-h4O"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="kLs-bo-6P1" id="UBx-Uc-CuP"/>
                         <outlet property="emailTextField" destination="pYB-0a-Lyc" id="ShX-wG-hZJ"/>
                         <outlet property="passwordTextField" destination="r5Z-WY-PyL" id="qQX-eO-GAW"/>
                         <segue destination="JKc-yU-DQf" kind="presentation" identifier="SegueFromLoginToNavCtlr" id="0Vo-gR-ofr"/>
@@ -126,7 +139,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3xT-qG-xfO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3400.5" y="-419.25"/>
+            <point key="canvasLocation" x="-3406.5" y="-419.25"/>
         </scene>
         <!--Student Locations Map View Controller-->
         <scene sceneID="EVw-LQ-Fsw">
