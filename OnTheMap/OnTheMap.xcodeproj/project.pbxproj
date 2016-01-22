@@ -18,6 +18,9 @@
 		7A261ACB1C3FD20D00FAEF5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */; };
 		7A4871FC1C163DF100E1E9CD /* StudentLocationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4871FB1C163DF100E1E9CD /* StudentLocationsManager.swift */; };
 		7A4871FE1C16678F00E1E9CD /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4871FD1C16678F00E1E9CD /* StudentLocation.swift */; };
+		7A6DB2F01C52C53800F1E4E2 /* UdacityFBAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */; };
+		7A6DB2F41C52F74300F1E4E2 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6DB2F21C52F74300F1E4E2 /* FBSDKCoreKit.framework */; };
+		7A6DB2F51C52F74300F1E4E2 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6DB2F31C52F74300F1E4E2 /* FBSDKLoginKit.framework */; };
 		7A79BA3C1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79BA3B1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift */; };
 		7A840F611C03E6CD006B5874 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A840F601C03E6CD006B5874 /* AppDelegate.swift */; };
 		7A840F681C03E6CD006B5874 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A840F661C03E6CD006B5874 /* Main.storyboard */; };
@@ -47,6 +50,9 @@
 		7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7A4871FB1C163DF100E1E9CD /* StudentLocationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocationsManager.swift; sourceTree = "<group>"; };
 		7A4871FD1C16678F00E1E9CD /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
+		7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityFBAccessToken.swift; sourceTree = "<group>"; };
+		7A6DB2F21C52F74300F1E4E2 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		7A6DB2F31C52F74300F1E4E2 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		7A79BA3B1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicatorManager.swift; sourceTree = "<group>"; };
 		7A840F5D1C03E6CD006B5874 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A840F601C03E6CD006B5874 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A6DB2F51C52F74300F1E4E2 /* FBSDKLoginKit.framework in Frameworks */,
+				7A6DB2F41C52F74300F1E4E2 /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +103,16 @@
 			name = Data;
 			sourceTree = "<group>";
 		};
+		7A6DB2F11C52F70C00F1E4E2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7A6DB2F21C52F74300F1E4E2 /* FBSDKCoreKit.framework */,
+				7A6DB2F31C52F74300F1E4E2 /* FBSDKLoginKit.framework */,
+			);
+			name = Frameworks;
+			path = OnTheMap;
+			sourceTree = "<group>";
+		};
 		7A78CD241C069C7700CFF3F2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +135,7 @@
 			children = (
 				7A840F5F1C03E6CD006B5874 /* OnTheMap */,
 				7A840F5E1C03E6CD006B5874 /* Products */,
+				7A6DB2F11C52F70C00F1E4E2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -201,6 +220,7 @@
 				7A1507E21C478031009BAAA4 /* UdacitySession.swift */,
 				7AD293CC1C44755F00E61B85 /* UdacityUser.swift */,
 				7AC6A4731C4F313700470E22 /* UdacityLogin.swift */,
+				7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */,
 			);
 			name = Udacity;
 			sourceTree = "<group>";
@@ -306,6 +326,7 @@
 				7A840F751C04E82B006B5874 /* UdacityLoginViewController.swift in Sources */,
 				7A840F7F1C057469006B5874 /* NSHTTPURLResponseExtensions.swift in Sources */,
 				7A840F611C03E6CD006B5874 /* AppDelegate.swift in Sources */,
+				7A6DB2F01C52C53800F1E4E2 /* UdacityFBAccessToken.swift in Sources */,
 				7AA4D76F1C4DB4D700D5012C /* ParseUpdateStudentLocationResponseData.swift in Sources */,
 				7A840F7C1C04EBB7006B5874 /* UdacityAPIClient.swift in Sources */,
 				7A0D0BC41C0D29330087D9CE /* APIDataTaskWithRequest.swift in Sources */,
@@ -357,6 +378,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "/Users/{username}/Documents/FacebookSDK";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -401,6 +423,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "/Users/{username}/Documents/FacebookSDK";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -421,6 +444,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -434,6 +461,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -8,6 +8,8 @@
 
 import UIKit
 
+import FBSDKLoginKit
+
 private let _sharedClient = UdacityAPIClient()
 
 class UdacityAPIClient: NSObject {
@@ -53,17 +55,14 @@ class UdacityAPIClient: NSObject {
 		dataTaskWithRequest.resume()
 	}
 
-	func login(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = getURLRequest(HTTPMethod.Post, URLString: API.SessionURL, HTTPQuery: nil)
-
-		URLRequest.HTTPBody = UdacityLogin(username: username, password: password).serializedData
-		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.Accept)
-		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.ContentType)
-
-		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
-		dataTaskWithRequest.resume()
+	func loginViaFacebook(facebookAccessToken: FBSDKAccessToken, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+		login(UdacityFBAccessToken(accessToken: facebookAccessToken).serializedData, completionHandler: completionHandler)
 	}
 	
+	func loginViaUdacity(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+		login(UdacityLogin(username: username, password: password).serializedData, completionHandler: completionHandler)
+	}
+
 	func logout(completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let URLRequest = getURLRequest(HTTPMethod.Delete, URLString: API.SessionURL, HTTPQuery: nil)
 		let cookies    = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookies!
@@ -92,5 +91,17 @@ class UdacityAPIClient: NSObject {
 
 		return URLRequest
 	}
+
+	private func login(serializedData: NSData, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+		let URLRequest = getURLRequest(HTTPMethod.Post, URLString: API.SessionURL, HTTPQuery: nil)
+
+		URLRequest.HTTPBody = serializedData
+		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.Accept)
+		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.ContentType)
+
+		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+		dataTaskWithRequest.resume()
+	}
+
 }
 

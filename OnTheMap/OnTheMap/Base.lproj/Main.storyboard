@@ -8,7 +8,7 @@
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
-        <!--Udacity Login View Controller-->
+        <!--Delegate-->
         <scene sceneID="E4K-um-9Yk">
             <objects>
                 <viewController id="sA3-fQ-SkR" customClass="UdacityLoginViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
@@ -61,13 +61,22 @@
                                 <rect key="frame" x="-10" y="-10" width="20" height="20"/>
                                 <color key="color" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rfQ-df-Nfs" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Facebook Button"/>
+                                <connections>
+                                    <outlet property="delegate" destination="sA3-fQ-SkR" id="xGR-MY-Usg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wah-zb-dN6" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="0ws-xy-xRf"/>
                             <constraint firstAttribute="trailing" secondItem="wah-zb-dN6" secondAttribute="trailing" constant="50" id="1je-Za-5G3"/>
+                            <constraint firstItem="B4C-pJ-c0l" firstAttribute="top" secondItem="rfQ-df-Nfs" secondAttribute="bottom" constant="20" id="2hK-uB-7z3"/>
                             <constraint firstItem="pYB-0a-Lyc" firstAttribute="top" secondItem="arE-nh-Ycg" secondAttribute="top" constant="238" id="3Cb-fy-cAb"/>
                             <constraint firstAttribute="trailing" secondItem="upU-4a-NSX" secondAttribute="trailing" constant="50" id="4bg-GN-mxw"/>
+                            <constraint firstItem="rfQ-df-Nfs" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leadingMargin" constant="30" id="CU1-Vf-Egv"/>
                             <constraint firstItem="r5Z-WY-PyL" firstAttribute="top" secondItem="pYB-0a-Lyc" secondAttribute="bottom" constant="8" id="E2M-Av-LIE"/>
                             <constraint firstItem="wah-zb-dN6" firstAttribute="top" secondItem="upU-4a-NSX" secondAttribute="bottom" constant="8" id="Gcq-S4-ENd"/>
                             <constraint firstAttribute="trailing" secondItem="r5Z-WY-PyL" secondAttribute="trailing" constant="50" id="QH8-fg-pAh"/>
@@ -75,6 +84,7 @@
                             <constraint firstItem="upU-4a-NSX" firstAttribute="top" secondItem="r5Z-WY-PyL" secondAttribute="bottom" constant="8" id="bo0-BC-Zgf"/>
                             <constraint firstAttribute="trailing" secondItem="pYB-0a-Lyc" secondAttribute="trailing" constant="50" id="dum-ip-JcK"/>
                             <constraint firstItem="pYB-0a-Lyc" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="fya-JY-BDT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rfQ-df-Nfs" secondAttribute="trailing" constant="30" id="g6g-Lh-gh0"/>
                             <constraint firstItem="kLs-bo-6P1" firstAttribute="centerX" secondItem="arE-nh-Ycg" secondAttribute="centerX" id="jf7-wF-h4O"/>
                             <constraint firstItem="upU-4a-NSX" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="ug6-ua-ygc"/>
                             <constraint firstItem="r5Z-WY-PyL" firstAttribute="leading" secondItem="arE-nh-Ycg" secondAttribute="leading" constant="50" id="vIX-ET-whF"/>
@@ -86,22 +96,26 @@
                                 <exclude reference="upU-4a-NSX"/>
                                 <exclude reference="wah-zb-dN6"/>
                                 <exclude reference="kLs-bo-6P1"/>
+                                <exclude reference="rfQ-df-Nfs"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="2hK-uB-7z3"/>
+                                <exclude reference="VnN-TR-ovZ"/>
+                                <exclude reference="jf7-wF-h4O"/>
                                 <exclude reference="3Cb-fy-cAb"/>
                                 <exclude reference="dum-ip-JcK"/>
                                 <exclude reference="fya-JY-BDT"/>
                                 <exclude reference="E2M-Av-LIE"/>
                                 <exclude reference="QH8-fg-pAh"/>
                                 <exclude reference="vIX-ET-whF"/>
+                                <exclude reference="CU1-Vf-Egv"/>
+                                <exclude reference="g6g-Lh-gh0"/>
                                 <exclude reference="4bg-GN-mxw"/>
                                 <exclude reference="bo0-BC-Zgf"/>
                                 <exclude reference="ug6-ua-ygc"/>
                                 <exclude reference="0ws-xy-xRf"/>
                                 <exclude reference="1je-Za-5G3"/>
                                 <exclude reference="Gcq-S4-ENd"/>
-                                <exclude reference="VnN-TR-ovZ"/>
-                                <exclude reference="jf7-wF-h4O"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -111,28 +125,33 @@
                                 <include reference="upU-4a-NSX"/>
                                 <include reference="wah-zb-dN6"/>
                                 <include reference="kLs-bo-6P1"/>
+                                <include reference="rfQ-df-Nfs"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="2hK-uB-7z3"/>
+                                <include reference="VnN-TR-ovZ"/>
+                                <include reference="jf7-wF-h4O"/>
                                 <include reference="3Cb-fy-cAb"/>
                                 <include reference="dum-ip-JcK"/>
                                 <include reference="fya-JY-BDT"/>
                                 <include reference="E2M-Av-LIE"/>
                                 <include reference="QH8-fg-pAh"/>
                                 <include reference="vIX-ET-whF"/>
+                                <include reference="CU1-Vf-Egv"/>
+                                <include reference="g6g-Lh-gh0"/>
                                 <include reference="4bg-GN-mxw"/>
                                 <include reference="bo0-BC-Zgf"/>
                                 <include reference="ug6-ua-ygc"/>
                                 <include reference="0ws-xy-xRf"/>
                                 <include reference="1je-Za-5G3"/>
                                 <include reference="Gcq-S4-ENd"/>
-                                <include reference="VnN-TR-ovZ"/>
-                                <include reference="jf7-wF-h4O"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="kLs-bo-6P1" id="UBx-Uc-CuP"/>
                         <outlet property="emailTextField" destination="pYB-0a-Lyc" id="ShX-wG-hZJ"/>
+                        <outlet property="facebookLoginButton" destination="rfQ-df-Nfs" id="qVD-Qm-iZU"/>
                         <outlet property="passwordTextField" destination="r5Z-WY-PyL" id="qQX-eO-GAW"/>
                         <segue destination="JKc-yU-DQf" kind="presentation" identifier="SegueFromLoginToNavCtlr" id="0Vo-gR-ofr"/>
                     </connections>

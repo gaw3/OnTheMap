@@ -8,19 +8,24 @@
 
 import UIKit
 
-class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
+import FBSDKCoreKit
+import FBSDKLoginKit
+
+class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
 
 	// MARK: - IB Outlets
 
-	@IBOutlet weak var emailTextField: UITextField!
-	@IBOutlet weak var passwordTextField: UITextField!
-	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+	@IBOutlet weak var emailTextField:      UITextField!
+	@IBOutlet weak var passwordTextField:   UITextField!
+	@IBOutlet weak var activityIndicator:   UIActivityIndicatorView!
+	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
 
    // MARK: - IB Actions
 
 	@IBAction func loginButtonDidTouchUpInside(sender: UIButton) {
 		activityIndicator.startAnimating()
-		UdacityAPIClient.sharedClient.login("gwhite2003@verizon.net", password: "chopper",
+		isLoginViaUdacity = true
+		UdacityAPIClient.sharedClient.loginViaUdacity("gwhite2003@verizon.net", password: "chopper",
 			completionHandler: loginCompletionHandler)
 
 //		guard emailTextField.text != "" else {
@@ -45,12 +50,20 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 
 
 	@IBAction func unwindToLoginViewController(segue: UIStoryboardSegue) {
-		UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
+
+		if isLoginViaUdacity {
+			UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
+		}
+
 	}
 
 	// MARK: - Private Constants
 
 	private let UdacitySignupURLString = "https://www.udacity.com/account/auth#!/signup"
+
+	// MARK: - Private Stored Variables
+
+	private var isLoginViaUdacity = true
 	
 	// MARK: - View Events
 
@@ -98,6 +111,24 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 
 	}
 
+	// MARK: - FBSDKLoginButtonDelegate
+
+	func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+		print("fb login button ")
+
+		if let err = error {
+			// some kind of error condition
+		} else if let accessToken = result.token {
+			activityIndicator.startAnimating()
+			isLoginViaUdacity = false
+			UdacityAPIClient.sharedClient.loginViaFacebook(accessToken, completionHandler: loginViaFacebookCompletionHandler)
+		}
+	}
+
+	func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+		UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
+	}
+
 	// MARK: - UITextFieldDelegate
 
 	func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -143,6 +174,30 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
 			guard result != nil else {
 				self.activityIndicator.stopAnimating()
 				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.NoLoginResponseData)
+				return
+			}
+
+			let JSONResult = result as! JSONDictionary
+
+			let account = UdacityAccount(accountDict: JSONResult[UdacityAPIClient.API.AccountKey] as! JSONDictionary)
+			let session = UdacitySession(sessionDict: JSONResult[UdacityAPIClient.API.SessionKey] as! JSONDictionary)
+
+			UdacityDataManager.sharedMgr.loginData = (account, session)
+		}
+
+	}
+
+	private var loginViaFacebookCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+
+		return { (result, error) -> Void in
+
+			guard error == nil else {
+				print("\(error)")
+				return
+			}
+
+			guard result != nil else {
+				print("result is nil")
 				return
 			}
 
