@@ -10,7 +10,7 @@ import CoreLocation
 import MapKit
 import UIKit
 
-class StudentLocation: NSObject {
+struct StudentLocation {
 
 	// MARK: - Private Stored Variables
 
@@ -135,18 +135,15 @@ class StudentLocation: NSObject {
 
 	// MARK: - API
 
-	override init() {
+	init() {
       _studentLocation = JSONDictionary()
-		super.init()
 	}
 
-	convenience init(studentLocation: StudentLocation) {
-		self.init()
+	init(studentLocation: StudentLocation) {
 		_studentLocation = studentLocation._studentLocation
 	}
 
-	convenience init(studentLocationDict: JSONDictionary) {
-		self.init()
+	init(studentLocationDict: JSONDictionary) {
 		_studentLocation = studentLocationDict
 	}
 
