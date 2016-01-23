@@ -72,7 +72,7 @@ class StudentLocationsTableViewController: UITableViewController {
 		let studentLocation = StudentLocationsManager.sharedMgr.studentLocationAtIndexPath(indexPath)
 		let cell = tableView.dequeueReusableCellWithIdentifier(ReuseID, forIndexPath: indexPath)
 
-		cell.textLabel?.text       = studentLocation.fullName
+		cell.textLabel?.text       = studentLocation.fullName + "  (\(studentLocation.mapString))"
 		cell.detailTextLabel?.text = studentLocation.mediaURL
 
 		return cell
