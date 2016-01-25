@@ -75,7 +75,7 @@ class StudentLocationsTabBarController: UITabBarController {
 				self.presentViewController(postInfoVC, animated: true, completion: nil)
 			} else {
 				let alert     = UIAlertController(title: Alert.Title.AlreadyPosted, message: Alert.Message.IsUpdateDesired, preferredStyle: .Alert)
-				let noAction  = UIAlertAction(title: Alert.ActionTitle.Yes, style: .Cancel, handler: nil )
+				let noAction  = UIAlertAction(title: Alert.ActionTitle.No, style: .Cancel, handler: nil )
 				
 				let yesAction = UIAlertAction(title: Alert.ActionTitle.Yes, style: .Default, handler: { (action) -> Void in
 					let postInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier(StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
