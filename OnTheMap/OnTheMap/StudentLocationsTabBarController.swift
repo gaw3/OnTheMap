@@ -20,6 +20,25 @@ class StudentLocationsTabBarController: UITabBarController {
 		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
 	}
 
+	// MARK: - Private Constants
+
+	struct Alert {
+
+		struct ActionTitle {
+			static let Yes = "Yes"
+			static let No = "No"
+		}
+
+		struct Message {
+			static let IsUpdateDesired = "Would you like to update your location?"
+		}
+
+		struct Title {
+			static let AlreadyPosted = "Your location already posted"
+		}
+
+	}
+
 	// MARK: - View Events
 
 	override func viewDidLoad() {
@@ -43,21 +62,36 @@ class StudentLocationsTabBarController: UITabBarController {
 				return
 			}
 
-			let results    = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as? [JSONDictionary]
-			let postInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier(StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
-								  as! StudentLocationsPostInformationViewController
+			let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as? [JSONDictionary]
 
 			if results!.isEmpty {
+				let postInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier(StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
+									  as! StudentLocationsPostInformationViewController
+
 				postInfoVC.newStudent = (UdacityDataManager.sharedMgr.user!.firstName!,
-												 UdacityDataManager.sharedMgr.user!.lastName!,
-					                      UdacityDataManager.sharedMgr.user!.userID!)
+											    UdacityDataManager.sharedMgr.user!.lastName!,
+												 UdacityDataManager.sharedMgr.user!.userID!)
+
+				self.presentViewController(postInfoVC, animated: true, completion: nil)
 			} else {
-				postInfoVC.currentStudentLocation = StudentLocation(studentLocationDict: results!.first! as JSONDictionary)
+				let alert     = UIAlertController(title: Alert.Title.AlreadyPosted, message: Alert.Message.IsUpdateDesired, preferredStyle: .Alert)
+				let noAction  = UIAlertAction(title: Alert.ActionTitle.Yes, style: .Cancel, handler: nil )
+				
+				let yesAction = UIAlertAction(title: Alert.ActionTitle.Yes, style: .Default, handler: { (action) -> Void in
+					let postInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier(StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
+										  as! StudentLocationsPostInformationViewController
+					postInfoVC.currentStudentLocation = StudentLocation(studentLocationDict: results!.first! as JSONDictionary)
+					self.presentViewController(postInfoVC, animated: true, completion: nil)
+				})
+
+				alert.addAction(yesAction)
+				alert.addAction(noAction)
+
+				self.presentViewController(alert, animated: true, completion: nil)
 			}
 
-			self.presentViewController(postInfoVC, animated: true, completion: nil)
 		}
-		
+
 	}
 	
 	private var refreshStudentLocationsCompletionHandler: APIDataTaskWithRequestCompletionHandler {
