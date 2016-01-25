@@ -92,5 +92,11 @@
 		<string>fb365362206864879</string>
 		<string>fbauth2</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-Thin.ttf</string>
+	</array>
 </dict>
 </plist>

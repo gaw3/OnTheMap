@@ -16,6 +16,10 @@
 		7A1E9AB01C459FC8008BCB02 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1E9AAF1C459FC8008BCB02 /* UIViewControllerExtensions.swift */; };
 		7A261AC91C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A261AC81C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift */; };
 		7A261ACB1C3FD20D00FAEF5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */; };
+		7A40DAFD1C5431B600E5A1BC /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A40DAFA1C5431B600E5A1BC /* Roboto-Medium.ttf */; };
+		7A40DAFE1C5431B600E5A1BC /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A40DAFB1C5431B600E5A1BC /* Roboto-Regular.ttf */; };
+		7A40DAFF1C5431B600E5A1BC /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A40DAFC1C5431B600E5A1BC /* Roboto-Thin.ttf */; };
+		7A40DB011C546BAA00E5A1BC /* WhitePixel.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A40DB001C546BAA00E5A1BC /* WhitePixel.png */; };
 		7A4871FC1C163DF100E1E9CD /* StudentLocationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4871FB1C163DF100E1E9CD /* StudentLocationsManager.swift */; };
 		7A4871FE1C16678F00E1E9CD /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4871FD1C16678F00E1E9CD /* StudentLocation.swift */; };
 		7A6DB2F01C52C53800F1E4E2 /* UdacityFBAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */; };
@@ -48,6 +52,10 @@
 		7A1E9AAF1C459FC8008BCB02 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		7A261AC81C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocationsPostInformationViewController.swift; sourceTree = "<group>"; };
 		7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7A40DAFA1C5431B600E5A1BC /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		7A40DAFB1C5431B600E5A1BC /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		7A40DAFC1C5431B600E5A1BC /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		7A40DB001C546BAA00E5A1BC /* WhitePixel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhitePixel.png; sourceTree = "<group>"; };
 		7A4871FB1C163DF100E1E9CD /* StudentLocationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocationsManager.swift; sourceTree = "<group>"; };
 		7A4871FD1C16678F00E1E9CD /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
 		7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityFBAccessToken.swift; sourceTree = "<group>"; };
@@ -116,7 +124,11 @@
 		7A78CD241C069C7700CFF3F2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7A40DAFA1C5431B600E5A1BC /* Roboto-Medium.ttf */,
+				7A40DAFB1C5431B600E5A1BC /* Roboto-Regular.ttf */,
+				7A40DAFC1C5431B600E5A1BC /* Roboto-Thin.ttf */,
 				7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */,
+				7A40DB001C546BAA00E5A1BC /* WhitePixel.png */,
 				7A840F6E1C03E6CD006B5874 /* Info.plist */,
 			);
 			name = Resources;
@@ -294,9 +306,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A40DAFD1C5431B600E5A1BC /* Roboto-Medium.ttf in Resources */,
 				7A261ACB1C3FD20D00FAEF5A /* Images.xcassets in Resources */,
+				7A40DAFF1C5431B600E5A1BC /* Roboto-Thin.ttf in Resources */,
+				7A40DAFE1C5431B600E5A1BC /* Roboto-Regular.ttf in Resources */,
 				7A840F6D1C03E6CD006B5874 /* LaunchScreen.storyboard in Resources */,
 				7A840F681C03E6CD006B5874 /* Main.storyboard in Resources */,
+				7A40DB011C546BAA00E5A1BC /* WhitePixel.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

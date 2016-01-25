@@ -16,18 +16,21 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 																	  UITextFieldDelegate {
 
 	// MARK: - IB Outlets
+	@IBOutlet var questionLabels: [UILabel]!
 
-	@IBOutlet weak var questionLabel: UILabel!
-	@IBOutlet weak var mapView: MKMapView!
-	@IBOutlet weak var imageView: UIImageView!
-	@IBOutlet weak var toolbar: UIToolbar!
-	@IBOutlet weak var toolbarButton: UIBarButtonItem!
+	@IBOutlet weak var cancelButton:      UIButton!
+	@IBOutlet weak var mapView:           MKMapView!
+	@IBOutlet weak var imageView:         UIImageView!
+	@IBOutlet weak var toolbar:           UIToolbar!
+	@IBOutlet weak var toolbarButton:     UIBarButtonItem!
 	@IBOutlet weak var mediaURLTextField: UITextField!
 	@IBOutlet weak var locationTextField: UITextField!
 
 	// MARK: - IB Actions
 
-	@IBAction func cancelButtonWasTapped(sender: UIBarButtonItem) {
+	@IBAction func cancelButtonWasTapped(sender: UIButton) {
+		assert(sender == cancelButton, "rcvd IB Action from unknown button")
+
 		dismissViewControllerAnimated(true, completion: nil)
 	}
 
@@ -55,8 +58,8 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	}
 
 	private struct InitialText {
-		static let LocationTextField = "Enter Location Here"
-		static let MediaURLTextField = "Enter Media URL Here"
+		static let LocationTextField = "Enter Your Location Here"
+		static let MediaURLTextField = "Enter a Link to Share Here"
 	}
 	
 	// MARK: - Public Computed Variables
@@ -89,9 +92,16 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 		imageView.hidden         = false
 		locationTextField.hidden = false
+		questionLabels.forEach({$0.hidden = false})
+
 		mediaURLTextField.hidden = true
 		mapView.hidden	          = true
-		toolbarButton.title      = ButtonTitle.Find
+
+		let buttonBackground = UIImage(named: "WhitePixel")
+		buttonBackground?.resizableImageWithCapInsets(UIEdgeInsetsZero)
+
+		toolbarButton.setBackgroundImage(buttonBackground, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+		toolbarButton.title = ButtonTitle.Find
 
 		if let _ = newStudent {
 			locationTextField.text = InitialText.LocationTextField
@@ -270,6 +280,9 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	private func transitionToMapAndURL(annotation: MKPointAnnotation, region: MKCoordinateRegion) {
 		view.backgroundColor = imageView.backgroundColor
 		toolbarButton.title  = ButtonTitle.Submit
+		toolbar.backgroundColor = UIColor.clearColor()
+		toolbar.translucent = true
+		cancelButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
 
 		mapView.addAnnotation(annotation)
 		mapView.setRegion(region, animated: true)
@@ -279,6 +292,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		imageView.hidden         = true
 		locationTextField.hidden = true
 		mediaURLTextField.hidden = false
+		questionLabels.forEach({$0.hidden = true})
 	}
 
 }
