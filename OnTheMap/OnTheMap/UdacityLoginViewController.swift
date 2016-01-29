@@ -11,41 +11,91 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
+class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate { 
 
+	// MARK: - Private Constants
+
+	private struct Consts {
+		static let UdacitySignupURLString = "https://www.udacity.com/account/auth#!/signup"
+		static let UdacityLoginColor      = UIColor.orangeColor()
+		static let FacebookLoginColor     = UIColor.blueColor()
+		static let NoAlpha: CGFloat		 = 0.0
+		static let ActivityAlpha: CGFloat = 0.7
+	}
+
+	private struct Alerts {
+		struct Message {
+			static let CheckLoginFields = "Check email & password fields"
+		}
+
+		struct Title {
+			static let BadUserLoginData = "Login user data insufficient"
+		}
+	}
+
+	// MARK: - Private Stored Variables
+
+	private var isLoginViaUdacity = true
+	private var dimmerView: UIView? = nil
+	private var activityIndicator: UIActivityIndicatorView? = nil
+	
 	// MARK: - IB Outlets
 
-	@IBOutlet weak var emailTextField:      UITextField!
-	@IBOutlet weak var passwordTextField:   UITextField!
-	@IBOutlet weak var activityIndicator:   UIActivityIndicatorView!
-	@IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
+	@IBOutlet weak var udacityLogo:       UIImageView!
+	@IBOutlet weak var loginLabel:        UILabel!
+	@IBOutlet weak var emailTextField:    UITextField!
+	@IBOutlet weak var passwordTextField: UITextField!
+	@IBOutlet weak var loginButton:		  UIButton!
+	@IBOutlet weak var signUpButton:      UIButton!
 
-   // MARK: - IB Actions
+	// MARK: - View Events
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		addSubviews()
+		addIndentationsToTextFields()
+		createBackgroundColorGradient()
+
+		loginLabel.textColor = UIColor.whiteColor()
+		signUpButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+
+		addNotificationObservers()
+	}
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+
+		struct Static {
+			static var token: dispatch_once_t = 0
+		}
+
+		dispatch_once(&(Static.token), {
+			self.addFacebookLoginButton()
+			self.initActivityIndicator()
+		});
+
+	}
+
+	// MARK: - IB Actions
 
 	@IBAction func loginButtonDidTouchUpInside(sender: UIButton) {
-		activityIndicator.startAnimating()
 		isLoginViaUdacity = true
-		UdacityAPIClient.sharedClient.loginViaUdacity("gwhite2003@verizon.net", password: "chopper",
-			completionHandler: loginCompletionHandler)
 
-//		guard emailTextField.text != "" else {
-//			// button is made inactive
-//			// alert action view or whatever to notifiy of empty field
-//			return
-//		}
-//
-//		guard passwordTextField.text != "" else {
-//			// button is made inactive
-//			// alert action view or whatever to notifiy of empty field
-//			return
-//		}
-//
-//		UdacityAPIClient.sharedClient.login(emailTextField.text! as String, password: passwordTextField.text! as String,
-//														completionHandler: loginCompletionHandler)
+		if emailTextField.text!.isEmpty    || emailTextField.text == "Email" ||
+			passwordTextField.text!.isEmpty || passwordTextField.text == "Password"
+		{
+			self.presentAlert(Alerts.Title.BadUserLoginData, message: Alerts.Message.CheckLoginFields)
+		} else {
+			startActivityIndicator(Consts.UdacityLoginColor)
+			UdacityAPIClient.sharedClient.loginViaUdacity(emailTextField.text! as String, password: passwordTextField.text! as String,
+																										completionHandler: loginCompletionHandler)
+		}
+
 	}
 
 	@IBAction func signUpButtonDidTouchUpInside(sender: UIButton) {
-      openSystemBrowserWithURL(UdacitySignupURLString)
+      openSystemBrowserWithURL(Consts.UdacitySignupURLString)
 	}
 
 
@@ -55,30 +105,6 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 			UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
 		}
 
-	}
-
-	// MARK: - Private Constants
-
-	private let UdacitySignupURLString = "https://www.udacity.com/account/auth#!/signup"
-
-	// MARK: - Private Stored Variables
-
-	private var isLoginViaUdacity = true
-	
-	// MARK: - View Events
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginResponseDataDidGetSaved:",
-																					  name: Constants.Notification.LoginResponseDataDidGetSaved,
-																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "logoutResponseDataDidGetSaved:",
-																					  name: Constants.Notification.LogoutResponseDataDidGetSaved,
-																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDataDidGetSaved:",
-																					  name: Constants.Notification.UserDataDidGetSaved,
-																					object: nil)
 	}
 
 	// MARK: - Notifications
@@ -102,7 +128,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 	func userDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == Constants.Notification.UserDataDidGetSaved, "unknown notification = \(notification)")
 
-		activityIndicator.stopAnimating()
+		stopActivityIndicator()
 
 		if UdacityDataManager.sharedMgr.isLoginSuccessful {
 			let navController = self.storyboard?.instantiateViewControllerWithIdentifier("StudentLocsTabBarNavCtlr") as! UINavigationController
@@ -114,13 +140,12 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 	// MARK: - FBSDKLoginButtonDelegate
 
 	func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
-		print("fb login button ")
 
-		if let err = error {
-			// some kind of error condition
+		if let _ = error {
+			self.presentAlert("Unable to authenticate via Facebook", message: error!.localizedDescription)
 		} else if let accessToken = result.token {
-			activityIndicator.startAnimating()
 			isLoginViaUdacity = false
+			startActivityIndicator(Consts.FacebookLoginColor)
 			UdacityAPIClient.sharedClient.loginViaFacebook(accessToken, completionHandler: loginViaFacebookCompletionHandler)
 		}
 	}
@@ -145,13 +170,13 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				self.activityIndicator.stopAnimating()
+				self.stopActivityIndicator()
 				self.presentAlert(Constants.Alert.Title.BadLogin, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				self.activityIndicator.stopAnimating()
+				self.stopActivityIndicator()
 				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.NoUserData)
 				return
 			}
@@ -166,13 +191,13 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				self.activityIndicator.stopAnimating()
+				self.stopActivityIndicator()
 				self.presentAlert(Constants.Alert.Title.BadLogin, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				self.activityIndicator.stopAnimating()
+				self.stopActivityIndicator()
 				self.presentAlert(Constants.Alert.Title.BadLogin, message: Constants.Alert.Message.NoLoginResponseData)
 				return
 			}
@@ -228,6 +253,90 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 			UdacityDataManager.sharedMgr.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
 		}
 
+	}
+
+	// MARK: - Private UI Helpers
+
+	private func addFacebookLoginButton() {
+		let facebookLoginButton = FBSDKLoginButton(frame: emailTextField.frame)
+
+		facebookLoginButton.frame.origin.y = view.frame.height - 20.0 - emailTextField.frame.height
+		facebookLoginButton.delegate = self
+		facebookLoginButton.hidden = false
+		facebookLoginButton.enabled = true
+
+		view.addSubview(facebookLoginButton)
+	}
+
+	private func addIndentationsToTextFields() {
+		emailTextField.leftView        = UIView(frame: CGRectMake(0, 0, 10, self.emailTextField.frame.height))
+		emailTextField.leftViewMode    = UITextFieldViewMode.Always
+		passwordTextField.leftView     = UIView(frame: CGRectMake(0, 0, 10, self.passwordTextField.frame.height))
+		passwordTextField.leftViewMode = UITextFieldViewMode.Always
+	}
+
+	private func addNotificationObservers() {
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginResponseDataDidGetSaved:",
+																					  name: Constants.Notification.LoginResponseDataDidGetSaved,
+																					object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "logoutResponseDataDidGetSaved:",
+																				     name: Constants.Notification.LogoutResponseDataDidGetSaved,
+																				   object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDataDidGetSaved:",
+																				     name: Constants.Notification.UserDataDidGetSaved,
+																				   object: nil)
+	}
+
+	private func addSubviews() {
+		view.addSubview(udacityLogo)
+		view.addSubview(loginLabel)
+		view.addSubview(emailTextField)
+		view.addSubview(passwordTextField)
+		view.addSubview(loginButton)
+		view.addSubview(signUpButton)
+	}
+
+	private func createBackgroundColorGradient() {
+		view.backgroundColor = UIColor.whiteColor()
+
+		let orange         = UIColor.orangeColor()
+		let startingOrange = orange.colorWithAlphaComponent(0.5).CGColor as CGColorRef
+		let endingOrange   = orange.colorWithAlphaComponent(1.0).CGColor as CGColorRef
+
+		let gradientLayer       = CAGradientLayer()
+		gradientLayer.frame     = view.bounds
+		gradientLayer.colors    = [startingOrange, endingOrange]
+		gradientLayer.locations = [0.0, 0.9]
+
+		view.layer.addSublayer(gradientLayer)
+	}
+
+	private func initActivityIndicator() {
+		dimmerView = UIView(frame: view.frame)
+		dimmerView?.backgroundColor = UIColor.blackColor()
+		dimmerView?.alpha           = Consts.NoAlpha
+
+		view.addSubview(dimmerView!)
+		view.bringSubviewToFront(dimmerView!)
+
+		activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+		activityIndicator?.center    = dimmerView!.center
+		activityIndicator?.center.y *= 1.5
+		activityIndicator?.hidesWhenStopped = true
+
+		dimmerView?.addSubview(activityIndicator!)
+	}
+
+	private func startActivityIndicator(color: UIColor)
+	{
+		dimmerView?.alpha = Consts.ActivityAlpha
+		activityIndicator?.color  = color
+		activityIndicator?.startAnimating()
+	}
+
+	private func stopActivityIndicator() {
+		activityIndicator?.stopAnimating()
+		dimmerView?.alpha = Consts.NoAlpha
 	}
 
 }
