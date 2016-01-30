@@ -14,8 +14,8 @@ struct UdacityFBAccessToken {
 
 	// MARK: - Public Constants
 
-	struct API {
-		static let FBMobileKey = "facebook_mobile"
+	private struct API {
+		static let FBMobileKey    = "facebook_mobile"
 		static let AccessTokenKey = "access_token"
 	}
 
@@ -35,7 +35,6 @@ struct UdacityFBAccessToken {
 	// MARK: - API
 
 	init(accessToken: FBSDKAccessToken) {
-		print("access Token String = \(accessToken.tokenString)")
 		_dict = [ API.FBMobileKey : [ API.AccessTokenKey : accessToken.tokenString ] ]
 	}
 	

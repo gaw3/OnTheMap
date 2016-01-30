@@ -11,35 +11,26 @@ import UIKit
 
 class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 
-   // MARK: - IB Outlets
-   
-   @IBOutlet weak var mapView: MKMapView!
-
 	// MARK: - Private Constants
 
-	private let ReuseID = "StudentLocsPinAnnoView"
-   
+	private struct UIConstants {
+		static let ReuseID = "StudentLocsPinAnnoView"
+	}
+
 	// MARK: - Private Stored Variables
 
 	private var pointAnnotations = [MKPointAnnotation]()
 
-   // MARK: - View Events
+   // MARK: - IB Outlets
    
+   @IBOutlet weak var mapView: MKMapView!
+
+   // MARK: - View Events
+
    override func viewDidLoad() {
       super.viewDidLoad()
-      
-		NSNotificationCenter.defaultCenter()
-								  .addObserver(self, selector: "studentLocationDidGetPosted:",
-				                                     name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
-															  object: nil)
-		NSNotificationCenter.defaultCenter()
-			                 .addObserver(self, selector: "studentLocationsDidGetRefreshed:",
-				                                     name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
-				                                   object: nil)
-		NSNotificationCenter.defaultCenter()
-			                 .addObserver(self, selector: "studentLocationDidGetUpdated:",
-				                                     name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
-				                                   object: nil)
+
+		addNotificationObservers()
   }
 
    // MARK: - Notifications
@@ -89,12 +80,12 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    }
 
    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(ReuseID) as? MKPinAnnotationView
+      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(UIConstants.ReuseID) as? MKPinAnnotationView
       
       if let _ = pinAnnotationView {
          pinAnnotationView!.annotation = annotation
       } else {
-         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: ReuseID)
+         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: UIConstants.ReuseID)
          pinAnnotationView!.canShowCallout = true
          pinAnnotationView!.pinTintColor = MKPinAnnotationView.redPinColor()
          pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
@@ -103,4 +94,18 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
       return pinAnnotationView
    }
    
+	// MARK: - Private Helpers
+
+	private func addNotificationObservers() {
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
+			                                                        name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
+																					object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
+																					  name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
+																					object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetUpdated:",
+																					  name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
+																					object: nil)
+	}
+
 }

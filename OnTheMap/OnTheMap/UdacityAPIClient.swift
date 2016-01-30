@@ -48,18 +48,18 @@ class UdacityAPIClient: NSObject {
 
 	// MARK: - API
 
-	func getUserData(userID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	func getUserProfileData(userID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: API.UsersURL + userID, HTTPQuery: nil)
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 
 		dataTaskWithRequest.resume()
 	}
 
-	func loginViaFacebook(facebookAccessToken: FBSDKAccessToken, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	func loginWithFacebookAuthorization(facebookAccessToken: FBSDKAccessToken, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		login(UdacityFBAccessToken(accessToken: facebookAccessToken).serializedData, completionHandler: completionHandler)
 	}
 	
-	func loginViaUdacity(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	func loginWithUdacityUser(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		login(UdacityLogin(username: username, password: password).serializedData, completionHandler: completionHandler)
 	}
 

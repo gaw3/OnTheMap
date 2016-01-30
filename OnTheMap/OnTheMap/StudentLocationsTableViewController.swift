@@ -12,25 +12,17 @@ class StudentLocationsTableViewController: UITableViewController {
 
 	// MARK: - Private Constants
 
-	private let ReuseID = "StudentLocsTVCell"
+	private struct UIConstants {
+		static let ReuseID = "StudentLocsTVCell"
+	}
 
 	// MARK: - View Events
+
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		NSNotificationCenter.defaultCenter()
-								  .addObserver(self, selector: "studentLocationDidGetPosted:",
-																 name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
-															  object: nil)
-		NSNotificationCenter.defaultCenter()
-								  .addObserver(self, selector: "studentLocationsDidGetRefreshed:",
-																 name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
-															  object: nil)
-		NSNotificationCenter.defaultCenter()
-								  .addObserver(self, selector: "studentLocationDidGetUpdated:",
-															    name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
-				                                   object: nil)
+      addNotificationObservers()
 	}
 
 	// MARK: - Notifications
@@ -70,7 +62,7 @@ class StudentLocationsTableViewController: UITableViewController {
 		assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
 
 		let studentLocation = StudentLocationsManager.sharedMgr.studentLocationAtIndexPath(indexPath)
-		let cell = tableView.dequeueReusableCellWithIdentifier(ReuseID, forIndexPath: indexPath)
+		let cell = tableView.dequeueReusableCellWithIdentifier(UIConstants.ReuseID, forIndexPath: indexPath)
 
 		cell.textLabel?.text       = studentLocation.fullName + "  (\(studentLocation.mapString))"
 		cell.detailTextLabel?.text = studentLocation.mediaURL
@@ -91,6 +83,20 @@ class StudentLocationsTableViewController: UITableViewController {
       
 		tableView.deselectRowAtIndexPath(indexPath, animated: false)
 		openSystemBrowserWithURL(StudentLocationsManager.sharedMgr.studentLocationAtIndexPath(indexPath).mediaURL)
+	}
+
+	// MARK: - Private
+
+	private func addNotificationObservers() {
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
+																				     name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
+																					object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
+																				     name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
+																					object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetUpdated:",
+																				     name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
+																					object: nil)
 	}
 
 }

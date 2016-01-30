@@ -10,6 +10,12 @@ import UIKit
 
 extension (UIViewController) {
 
+	private struct Alert {
+		static let ActionTitle = "OK"
+		static let Message     = "Malformed URL"
+		static let Title       = "Unable to open browser"
+	}
+
 	// MARK: - API
 
    func openSystemBrowserWithURL(URLString: String) {
@@ -20,13 +26,13 @@ extension (UIViewController) {
 		}
 
 		if !success {
-			presentAlert(Constants.Alert.Title.BadBrowser, message: Constants.Alert.Message.BadURL)
+			presentAlert(Alert.Title, message: Alert.Message)
 		}
 	}
 
 	func presentAlert(title: String, message: String) {
 		let alert  = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-		let action = UIAlertAction(title: Constants.Alert.ActionTitle.OK, style: .Default, handler: nil)
+		let action = UIAlertAction(title: Alert.ActionTitle, style: .Default, handler: nil)
 		alert.addAction(action)
 
 		dispatch_async(dispatch_get_main_queue(), {

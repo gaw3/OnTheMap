@@ -63,15 +63,6 @@ struct UdacityUser {
 		}
 	}
 
-	var isValid: Bool {
-		get {
-			if let _ = userID {
-				if let _ = fullName { return true }
-			}
-			return false
-		}
-	}
-
 	// MARK: - API
 
 	init(userDict: JSONDictionary) {

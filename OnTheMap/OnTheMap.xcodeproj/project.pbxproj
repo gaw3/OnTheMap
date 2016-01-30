@@ -12,7 +12,6 @@
 		7A0D0BCD1C0E84190087D9CE /* APIClientConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0D0BCC1C0E84190087D9CE /* APIClientConstants.swift */; };
 		7A1507E31C478031009BAAA4 /* UdacitySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1507E21C478031009BAAA4 /* UdacitySession.swift */; };
 		7A1507E51C478069009BAAA4 /* UdacityAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1507E41C478069009BAAA4 /* UdacityAccount.swift */; };
-		7A1E9AAE1C458592008BCB02 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1E9AAD1C458592008BCB02 /* Constants.swift */; };
 		7A1E9AB01C459FC8008BCB02 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1E9AAF1C459FC8008BCB02 /* UIViewControllerExtensions.swift */; };
 		7A261AC91C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A261AC81C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift */; };
 		7A261ACB1C3FD20D00FAEF5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */; };
@@ -49,7 +48,6 @@
 		7A0D0BCC1C0E84190087D9CE /* APIClientConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClientConstants.swift; sourceTree = "<group>"; };
 		7A1507E21C478031009BAAA4 /* UdacitySession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacitySession.swift; sourceTree = "<group>"; };
 		7A1507E41C478069009BAAA4 /* UdacityAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityAccount.swift; sourceTree = "<group>"; };
-		7A1E9AAD1C458592008BCB02 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7A1E9AAF1C459FC8008BCB02 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		7A261AC81C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocationsPostInformationViewController.swift; sourceTree = "<group>"; };
 		7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 		7A840F771C04E848006B5874 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7A1E9AAD1C458592008BCB02 /* Constants.swift */,
 				7A840F6B1C03E6CD006B5874 /* LaunchScreen.storyboard */,
 				7A840F661C03E6CD006B5874 /* Main.storyboard */,
 				7A79BA3B1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift */,
@@ -333,7 +330,6 @@
 				7A0D0BCD1C0E84190087D9CE /* APIClientConstants.swift in Sources */,
 				7A79BA3C1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift in Sources */,
 				7A1507E31C478031009BAAA4 /* UdacitySession.swift in Sources */,
-				7A1E9AAE1C458592008BCB02 /* Constants.swift in Sources */,
 				7A4997401C5C273400002D19 /* PleaseWaitView.swift in Sources */,
 				7A4871FE1C16678F00E1E9CD /* StudentLocation.swift in Sources */,
 				7A8F93181C12950800F63A73 /* StudentLocationsTableViewController.swift in Sources */,

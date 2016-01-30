@@ -70,7 +70,6 @@ class APIDataTaskWithRequest: NSObject {
 			guard HTTPURLResponse?.statusCodeClass == .Successful else {
 				let HTTPStatusText = NSHTTPURLResponse.localizedStringForStatusCode((HTTPURLResponse?.statusCode)!)
 				let failureReason  = "HTTP status code = \(HTTPURLResponse?.statusCode), HTTP status text = \(HTTPStatusText)"
-
 				let userInfo       = [NSLocalizedDescriptionKey        : LocalizedErrorDescription.HTTP,
 									       NSLocalizedFailureReasonErrorKey : failureReason]
 				let error          = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.HTTP, userInfo: userInfo)
@@ -95,7 +94,6 @@ class APIDataTaskWithRequest: NSObject {
 
 			do {
 				let JSONData = try NSJSONSerialization.JSONObjectWithData(JSONDataToParse, options: .AllowFragments) as! JSONDictionary
-				print("\(JSONData)")
 
 				self.completeWithHandler(self.completionHandler, result: JSONData, error: nil)
 			} catch let JSONError as NSError {

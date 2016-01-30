@@ -10,40 +10,48 @@ import UIKit
 
 class PleaseWaitView: NSObject {
 
+	// MARK: - Private Constants
+
 	private struct Consts {
 		static let NoAlpha: CGFloat		 = 0.0
 		static let ActivityAlpha: CGFloat = 0.7
 	}
 
-	private var dimmedView: UIView? = nil
-	private var activityIndicator: UIActivityIndicatorView? = nil
+	// MARK: - Private Stored Variables
+
+	private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+	private var _dimmedView: UIView? = nil
+
+	// MARK: - Public Computed Variables
+
+	var dimmedView: UIView {
+		get { return _dimmedView! }
+	}
+	
+	// MARK: - API
 
 	init(requestingView: UIView) {
 		super.init()
 
-		dimmedView = UIView(frame: requestingView.frame)
-		dimmedView?.backgroundColor = UIColor.blackColor()
-		dimmedView?.alpha           = Consts.NoAlpha
+		_dimmedView = UIView(frame: requestingView.frame)
+		_dimmedView?.backgroundColor = UIColor.blackColor()
+		_dimmedView?.alpha           = Consts.NoAlpha
 
-		requestingView.addSubview(dimmedView!)
-		requestingView.bringSubviewToFront(dimmedView!)
+		activityIndicator.center    = _dimmedView!.center
+		activityIndicator.center.y *= 1.5
+		activityIndicator.hidesWhenStopped = true
 
-		activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
-		activityIndicator?.center    = dimmedView!.center
-		activityIndicator?.center.y *= 1.5
-		activityIndicator?.hidesWhenStopped = true
-
-		dimmedView?.addSubview(activityIndicator!)
+		_dimmedView?.addSubview(activityIndicator)
 	}
 
-	func startActivityIndicator(color: UIColor){
-		dimmedView?.alpha = Consts.ActivityAlpha
-		activityIndicator?.startAnimating()
+	func startActivityIndicator() {
+		_dimmedView?.alpha = Consts.ActivityAlpha
+		activityIndicator.startAnimating()
 	}
 
 	func stopActivityIndicator() {
-		activityIndicator?.stopAnimating()
-		dimmedView?.alpha = Consts.NoAlpha
+		activityIndicator.stopAnimating()
+		_dimmedView?.alpha = Consts.NoAlpha
 	}
 
 	// MARK: - Private

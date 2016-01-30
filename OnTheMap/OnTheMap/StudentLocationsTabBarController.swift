@@ -10,6 +10,35 @@ import UIKit
 
 class StudentLocationsTabBarController: UITabBarController {
 
+	// MARK: - Private Constants
+
+	private struct Alert {
+
+		struct ActionTitle {
+			static let Yes = "Yes"
+			static let No  = "No"
+		}
+
+		struct Message {
+			static let IsUpdateDesired = "Would you like to update your location?"
+			static let NoJSONData      = "JSON data unavailable"
+		}
+
+		struct Title {
+			static let AlreadyPosted = "Your location already posted"
+			static let BadGet        = "Unable to find student location"
+			static let BadRefresh    = "Unable to refresh list of student locations"
+		}
+		
+	}
+	
+	// MARK: - View Events
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
+	}
+	
 	// MARK: - IB Actions
 
 	@IBAction func pinButtonWasTapped(sender: UIBarButtonItem) {
@@ -20,32 +49,6 @@ class StudentLocationsTabBarController: UITabBarController {
 		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
 	}
 
-	// MARK: - Private Constants
-
-	struct Alert {
-
-		struct ActionTitle {
-			static let Yes = "Yes"
-			static let No = "No"
-		}
-
-		struct Message {
-			static let IsUpdateDesired = "Would you like to update your location?"
-		}
-
-		struct Title {
-			static let AlreadyPosted = "Your location already posted"
-		}
-
-	}
-
-	// MARK: - View Events
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
-	}
-
 	// MARK: - Private:  Completion Handlers as Computed Variables
 
 	private var getStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
@@ -53,12 +56,12 @@ class StudentLocationsTabBarController: UITabBarController {
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				self.presentAlert(Constants.Alert.Title.BadGet, message: error!.localizedDescription)
+				self.presentAlert(Alert.Title.BadGet, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				self.presentAlert(Constants.Alert.Title.BadGet, message: Constants.Alert.Message.NoSL)
+				self.presentAlert(Alert.Title.BadGet, message: Alert.Message.NoJSONData)
 				return
 			}
 
@@ -99,19 +102,19 @@ class StudentLocationsTabBarController: UITabBarController {
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				self.presentAlert(Constants.Alert.Title.BadRefresh, message: error!.localizedDescription)
+				self.presentAlert(Alert.Title.BadRefresh, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				self.presentAlert(Constants.Alert.Title.BadRefresh, message: Constants.Alert.Message.NoSLArray)
+				self.presentAlert(Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)
 				return
 			}
 
 			let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as! [JSONDictionary]?
 
 			guard !(results!.isEmpty) else {
-				self.presentAlert(Constants.Alert.Title.BadRefresh, message: Constants.Alert.Message.EmptySLArray)
+				self.presentAlert(Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)
 				return
 			}
 

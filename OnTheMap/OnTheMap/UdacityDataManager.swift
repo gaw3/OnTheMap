@@ -16,6 +16,14 @@ class UdacityDataManager: NSObject {
 		return _sharedMgr
 	}
 
+	// MARK: - Public Constants
+
+	struct Notification {
+		static let LoginResponseDataDidGetSaved  = "LoginResponseDataDidGetSavedNotification"
+		static let LogoutResponseDataDidGetSaved = "LogoutResponseDataDidGetSavedNotification"
+		static let UserDataDidGetSaved           = "UserDataDidGetSavedNotification"
+	}
+
 	// MARK: - Private Stored Variables
 
 	private var _account:       UdacityAccount? = nil
@@ -43,7 +51,7 @@ class UdacityDataManager: NSObject {
 		set(data) {
 			_account      = data.0
 			_loginSession = data.1
-			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LoginResponseDataDidGetSaved, object: nil)
+			NSNotificationCenter.defaultCenter().postNotificationName(Notification.LoginResponseDataDidGetSaved, object: nil)
 		}
 	}
 
@@ -52,7 +60,7 @@ class UdacityDataManager: NSObject {
 
 		set(data) {
 			_logoutSession = data
-			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.LogoutResponseDataDidGetSaved, object: nil)
+			NSNotificationCenter.defaultCenter().postNotificationName(Notification.LogoutResponseDataDidGetSaved, object: nil)
 		}
 	}
 	
@@ -61,7 +69,7 @@ class UdacityDataManager: NSObject {
 
 		set(newUser) {
 			_user = newUser
-			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notification.UserDataDidGetSaved, object: nil)
+			NSNotificationCenter.defaultCenter().postNotificationName(Notification.UserDataDidGetSaved, object: nil)
 		}
 	}
 	

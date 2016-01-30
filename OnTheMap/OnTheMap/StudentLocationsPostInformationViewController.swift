@@ -15,42 +15,32 @@ typealias NewStudent = (firstName: String, lastName: String, udacityUserID: Stri
 class StudentLocationsPostInformationViewController: UIViewController, MKMapViewDelegate,
 																	  UITextFieldDelegate {
 
-	// MARK: - IB Outlets
-	@IBOutlet var questionLabels: [UILabel]!
-
-	@IBOutlet weak var cancelButton:      UIButton!
-	@IBOutlet weak var mapView:           MKMapView!
-	@IBOutlet weak var imageView:         UIImageView!
-	@IBOutlet weak var toolbar:           UIToolbar!
-	@IBOutlet weak var toolbarButton:     UIBarButtonItem!
-	@IBOutlet weak var mediaURLTextField: UITextField!
-	@IBOutlet weak var locationTextField: UITextField!
-
-	// MARK: - IB Actions
-
-	@IBAction func cancelButtonWasTapped(sender: UIButton) {
-		assert(sender == cancelButton, "rcvd IB Action from unknown button")
-
-		dismissViewControllerAnimated(true, completion: nil)
-	}
-
-	@IBAction func toolbarButtonWasTapped(sender: UIBarButtonItem) {
-
-		if sender.title == ButtonTitle.Find {
-			findOnTheMap()
-		} else if sender.title == ButtonTitle.Submit {
-			submit()
-		}
-
-	}
-
 	// MARK: - Public Constants
 
 	struct UIConstants {
-		static let StoryboardID = "StudentLocsPostInfoVC"
+		static let StoryboardID    = "StudentLocsPostInfoVC"
+		static let BtnBkndFileName = "WhitePixel"
 	}
 
 	// MARK: - Private Constants
+
+	private struct Alert {
+
+		struct Message {
+			static let LocationNotEntered = "Location not yet entered"
+			static let NoJSONData         = "JSON data unavailable"
+			static let NoPlacemarks       = "Did not receive any placemarks"
+         static let URLNotEntered      = "Link to share not yet entered"
+		}
+
+		struct Title {
+			static let BadGeocode = "Unable to geocode location"
+			static let BadPost    = "Unable to post new student location"
+			static let BadUpdate  = "Unable to update student location"
+			static let BadSubmit  = "Unable to submit student location update"
+		}
+
+	}
 
 	private struct ButtonTitle {
 		static let Find   = "Find On The Map"
@@ -62,6 +52,12 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		static let MediaURLTextField = "Enter a Link to Share Here"
 	}
 	
+	// MARK: - Private Stored Variables
+
+	private var _currentStudentLocation: StudentLocation? = nil
+	private var _newStudent:				 NewStudent?      = nil
+	private var pleaseWaitView:          PleaseWaitView?  = nil
+
 	// MARK: - Public Computed Variables
 
 	var currentStudentLocation: StudentLocation? {
@@ -79,13 +75,17 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			_newStudent = student
 		}
 	}
+	
+	// MARK: - IB Outlets
 
-	var pleaseWaitView: PleaseWaitView? = nil
-
-	// MARK: - Private Stored Variables
-
-	private var _currentStudentLocation: StudentLocation? = nil
-	private var _newStudent:				 NewStudent?      = nil
+	@IBOutlet      var questionLabels:    [UILabel]!
+	@IBOutlet weak var cancelButton:      UIButton!
+	@IBOutlet weak var mapView:           MKMapView!
+	@IBOutlet weak var imageView:         UIImageView!
+	@IBOutlet weak var toolbar:           UIToolbar!
+	@IBOutlet weak var toolbarButton:     UIBarButtonItem!
+	@IBOutlet weak var mediaURLTextField: UITextField!
+	@IBOutlet weak var locationTextField: UITextField!
 
 	// MARK: - View Events
 
@@ -93,37 +93,30 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		super.viewDidLoad()
 
 		addSubviews()
+		setInitialSubviewVisibility()
+		setInitialFieldValues()
+		setToolbarButtonBackground()
+	}
+	
+	// MARK: - IB Actions
 
-		imageView.hidden         = false
-		locationTextField.hidden = false
-		questionLabels.forEach({$0.hidden = false})
+	@IBAction func cancelButtonWasTapped(sender: UIButton) {
+		assert(sender == cancelButton, "rcvd IB Action from unknown button")
 
-		mediaURLTextField.hidden = true
-		mapView.hidden	          = true
+		dismissViewControllerAnimated(true, completion: nil)
+	}
 
-		let buttonBackground = UIImage(named: "WhitePixel")
-		buttonBackground?.resizableImageWithCapInsets(UIEdgeInsetsZero)
+	@IBAction func toolbarButtonWasTapped(sender: UIBarButtonItem) {
+		assert(sender == toolbarButton, "rcvd IB Action from unknown button")
 
-		toolbarButton.setBackgroundImage(buttonBackground, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
-		toolbarButton.title = ButtonTitle.Find
-
-		if let _ = newStudent {
-			locationTextField.text = InitialText.LocationTextField
-			mediaURLTextField.text = InitialText.MediaURLTextField
-
-			currentStudentLocation = StudentLocation()
-			currentStudentLocation?.firstName = newStudent!.firstName
-			currentStudentLocation?.lastName  = newStudent!.lastName
-			currentStudentLocation?.uniqueKey = newStudent!.udacityUserID
-		} else {
-			locationTextField.text = currentStudentLocation?.mapString
-			mediaURLTextField.text = currentStudentLocation?.mediaURL
-			locationTextField.clearsOnBeginEditing = false
-			mediaURLTextField.clearsOnBeginEditing = false
+		if sender.title == ButtonTitle.Find {
+			findOnTheMap()
+		} else if sender.title == ButtonTitle.Submit {
+			submit()
 		}
 
 	}
-	
+
 	// MARK: - UITextFieldDelegate
 
 	func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -140,7 +133,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	
 	// MARK: - Private:  Completion Handlers as Computed Variables
 
-	private var geocodeCompletionHandler : CLGeocodeCompletionHandler {
+	private var geocodeCompletionHandler: CLGeocodeCompletionHandler {
 
 		return { (placemarks, error) -> Void in
 
@@ -150,17 +143,17 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			})
 
 			guard error == nil else {
-				self.presentAlert(Constants.Alert.Title.BadGeocode, message: error!.localizedDescription)
+				self.presentAlert(Alert.Title.BadGeocode, message: error!.localizedDescription)
 				return
 			}
 
 			guard placemarks != nil else {
-				self.presentAlert(Constants.Alert.Title.BadGeocode, message: Constants.Alert.Message.NoPMArray)
+				self.presentAlert(Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
 				return
 			}
 
 			guard placemarks!.count > 0 else {
-				self.presentAlert(Constants.Alert.Title.BadGeocode, message: Constants.Alert.Message.EmptyPMArray)
+				self.presentAlert(Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
 				return
 			}
 
@@ -194,19 +187,17 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	}
 
-	private var postStudentLocationCompletionHandler : APIDataTaskWithRequestCompletionHandler {
+	private var postStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
 
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				print("error = \(error)")
-				// alert action view to the user that error occurred
+				self.presentAlert(Alert.Title.BadPost, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				print("no json data provided to request list completion handler")
-				// alert action view again
+				self.presentAlert(Alert.Title.BadPost, message: Alert.Message.NoJSONData)
 				return
 			}
 
@@ -224,19 +215,17 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		
 	}
 
-	private var updateStudentLocationCompletionHandler : APIDataTaskWithRequestCompletionHandler {
+	private var updateStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
 
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				print("error = \(error)")
-				// alert action view to the user that error occurred
+				self.presentAlert(Alert.Title.BadUpdate, message: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				print("no json data provided to request list completion handler")
-				// alert action view again
+				self.presentAlert(Alert.Title.BadUpdate, message: Alert.Message.NoJSONData)
 				return
 			}
 
@@ -256,32 +245,72 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	private func addSubviews() {
 		questionLabels.forEach({view.addSubview($0)})
+
 		view.addSubview(cancelButton)
 		view.addSubview(mapView)
 		view.addSubview(imageView)
 		view.addSubview(toolbar)
 		view.addSubview(mediaURLTextField)
 		view.addSubview(locationTextField)
+		
 		pleaseWaitView = PleaseWaitView(requestingView: view)
+		view.addSubview((pleaseWaitView?.dimmedView)!)
+		view.bringSubviewToFront((pleaseWaitView?.dimmedView)!)
 	}
 
 	private func findOnTheMap() {
 
 		if locationTextField.text == InitialText.LocationTextField {
-			presentAlert(Constants.Alert.Title.BadGeocode, message: Constants.Alert.Message.NoLocation)
+			presentAlert(Alert.Title.BadGeocode, message: Alert.Message.LocationNotEntered)
 		} else {
 			let geocoder = CLGeocoder()
 			NetworkActivityIndicatorManager.sharedManager.startActivity();
-			pleaseWaitView!.startActivityIndicator(UIColor.whiteColor())
+			pleaseWaitView!.startActivityIndicator()
 			geocoder.geocodeAddressString(locationTextField.text!, completionHandler: geocodeCompletionHandler)
 		}
 
 	}
 
+	private func setInitialFieldValues() {
+
+		if let _ = newStudent {
+			locationTextField.text = InitialText.LocationTextField
+			mediaURLTextField.text = InitialText.MediaURLTextField
+
+			currentStudentLocation = StudentLocation()
+			currentStudentLocation?.firstName = newStudent!.firstName
+			currentStudentLocation?.lastName  = newStudent!.lastName
+			currentStudentLocation?.uniqueKey = newStudent!.udacityUserID
+		} else {
+			locationTextField.text = currentStudentLocation?.mapString
+			mediaURLTextField.text = currentStudentLocation?.mediaURL
+			locationTextField.clearsOnBeginEditing = false
+			mediaURLTextField.clearsOnBeginEditing = false
+		}
+
+	}
+
+	private func setInitialSubviewVisibility() {
+		imageView.hidden         = false
+		locationTextField.hidden = false
+		questionLabels.forEach({$0.hidden = false})
+
+		mediaURLTextField.hidden = true
+		mapView.hidden	          = true
+	}
+
+	private func setToolbarButtonBackground() {
+		let buttonBackground = UIImage(named: UIConstants.BtnBkndFileName)
+		buttonBackground?.resizableImageWithCapInsets(UIEdgeInsetsZero)
+
+		toolbarButton.setBackgroundImage(buttonBackground, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+		toolbarButton.title = ButtonTitle.Find
+	}
+	
 	private func submit() {
 
 		if mediaURLTextField.text == InitialText.MediaURLTextField {
-			presentAlert(Constants.Alert.Title.BadSubmit, message: Constants.Alert.Message.NoURL)
+			presentAlert(Alert.Title.BadSubmit, message: Alert.Message.URLNotEntered)
 		} else {
 			currentStudentLocation?.mediaURL = mediaURLTextField.text!
 
@@ -290,11 +319,11 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			} else {
 				ParseAPIClient.sharedClient.updateStudentLocation(currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
 			}
-			
-		}
-		
-	}
 
+		}
+
+	}
+	
 	private func transitionToMapAndURL(annotation: MKPointAnnotation, region: MKCoordinateRegion) {
 		view.backgroundColor = imageView.backgroundColor
 		toolbarButton.title  = ButtonTitle.Submit
