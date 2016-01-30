@@ -80,6 +80,8 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		}
 	}
 
+	var pleaseWaitView: PleaseWaitView? = nil
+
 	// MARK: - Private Stored Variables
 
 	private var _currentStudentLocation: StudentLocation? = nil
@@ -89,6 +91,8 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+
+		addSubviews()
 
 		imageView.hidden         = false
 		locationTextField.hidden = false
@@ -142,6 +146,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 			dispatch_async(dispatch_get_main_queue(), {
 				NetworkActivityIndicatorManager.sharedManager.endActivity()
+				self.pleaseWaitView!.stopActivityIndicator()
 			})
 
 			guard error == nil else {
@@ -247,7 +252,18 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	}
 
-	// MARK: - Private:  UI Helpers
+	// MARK: - Private Helpers
+
+	private func addSubviews() {
+		questionLabels.forEach({view.addSubview($0)})
+		view.addSubview(cancelButton)
+		view.addSubview(mapView)
+		view.addSubview(imageView)
+		view.addSubview(toolbar)
+		view.addSubview(mediaURLTextField)
+		view.addSubview(locationTextField)
+		pleaseWaitView = PleaseWaitView(requestingView: view)
+	}
 
 	private func findOnTheMap() {
 
@@ -256,6 +272,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		} else {
 			let geocoder = CLGeocoder()
 			NetworkActivityIndicatorManager.sharedManager.startActivity();
+			pleaseWaitView!.startActivityIndicator(UIColor.whiteColor())
 			geocoder.geocodeAddressString(locationTextField.text!, completionHandler: geocodeCompletionHandler)
 		}
 
@@ -273,6 +290,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 			} else {
 				ParseAPIClient.sharedClient.updateStudentLocation(currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
 			}
+			
 		}
 		
 	}
