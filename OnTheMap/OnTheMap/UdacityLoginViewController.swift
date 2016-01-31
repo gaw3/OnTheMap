@@ -32,6 +32,13 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 
 	}
 
+	private struct PlaceholderText {
+		static let Attributes    = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+		static let EmailField    = "Email"
+		static let InsetRect     = CGRectMake(0, 0, 10, 50)
+		static let PasswordField = "Password"
+	}
+
 	private struct URL {
 		static let UdacitySignupURLString = "https://www.udacity.com/account/auth#!/signup"
 	}
@@ -70,7 +77,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		super.viewDidLoad()
 
 		addSubviews()
-		addIndentationsToTextFields()
+		setTextFieldPlaceholders()
 		createBackgroundColorGradient()
 
 		loginLabel.textColor = UIColor.whiteColor()
@@ -84,8 +91,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 	@IBAction func loginButtonDidTouchUpInside(sender: UIButton) {
 		assert(sender == loginButton, "rcvd IB Action from unknown button")
 
-		if emailTextField.text!.isEmpty    || emailTextField.text == "Email" ||
-			passwordTextField.text!.isEmpty || passwordTextField.text == "Password" {
+		if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
 			self.presentAlert(Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
 		} else {
 			pleaseWaitView?.startActivityIndicator()
@@ -250,13 +256,6 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		view.addSubview(facebookLoginButton)
 	}
 
-	private func addIndentationsToTextFields() {
-		emailTextField.leftView        = UIView(frame: CGRectMake(0, 0, 10, self.emailTextField.frame.height))
-		emailTextField.leftViewMode    = UITextFieldViewMode.Always
-		passwordTextField.leftView     = UIView(frame: CGRectMake(0, 0, 10, self.passwordTextField.frame.height))
-		passwordTextField.leftViewMode = UITextFieldViewMode.Always
-	}
-
 	private func addNotificationObservers() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginResponseDataDidGetSaved:",
 																					  name: UdacityDataManager.Notification.LoginResponseDataDidGetSaved,
@@ -299,4 +298,14 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		view.bringSubviewToFront(pleaseWaitView!.dimmedView)
 	}
 
+	private func setTextFieldPlaceholders() {
+		emailTextField.leftView                 = UIView(frame: PlaceholderText.InsetRect)
+		emailTextField.leftViewMode             = UITextFieldViewMode.Always
+		emailTextField.attributedPlaceholder    = NSAttributedString(string: PlaceholderText.EmailField, attributes: PlaceholderText.Attributes)
+
+		passwordTextField.leftView              = UIView(frame: PlaceholderText.InsetRect)
+		passwordTextField.leftViewMode          = UITextFieldViewMode.Always
+		passwordTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.PasswordField, attributes: PlaceholderText.Attributes)
+	}
+	
 }

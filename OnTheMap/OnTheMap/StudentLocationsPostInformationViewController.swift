@@ -47,11 +47,12 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		static let Submit = "Submit"
 	}
 
-	private struct InitialText {
-		static let LocationTextField = "Enter Your Location Here"
-		static let MediaURLTextField = "Enter a Link to Share Here"
+	private struct PlaceholderText {
+		static let Attributes    = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+		static let LocationField = "Enter Your Location Here"
+		static let MediaURLField = "Enter a Link to Share Here"
 	}
-	
+
 	// MARK: - Private Stored Variables
 
 	private var _currentStudentLocation: StudentLocation? = nil
@@ -93,6 +94,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		super.viewDidLoad()
 
 		addSubviews()
+		setTextFieldPlaceholders()
 		setInitialSubviewVisibility()
 		setInitialFieldValues()
 		setToolbarButtonBackground()
@@ -123,11 +125,6 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		assert(textField == mediaURLTextField || textField == locationTextField, "unknown UITextField = \(textField)")
 
 		textField.resignFirstResponder()
-
-		if textField.text!.isEmpty  {
-			textField.text = (textField == locationTextField) ? InitialText.LocationTextField : InitialText.MediaURLTextField
-		}
-
 		return true
 	}
 	
@@ -260,7 +257,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 
 	private func findOnTheMap() {
 
-		if locationTextField.text == InitialText.LocationTextField {
+		if locationTextField.text!.isEmpty {
 			presentAlert(Alert.Title.BadGeocode, message: Alert.Message.LocationNotEntered)
 		} else {
 			let geocoder = CLGeocoder()
@@ -274,9 +271,6 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	private func setInitialFieldValues() {
 
 		if let _ = newStudent {
-			locationTextField.text = InitialText.LocationTextField
-			mediaURLTextField.text = InitialText.MediaURLTextField
-
 			currentStudentLocation = StudentLocation()
 			currentStudentLocation?.firstName = newStudent!.firstName
 			currentStudentLocation?.lastName  = newStudent!.lastName
@@ -299,6 +293,11 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 		mapView.hidden	          = true
 	}
 
+	private func setTextFieldPlaceholders() {
+		locationTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.LocationField, attributes: PlaceholderText.Attributes)
+		mediaURLTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.MediaURLField, attributes: PlaceholderText.Attributes)
+	}
+
 	private func setToolbarButtonBackground() {
 		let buttonBackground = UIImage(named: UIConstants.BtnBkndFileName)
 		buttonBackground?.resizableImageWithCapInsets(UIEdgeInsetsZero)
@@ -309,7 +308,7 @@ class StudentLocationsPostInformationViewController: UIViewController, MKMapView
 	
 	private func submit() {
 
-		if mediaURLTextField.text == InitialText.MediaURLTextField {
+		if mediaURLTextField.text!.isEmpty {
 			presentAlert(Alert.Title.BadSubmit, message: Alert.Message.URLNotEntered)
 		} else {
 			currentStudentLocation?.mediaURL = mediaURLTextField.text!
