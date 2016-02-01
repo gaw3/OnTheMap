@@ -107,6 +107,8 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 	}
 
 	@IBAction func unwindToLoginViewController(segue: UIStoryboardSegue) {
+		emailTextField.text    = ""
+		passwordTextField.text = ""
 
 		if !isLoggedOut {
 			UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
