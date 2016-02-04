@@ -46,7 +46,6 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 	// MARK: - Private Stored Variables
 
 	private var pleaseWaitView: PleaseWaitView? = nil
-	private var isLoggedOut = true
 
 	// MARK: - IB Outlets
 
@@ -110,10 +109,8 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		emailTextField.text    = ""
 		passwordTextField.text = ""
 
-		if !isLoggedOut {
-			UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
-		}
-
+		logoutFromFacebook()
+		UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
 	}
 
 	// MARK: - Notifications
@@ -128,10 +125,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 	func logoutResponseDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == UdacityDataManager.Notification.LogoutResponseDataDidGetSaved, "unknown notification = \(notification)")
 
-		if UdacityDataManager.sharedMgr.isLogoutSuccessful {
-			isLoggedOut = true
-		}
-
+		// leave here in case there is ever anything to do
 	}
 
 	func userDataDidGetSaved(notification: NSNotification) {
@@ -140,7 +134,6 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		pleaseWaitView?.stopActivityIndicator()
 
 		if UdacityDataManager.sharedMgr.isLoginSuccessful {
-			isLoggedOut = false
 			let navController = self.storyboard?.instantiateViewControllerWithIdentifier("StudentLocsTabBarNavCtlr") as! UINavigationController
 			self.presentViewController(navController, animated: true, completion: nil)
 		}
@@ -161,11 +154,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 	}
 
 	func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-
-		if !isLoggedOut {
-			UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
-		}
-
+		// must have this to satisfy the protocol
 	}
 
 	// MARK: - UITextFieldDelegate
@@ -184,14 +173,12 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				self.pleaseWaitView?.stopActivityIndicator()
-				self.presentAlert(Alert.Title.BadUserProfileData, message: error!.localizedDescription)
+				self.cleanup(Alert.Title.BadUserProfileData, alertMessage: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				self.pleaseWaitView?.stopActivityIndicator()
-				self.presentAlert(Alert.Title.BadUserProfileData, message: Alert.Message.NoJSONData)
+				self.cleanup(Alert.Title.BadUserProfileData, alertMessage: Alert.Message.NoJSONData)
 				return
 			}
 
@@ -205,14 +192,12 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		return { (result, error) -> Void in
 
 			guard error == nil else {
-				self.pleaseWaitView?.stopActivityIndicator()
-				self.presentAlert(Alert.Title.BadLogin, message: error!.localizedDescription)
+				self.cleanup(Alert.Title.BadLogin, alertMessage: error!.localizedDescription)
 				return
 			}
 
 			guard result != nil else {
-				self.pleaseWaitView?.stopActivityIndicator()
-				self.presentAlert(Alert.Title.BadLogin, message: Alert.Message.NoJSONData)
+				self.cleanup(Alert.Title.BadLogin, alertMessage: Alert.Message.NoJSONData)
 				return
 			}
 
@@ -279,6 +264,12 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		view.addSubview(signUpButton)
 	}
 
+	private func cleanup(alertTitle: String, alertMessage: String) {
+		logoutFromFacebook()
+		pleaseWaitView?.stopActivityIndicator()
+		presentAlert(alertTitle, message: alertMessage)
+	}
+
 	private func createBackgroundColorGradient() {
 		view.backgroundColor = UIColor.whiteColor()
 
@@ -292,6 +283,11 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 		gradientLayer.locations = [0.0, 0.9]
 
 		view.layer.addSublayer(gradientLayer)
+	}
+
+	private func logoutFromFacebook() {
+		let loginManager = FBSDKLoginManager()
+		loginManager.logOut()
 	}
 
 	private func initPleaseWaitView() {
