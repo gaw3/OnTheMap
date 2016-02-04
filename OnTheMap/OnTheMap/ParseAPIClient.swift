@@ -16,24 +16,6 @@ class ParseAPIClient: NSObject {
 		return _sharedClient
 	}
 
-	// MARK: - Public Constants
-
-	struct API {
-		static let BaseURL        = "https://api.parse.com/1/classes/StudentLocation"
-		
-		static let DateCreatedKey = "createdAt"
-		static let DateUpdatedKey = "updatedAt"
-		static let FirstNameKey   = "firstName"
-		static let LastNameKey    = "lastName"
-		static let LatKey			  = "latitude"
-		static let MapStringKey   = "mapString"
-		static let LongKey		  = "longitude"
-		static let MediaURLKey    = "mediaURL"
-		static let ObjectIDKey    = "objectId"
-		static let ResultsKey     = "results"
-		static let UniqueKeyKey   = "uniqueKey"
-	}
-
 	// MARK: - Private Constants
 
 	private struct ParseAppIDField {
@@ -49,14 +31,15 @@ class ParseAPIClient: NSObject {
 	// MARK: - API
 
 	func getStudentLocation(udacityUserID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: API.BaseURL, HTTPQuery: "where={\"\(API.UniqueKeyKey)\":\"\(udacityUserID)\"}")
+		let query               = "where={\"\(ParseAPI.UniqueKeyKey)\":\"\(udacityUserID)\"}"
+		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: ParseAPI.BaseURL, HTTPQuery: query)
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 
 		dataTaskWithRequest.resume()
 	}
 	
 	func postStudentLocation(studentLocation: StudentLocation, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = getURLRequest(HTTPMethod.Post, URLString: API.BaseURL, HTTPQuery: nil)
+		let URLRequest = getURLRequest(HTTPMethod.Post, URLString: ParseAPI.BaseURL, HTTPQuery: nil)
 
 		URLRequest.HTTPBody = studentLocation.newStudentSerializedData
 		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.ContentType)
@@ -66,14 +49,14 @@ class ParseAPIClient: NSObject {
 	}
 	
 	func refreshStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: API.BaseURL, HTTPQuery: "limit=100&order=-updatedAt")
+		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: ParseAPI.BaseURL, HTTPQuery: "limit=100&order=-updatedAt")
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 
 		dataTaskWithRequest.resume()
 	}
 
 	func updateStudentLocation(studentLocation: StudentLocation, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = getURLRequest(HTTPMethod.Put, URLString: API.BaseURL + "/\(studentLocation.objectID)", HTTPQuery: nil)
+		let URLRequest = getURLRequest(HTTPMethod.Put, URLString: ParseAPI.BaseURL + "/\(studentLocation.objectID)", HTTPQuery: nil)
 
 		URLRequest.HTTPBody = studentLocation.newStudentSerializedData
 		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.ContentType)

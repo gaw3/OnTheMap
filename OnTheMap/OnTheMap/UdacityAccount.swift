@@ -18,14 +18,14 @@ struct UdacityAccount {
 
 	var isRegistered: Bool {
 		get {
-			if let isRegistered = _account[UdacityAPIClient.API.RegisteredKey] as! Bool? { return isRegistered }
+			if let isRegistered = _account[UdacityAPI.RegisteredKey] as! Bool? { return isRegistered }
 			return false
 		}
 	}
 	
 	var userID: String? {
 		get {
-			if let userID = _account[UdacityAPIClient.API.UserIDKey] as! String? { return userID }
+			if let userID = _account[UdacityAPI.UserIDKey] as! String? { return userID }
 			return nil
 		}
 	}

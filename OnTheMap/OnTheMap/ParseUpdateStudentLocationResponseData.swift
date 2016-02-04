@@ -18,7 +18,7 @@ struct ParseUpdateStudentLocationResponseData {
 
 	var dateUpdated: String? {
 		get {
-			if let date = _data[ParseAPIClient.API.DateUpdatedKey] as! String? { return date }
+			if let date = _data[ParseAPI.DateUpdatedKey] as! String? { return date }
 			return nil
 		}
 	}

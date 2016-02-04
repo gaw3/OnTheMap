@@ -15,6 +15,8 @@
 		7A1E9AB01C459FC8008BCB02 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1E9AAF1C459FC8008BCB02 /* UIViewControllerExtensions.swift */; };
 		7A261AC91C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A261AC81C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift */; };
 		7A261ACB1C3FD20D00FAEF5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */; };
+		7A29A8C11C631ACA0098E298 /* ParseAPIClientConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A29A8C01C631ACA0098E298 /* ParseAPIClientConstants.swift */; };
+		7A29A8C31C631F260098E298 /* UdacityAPIClientConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A29A8C21C631F260098E298 /* UdacityAPIClientConstants.swift */; };
 		7A40DAFD1C5431B600E5A1BC /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A40DAFA1C5431B600E5A1BC /* Roboto-Medium.ttf */; };
 		7A40DAFE1C5431B600E5A1BC /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A40DAFB1C5431B600E5A1BC /* Roboto-Regular.ttf */; };
 		7A40DAFF1C5431B600E5A1BC /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A40DAFC1C5431B600E5A1BC /* Roboto-Thin.ttf */; };
@@ -51,6 +53,8 @@
 		7A1E9AAF1C459FC8008BCB02 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		7A261AC81C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocationsPostInformationViewController.swift; sourceTree = "<group>"; };
 		7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7A29A8C01C631ACA0098E298 /* ParseAPIClientConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseAPIClientConstants.swift; sourceTree = "<group>"; };
+		7A29A8C21C631F260098E298 /* UdacityAPIClientConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityAPIClientConstants.swift; sourceTree = "<group>"; };
 		7A40DAFA1C5431B600E5A1BC /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		7A40DAFB1C5431B600E5A1BC /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		7A40DAFC1C5431B600E5A1BC /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
@@ -96,10 +100,19 @@
 		7A0D0BC71C0D4AF30087D9CE /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				7A0D0BCC1C0E84190087D9CE /* APIClientConstants.swift */,
 				7A0D0BC31C0D29330087D9CE /* APIDataTaskWithRequest.swift */,
 			);
 			name = Common;
+			sourceTree = "<group>";
+		};
+		7A29A8BF1C631A310098E298 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				7A0D0BCC1C0E84190087D9CE /* APIClientConstants.swift */,
+				7A29A8C01C631ACA0098E298 /* ParseAPIClientConstants.swift */,
+				7A29A8C21C631F260098E298 /* UdacityAPIClientConstants.swift */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 		7A4871FA1C163DC600E1E9CD /* Data */ = {
@@ -207,6 +220,7 @@
 		7A840F791C04EB7A006B5874 /* API Clients */ = {
 			isa = PBXGroup;
 			children = (
+				7A29A8BF1C631A310098E298 /* Constants */,
 				7A0D0BC71C0D4AF30087D9CE /* Common */,
 				7AA2863D1C4D72680059FF24 /* Parse */,
 				7AA2863C1C4D724B0059FF24 /* Udacity */,
@@ -327,6 +341,7 @@
 				7AC6A4741C4F313700470E22 /* UdacityLogin.swift in Sources */,
 				7AD293CF1C447BCD00E61B85 /* UdacityDataManager.swift in Sources */,
 				7A261AC91C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift in Sources */,
+				7A29A8C11C631ACA0098E298 /* ParseAPIClientConstants.swift in Sources */,
 				7A0D0BCD1C0E84190087D9CE /* APIClientConstants.swift in Sources */,
 				7A79BA3C1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift in Sources */,
 				7A1507E31C478031009BAAA4 /* UdacitySession.swift in Sources */,
@@ -335,6 +350,7 @@
 				7A8F93181C12950800F63A73 /* StudentLocationsTableViewController.swift in Sources */,
 				7A8F93161C1294DC00F63A73 /* StudentLocationsMapViewController.swift in Sources */,
 				7A0D0BC21C0CFF910087D9CE /* ParseAPIClient.swift in Sources */,
+				7A29A8C31C631F260098E298 /* UdacityAPIClientConstants.swift in Sources */,
 				7A1507E51C478069009BAAA4 /* UdacityAccount.swift in Sources */,
 				7AA2863F1C4D74660059FF24 /* ParsePostStudentLocationResponseData.swift in Sources */,
 				7A87AE971C49BB5B00C9F091 /* StudentLocationsTabBarController.swift in Sources */,

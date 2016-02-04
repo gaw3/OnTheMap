@@ -65,7 +65,7 @@ class StudentLocationsTabBarController: UITabBarController {
 				return
 			}
 
-			let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as? [JSONDictionary]
+			let results = (result as! JSONDictionary)[ParseAPI.ResultsKey] as? [JSONDictionary]
 
 			if results!.isEmpty {
 				let postInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier(StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
@@ -111,7 +111,7 @@ class StudentLocationsTabBarController: UITabBarController {
 				return
 			}
 
-			let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as! [JSONDictionary]?
+			let results = (result as! JSONDictionary)[ParseAPI.ResultsKey] as! [JSONDictionary]?
 
 			guard !(results!.isEmpty) else {
 				self.presentAlert(Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)

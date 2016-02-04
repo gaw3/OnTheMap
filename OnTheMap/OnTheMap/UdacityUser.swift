@@ -19,7 +19,7 @@ struct UdacityUser {
 	var firstName: String? {
 		get {
 			if let _ = _user {
-				if let name = _user![UdacityAPIClient.API.FirstNameKey] as! String? { return name }
+				if let name = _user![UdacityAPI.FirstNameKey] as! String? { return name }
 			}
 			return nil
 		}
@@ -28,7 +28,7 @@ struct UdacityUser {
 	var lastName: String? {
 		get {
 			if let _ = _user {
-				if let name = _user![UdacityAPIClient.API.LastNameKey] as! String? { return name }
+				if let name = _user![UdacityAPI.LastNameKey] as! String? { return name }
 			}
 			return nil
 		}
@@ -37,7 +37,7 @@ struct UdacityUser {
 	var userID: String? {
 		get {
 			if let _ = _user {
-				if let id = _user![UdacityAPIClient.API.UserIDKey] as! String? { return id }
+				if let id = _user![UdacityAPI.UserIDKey] as! String? { return id }
 			}
 			return nil
 		}
@@ -67,7 +67,7 @@ struct UdacityUser {
 
 	init(userDict: JSONDictionary) {
 
-		if let user = userDict[UdacityAPIClient.API.UserKey] as! JSONDictionary? {
+		if let user = userDict[UdacityAPI.UserKey] as! JSONDictionary? {
 			_user = user
 		}
 

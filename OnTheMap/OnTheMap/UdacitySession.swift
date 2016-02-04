@@ -18,14 +18,14 @@ struct UdacitySession {
 
 	var expirationDate: String? {
 		get {
-			if let date = _session[UdacityAPIClient.API.ExpirationDateKey] as! String? { return date }
+			if let date = _session[UdacityAPI.ExpirationDateKey] as! String? { return date }
 			return nil
 		}
 	}
 
 	var id: String? {
 		get {
-			if let id = _session[UdacityAPIClient.API.SessionIDKey] as! String? { return id }
+			if let id = _session[UdacityAPI.SessionIDKey] as! String? { return id }
 			return nil
 		}
 	}
