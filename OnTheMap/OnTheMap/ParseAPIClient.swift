@@ -66,7 +66,7 @@ class ParseAPIClient: NSObject {
 	}
 	
 	func refreshStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: API.BaseURL, HTTPQuery: "limit=100")
+		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: API.BaseURL, HTTPQuery: "limit=100&order=-updatedAt")
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 
 		dataTaskWithRequest.resume()
