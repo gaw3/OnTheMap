@@ -20,84 +20,84 @@ struct StudentLocation {
    
 	var dateCreated: String {
 		get {
-			if let date = _studentLocation[ParseAPI.DateCreatedKey] as! String? { return date }
+			if let date = _studentLocation[ParseAPIClient.API.DateCreatedKey] as! String? { return date }
 			return String()
 		}
 
-		set(date) { _studentLocation[ParseAPI.DateCreatedKey] = date }
+		set(date) { _studentLocation[ParseAPIClient.API.DateCreatedKey] = date }
 	}
 
 	var dateUpdated: String {
 		get {
-			if let date = _studentLocation[ParseAPI.DateUpdatedKey] as! String? { return date }
+			if let date = _studentLocation[ParseAPIClient.API.DateUpdatedKey] as! String? { return date }
 			return String()
 		}
 
-		set(date) { _studentLocation[ParseAPI.DateUpdatedKey] = date }
+		set(date) { _studentLocation[ParseAPIClient.API.DateUpdatedKey] = date }
 	}
 
 	var firstName: String {
 		get {
-			if let name = _studentLocation[ParseAPI.FirstNameKey] as! String? { return name }
+			if let name = _studentLocation[ParseAPIClient.API.FirstNameKey] as! String? { return name }
 			return String()
 		}
 
-		set(name) { _studentLocation[ParseAPI.FirstNameKey] = name }
+		set(name) { _studentLocation[ParseAPIClient.API.FirstNameKey] = name }
 	}
 
 	var lastName: String {
 		get {
-			if let name = _studentLocation[ParseAPI.LastNameKey] as! String? { return name }
+			if let name = _studentLocation[ParseAPIClient.API.LastNameKey] as! String? { return name }
 			return String()
 		}
 
-		set(name) { _studentLocation[ParseAPI.LastNameKey] = name }
+		set(name) { _studentLocation[ParseAPIClient.API.LastNameKey] = name }
 	}
 
 	var latitude: Double {
-      get { return _studentLocation[ParseAPI.LatKey] as! Double}
-		set(lat) { _studentLocation[ParseAPI.LatKey] = lat }
+      get { return _studentLocation[ParseAPIClient.API.LatKey] as! Double}
+		set(lat) { _studentLocation[ParseAPIClient.API.LatKey] = lat }
 	}
 
 	var longitude: Double {
-		get { return _studentLocation[ParseAPI.LongKey] as! Double }
-		set(long) { _studentLocation[ParseAPI.LongKey] = long }
+		get { return _studentLocation[ParseAPIClient.API.LongKey] as! Double }
+		set(long) { _studentLocation[ParseAPIClient.API.LongKey] = long }
 	}
 
 	var mapString: String {
 		get {
-			if let str = _studentLocation[ParseAPI.MapStringKey] as! String? { return str }
+			if let str = _studentLocation[ParseAPIClient.API.MapStringKey] as! String? { return str }
 			return String()
 		}
 
-		set(str) { _studentLocation[ParseAPI.MapStringKey] = str }
+		set(str) { _studentLocation[ParseAPIClient.API.MapStringKey] = str }
 	}
 	
 	var mediaURL: String {
 		get {
-			if let stringURL = _studentLocation[ParseAPI.MediaURLKey] as! String? { return stringURL }
+			if let stringURL = _studentLocation[ParseAPIClient.API.MediaURLKey] as! String? { return stringURL }
 			return String()
 		}
 
-		set(stringURL) { _studentLocation[ParseAPI.MediaURLKey] = stringURL }
+		set(stringURL) { _studentLocation[ParseAPIClient.API.MediaURLKey] = stringURL }
 	}
 
 	var objectID: String {
 		get {
-			if let id = _studentLocation[ParseAPI.ObjectIDKey] as! String? { return id }
+			if let id = _studentLocation[ParseAPIClient.API.ObjectIDKey] as! String? { return id }
 				return String()
 		}
 
-		set(id) { _studentLocation[ParseAPI.ObjectIDKey] = id }
+		set(id) { _studentLocation[ParseAPIClient.API.ObjectIDKey] = id }
 	}
 	
 	var uniqueKey: String {
 		get {
-			if let key = _studentLocation[ParseAPI.UniqueKeyKey] as! String? { return key }
+			if let key = _studentLocation[ParseAPIClient.API.UniqueKeyKey] as! String? { return key }
 			return String()
 		}
 
-		set(key) { _studentLocation[ParseAPI.UniqueKeyKey] = key }
+		set(key) { _studentLocation[ParseAPIClient.API.UniqueKeyKey] = key }
 	}
 
 	// MARK: - Public Computed Meta Variables
@@ -108,13 +108,13 @@ struct StudentLocation {
 
 	var newStudentSerializedData: NSData {
 		get {
-			let newStudentDict = [ ParseAPI.UniqueKeyKey : uniqueKey,
-										  ParseAPI.FirstNameKey : firstName,
-				                    ParseAPI.LastNameKey  : lastName,
-				                    ParseAPI.MapStringKey : mapString,
-				                    ParseAPI.MediaURLKey  : mediaURL,
-				                    ParseAPI.LatKey       : latitude,
-				                    ParseAPI.LongKey      : longitude ]
+			let newStudentDict = [ ParseAPIClient.API.UniqueKeyKey: uniqueKey,
+										  ParseAPIClient.API.FirstNameKey: firstName,
+				                    ParseAPIClient.API.LastNameKey: lastName,
+				                    ParseAPIClient.API.MapStringKey: mapString,
+				                    ParseAPIClient.API.MediaURLKey: mediaURL,
+				                    ParseAPIClient.API.LatKey: latitude,
+				                    ParseAPIClient.API.LongKey: longitude ]
 
 			let newStudentData = try! NSJSONSerialization.dataWithJSONObject(newStudentDict, options: .PrettyPrinted)
 			return newStudentData

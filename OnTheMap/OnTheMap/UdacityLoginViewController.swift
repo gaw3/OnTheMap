@@ -203,8 +203,8 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLo
 
 			let JSONResult = result as! JSONDictionary
 
-			let account = UdacityAccount(accountDict: JSONResult[UdacityAPI.AccountKey] as! JSONDictionary)
-			let session = UdacitySession(sessionDict: JSONResult[UdacityAPI.SessionKey] as! JSONDictionary)
+			let account = UdacityAccount(accountDict: JSONResult[UdacityAPIClient.API.AccountKey] as! JSONDictionary)
+			let session = UdacitySession(sessionDict: JSONResult[UdacityAPIClient.API.SessionKey] as! JSONDictionary)
 
 			UdacityDataManager.sharedMgr.loginData = (account, session)
 		}

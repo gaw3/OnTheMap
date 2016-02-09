@@ -31,35 +31,39 @@ class ParseAPIClient: NSObject {
 	// MARK: - API
 
 	func getStudentLocation(udacityUserID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let query               = "where={\"\(ParseAPI.UniqueKeyKey)\":\"\(udacityUserID)\"}"
-		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: ParseAPI.BaseURL, HTTPQuery: query)
+		let query               = "where={\"\(ParseAPIClient.API.UniqueKeyKey)\":\"\(udacityUserID)\"}"
+		let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, URLString: ParseAPIClient.API.BaseURL, HTTPQuery: query)
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 
 		dataTaskWithRequest.resume()
 	}
 	
 	func postStudentLocation(studentLocation: StudentLocation, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = getURLRequest(HTTPMethod.Post, URLString: ParseAPI.BaseURL, HTTPQuery: nil)
+		let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Post, URLString: ParseAPIClient.API.BaseURL, HTTPQuery: nil)
 
 		URLRequest.HTTPBody = studentLocation.newStudentSerializedData
-		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.ContentType)
+		URLRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
+			                 forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
 
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 		dataTaskWithRequest.resume()
 	}
 	
 	func refreshStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: ParseAPI.BaseURL, HTTPQuery: "limit=100&order=-updatedAt")
+		let query               = "limit=100&order=-updatedAt"
+		let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, URLString: ParseAPIClient.API.BaseURL, HTTPQuery: query)
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 
 		dataTaskWithRequest.resume()
 	}
 
 	func updateStudentLocation(studentLocation: StudentLocation, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = getURLRequest(HTTPMethod.Put, URLString: ParseAPI.BaseURL + "/\(studentLocation.objectID)", HTTPQuery: nil)
+		let URLString  = ParseAPIClient.API.BaseURL + "/\(studentLocation.objectID)"
+		let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Put, URLString: URLString, HTTPQuery: nil)
 
 		URLRequest.HTTPBody = studentLocation.newStudentSerializedData
-		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.ContentType)
+		URLRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
+			                 forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
 
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 		dataTaskWithRequest.resume()

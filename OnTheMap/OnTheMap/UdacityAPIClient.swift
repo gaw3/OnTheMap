@@ -18,27 +18,6 @@ class UdacityAPIClient: NSObject {
 		return _sharedClient
 	}
 
-	// MARK: - Public Constants
-
-//	struct API {
-//		static let BaseURL           = "https://www.udacity.com/api/"
-//		static let SessionURL        = BaseURL + "session"
-//		static let UsersURL          = BaseURL + "users/"
-//
-//		static let AccountKey        = "account"
-//		static let ExpirationDateKey = "expiration"
-//		static let FirstNameKey      = "first_name"
-//		static let LastNameKey       = "last_name"
-//		static let PasswordKey       = "password"
-//		static let RegisteredKey     = "registered"
-//		static let SessionIDKey      = "id"
-//		static let SessionKey        = "session"
-//		static let UdacityKey        = "udacity"
-//		static let UserIDKey         = "key"
-//		static let UserKey		     = "user"
-//		static let UserNameKey       = "username"
-//	}
-
 	// MARK: - Private Constants
 
 	private struct XSRFTokenField {
@@ -49,7 +28,8 @@ class UdacityAPIClient: NSObject {
 	// MARK: - API
 
 	func getUserProfileData(userID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest          = getURLRequest(HTTPMethod.Get, URLString: UdacityAPI.UsersURL + userID, HTTPQuery: nil)
+		let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get,
+			                                     URLString: UdacityAPIClient.API.UsersURL + userID, HTTPQuery: nil)
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 
 		dataTaskWithRequest.resume()
@@ -64,7 +44,8 @@ class UdacityAPIClient: NSObject {
 	}
 
 	func logout(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = getURLRequest(HTTPMethod.Delete, URLString: UdacityAPI.SessionURL, HTTPQuery: nil)
+		let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Delete,
+			                            URLString: UdacityAPIClient.API.SessionURL, HTTPQuery: nil)
 		let cookies    = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookies!
 
 		if let index = cookies.indexOf({ $0.name == XSRFTokenField.CookieName }) {
@@ -93,11 +74,14 @@ class UdacityAPIClient: NSObject {
 	}
 
 	private func login(serializedData: NSData, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = getURLRequest(HTTPMethod.Post, URLString: UdacityAPI.SessionURL, HTTPQuery: nil)
+		let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Post,
+											    URLString: UdacityAPIClient.API.SessionURL, HTTPQuery: nil)
 
 		URLRequest.HTTPBody = serializedData
-		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.Accept)
-		URLRequest.addValue(MIMEType.ApplicationJSON, forHTTPHeaderField: HTTPHeaderField.ContentType)
+		URLRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
+			                 forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.Accept)
+		URLRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
+			                 forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
 
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 		dataTaskWithRequest.resume()

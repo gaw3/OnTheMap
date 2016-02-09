@@ -35,7 +35,7 @@ struct UdacityFBAccessToken {
 	// MARK: - API
 
 	init(accessToken: FBSDKAccessToken) {
-		_dict = [ API.FBMobileKey : [ API.AccessTokenKey : accessToken.tokenString ] ]
+		_dict = [ API.FBMobileKey: [ API.AccessTokenKey: accessToken.tokenString ] ]
 	}
 	
 }

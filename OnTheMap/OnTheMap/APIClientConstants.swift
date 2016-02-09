@@ -8,20 +8,28 @@
 
 import Foundation
 
-// MARK: - Public Constants
+extension APIDataTaskWithRequest {
 
-struct HTTPHeaderField {
-	static let Accept      = "Accept"
-	static let ContentType = "Content-Type"
-}
+	// MARK: - Public Constants
 
-struct HTTPMethod {
-	static let Delete = "DELETE"
-	static let Get    = "GET"
-	static let Post   = "POST"
-	static let Put    = "PUT"
-}
+	struct HTTP {
+	
+		struct HeaderField {
+			static let Accept      = "Accept"
+			static let ContentType = "Content-Type"
+		}
 
-struct MIMEType {
-	static let ApplicationJSON = "application/json"
+		struct Method {
+			static let Delete = "DELETE"
+			static let Get    = "GET"
+			static let Post   = "POST"
+			static let Put    = "PUT"
+		}
+
+		struct MIMEType {
+			static let ApplicationJSON = "application/json"
+		}
+		
+	}
+
 }

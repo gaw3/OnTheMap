@@ -18,14 +18,14 @@ struct ParsePostStudentLocationResponseData {
 
 	var dateCreated: String? {
 		get {
-			if let date = _data[ParseAPI.DateCreatedKey] as! String? { return date }
+			if let date = _data[ParseAPIClient.API.DateCreatedKey] as! String? { return date }
 			return nil
 		}
 	}
 
 	var id: String? {
 		get {
-			if let id = _data[ParseAPI.ObjectIDKey] as! String? { return id }
+			if let id = _data[ParseAPIClient.API.ObjectIDKey] as! String? { return id }
 			return nil
 		}
 	}

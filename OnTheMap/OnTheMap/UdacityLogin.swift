@@ -26,8 +26,8 @@ struct UdacityLogin {
 	// MARK: - API
 
 	init(username: String, password: String) {
-		_udacity = [ UdacityAPI.UdacityKey : [ UdacityAPI.UserNameKey : username,
-																		 UdacityAPI.PasswordKey : password ] ]
+		_udacity = [ UdacityAPIClient.API.UdacityKey: [ UdacityAPIClient.API.UserNameKey: username,
+																	   UdacityAPIClient.API.PasswordKey: password ] ]
 	}
 	
 }
