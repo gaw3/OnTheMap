@@ -9,13 +9,11 @@
 import MapKit
 import UIKit
 
+struct StudentLocsPinAnnoView {
+	static let ReuseID = "StudentLocsPinAnnoView"
+}
+
 class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
-
-	// MARK: - Private Constants
-
-	private struct UIConstants {
-		static let ReuseID = "StudentLocsPinAnnoView"
-	}
 
 	// MARK: - Private Stored Variables
 
@@ -80,14 +78,19 @@ class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
    }
 
    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(UIConstants.ReuseID) as? MKPinAnnotationView
+      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
       
       if let _ = pinAnnotationView {
          pinAnnotationView!.annotation = annotation
       } else {
-         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: UIConstants.ReuseID)
+         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocsPinAnnoView.ReuseID)
          pinAnnotationView!.canShowCallout = true
-         pinAnnotationView!.pinTintColor = MKPinAnnotationView.redPinColor()
+			pinAnnotationView!.pinTintColor = MKPinAnnotationView.redPinColor()
+
+			if annotation.title! == UdacityDataManager.sharedMgr.user!.fullName {
+				pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
+			}
+			
          pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
       }
       
