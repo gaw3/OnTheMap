@@ -13,9 +13,9 @@ import FBSDKLoginKit
 
 private let _sharedClient = UdacityAPIClient()
 
-final class UdacityAPIClient: NSObject {
+final internal class UdacityAPIClient: NSObject {
 
-	class var sharedClient: UdacityAPIClient {
+	class internal var sharedClient: UdacityAPIClient {
 		return _sharedClient
 	}
 
@@ -28,7 +28,7 @@ final class UdacityAPIClient: NSObject {
 
 	// MARK: - API
 
-	func getUserProfileData(userID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	internal func getUserProfileData(userID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get,
 			                                     URLString: UdacityAPIClient.API.UsersURL + userID, HTTPQuery: nil)
 		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
@@ -36,15 +36,15 @@ final class UdacityAPIClient: NSObject {
 		dataTaskWithRequest.resume()
 	}
 
-	func loginWithFacebookAuthorization(facebookAccessToken: FBSDKAccessToken, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	internal func loginWithFacebookAuthorization(facebookAccessToken: FBSDKAccessToken, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		login(UdacityFBAccessToken(accessToken: facebookAccessToken).serializedData, completionHandler: completionHandler)
 	}
 	
-	func loginWithUdacityUser(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	internal func loginWithUdacityUser(username: String, password: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		login(UdacityLogin(username: username, password: password).serializedData, completionHandler: completionHandler)
 	}
 
-	func logout(completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	internal func logout(completionHandler: APIDataTaskWithRequestCompletionHandler) {
 		let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Delete,
 			                            URLString: UdacityAPIClient.API.SessionURL, HTTPQuery: nil)
 		let cookies    = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookies!
@@ -59,7 +59,7 @@ final class UdacityAPIClient: NSObject {
 
 	// MARK: - Private
 
-	private override init() {
+	override private init() {
 		super.init()
 	}
 

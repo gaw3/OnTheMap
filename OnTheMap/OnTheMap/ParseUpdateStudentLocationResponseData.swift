@@ -6,20 +6,20 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-struct ParseUpdateStudentLocationResponseData {
+internal struct ParseUpdateStudentLocationResponseData {
 
 	// MARK: - Private Stored Variables
 
 	private var _data: JSONDictionary
 
-	// MARK: - Public Computed Variables
+	// MARK: - Internal Computed Variables
 
-	var dateUpdated: String? {
+	internal var dateUpdated: String? {
 		if let date = _data[ParseAPIClient.API.DateUpdatedKey] as! String? { return date }
 		return nil
 	}
 
 	// MARK: - API
 
-	init(dict: JSONDictionary) { _data = dict }
+	internal init(dict: JSONDictionary) { _data = dict }
 }

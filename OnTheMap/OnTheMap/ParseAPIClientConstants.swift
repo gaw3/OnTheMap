@@ -8,9 +8,9 @@
 
 extension ParseAPIClient {
 
-   // MARK: - Public Constants
+   // MARK: - Internal Constants
 
-	struct API {
+	internal struct API {
 		static let BaseURL        = "https://api.parse.com/1/classes/StudentLocation"
 
 		static let DateCreatedKey = "createdAt"

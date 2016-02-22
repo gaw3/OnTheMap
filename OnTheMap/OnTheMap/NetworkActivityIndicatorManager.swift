@@ -11,9 +11,9 @@ import UIKit
 
 private let _sharedClient = NetworkActivityIndicatorManager()
 
-final class NetworkActivityIndicatorManager: NSObject {
+final internal class NetworkActivityIndicatorManager: NSObject {
 
-	class var sharedManager: NetworkActivityIndicatorManager {
+	class internal var sharedManager: NetworkActivityIndicatorManager {
 		return _sharedClient
 	}
 
@@ -38,7 +38,7 @@ final class NetworkActivityIndicatorManager: NSObject {
 
 	// MARK: - API
 
-	func completeAllActivities() {
+	internal func completeAllActivities() {
 
 		dispatch_sync(concurrentUpdateQueue, {
 
@@ -51,7 +51,7 @@ final class NetworkActivityIndicatorManager: NSObject {
 
 	}
 
-	func endActivity() {
+	internal func endActivity() {
 
 		dispatch_sync(concurrentUpdateQueue, {
 
@@ -69,7 +69,7 @@ final class NetworkActivityIndicatorManager: NSObject {
 
 	}
 
-	func startActivity() {
+	internal func startActivity() {
 
 		dispatch_sync(concurrentUpdateQueue, {
 
@@ -89,7 +89,7 @@ final class NetworkActivityIndicatorManager: NSObject {
 
 	// MARK: - Private
 
-	private override init() {
+	override private init() {
 		super.init()
 	}
 

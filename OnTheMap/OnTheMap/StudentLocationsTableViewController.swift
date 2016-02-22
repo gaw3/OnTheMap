@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class StudentLocationsTableViewController: UITableViewController {
+final internal class StudentLocationsTableViewController: UITableViewController {
 
 	// MARK: - Private Constants
 
@@ -25,8 +25,7 @@ final class StudentLocationsTableViewController: UITableViewController {
 
 	// MARK: - View Events
 
-
-	override func viewDidLoad() {
+	override internal func viewDidLoad() {
 		super.viewDidLoad()
 
       addNotificationObservers()
@@ -34,21 +33,21 @@ final class StudentLocationsTableViewController: UITableViewController {
 
 	// MARK: - Notifications
 
-	func studentLocationDidGetPosted(notification: NSNotification) {
+	internal func studentLocationDidGetPosted(notification: NSNotification) {
 		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
 				 "unknown notification = \(notification)")
 
 		tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Top)
 	}
 
-	func studentLocationsDidGetRefreshed(notification: NSNotification) {
+	internal func studentLocationsDidGetRefreshed(notification: NSNotification) {
 		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
 			    "unknown notification = \(notification)")
 
 		tableView.reloadData()
 	}
 
-	func studentLocationDidGetUpdated(notification: NSNotification) {
+	internal func studentLocationDidGetUpdated(notification: NSNotification) {
 		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
 			    "unknown notification = \(notification)")
 
@@ -59,13 +58,13 @@ final class StudentLocationsTableViewController: UITableViewController {
 
 	// MARK: - UITableViewDataSource
 
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override internal func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		assert(tableView == self.tableView, "Unexpected table view requesting number of sections in table view")
 
 		return 1
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override internal func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
 
 		let studentLocation = slMgr.studentLocationAtIndexPath(indexPath)
@@ -77,7 +76,7 @@ final class StudentLocationsTableViewController: UITableViewController {
 		return cell
 	}
 
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override internal func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		assert(tableView == self.tableView, "Unexpected table view requesting number of rows in section")
 
 		return slMgr.count
@@ -85,7 +84,7 @@ final class StudentLocationsTableViewController: UITableViewController {
 	
 	// MARK: - UITableViewDelegate
 
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+	override internal func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		assert(tableView == self.tableView, "Unexpected table view selected a row")
       
 		tableView.deselectRowAtIndexPath(indexPath, animated: false)

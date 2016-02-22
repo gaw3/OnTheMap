@@ -13,11 +13,11 @@ import UIKit
 
 typealias NewStudent = (firstName: String, lastName: String, udacityUserID: String)
 
-final class StudentLocationsPostInformationViewController: UIViewController {
+final internal class StudentLocationsPostInformationViewController: UIViewController {
 
-	// MARK: - Public Constants
+	// MARK: - Internal  Constants
 
-	struct UIConstants {
+	internal struct UIConstants {
 		static let StoryboardID    = "StudentLocsPostInfoVC"
 		static let BtnBkndFileName = "WhitePixel"
 	}
@@ -59,9 +59,9 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 	private var _newStudent:				 NewStudent?      = nil
 	private var pleaseWaitView:          PleaseWaitView?  = nil
 
-	// MARK: - Public Computed Variables
+	// MARK: - Internal Computed Variables
 
-	var currentStudentLocation: StudentLocation? {
+	internal var currentStudentLocation: StudentLocation? {
 		get { return _currentStudentLocation }
 
 		set(location) {
@@ -69,7 +69,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 		}
 	}
 
-	var newStudent: NewStudent? {
+	internal var newStudent: NewStudent? {
 		get { return _newStudent }
 
 		set(student) {
@@ -79,18 +79,18 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 	
 	// MARK: - IB Outlets
 
-	@IBOutlet      var questionLabels:    [UILabel]!
-	@IBOutlet weak var cancelButton:      UIButton!
-	@IBOutlet weak var mapView:           MKMapView!
-	@IBOutlet weak var imageView:         UIImageView!
-	@IBOutlet weak var toolbar:           UIToolbar!
-	@IBOutlet weak var toolbarButton:     UIBarButtonItem!
-	@IBOutlet weak var mediaURLTextField: UITextField!
-	@IBOutlet weak var locationTextField: UITextField!
+	@IBOutlet      internal var questionLabels:    [UILabel]!
+	@IBOutlet weak internal var cancelButton:      UIButton!
+	@IBOutlet weak internal var mapView:           MKMapView!
+	@IBOutlet weak internal var imageView:         UIImageView!
+	@IBOutlet weak internal var toolbar:           UIToolbar!
+	@IBOutlet weak internal var toolbarButton:     UIBarButtonItem!
+	@IBOutlet weak internal var mediaURLTextField: UITextField!
+	@IBOutlet weak internal var locationTextField: UITextField!
 
 	// MARK: - View Events
 
-	override func viewDidLoad() {
+	override internal func viewDidLoad() {
 		super.viewDidLoad()
 
 		addSubviews()
@@ -102,13 +102,13 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 	
 	// MARK: - IB Actions
 
-	@IBAction func cancelButtonWasTapped(sender: UIButton) {
+	@IBAction internal func cancelButtonWasTapped(sender: UIButton) {
 		assert(sender == cancelButton, "rcvd IB Action from unknown button")
 
 		dismissViewControllerAnimated(true, completion: nil)
 	}
 
-	@IBAction func toolbarButtonWasTapped(sender: UIBarButtonItem) {
+	@IBAction internal func toolbarButtonWasTapped(sender: UIBarButtonItem) {
 		assert(sender == toolbarButton, "rcvd IB Action from unknown button")
 
 		if sender.title == ButtonTitle.Find {
@@ -121,7 +121,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 
 	// MARK: - MKMapViewDelegate
 
-	func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+	internal func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
 		var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(StudentLocationsMapViewController.StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
 
 		if let _ = pinAnnotationView {
@@ -136,7 +136,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 
 	// MARK: - UITextFieldDelegate
 
-	func textFieldShouldReturn(textField: UITextField) -> Bool {
+	internal func textFieldShouldReturn(textField: UITextField) -> Bool {
 		assert(textField == mediaURLTextField || textField == locationTextField, "unknown UITextField = \(textField)")
 
 		textField.resignFirstResponder()

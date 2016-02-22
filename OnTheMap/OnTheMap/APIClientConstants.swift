@@ -8,9 +8,9 @@
 
 extension APIDataTaskWithRequest {
 
-	// MARK: - Public Constants
+	// MARK: - Internal Constants
 
-	struct HTTP {
+	internal struct HTTP {
 	
 		struct HeaderField {
 			static let Accept      = "Accept"

@@ -10,9 +10,7 @@ import Foundation
 
 extension NSHTTPURLResponse {
 
-	// MARK: - Public Enums
-
-	enum HTTPStatusCodeClass: Int {
+	internal enum HTTPStatusCodeClass: Int {
 		case Informational = 1,
 		     Successful,
 		     Redirection,
@@ -20,9 +18,9 @@ extension NSHTTPURLResponse {
 		     ServerError
 	}
 
-	// MARK: - Public Computed Variables
+	// MARK: - Internal Computed Variables
 
-	var statusCodeClass: HTTPStatusCodeClass {
+	internal var statusCodeClass: HTTPStatusCodeClass {
 
 		if let scClass = HTTPStatusCodeClass.init(rawValue: self.statusCode / 100) {
 			return scClass

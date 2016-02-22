@@ -6,38 +6,38 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-struct UdacityUser {
+internal struct UdacityUser {
 	
-	// MARK: - Private Stored Variables
+	// MARK: - Internal Stored Variables
 
 	private var _user: JSONDictionary? = nil
 
-	// MARK: - Public Computed Variables
+	// MARK: - Internal Computed Variables
 	
-	var firstName: String? {
+	internal var firstName: String? {
 		if let _ = _user {
 			if let name = _user![UdacityAPIClient.API.FirstNameKey] as! String? { return name }
 		}
 		return nil
 	}
 
-	var lastName: String? {
+	internal var lastName: String? {
 			if let _ = _user {
 				if let name = _user![UdacityAPIClient.API.LastNameKey] as! String? { return name }
 			}
 			return nil
 	}
 
-	var userID: String? {
+	internal var userID: String? {
 		if let _ = _user {
 			if let id = _user![UdacityAPIClient.API.UserIDKey] as! String? { return id }
 		}
 		return nil
 	}
 	
-	// MARK: - Public Computed Meta Variables
+	// MARK: - Internal Computed Meta Variables
 
-	var fullName: String? {
+	internal var fullName: String? {
 		var fullName = String()
 
 		if let _ = firstName {
@@ -55,7 +55,7 @@ struct UdacityUser {
 
 	// MARK: - API
 
-	init(userDict: JSONDictionary) {
+	internal init(userDict: JSONDictionary) {
 
 		if let user = userDict[UdacityAPIClient.API.UserKey] as! JSONDictionary? {
 			_user = user

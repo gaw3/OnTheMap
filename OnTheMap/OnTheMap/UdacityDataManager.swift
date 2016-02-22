@@ -10,15 +10,15 @@ import Foundation
 
 private let _sharedMgr = UdacityDataManager()
 
-final class UdacityDataManager: NSObject {
+final internal class UdacityDataManager: NSObject {
 
-	class var sharedMgr: UdacityDataManager {
+	class internal var sharedMgr: UdacityDataManager {
 		return _sharedMgr
 	}
 
-	// MARK: - Public Constants
+	// MARK: - Internal Constants
 
-	struct Notification {
+	internal struct Notification {
 		static let LoginResponseDataDidGetSaved  = "LoginResponseDataDidGetSavedNotification"
 		static let LogoutResponseDataDidGetSaved = "LogoutResponseDataDidGetSavedNotification"
 		static let UserDataDidGetSaved           = "UserDataDidGetSavedNotification"
@@ -31,21 +31,21 @@ final class UdacityDataManager: NSObject {
 	private var _logoutSession: UdacitySession? = nil
 	private var _user:          UdacityUser?    = nil
 	
-	// MARK: - Public Computed Variables
+	// MARK: - internal Computed Variables
 
-	var account: UdacityAccount? {
+	internal var account: UdacityAccount? {
 		return _account
 	}
 
-	var isLoginSuccessful: Bool {
+	internal var isLoginSuccessful: Bool {
 		return ((_account != nil) && (_loginSession != nil))
 	}
 
-	var isLogoutSuccessful: Bool {
+	internal var isLogoutSuccessful: Bool {
 		return (_logoutSession != nil)
 	}
 
-	var loginData: (UdacityAccount?, UdacitySession?) {
+	internal var loginData: (UdacityAccount?, UdacitySession?) {
 		get { return (_account, _loginSession) }
 
 		set(data) {
@@ -55,7 +55,7 @@ final class UdacityDataManager: NSObject {
 		}
 	}
 
-	var logoutData: (UdacitySession) {
+	internal var logoutData: (UdacitySession) {
 		get { return _logoutSession! }
 
 		set(data) {
@@ -64,7 +64,7 @@ final class UdacityDataManager: NSObject {
 		}
 	}
 	
-	var user: UdacityUser? {
+	internal var user: UdacityUser? {
 		get { return _user }
 
 		set(newUser) {
@@ -73,13 +73,15 @@ final class UdacityDataManager: NSObject {
 		}
 	}
 	
+	// MARK: - Private Computed Variables
+
 	private var notifCtr: NSNotificationCenter{
 		return NSNotificationCenter.defaultCenter()
 	}
 
 	// MARK: - Private
 
-	private override init() {
+	override private init() {
 		super.init()
 	}
 	

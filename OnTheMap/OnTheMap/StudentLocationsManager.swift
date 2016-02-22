@@ -11,15 +11,15 @@ import UIKit
 
 private let _sharedMgr = StudentLocationsManager()
 
-final class StudentLocationsManager: NSObject {
+final internal class StudentLocationsManager: NSObject {
 
-	class var sharedMgr: StudentLocationsManager {
+	class internal var sharedMgr: StudentLocationsManager {
 		return _sharedMgr
 	}
 
-	// MARK: - Public Constants
+	// MARK: - Internal Constants
 
-	struct Notifications {
+	internal struct Notifications {
 		static let StudentLocationDidGetPosted      = "StudentLocationDidGetPostedNotification"
 		static let StudentLocationsDidGetRefreshed  = "StudentLocationsDidGetRefreshedNotification"
 		static let StudentLocationDidGetUpdated     = "StudentLocationDidGetUpdatedNotification"
@@ -30,13 +30,13 @@ final class StudentLocationsManager: NSObject {
 
 	private var studentLocations: [StudentLocation]
 
-	// MARK: - Public Computed Variables
+	// MARK: - Internal Computed Variables
 
-	var count: Int {
+	internal var count: Int {
 		return studentLocations.count
 	}
 
-	var postedLocation: StudentLocation {
+	internal var postedLocation: StudentLocation {
 		get { return studentLocations[0] }
 
 		set (location) {
@@ -45,28 +45,30 @@ final class StudentLocationsManager: NSObject {
 		}
 	}
 
+	// MARK: - Private Computed Variables
+
 	private var notifCtr: NSNotificationCenter{
 		return NSNotificationCenter.defaultCenter()
 	}
 	
 	// MARK: - API
 
-	func refreshStudentLocations(newStudentLocations: [StudentLocation]) {
+	internal func refreshStudentLocations(newStudentLocations: [StudentLocation]) {
 		studentLocations.removeAll()
 		studentLocations.appendContentsOf(newStudentLocations)
 
 		notifCtr.postNotificationName(Notifications.StudentLocationsDidGetRefreshed, object: nil)
 	}
 
-   func studentLocationAtIndex(index: Int) -> StudentLocation {
+   internal func studentLocationAtIndex(index: Int) -> StudentLocation {
       return studentLocations[index]
    }
 
-	func studentLocationAtIndexPath(indexPath: NSIndexPath) -> StudentLocation {
+	internal func studentLocationAtIndexPath(indexPath: NSIndexPath) -> StudentLocation {
 		return studentLocations[indexPath.row]
 	}
 
-	func updateStudentLocation(studentLocation: StudentLocation) {
+	internal func updateStudentLocation(studentLocation: StudentLocation) {
 		if let indexOfUpdate = studentLocations.indexOf({$0.objectID == studentLocation.objectID}) {
 			studentLocations[indexOfUpdate] = studentLocation
 			notifCtr.postNotificationName(Notifications.StudentLocationDidGetUpdated, object: nil,
@@ -79,7 +81,7 @@ final class StudentLocationsManager: NSObject {
 
 	// MARK: - Private
 
-	private override init() {
+	override private init() {
 		studentLocations = [StudentLocation]()
 		super.init()
 	}

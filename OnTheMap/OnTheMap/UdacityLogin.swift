@@ -8,22 +8,22 @@
 
 import Foundation
 
-struct UdacityLogin {
+internal struct UdacityLogin {
 
 	// MARK: - Private Stored Variables
 
 	private var _udacity: JSONDictionary
 
-	// MARK: - Public Computed Meta Variables
+	// MARK: - Internal Computed Meta Variables
 
-	var serializedData: NSData {
+	internal var serializedData: NSData {
 		let data = try! NSJSONSerialization.dataWithJSONObject(_udacity, options: .PrettyPrinted)
 		return data
 	}
 
 	// MARK: - API
 
-	init(username: String, password: String) {
+	internal init(username: String, password: String) {
 		_udacity = [ UdacityAPIClient.API.UdacityKey: [ UdacityAPIClient.API.UserNameKey: username,
 																	   UdacityAPIClient.API.PasswordKey: password ] ]
 	}

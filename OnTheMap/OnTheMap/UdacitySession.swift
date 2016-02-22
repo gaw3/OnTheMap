@@ -6,25 +6,25 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-struct UdacitySession {
+internal struct UdacitySession {
 
 	// MARK: - Private Stored Variables
 
 	private var _session: JSONDictionary
 
-	// MARK: - Public Computed Variables
+	// MARK: - Internal Computed Variables
 
-	var expirationDate: String? {
+	internal var expirationDate: String? {
 		if let date = _session[UdacityAPIClient.API.ExpirationDateKey] as! String? { return date }
 		return nil
 	}
 
-	var id: String? {
+	internal var id: String? {
 		if let id = _session[UdacityAPIClient.API.SessionIDKey] as! String? { return id }
 		return nil
 	}
 
 	// MARK: - API
 
-	init(sessionDict: JSONDictionary) { _session = sessionDict }
+	internal init(sessionDict: JSONDictionary) { _session = sessionDict }
 }

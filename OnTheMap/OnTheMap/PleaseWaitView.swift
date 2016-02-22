@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class PleaseWaitView: NSObject {
+final internal class PleaseWaitView: NSObject {
 
 	// MARK: - Private Constants
 
@@ -21,17 +21,18 @@ final class PleaseWaitView: NSObject {
 	// MARK: - Private Stored Variables
 
 	private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+
 	private var _dimmedView: UIView? = nil
 
-	// MARK: - Public Computed Variables
+	// MARK: - Internal Computed Variables
 
-	var dimmedView: UIView {
+	internal var dimmedView: UIView {
 		return _dimmedView!
 	}
 	
 	// MARK: - API
 
-	init(requestingView: UIView) {
+	internal init(requestingView: UIView) {
 		super.init()
 
 		_dimmedView = UIView(frame: requestingView.frame)
@@ -45,19 +46,19 @@ final class PleaseWaitView: NSObject {
 		_dimmedView?.addSubview(activityIndicator)
 	}
 
-	func startActivityIndicator() {
+	internal func startActivityIndicator() {
 		_dimmedView?.alpha = Consts.ActivityAlpha
 		activityIndicator.startAnimating()
 	}
 
-	func stopActivityIndicator() {
+	internal func stopActivityIndicator() {
 		activityIndicator.stopAnimating()
 		_dimmedView?.alpha = Consts.NoAlpha
 	}
 
 	// MARK: - Private
 
-	private override init() {
+	override private init() {
 		super.init()
 	}
 

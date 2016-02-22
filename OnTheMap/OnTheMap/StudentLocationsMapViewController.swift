@@ -10,9 +10,11 @@ import Foundation
 import MapKit
 import UIKit
 
-final class StudentLocationsMapViewController: UIViewController {
+final internal class StudentLocationsMapViewController: UIViewController {
 
-	struct StudentLocsPinAnnoView {
+	// MARK: - Internal Constants
+
+	internal struct StudentLocsPinAnnoView {
 		static let ReuseID = "StudentLocsPinAnnoView"
 	}
 
@@ -30,11 +32,11 @@ final class StudentLocationsMapViewController: UIViewController {
 
    // MARK: - IB Outlets
    
-   @IBOutlet weak var mapView: MKMapView!
+   @IBOutlet weak internal var mapView: MKMapView!
 
    // MARK: - View Events
 
-   override func viewDidLoad() {
+   override internal func viewDidLoad() {
       super.viewDidLoad()
 
 		addNotificationObservers()
@@ -42,7 +44,7 @@ final class StudentLocationsMapViewController: UIViewController {
 
    // MARK: - Notifications
 
-	func studentLocationDidGetPosted(notification: NSNotification) {
+	internal func studentLocationDidGetPosted(notification: NSNotification) {
 		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
 				 "unknown notification = \(notification)")
 
@@ -50,7 +52,7 @@ final class StudentLocationsMapViewController: UIViewController {
 		mapView.addAnnotation(slMgr.postedLocation.pointAnnotation)
    }
    
-	func studentLocationsDidGetRefreshed(notification: NSNotification) {
+	internal func studentLocationsDidGetRefreshed(notification: NSNotification) {
 		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
 			    "unknown notification = \(notification)")
 
@@ -64,7 +66,7 @@ final class StudentLocationsMapViewController: UIViewController {
       mapView.addAnnotations(pointAnnotations)
    }
    
-	func studentLocationDidGetUpdated(notification: NSNotification) {
+	internal func studentLocationDidGetUpdated(notification: NSNotification) {
 		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
 			    "unknown notification = \(notification)")
 
@@ -78,7 +80,7 @@ final class StudentLocationsMapViewController: UIViewController {
 
    // MARK: - MKMapViewDelegate
    
-   func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+   internal func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
       
       if control == view.rightCalloutAccessoryView {
 			openSystemBrowserWithURL((view.annotation!.subtitle!)!)
@@ -86,7 +88,7 @@ final class StudentLocationsMapViewController: UIViewController {
       
    }
 
-   func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+   internal func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
       var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
       
       if let _ = pinAnnotationView {

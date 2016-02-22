@@ -20,25 +20,25 @@ extension UIViewController {
 
 	// MARK: - Internal Computed Variables
 
-	var notifCtr: NSNotificationCenter{
+	internal var notifCtr: NSNotificationCenter{
 		return NSNotificationCenter.defaultCenter()
 	}
 
-	var parseClient: ParseAPIClient {
+	internal var parseClient: ParseAPIClient {
 		return ParseAPIClient.sharedClient
 	}
 
-	var slMgr: StudentLocationsManager {
+	internal var slMgr: StudentLocationsManager {
 		return StudentLocationsManager.sharedMgr
 	}
 
-	var udacityDataMgr: UdacityDataManager {
+	internal var udacityDataMgr: UdacityDataManager {
 		return UdacityDataManager.sharedMgr
 	}
 
 	// MARK: - API
 
-   func openSystemBrowserWithURL(URLString: String) {
+   internal func openSystemBrowserWithURL(URLString: String) {
       var success = false
 
 		if let URLComponents = NSURLComponents(string: URLString) {
@@ -50,7 +50,7 @@ extension UIViewController {
 		}
 	}
 
-	func presentAlert(title: String, message: String) {
+	internal func presentAlert(title: String, message: String) {
 		let alert  = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 		let action = UIAlertAction(title: Alert.ActionTitle, style: .Default, handler: nil)
 		alert.addAction(action)

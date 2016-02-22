@@ -12,9 +12,15 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
+final internal class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
 	// MARK: - Private Constants
+
+	private struct SEL {
+		static let LoginResponseDataDidGetSaved:  Selector = "loginResponseDataDidGetSaved:"
+		static let LogoutResponseDataDidGetSaved: Selector = "logoutResponseDataDidGetSaved:"
+		static let UserDataDidGetSaved:           Selector = "userDataDidGetSaved:"
+	}
 
 	private struct Alert {
 
@@ -56,16 +62,16 @@ final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelega
 
 	// MARK: - IB Outlets
 
-	@IBOutlet weak var udacityLogo:       UIImageView!
-	@IBOutlet weak var loginLabel:        UILabel!
-	@IBOutlet weak var emailTextField:    UITextField!
-	@IBOutlet weak var passwordTextField: UITextField!
-	@IBOutlet weak var loginButton:		  UIButton!
-	@IBOutlet weak var signUpButton:      UIButton!
+	@IBOutlet weak internal var udacityLogo:       UIImageView!
+	@IBOutlet weak internal var loginLabel:        UILabel!
+	@IBOutlet weak internal var emailTextField:    UITextField!
+	@IBOutlet weak internal var passwordTextField: UITextField!
+	@IBOutlet weak internal var loginButton:		  UIButton!
+	@IBOutlet weak internal var signUpButton:      UIButton!
 
 	// MARK: - View Events
 
-	override func viewDidLayoutSubviews() {
+	override internal func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 
 		struct DispatchOnce {
@@ -79,7 +85,7 @@ final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelega
 
 	}
 
-	override func viewDidLoad() {
+	override internal func viewDidLoad() {
 		super.viewDidLoad()
 
 		addSubviews()
@@ -94,7 +100,7 @@ final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelega
 	
 	// MARK: - IB Actions
 
-	@IBAction func loginButtonDidTouchUpInside(sender: UIButton) {
+	@IBAction internal func loginButtonDidTouchUpInside(sender: UIButton) {
 		assert(sender == loginButton, "rcvd IB Action from unknown button")
 
 		if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
@@ -107,7 +113,7 @@ final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelega
 
 	}
 
-	@IBAction func signUpButtonDidTouchUpInside(sender: UIButton) {
+	@IBAction internal func signUpButtonDidTouchUpInside(sender: UIButton) {
 		assert(sender == signUpButton, "rcvd IB Action from unknown button")
       openSystemBrowserWithURL(URL.UdacitySignupURLString)
 	}
@@ -122,20 +128,20 @@ final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelega
 
 	// MARK: - Notifications
 
-	func loginResponseDataDidGetSaved(notification: NSNotification) {
+	internal func loginResponseDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == UdacityDataManager.Notification.LoginResponseDataDidGetSaved, "unknown notification = \(notification)")
 		
 		udacityClient.getUserProfileData(udacityDataMgr.account!.userID!,
 													completionHandler: getUserProfileDataCompletionHandler)
 	}
 
-	func logoutResponseDataDidGetSaved(notification: NSNotification) {
+	internal func logoutResponseDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == UdacityDataManager.Notification.LogoutResponseDataDidGetSaved, "unknown notification = \(notification)")
 
 		// leave here in case there is ever anything to do
 	}
 
-	func userDataDidGetSaved(notification: NSNotification) {
+	internal func userDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == UdacityDataManager.Notification.UserDataDidGetSaved, "unknown notification = \(notification)")
 
 		pleaseWaitView?.stopActivityIndicator()
@@ -149,7 +155,7 @@ final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelega
 
 	// MARK: - FBSDKLoginButtonDelegate
 
-	func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+	internal func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
 
 		if let _ = error {
 			self.presentAlert(Alert.Title.BadFBAuth, message: error!.localizedDescription)
@@ -160,13 +166,13 @@ final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelega
 		
 	}
 
-	func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+	internal func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
 		// must have this to satisfy the protocol
 	}
 
 	// MARK: - UITextFieldDelegate
 
-	func textFieldShouldReturn(textField: UITextField) -> Bool {
+	internal func textFieldShouldReturn(textField: UITextField) -> Bool {
 		assert(textField == emailTextField || textField == passwordTextField, "unknown UITextField = \(textField)")
 
 		textField.resignFirstResponder()
@@ -248,12 +254,6 @@ final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelega
 		facebookLoginButton.enabled  = true
 
 		view.addSubview(facebookLoginButton)
-	}
-
-	private struct SEL {
-		static let LoginResponseDataDidGetSaved:  Selector = "loginResponseDataDidGetSaved:"
-		static let LogoutResponseDataDidGetSaved: Selector = "logoutResponseDataDidGetSaved:"
-		static let UserDataDidGetSaved:           Selector = "userDataDidGetSaved:"
 	}
 
 	private func addNotificationObservers() {
