@@ -120,18 +120,20 @@ asynchronously on background queues via GCD.
 
 - [CoreLocation](./Paperwork/READMEFiles/CoreLocation.md)
 - [Foundation](./Paperwork/READMEFiles/Foundation.md)
-- [Grand Central Dispatch (GCD)](./Paperwork/READMEFiles/GCD.md)
+- [Grand Central Dispatch](./Paperwork/READMEFiles/GCD.md)
 - [MapKit](./Paperwork/READMEFiles/MapKit.md)
 - [QuartzCore](./Paperwork/READMEFiles/QuartzCore.md)
 - [UIKit](./Paperwork/READMEFiles/UIKit.md)
 
 ### Protocols Implemented
 
+```
 * FBSDKLoginButtonDelegate
 * MKMapViewDelegate
 * UITableViewDataSource
 * UITableViewDelegate
 * UITextFieldDelegate
+```
 
 ## Web APIs In Use
 
@@ -150,11 +152,9 @@ Facebook Parse platform.  [Website](https://parse.com) and
   - [REPO](https://github.com/facebook/facebook-ios-sdk)
   - [LICENSE](./Paperwork/Licenses/FacebookSDK_LICENSE.txt)
   - [README](./Paperwork/Licenses/FacebookSDK_README.txt)
-
-
-* GitHub Swift Style Guide lives in this
+* *GitHub Swift Style Guide* lives in this
 [repo](https://github.com/github/swift-style-guide).
-* Swift.gitignore, the template used to create the local .gitignore file,
+* `Swift.gitignore`, the template used to create the local `.gitignore` file,
 lives in this [repo](https://github.com/github/gitignore).
 
 ---
