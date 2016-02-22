@@ -122,12 +122,12 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 	// MARK: - MKMapViewDelegate
 
 	func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-		var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
+		var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(StudentLocationsMapViewController.StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
 
 		if let _ = pinAnnotationView {
 			pinAnnotationView!.annotation = annotation
 		} else {
-			pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocsPinAnnoView.ReuseID)
+			pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocationsMapViewController.StudentLocsPinAnnoView.ReuseID)
 			pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
 		}
 

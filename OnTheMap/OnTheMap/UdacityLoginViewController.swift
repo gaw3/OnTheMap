@@ -244,14 +244,20 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 		view.addSubview(facebookLoginButton)
 	}
 
+	private struct SEL {
+		static let LoginResponseDataDidGetSaved:  Selector = "loginResponseDataDidGetSaved:"
+		static let LogoutResponseDataDidGetSaved: Selector = "logoutResponseDataDidGetSaved:"
+		static let UserDataDidGetSaved:           Selector = "userDataDidGetSaved:"
+	}
+
 	private func addNotificationObservers() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginResponseDataDidGetSaved:",
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.LoginResponseDataDidGetSaved,
 																					  name: UdacityDataManager.Notification.LoginResponseDataDidGetSaved,
 																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "logoutResponseDataDidGetSaved:",
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.LogoutResponseDataDidGetSaved,
 																				     name: UdacityDataManager.Notification.LogoutResponseDataDidGetSaved,
 																				   object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDataDidGetSaved:",
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.UserDataDidGetSaved,
 																				     name: UdacityDataManager.Notification.UserDataDidGetSaved,
 																				   object: nil)
 	}

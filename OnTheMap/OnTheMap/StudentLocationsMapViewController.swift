@@ -10,12 +10,20 @@ import Foundation
 import MapKit
 import UIKit
 
-struct StudentLocsPinAnnoView {
-	static let ReuseID = "StudentLocsPinAnnoView"
-}
-
 final class StudentLocationsMapViewController: UIViewController {
 
+	struct StudentLocsPinAnnoView {
+		static let ReuseID = "StudentLocsPinAnnoView"
+	}
+
+	// MARK: - Private Constants
+
+	private struct SEL {
+		static let DidGetPosted:    Selector = "studentLocationDidGetPosted:"
+		static let DidGetRefreshed: Selector = "studentLocationsDidGetRefreshed:"
+		static let DidGetUpdated:   Selector = "studentLocationDidGetUpdated:"
+	}
+	
 	// MARK: - Private Stored Variables
 
 	private var pointAnnotations = [MKPointAnnotation]()
@@ -101,13 +109,13 @@ final class StudentLocationsMapViewController: UIViewController {
 	// MARK: - Private Helpers
 
 	private func addNotificationObservers() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetPosted,
 			                                                        name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
 																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetRefreshed,
 																					  name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
 																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetUpdated:",
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetUpdated,
 																					  name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
 																					object: nil)
 	}

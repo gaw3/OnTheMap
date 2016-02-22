@@ -13,6 +13,12 @@ final class StudentLocationsTableViewController: UITableViewController {
 
 	// MARK: - Private Constants
 
+	private struct SEL {
+		static let DidGetPosted:    Selector = "studentLocationDidGetPosted:"
+		static let DidGetRefreshed: Selector = "studentLocationsDidGetRefreshed:"
+		static let DidGetUpdated:   Selector = "studentLocationDidGetUpdated:"
+	}
+
 	private struct UIConstants {
 		static let ReuseID = "StudentLocsTVCell"
 	}
@@ -89,13 +95,13 @@ final class StudentLocationsTableViewController: UITableViewController {
 	// MARK: - Private
 
 	private func addNotificationObservers() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetPosted:",
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetPosted,
 																				     name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
 																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationsDidGetRefreshed:",
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetRefreshed,
 																				     name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
 																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "studentLocationDidGetUpdated:",
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetUpdated,
 																				     name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
 																					object: nil)
 	}
