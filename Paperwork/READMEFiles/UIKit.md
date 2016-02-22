@@ -1,27 +1,40 @@
 # UIKit
 
-* UIAlertAction
-* UIAlertController
 * UIApplication
 * UIApplicationDelegate
+* UIResponder
+* UIWindow
+
+---
+* UIAlertAction
+* UIAlertController
+
+---
 * UIBarButtonItem
-* UIBarMetrics
 * UIButton
 * UIColor
-* UIControlState
-* UIEdgeInsetsZero
+* UILabel
+* UIToolbar
+* UIView
+
+---
+* UIActivityIndicatorView
+* UITabBarController
+* UIViewController
+
+---
 * UIImage
 * UIImageView
-* UILabel
-* UIResponder
+
+---
 * UIStoryboardSegue
-* UITabBarController
+
+---
+* UITableView
 * UITableViewController
 * UITableViewDataSource
 * UITableViewDelegate
+
+---
 * UITextField
 * UITextFieldDelegate
-* UITextFieldViewMode
-* UIToolbar
-* UIView
-* UIViewController

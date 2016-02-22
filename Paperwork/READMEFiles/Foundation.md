@@ -3,16 +3,18 @@
 * NSAttributedString
 * NSData
 * NSError
-* NSForegroundColorAttributeName
+* NSIndexPath
+* NSObject
+
+---
+* NSNotification
+* NSNotificationCenter
+
+---
 * NSHTTPCookieStorage
 * NSHTTPURLResponse
 * NSJSONSerialization
-* NSLocalizedDescriptionKey
-* NSLocalizedFailureReasonErrorKey
 * NSMutableURLRequest
-* NSNotification
-* NSNotificationCenter
-* NSObject
-* NSUnderlyingErrorKey
+* NSURL
 * NSURLComponents
 * NSURLSession

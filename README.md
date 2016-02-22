@@ -5,6 +5,8 @@ interest, with other students.  The locations specified in the 100
 most-recent student postings are presented as pins on a map or as items
 in a table.  
 
+## Project
+
 OnTheMap is Portfolio Project #3 of the Udacity iOS Developer Nanodegree
 Program.  The following list contains pertinent course documents:
 * [Udacity App Specification](./Paperwork/Udacity/UdacityAppSpecification.pdf)  
@@ -13,8 +15,13 @@ Program.  The following list contains pertinent course documents:
 * [Udacity Git Commit Message Style Guide](./Paperwork/Udacity/UdacityGitCommitMessageStyleGuide.pdf)  
 * [Udacity Project & Code Reviews](https://review.udacity.com/#!/reviews/101387)
 
-Project Grade:  **Exceeds Expectations**  
-Project Build:  Xcode 7.2.1 / iOS 9.2, iPhone only, Portrait only
+|               | Project Submission             | Currently
+| :----------   | :-------------             | :----------------- |
+| Grade:        | ***Exceeds Expectations*** | |  
+| App Version:  | 1.1                        |1.2&nbsp;&nbsp;(GH tag v1.1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[changelog](./Paperwork/READMEFiles/ChangeLog.md)|
+| Environment:  | Xcode 7.2.1 / iOS 9.2      | No Change |
+| Devices:      | iPhone Only                | No Change |
+| Orientations: | Portrait Only              | No Change |
 
 ## Design
 
@@ -39,12 +46,10 @@ Facebook authentication.  Email address and password fields are ignored.
 
 Upon successful login, the
 [Student Locations Tabbed View](./Paperwork/READMEFiles/StudentLocationsTabbedView.md)
-is presented with the
-[Map tab](./Paperwork/READMEFiles/StudentLocationsTabbedView.md)
+is presented with the [Map tab](./Paperwork/READMEFiles/StudentLocationsTabbedView.md)
 activated.  
 
-The
-[Map tab](./Paperwork/READMEFiles/StudentLocationsTabbedView.md)
+The [Map tab](./Paperwork/READMEFiles/StudentLocationsTabbedView.md)
 is the default tab, and presents a map view with pins dropped at the
 locations specified in the 100 most-recent student postings.  Tap a pin
 to display an annotation containing the students name and URL of interest.
@@ -64,8 +69,7 @@ buttons:
 
 * Logout - tap to logout from Udacity, and optionally, Facebook.  The
 [Student Location Tabbed View](./Paperwork/READMEFiles/StudentLocationsTabbedView.md)
-disappears, and the
-[Udacity Login View](./Paperwork/READMEFiles/UdacityLoginView.md)
+disappears, and the [Udacity Login View](./Paperwork/READMEFiles/UdacityLoginView.md)
 is displayed.  
 
 * Post ![Pin Button](./Paperwork/READMEFiles/PinIcon.png) - Tap to
@@ -118,6 +122,7 @@ asynchronously on background queues via GCD.
 - [Foundation](./Paperwork/READMEFiles/Foundation.md)
 - [Grand Central Dispatch (GCD)](./Paperwork/READMEFiles/GCD.md)
 - [MapKit](./Paperwork/READMEFiles/MapKit.md)
+- [QuartzCore](./Paperwork/READMEFiles/QuartzCore.md)
 - [UIKit](./Paperwork/READMEFiles/UIKit.md)
 
 ### Protocols Implemented
@@ -136,15 +141,20 @@ Udacity user profile data.
 
 [Parse API](./Paperwork/APIs/ParseAPIOverview.pdf) - modify data in,
 and retrieve data from, the student location database hosted on the
-Facebook Parse platform.
-[Website](https://parse.com) and
+Facebook Parse platform.  [Website](https://parse.com) and
 [Terms of Service](https://parse.com/policies)
 
-## 3rd-Party Frameworks
+## 3rd-Party
 
-FBSDKCoreKit & FBSDKLoginKit from Facebook SDK for iOS (v4.9.1).
-- [LICENSE](./Paperwork/Licenses/FacebookSDK_LICENSE.txt)
-- [README](./Paperwork/Licenses/FacebookSDK_README.txt)  
+* FBSDKCoreKit & FBSDKLoginKit from Facebook SDK for iOS (v4.9.1).
+  - [REPO](https://github.com/facebook/facebook-ios-sdk)
+  - [LICENSE](./Paperwork/Licenses/FacebookSDK_LICENSE.txt)
+  - [README](./Paperwork/Licenses/FacebookSDK_README.txt)
+
+* GitHub Swift Style Guide lives in this
+[repo](https://github.com/github/swift-style-guide).
+* Swift.gitignore, the template used to create the local .gitignore file,
+lives in this [repo](https://github.com/github/gitignore).
 
 ---
 **Copyright © 2016 Gregory White. All rights reserved.**
