@@ -6,6 +6,7 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 final class PleaseWaitView: NSObject {

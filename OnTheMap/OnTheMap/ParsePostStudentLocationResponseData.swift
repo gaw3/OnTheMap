@@ -6,8 +6,6 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
-
 struct ParsePostStudentLocationResponseData {
 	
 	// MARK: - Private Stored Variables

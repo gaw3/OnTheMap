@@ -6,11 +6,9 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
-
 extension ParseAPIClient {
 
-// MARK: - Public Constants
+   // MARK: - Public Constants
 
 	struct API {
 		static let BaseURL        = "https://api.parse.com/1/classes/StudentLocation"

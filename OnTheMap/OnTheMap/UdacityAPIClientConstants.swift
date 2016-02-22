@@ -6,8 +6,6 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
-
 extension UdacityAPIClient {
 
 	// MARK: - Public Constants

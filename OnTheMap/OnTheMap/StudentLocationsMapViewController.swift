@@ -6,6 +6,7 @@
 //  Copyright © 2015 Gregory White. All rights reserved.
 //
 
+import Foundation
 import MapKit
 import UIKit
 
@@ -13,7 +14,7 @@ struct StudentLocsPinAnnoView {
 	static let ReuseID = "StudentLocsPinAnnoView"
 }
 
-final class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
+final class StudentLocationsMapViewController: UIViewController {
 
 	// MARK: - Private Stored Variables
 

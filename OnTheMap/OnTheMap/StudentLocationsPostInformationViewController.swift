@@ -7,13 +7,13 @@
 //
 
 import CoreLocation
+import Foundation
 import MapKit
 import UIKit
 
 typealias NewStudent = (firstName: String, lastName: String, udacityUserID: String)
 
-final class StudentLocationsPostInformationViewController: UIViewController, MKMapViewDelegate,
-																	        UITextFieldDelegate {
+final class StudentLocationsPostInformationViewController: UIViewController {
 
 	// MARK: - Public Constants
 

@@ -6,6 +6,7 @@
 //  Copyright © 2015 Gregory White. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 typealias APIDataTaskWithRequestCompletionHandler = (result: AnyObject!, error: NSError?) -> Void
