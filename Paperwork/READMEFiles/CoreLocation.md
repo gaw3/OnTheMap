@@ -1,7 +1,9 @@
 # CoreLocation
 
-* CLGeocodeCompletionHandler
-* CLGeocoder
-* CLLocationCoordinate2D
-* CLLocationDegrees
-* CLPlacemark
+```
+CLGeocodeCompletionHandler
+CLGeocoder
+CLLocationCoordinate2D
+CLLocationDegrees
+CLPlacemark
+```

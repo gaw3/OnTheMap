@@ -18,7 +18,7 @@ Program.  The following list contains pertinent course documents:
 |               | Project Submission             | Currently
 | :----------   | :-------------             | :----------------- |
 | Grade:        | ***Exceeds Expectations*** | |  
-| App Version:  | 1.1                        |1.2&nbsp;&nbsp;(GH tag v1.1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[changelog](./Paperwork/READMEFiles/ChangeLog.md)|
+| App Version:  | 1.1                        |1.2&nbsp;&nbsp;(GH tag v1.2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[changelog](./Paperwork/READMEFiles/ChangeLog.md)|
 | Environment:  | Xcode 7.2.1 / iOS 9.2      | No Change |
 | Devices:      | iPhone Only                | No Change |
 | Orientations: | Portrait Only              | No Change |
@@ -148,7 +148,7 @@ Facebook Parse platform.  [Website](https://parse.com) and
 
 ## 3rd-Party
 
-* FBSDKCoreKit & FBSDKLoginKit from Facebook SDK for iOS (v4.9.1).
+* `FBSDKCoreKit` & `FBSDKLoginKit` from Facebook SDK for iOS (v4.9.1).
   - [REPO](https://github.com/facebook/facebook-ios-sdk)
   - [LICENSE](./Paperwork/Licenses/FacebookSDK_LICENSE.txt)
   - [README](./Paperwork/Licenses/FacebookSDK_README.txt)
