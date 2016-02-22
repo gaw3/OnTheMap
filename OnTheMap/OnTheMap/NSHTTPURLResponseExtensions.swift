@@ -3,7 +3,7 @@
 //  OnTheMap
 //
 //  Created by Gregory White on 11/24/15.
-//  Copyright © 2015 Gregory White. All rights reserved.
+//  Copyright © 2016 Gregory White. All rights reserved.
 //
 
 import Foundation

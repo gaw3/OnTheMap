@@ -3,7 +3,7 @@
 //  OnTheMap
 //
 //  Created by Gregory White on 12/1/15.
-//  Copyright © 2015 Gregory White. All rights reserved.
+//  Copyright © 2016 Gregory White. All rights reserved.
 //
 
 extension APIDataTaskWithRequest {
