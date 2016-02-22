@@ -68,7 +68,7 @@ final class StudentLocationsTableViewController: UITableViewController {
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
 
-		let studentLocation = StudentLocationsManager.sharedMgr.studentLocationAtIndexPath(indexPath)
+		let studentLocation = slMgr.studentLocationAtIndexPath(indexPath)
 		let cell = tableView.dequeueReusableCellWithIdentifier(UIConstants.ReuseID, forIndexPath: indexPath)
 
 		cell.textLabel?.text       = studentLocation.fullName + "  (\(studentLocation.mapString))"
@@ -80,7 +80,7 @@ final class StudentLocationsTableViewController: UITableViewController {
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		assert(tableView == self.tableView, "Unexpected table view requesting number of rows in section")
 
-		return StudentLocationsManager.sharedMgr.count
+		return slMgr.count
 	}
 	
 	// MARK: - UITableViewDelegate
@@ -89,21 +89,21 @@ final class StudentLocationsTableViewController: UITableViewController {
 		assert(tableView == self.tableView, "Unexpected table view selected a row")
       
 		tableView.deselectRowAtIndexPath(indexPath, animated: false)
-		openSystemBrowserWithURL(StudentLocationsManager.sharedMgr.studentLocationAtIndexPath(indexPath).mediaURL)
+		openSystemBrowserWithURL(slMgr.studentLocationAtIndexPath(indexPath).mediaURL)
 	}
 
 	// MARK: - Private
 
 	private func addNotificationObservers() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetPosted,
-																				     name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
-																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetRefreshed,
-																				     name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
-																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetUpdated,
-																				     name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
-																					object: nil)
+		notifCtr.addObserver(self, selector: SEL.DidGetPosted,
+												 name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
+											  object: nil)
+		notifCtr.addObserver(self, selector: SEL.DidGetRefreshed,
+												 name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
+											  object: nil)
+		notifCtr.addObserver(self, selector: SEL.DidGetUpdated,
+											    name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
+											  object: nil)
 	}
 
 }

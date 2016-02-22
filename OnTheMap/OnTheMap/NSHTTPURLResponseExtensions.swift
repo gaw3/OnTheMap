@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension (NSHTTPURLResponse) {
+extension NSHTTPURLResponse {
 
 	// MARK: - Public Enums
 

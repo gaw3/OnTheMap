@@ -51,7 +51,7 @@ final class UdacityDataManager: NSObject {
 		set(data) {
 			_account      = data.0
 			_loginSession = data.1
-			NSNotificationCenter.defaultCenter().postNotificationName(Notification.LoginResponseDataDidGetSaved, object: nil)
+			notifCtr.postNotificationName(Notification.LoginResponseDataDidGetSaved, object: nil)
 		}
 	}
 
@@ -60,7 +60,7 @@ final class UdacityDataManager: NSObject {
 
 		set(data) {
 			_logoutSession = data
-			NSNotificationCenter.defaultCenter().postNotificationName(Notification.LogoutResponseDataDidGetSaved, object: nil)
+			notifCtr.postNotificationName(Notification.LogoutResponseDataDidGetSaved, object: nil)
 		}
 	}
 	
@@ -69,10 +69,14 @@ final class UdacityDataManager: NSObject {
 
 		set(newUser) {
 			_user = newUser
-			NSNotificationCenter.defaultCenter().postNotificationName(Notification.UserDataDidGetSaved, object: nil)
+			notifCtr.postNotificationName(Notification.UserDataDidGetSaved, object: nil)
 		}
 	}
 	
+	private var notifCtr: NSNotificationCenter{
+		return NSNotificationCenter.defaultCenter()
+	}
+
 	// MARK: - Private
 
 	private override init() {

@@ -14,7 +14,7 @@ final class PleaseWaitView: NSObject {
 	// MARK: - Private Constants
 
 	private struct Consts {
-		static let NoAlpha: CGFloat		 = 0.0
+		static let NoAlpha:       CGFloat = 0.0
 		static let ActivityAlpha: CGFloat = 0.7
 	}
 

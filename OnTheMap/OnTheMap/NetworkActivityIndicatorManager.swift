@@ -19,12 +19,22 @@ final class NetworkActivityIndicatorManager: NSObject {
 
 	// MARK: - Private Constants
 
-	private let concurrentUpdateQueue = dispatch_queue_create("com.gaw3.OnTheMap.updateQueue", DISPATCH_QUEUE_CONCURRENT)
-	private let application           = UIApplication.sharedApplication()
+	private struct QName {
+		static let NAIUpdateQueue = "com.gaw3.OnTheMap.NetworkActivityIndicatorUpdateQueue"
+	}
 
 	// MARK: - Private Stored Variables
 
-	private var numOfUpdateTasks = 0
+	private var numOfUpdateTasks      = 0
+	private let concurrentUpdateQueue = dispatch_queue_create(QName.NAIUpdateQueue, DISPATCH_QUEUE_CONCURRENT)
+
+
+	// MARK: - Private Computed Variables
+
+	private var app: UIApplication {
+		return UIApplication.sharedApplication()
+	}
+
 
 	// MARK: - API
 
@@ -32,8 +42,8 @@ final class NetworkActivityIndicatorManager: NSObject {
 
 		dispatch_sync(concurrentUpdateQueue, {
 
-			if !self.application.statusBarHidden {
-				self.application.networkActivityIndicatorVisible = false
+			if !self.app.statusBarHidden {
+				self.app.networkActivityIndicatorVisible = false
 				self.numOfUpdateTasks = 0
 			}
 
@@ -45,11 +55,11 @@ final class NetworkActivityIndicatorManager: NSObject {
 
 		dispatch_sync(concurrentUpdateQueue, {
 
-			if !self.application.statusBarHidden {
+			if !self.app.statusBarHidden {
 				self.numOfUpdateTasks--
 
 				if self.numOfUpdateTasks <= 0 {
-					self.application.networkActivityIndicatorVisible = false
+					self.app.networkActivityIndicatorVisible = false
 					self.numOfUpdateTasks = 0
 				}
 
@@ -63,10 +73,10 @@ final class NetworkActivityIndicatorManager: NSObject {
 
 		dispatch_sync(concurrentUpdateQueue, {
 
-			if !self.application.statusBarHidden {
+			if !self.app.statusBarHidden {
 
-				if !self.application.networkActivityIndicatorVisible {
-					self.application.networkActivityIndicatorVisible = true
+				if !self.app.networkActivityIndicatorVisible {
+					self.app.networkActivityIndicatorVisible = true
 					self.numOfUpdateTasks = 0
 				}
 

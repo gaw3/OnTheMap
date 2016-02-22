@@ -8,12 +8,32 @@
 
 import UIKit
 
-extension (UIViewController) {
+extension UIViewController {
+
+	// MARK: - Private Constants
 
 	private struct Alert {
 		static let ActionTitle = "OK"
 		static let Message     = "Malformed URL"
 		static let Title       = "Unable to open browser"
+	}
+
+	// MARK: - Internal Computed Variables
+
+	var notifCtr: NSNotificationCenter{
+		return NSNotificationCenter.defaultCenter()
+	}
+
+	var parseClient: ParseAPIClient {
+		return ParseAPIClient.sharedClient
+	}
+
+	var slMgr: StudentLocationsManager {
+		return StudentLocationsManager.sharedMgr
+	}
+
+	var udacityDataMgr: UdacityDataManager {
+		return UdacityDataManager.sharedMgr
 	}
 
 	// MARK: - API
@@ -40,5 +60,6 @@ extension (UIViewController) {
 		})
 
 	}
+
 
 }

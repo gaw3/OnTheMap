@@ -41,17 +41,21 @@ final class StudentLocationsManager: NSObject {
 
 		set (location) {
 			studentLocations.insert(location, atIndex: 0)
-			NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationDidGetPosted, object: nil)
+			notifCtr.postNotificationName(Notifications.StudentLocationDidGetPosted, object: nil)
 		}
 	}
 
+	private var notifCtr: NSNotificationCenter{
+		return NSNotificationCenter.defaultCenter()
+	}
+	
 	// MARK: - API
 
 	func refreshStudentLocations(newStudentLocations: [StudentLocation]) {
 		studentLocations.removeAll()
 		studentLocations.appendContentsOf(newStudentLocations)
 
-		NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationsDidGetRefreshed, object: nil)
+		notifCtr.postNotificationName(Notifications.StudentLocationsDidGetRefreshed, object: nil)
 	}
 
    func studentLocationAtIndex(index: Int) -> StudentLocation {
@@ -65,7 +69,7 @@ final class StudentLocationsManager: NSObject {
 	func updateStudentLocation(studentLocation: StudentLocation) {
 		if let indexOfUpdate = studentLocations.indexOf({$0.objectID == studentLocation.objectID}) {
 			studentLocations[indexOfUpdate] = studentLocation
-			NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationDidGetUpdated, object: nil,
+			notifCtr.postNotificationName(Notifications.StudentLocationDidGetUpdated, object: nil,
 				userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey: indexOfUpdate ])
 		} else {
 			// how to handle this error case

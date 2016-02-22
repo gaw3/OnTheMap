@@ -12,7 +12,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate { 
+final class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
 	// MARK: - Private Constants
 
@@ -47,6 +47,12 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 	// MARK: - Private Stored Variables
 
 	private var pleaseWaitView: PleaseWaitView? = nil
+
+	// MARK: - Private Computed Variables
+
+	private var udacityClient: UdacityAPIClient {
+		return UdacityAPIClient.sharedClient
+	}
 
 	// MARK: - IB Outlets
 
@@ -95,8 +101,8 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 			self.presentAlert(Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
 		} else {
 			pleaseWaitView?.startActivityIndicator()
-			UdacityAPIClient.sharedClient.loginWithUdacityUser(emailTextField.text! as String, password: passwordTextField.text! as String,
-																										     completionHandler: loginCompletionHandler)
+			udacityClient.loginWithUdacityUser(emailTextField.text! as String, password: passwordTextField.text! as String,
+																						 completionHandler: loginCompletionHandler)
 		}
 
 	}
@@ -111,7 +117,7 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 		passwordTextField.text = ""
 
 		logoutFromFacebook()
-		UdacityAPIClient.sharedClient.logout(logoutCompletionHandler)
+		udacityClient.logout(logoutCompletionHandler)
 	}
 
 	// MARK: - Notifications
@@ -119,8 +125,8 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 	func loginResponseDataDidGetSaved(notification: NSNotification) {
 		assert(notification.name == UdacityDataManager.Notification.LoginResponseDataDidGetSaved, "unknown notification = \(notification)")
 		
-		UdacityAPIClient.sharedClient.getUserProfileData(UdacityDataManager.sharedMgr.account!.userID!,
-																       completionHandler: getUserProfileDataCompletionHandler)
+		udacityClient.getUserProfileData(udacityDataMgr.account!.userID!,
+													completionHandler: getUserProfileDataCompletionHandler)
 	}
 
 	func logoutResponseDataDidGetSaved(notification: NSNotification) {
@@ -134,7 +140,7 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 
 		pleaseWaitView?.stopActivityIndicator()
 
-		if UdacityDataManager.sharedMgr.isLoginSuccessful {
+		if udacityDataMgr.isLoginSuccessful {
 			let navController = self.storyboard?.instantiateViewControllerWithIdentifier("StudentLocsTabBarNavCtlr") as! UINavigationController
 			self.presentViewController(navController, animated: true, completion: nil)
 		}
@@ -149,7 +155,7 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 			self.presentAlert(Alert.Title.BadFBAuth, message: error!.localizedDescription)
 		} else if let facebookAccessToken = result.token {
 			pleaseWaitView?.startActivityIndicator()
-			UdacityAPIClient.sharedClient.loginWithFacebookAuthorization(facebookAccessToken, completionHandler: loginCompletionHandler)
+			udacityClient.loginWithFacebookAuthorization(facebookAccessToken, completionHandler: loginCompletionHandler)
 		}
 		
 	}
@@ -183,7 +189,7 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 				return
 			}
 
-			UdacityDataManager.sharedMgr.user = UdacityUser(userDict: result as! JSONDictionary)
+			self.udacityDataMgr.user = UdacityUser(userDict: result as! JSONDictionary)
 		}
 
 	}
@@ -207,7 +213,7 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 			let account = UdacityAccount(accountDict: JSONResult[UdacityAPIClient.API.AccountKey] as! JSONDictionary)
 			let session = UdacitySession(sessionDict: JSONResult[UdacityAPIClient.API.SessionKey] as! JSONDictionary)
 
-			UdacityDataManager.sharedMgr.loginData = (account, session)
+			self.udacityDataMgr.loginData = (account, session)
 		}
 
 	}
@@ -226,7 +232,7 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 				return
 			}
 
-			UdacityDataManager.sharedMgr.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
+			self.udacityDataMgr.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
 		}
 
 	}
@@ -238,8 +244,8 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 
 		facebookLoginButton.frame.origin.y = view.frame.height - 20.0 - emailTextField.frame.height
 		facebookLoginButton.delegate = self
-		facebookLoginButton.hidden = false
-		facebookLoginButton.enabled = true
+		facebookLoginButton.hidden   = false
+		facebookLoginButton.enabled  = true
 
 		view.addSubview(facebookLoginButton)
 	}
@@ -251,15 +257,15 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 	}
 
 	private func addNotificationObservers() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.LoginResponseDataDidGetSaved,
-																					  name: UdacityDataManager.Notification.LoginResponseDataDidGetSaved,
-																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.LogoutResponseDataDidGetSaved,
-																				     name: UdacityDataManager.Notification.LogoutResponseDataDidGetSaved,
-																				   object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.UserDataDidGetSaved,
-																				     name: UdacityDataManager.Notification.UserDataDidGetSaved,
-																				   object: nil)
+		notifCtr.addObserver(self, selector: SEL.LoginResponseDataDidGetSaved,
+												 name: UdacityDataManager.Notification.LoginResponseDataDidGetSaved,
+											  object: nil)
+		notifCtr.addObserver(self, selector: SEL.LogoutResponseDataDidGetSaved,
+											    name: UdacityDataManager.Notification.LogoutResponseDataDidGetSaved,
+											  object: nil)
+		notifCtr.addObserver(self, selector: SEL.UserDataDidGetSaved,
+												 name: UdacityDataManager.Notification.UserDataDidGetSaved,
+											  object: nil)
 	}
 
 	private func addSubviews() {
@@ -305,11 +311,11 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 
 	private func setTextFieldPlaceholders() {
 		emailTextField.leftView                 = UIView(frame: PlaceholderText.InsetRect)
-		emailTextField.leftViewMode             = UITextFieldViewMode.Always
+		emailTextField.leftViewMode             = .Always
 		emailTextField.attributedPlaceholder    = NSAttributedString(string: PlaceholderText.EmailField, attributes: PlaceholderText.Attributes)
 
 		passwordTextField.leftView              = UIView(frame: PlaceholderText.InsetRect)
-		passwordTextField.leftViewMode          = UITextFieldViewMode.Always
+		passwordTextField.leftViewMode          = .Always
 		passwordTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.PasswordField, attributes: PlaceholderText.Attributes)
 	}
 	

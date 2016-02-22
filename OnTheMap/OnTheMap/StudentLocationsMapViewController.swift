@@ -46,8 +46,8 @@ final class StudentLocationsMapViewController: UIViewController {
 		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
 				 "unknown notification = \(notification)")
 
-		pointAnnotations.append(StudentLocationsManager.sharedMgr.postedLocation.pointAnnotation)
-		mapView.addAnnotation(StudentLocationsManager.sharedMgr.postedLocation.pointAnnotation)
+		pointAnnotations.append(slMgr.postedLocation.pointAnnotation)
+		mapView.addAnnotation(slMgr.postedLocation.pointAnnotation)
    }
    
 	func studentLocationsDidGetRefreshed(notification: NSNotification) {
@@ -57,8 +57,8 @@ final class StudentLocationsMapViewController: UIViewController {
 		mapView.removeAnnotations(pointAnnotations)
 		pointAnnotations.removeAll()
 
-      for index in 0...(StudentLocationsManager.sharedMgr.count - 1) {
-         pointAnnotations.append(StudentLocationsManager.sharedMgr.studentLocationAtIndex(index).pointAnnotation)
+      for index in 0...(slMgr.count - 1) {
+         pointAnnotations.append(slMgr.studentLocationAtIndex(index).pointAnnotation)
       }
       
       mapView.addAnnotations(pointAnnotations)
@@ -71,9 +71,9 @@ final class StudentLocationsMapViewController: UIViewController {
 		let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
 
 		mapView.removeAnnotation(pointAnnotations[indexOfUpdate])
-		mapView.addAnnotation(StudentLocationsManager.sharedMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation)
+		mapView.addAnnotation(slMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation)
 
-		pointAnnotations[indexOfUpdate] = StudentLocationsManager.sharedMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation
+		pointAnnotations[indexOfUpdate] = slMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation
 	}
 
    // MARK: - MKMapViewDelegate
@@ -96,7 +96,7 @@ final class StudentLocationsMapViewController: UIViewController {
          pinAnnotationView!.canShowCallout = true
 			pinAnnotationView!.pinTintColor = MKPinAnnotationView.redPinColor()
 
-			if annotation.title! == UdacityDataManager.sharedMgr.user!.fullName {
+			if annotation.title! == udacityDataMgr.user!.fullName {
 				pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
 			}
 			
@@ -109,15 +109,15 @@ final class StudentLocationsMapViewController: UIViewController {
 	// MARK: - Private Helpers
 
 	private func addNotificationObservers() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetPosted,
-			                                                        name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
-																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetRefreshed,
-																					  name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
-																					object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: SEL.DidGetUpdated,
-																					  name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
-																					object: nil)
+		notifCtr.addObserver(self, selector: SEL.DidGetPosted,
+												 name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
+											  object: nil)
+		notifCtr.addObserver(self, selector: SEL.DidGetRefreshed,
+										       name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
+											  object: nil)
+		notifCtr.addObserver(self, selector: SEL.DidGetUpdated,
+											    name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
+											  object: nil)
 	}
 
 }

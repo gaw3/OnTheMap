@@ -36,17 +36,17 @@ final class StudentLocationsTabBarController: UITabBarController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
+		parseClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
 	}
 	
 	// MARK: - IB Actions
 
 	@IBAction func pinButtonWasTapped(sender: UIBarButtonItem) {
-		ParseAPIClient.sharedClient.getStudentLocation(UdacityDataManager.sharedMgr.user!.userID!, completionHandler: getStudentLocationCompletionHandler)
+		parseClient.getStudentLocation(udacityDataMgr.user!.userID!, completionHandler: getStudentLocationCompletionHandler)
 	}
 
 	@IBAction func refreshButtonWasTapped(sender: UIBarButtonItem) {
-		ParseAPIClient.sharedClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
+		parseClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
 	}
 
 	// MARK: - Private:  Completion Handlers as Computed Variables
@@ -71,9 +71,9 @@ final class StudentLocationsTabBarController: UITabBarController {
 				let postInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier(StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
 									  as! StudentLocationsPostInformationViewController
 
-				postInfoVC.newStudent = (UdacityDataManager.sharedMgr.user!.firstName!,
-											    UdacityDataManager.sharedMgr.user!.lastName!,
-												 UdacityDataManager.sharedMgr.user!.userID!)
+				postInfoVC.newStudent = (self.udacityDataMgr.user!.firstName!,
+											    self.udacityDataMgr.user!.lastName!,
+												 self.udacityDataMgr.user!.userID!)
 
 				self.presentViewController(postInfoVC, animated: true, completion: nil)
 			} else {
@@ -124,7 +124,7 @@ final class StudentLocationsTabBarController: UITabBarController {
 				newStudentLocations.append(StudentLocation(studentLocationDict: newStudentLocation))
 			}
 
-			StudentLocationsManager.sharedMgr.refreshStudentLocations(newStudentLocations)
+			self.slMgr.refreshStudentLocations(newStudentLocations)
 		}
 		
 	}

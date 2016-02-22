@@ -220,7 +220,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 			self.currentStudentLocation!.objectID    = responseData.id!
 
 			self.dismissViewControllerAnimated(true, completion: {
-				StudentLocationsManager.sharedMgr.postedLocation = self.currentStudentLocation!
+				self.slMgr.postedLocation = self.currentStudentLocation!
 			})
 
 		}
@@ -246,7 +246,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 			self.currentStudentLocation!.dateUpdated = responseData.dateUpdated!
 
 			self.dismissViewControllerAnimated(true, completion: {
-				StudentLocationsManager.sharedMgr.updateStudentLocation(self.currentStudentLocation!)
+				self.slMgr.updateStudentLocation(self.currentStudentLocation!)
 			})
 
 		}
@@ -317,7 +317,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 		let buttonBackground = UIImage(named: UIConstants.BtnBkndFileName)
 		buttonBackground?.resizableImageWithCapInsets(UIEdgeInsetsZero)
 
-		toolbarButton.setBackgroundImage(buttonBackground, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+		toolbarButton.setBackgroundImage(buttonBackground, forState: .Normal, barMetrics: .Default)
 		toolbarButton.title = ButtonTitle.Find
 	}
 	
@@ -329,9 +329,9 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 			currentStudentLocation?.mediaURL = mediaURLTextField.text!
 
 			if let _ = newStudent {
-				ParseAPIClient.sharedClient.postStudentLocation(currentStudentLocation!, completionHandler: postStudentLocationCompletionHandler)
+				parseClient.postStudentLocation(currentStudentLocation!, completionHandler: postStudentLocationCompletionHandler)
 			} else {
-				ParseAPIClient.sharedClient.updateStudentLocation(currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
+				parseClient.updateStudentLocation(currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
 			}
 
 		}
@@ -343,7 +343,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 		toolbarButton.title  = ButtonTitle.Submit
 		toolbar.backgroundColor = UIColor.clearColor()
 		toolbar.translucent = true
-		cancelButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+		cancelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 
 		mapView.addAnnotation(annotation)
 		mapView.setRegion(region, animated: true)
