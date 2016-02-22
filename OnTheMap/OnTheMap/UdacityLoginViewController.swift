@@ -34,7 +34,7 @@ final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, F
 	}
 
 	private struct PlaceholderText {
-		static let Attributes    = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+		static let Attributes    = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 		static let EmailField    = "Email"
 		static let InsetRect     = CGRectMake(0, 0, 10, 50)
 		static let PasswordField = "Password"

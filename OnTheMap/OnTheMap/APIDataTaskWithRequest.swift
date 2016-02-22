@@ -58,8 +58,8 @@ final class APIDataTaskWithRequest: NSObject {
 			})
 
 			guard URLSessionError == nil else {
-				let userInfo = [NSLocalizedDescriptionKey : LocalizedErrorDescription.Network,
-									 NSUnderlyingErrorKey      : URLSessionError!]
+				let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.Network,
+									 NSUnderlyingErrorKey:      URLSessionError!]
 				let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.Network, userInfo: userInfo)
 
 				self.completeWithHandler(self.completionHandler, result: nil, error: error)
@@ -71,8 +71,8 @@ final class APIDataTaskWithRequest: NSObject {
 			guard HTTPURLResponse?.statusCodeClass == .Successful else {
 				let HTTPStatusText = NSHTTPURLResponse.localizedStringForStatusCode((HTTPURLResponse?.statusCode)!)
 				let failureReason  = "HTTP status code = \(HTTPURLResponse?.statusCode), HTTP status text = \(HTTPStatusText)"
-				let userInfo       = [NSLocalizedDescriptionKey        : LocalizedErrorDescription.HTTP,
-									       NSLocalizedFailureReasonErrorKey : failureReason]
+				let userInfo       = [NSLocalizedDescriptionKey:        LocalizedErrorDescription.HTTP,
+									       NSLocalizedFailureReasonErrorKey: failureReason]
 				let error          = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.HTTP, userInfo: userInfo)
 
 				self.completeWithHandler(self.completionHandler, result: nil, error: error)
@@ -80,7 +80,7 @@ final class APIDataTaskWithRequest: NSObject {
 			}
 
 			guard let rawJSONResponse = rawJSONResponse else {
-				let userInfo = [NSLocalizedDescriptionKey : LocalizedErrorDescription.JSON]
+				let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.JSON]
 				let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.JSON, userInfo: userInfo)
 
 				self.completeWithHandler(self.completionHandler, result: nil, error: error)
@@ -98,8 +98,8 @@ final class APIDataTaskWithRequest: NSObject {
 
 				self.completeWithHandler(self.completionHandler, result: JSONData, error: nil)
 			} catch let JSONError as NSError {
-				let userInfo = [NSLocalizedDescriptionKey : LocalizedErrorDescription.JSONSerialization,
-									 NSUnderlyingErrorKey      : JSONError]
+				let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.JSONSerialization,
+									 NSUnderlyingErrorKey:      JSONError]
 				let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.JSONSerialization, userInfo: userInfo)
 
 				self.completeWithHandler(self.completionHandler, result: nil, error: error)

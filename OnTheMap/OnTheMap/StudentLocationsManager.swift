@@ -66,7 +66,7 @@ final class StudentLocationsManager: NSObject {
 		if let indexOfUpdate = studentLocations.indexOf({$0.objectID == studentLocation.objectID}) {
 			studentLocations[indexOfUpdate] = studentLocation
 			NSNotificationCenter.defaultCenter().postNotificationName(Notifications.StudentLocationDidGetUpdated, object: nil,
-				userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey : indexOfUpdate])
+				userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey: indexOfUpdate ])
 		} else {
 			// how to handle this error case
 		}

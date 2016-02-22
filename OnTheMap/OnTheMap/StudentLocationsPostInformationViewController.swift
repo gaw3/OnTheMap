@@ -48,7 +48,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
 	}
 
 	private struct PlaceholderText {
-		static let Attributes    = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+		static let Attributes    = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 		static let LocationField = "Enter Your Location Here"
 		static let MediaURLField = "Enter a Link to Share Here"
 	}
