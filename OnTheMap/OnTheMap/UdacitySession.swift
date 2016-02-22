@@ -15,17 +15,13 @@ struct UdacitySession {
 	// MARK: - Public Computed Variables
 
 	var expirationDate: String? {
-		get {
-			if let date = _session[UdacityAPIClient.API.ExpirationDateKey] as! String? { return date }
-			return nil
-		}
+		if let date = _session[UdacityAPIClient.API.ExpirationDateKey] as! String? { return date }
+		return nil
 	}
 
 	var id: String? {
-		get {
-			if let id = _session[UdacityAPIClient.API.SessionIDKey] as! String? { return id }
-			return nil
-		}
+		if let id = _session[UdacityAPIClient.API.SessionIDKey] as! String? { return id }
+		return nil
 	}
 
 	// MARK: - API

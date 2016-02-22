@@ -34,15 +34,15 @@ final class UdacityDataManager: NSObject {
 	// MARK: - Public Computed Variables
 
 	var account: UdacityAccount? {
-		get { return _account }
+		return _account
 	}
 
 	var isLoginSuccessful: Bool {
-		get {  return ((_account != nil) && (_loginSession != nil)) }
+		return ((_account != nil) && (_loginSession != nil))
 	}
 
 	var isLogoutSuccessful: Bool {
-		get {  return (_logoutSession != nil) }
+		return (_logoutSession != nil)
 	}
 
 	var loginData: (UdacityAccount?, UdacitySession?) {

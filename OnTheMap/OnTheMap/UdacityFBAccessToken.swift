@@ -26,10 +26,8 @@ struct UdacityFBAccessToken {
 	// MARK: - Public Computed Meta Variables
 
 	var serializedData: NSData {
-		get {
-			let data = try! NSJSONSerialization.dataWithJSONObject(_dict, options: .PrettyPrinted)
-			return data
-		}
+		let data = try! NSJSONSerialization.dataWithJSONObject(_dict, options: .PrettyPrinted)
+		return data
 	}
 
 	// MARK: - API

@@ -26,7 +26,7 @@ final class PleaseWaitView: NSObject {
 	// MARK: - Public Computed Variables
 
 	var dimmedView: UIView {
-		get { return _dimmedView! }
+		return _dimmedView!
 	}
 	
 	// MARK: - API

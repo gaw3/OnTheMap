@@ -15,17 +15,13 @@ struct ParsePostStudentLocationResponseData {
 	// MARK: - Public Computed Variables
 
 	var dateCreated: String? {
-		get {
-			if let date = _data[ParseAPIClient.API.DateCreatedKey] as! String? { return date }
-			return nil
-		}
+		if let date = _data[ParseAPIClient.API.DateCreatedKey] as! String? { return date }
+		return nil
 	}
 
 	var id: String? {
-		get {
-			if let id = _data[ParseAPIClient.API.ObjectIDKey] as! String? { return id }
-			return nil
-		}
+		if let id = _data[ParseAPIClient.API.ObjectIDKey] as! String? { return id }
+		return nil
 	}
 
 	// MARK: - API

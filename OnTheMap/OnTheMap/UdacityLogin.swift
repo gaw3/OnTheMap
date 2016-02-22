@@ -17,10 +17,8 @@ struct UdacityLogin {
 	// MARK: - Public Computed Meta Variables
 
 	var serializedData: NSData {
-		get {
-			let data = try! NSJSONSerialization.dataWithJSONObject(_udacity, options: .PrettyPrinted)
-			return data
-		}
+		let data = try! NSJSONSerialization.dataWithJSONObject(_udacity, options: .PrettyPrinted)
+		return data
 	}
 
 	// MARK: - API

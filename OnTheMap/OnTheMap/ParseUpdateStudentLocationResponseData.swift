@@ -15,10 +15,8 @@ struct ParseUpdateStudentLocationResponseData {
 	// MARK: - Public Computed Variables
 
 	var dateUpdated: String? {
-		get {
-			if let date = _data[ParseAPIClient.API.DateUpdatedKey] as! String? { return date }
-			return nil
-		}
+		if let date = _data[ParseAPIClient.API.DateUpdatedKey] as! String? { return date }
+		return nil
 	}
 
 	// MARK: - API

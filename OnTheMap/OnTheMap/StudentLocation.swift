@@ -104,7 +104,7 @@ struct StudentLocation {
 	// MARK: - Public Computed Meta Variables
 
 	var fullName: String {
-		get { return "\(firstName) \(lastName)" }
+		return "\(firstName) \(lastName)"
 	}
 
 	var newStudentSerializedData: NSData {
@@ -123,15 +123,13 @@ struct StudentLocation {
 	}
 
 	var pointAnnotation: MKPointAnnotation {
-		get {
-			let annotation = MKPointAnnotation()
+		let annotation = MKPointAnnotation()
 
-			annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-			annotation.title      = fullName
-			annotation.subtitle   = mediaURL
+		annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+		annotation.title      = fullName
+		annotation.subtitle   = mediaURL
 
-			return annotation
-		}
+		return annotation
 	}
 
 	// MARK: - API
