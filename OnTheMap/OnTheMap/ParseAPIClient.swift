@@ -10,7 +10,7 @@ import UIKit
 
 private let _sharedClient = ParseAPIClient()
 
-class ParseAPIClient: NSObject {
+final class ParseAPIClient: NSObject {
 
 	class var sharedClient: ParseAPIClient {
 		return _sharedClient

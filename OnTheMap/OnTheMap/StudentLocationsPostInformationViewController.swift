@@ -12,8 +12,8 @@ import UIKit
 
 typealias NewStudent = (firstName: String, lastName: String, udacityUserID: String)
 
-class StudentLocationsPostInformationViewController: UIViewController, MKMapViewDelegate,
-																	  UITextFieldDelegate {
+final class StudentLocationsPostInformationViewController: UIViewController, MKMapViewDelegate,
+																	        UITextFieldDelegate {
 
 	// MARK: - Public Constants
 

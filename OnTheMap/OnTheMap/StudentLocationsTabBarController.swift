@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StudentLocationsTabBarController: UITabBarController {
+final class StudentLocationsTabBarController: UITabBarController {
 
 	// MARK: - Private Constants
 

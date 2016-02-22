@@ -10,7 +10,7 @@ import UIKit
 
 private let _sharedClient = NetworkActivityIndicatorManager()
 
-class NetworkActivityIndicatorManager: NSObject {
+final class NetworkActivityIndicatorManager: NSObject {
 
 	class var sharedManager: NetworkActivityIndicatorManager {
 		return _sharedClient

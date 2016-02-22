@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PleaseWaitView: NSObject {
+final class PleaseWaitView: NSObject {
 
 	// MARK: - Private Constants
 

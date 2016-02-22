@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StudentLocationsTableViewController: UITableViewController {
+final class StudentLocationsTableViewController: UITableViewController {
 
 	// MARK: - Private Constants
 

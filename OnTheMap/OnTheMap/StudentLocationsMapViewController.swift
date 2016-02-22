@@ -13,7 +13,7 @@ struct StudentLocsPinAnnoView {
 	static let ReuseID = "StudentLocsPinAnnoView"
 }
 
-class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
+final class StudentLocationsMapViewController: UIViewController, MKMapViewDelegate {
 
 	// MARK: - Private Stored Variables
 

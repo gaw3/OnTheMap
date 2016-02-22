@@ -10,7 +10,7 @@ import Foundation
 
 private let _sharedMgr = UdacityDataManager()
 
-class UdacityDataManager: NSObject {
+final class UdacityDataManager: NSObject {
 
 	class var sharedMgr: UdacityDataManager {
 		return _sharedMgr

@@ -10,7 +10,7 @@ import UIKit
 
 private let _sharedMgr = StudentLocationsManager()
 
-class StudentLocationsManager: NSObject {
+final class StudentLocationsManager: NSObject {
 
 	class var sharedMgr: StudentLocationsManager {
 		return _sharedMgr

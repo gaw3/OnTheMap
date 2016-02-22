@@ -11,7 +11,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate { 
+final class UdacityLoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate { 
 
 	// MARK: - Private Constants
 

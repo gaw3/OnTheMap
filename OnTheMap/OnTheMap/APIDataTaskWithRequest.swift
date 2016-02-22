@@ -11,7 +11,7 @@ import UIKit
 typealias APIDataTaskWithRequestCompletionHandler = (result: AnyObject!, error: NSError?) -> Void
 typealias JSONDictionary = Dictionary<String, AnyObject>
 
-class APIDataTaskWithRequest: NSObject {
+final class APIDataTaskWithRequest: NSObject {
 
 	// MARK: - Private Constants
 
