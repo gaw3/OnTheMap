@@ -95,16 +95,16 @@ final internal class StudentLocationsMapViewController: UIViewController {
          pinAnnotationView!.annotation = annotation
       } else {
          pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocsPinAnnoView.ReuseID)
-         pinAnnotationView!.canShowCallout = true
-			pinAnnotationView!.pinTintColor = MKPinAnnotationView.redPinColor()
+		}
 
-			if annotation.title! == udacityDataMgr.user!.fullName {
-				pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
-			}
-			
-         pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
-      }
-      
+		pinAnnotationView!.canShowCallout            = true
+		pinAnnotationView!.pinTintColor              = MKPinAnnotationView.redPinColor()
+		pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+
+		if annotation.title! == udacityDataMgr.user!.fullName {
+			pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
+		}
+
       return pinAnnotationView
    }
    
