@@ -14,9 +14,9 @@ final internal class StudentLocationsTableViewController: UITableViewController 
 	// MARK: - Private Constants
 
 	private struct SEL {
-		static let DidGetPosted:    Selector = "studentLocationDidGetPosted:"
-		static let DidGetRefreshed: Selector = "studentLocationsDidGetRefreshed:"
-		static let DidGetUpdated:   Selector = "studentLocationDidGetUpdated:"
+		static let DidGetPosted    = #selector(studentLocationDidGetPosted(_:))
+		static let DidGetRefreshed = #selector(studentLocationsDidGetRefreshed(_:))
+		static let DidGetUpdated   = #selector(studentLocationDidGetUpdated(_:))
 	}
 
 	private struct UIConstants {
@@ -58,7 +58,7 @@ final internal class StudentLocationsTableViewController: UITableViewController 
 
 	// MARK: - UITableViewDataSource
 
-	override internal func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	 override internal func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		assert(tableView == self.tableView, "Unexpected table view requesting number of sections in table view")
 
 		return 1

@@ -18,8 +18,8 @@ Program.  The following list contains pertinent course documents:
 |               | Project Submission             | Currently
 | :----------   | :-------------             | :----------------- |
 | Grade:        | ***Exceeds Expectations*** | |  
-| App Version:  | 1.1                        |1.2&nbsp;&nbsp;(GH tag v1.2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[changelog](./Paperwork/READMEFiles/ChangeLog.md)|
-| Environment:  | Xcode 7.2.1 / iOS 9.2      | No Change |
+| App Version:  | 1.1                        | 1.3&nbsp;&nbsp;(GH tag v1.3)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[changelog](./Paperwork/READMEFiles/ChangeLog.md)|
+| Environment:  | Xcode 7.2.1 / iOS 9.2      | Xcode 7.3 / iOS 9.3 |
 | Devices:      | iPhone Only                | No Change |
 | Orientations: | Portrait Only              | No Change |
 

@@ -17,9 +17,9 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 	// MARK: - Private Constants
 
 	private struct SEL {
-		static let LoginResponseDataDidGetSaved:  Selector = "loginResponseDataDidGetSaved:"
-		static let LogoutResponseDataDidGetSaved: Selector = "logoutResponseDataDidGetSaved:"
-		static let UserDataDidGetSaved:           Selector = "userDataDidGetSaved:"
+		static let LoginResponseDataDidGetSaved  = #selector(loginResponseDataDidGetSaved(_:))
+		static let LogoutResponseDataDidGetSaved = #selector(logoutResponseDataDidGetSaved(_:))
+		static let UserDataDidGetSaved           = #selector(userDataDidGetSaved(_:))
 	}
 
 	private struct Alert {

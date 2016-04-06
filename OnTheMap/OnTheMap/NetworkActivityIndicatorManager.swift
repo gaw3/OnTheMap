@@ -56,7 +56,7 @@ final internal class NetworkActivityIndicatorManager: NSObject {
 		dispatch_sync(concurrentUpdateQueue, {
 
 			if !self.app.statusBarHidden {
-				self.numOfUpdateTasks--
+				self.numOfUpdateTasks -= 1
 
 				if self.numOfUpdateTasks <= 0 {
 					self.app.networkActivityIndicatorVisible = false
@@ -80,7 +80,7 @@ final internal class NetworkActivityIndicatorManager: NSObject {
 					self.numOfUpdateTasks = 0
 				}
 
-				self.numOfUpdateTasks++
+				self.numOfUpdateTasks += 1
 			}
 
 		})

@@ -21,9 +21,9 @@ final internal class StudentLocationsMapViewController: UIViewController {
 	// MARK: - Private Constants
 
 	private struct SEL {
-		static let DidGetPosted:    Selector = "studentLocationDidGetPosted:"
-		static let DidGetRefreshed: Selector = "studentLocationsDidGetRefreshed:"
-		static let DidGetUpdated:   Selector = "studentLocationDidGetUpdated:"
+		static let DidGetPosted    = #selector(studentLocationDidGetPosted(_:))
+		static let DidGetRefreshed = #selector(studentLocationsDidGetRefreshed(_:))
+		static let DidGetUpdated   = #selector(studentLocationDidGetUpdated(_:))
 	}
 	
 	// MARK: - Private Stored Variables
