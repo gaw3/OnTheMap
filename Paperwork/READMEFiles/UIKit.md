@@ -39,11 +39,11 @@ UIStoryboardSegue
 ```
 UITableView
 UITableViewController
-UITableViewDataSource
-UITableViewDelegate
+UITableViewDataSource - protocol
+UITableViewDelegate - protocol
 ```
 
 ```
 UITextField
-UITextFieldDelegate
+UITextFieldDelegate - protocol
 ```

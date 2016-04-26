@@ -2,4 +2,4 @@
 
 | Map Tab                           | List Tab     |
 | :-------------:                   | :-------------: |
-| ![](./StudentLocationsMapTab.png) | ![](./StudentLocationsListTab.png) |
+| ![](../images/StudentLocationsMapTab.png) | ![](../images/StudentLocationsListTab.png) |

@@ -1,3 +1,3 @@
 # Udacity Sign Up Webpage
 
-![](./UdacitySignUpWebpage.png)
+![](../images/UdacitySignUpWebpage.png)

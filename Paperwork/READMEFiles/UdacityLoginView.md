@@ -1,3 +1,3 @@
 # Udacity Login View
 
-![](./UdacityLoginView.png)
+![](../images/UdacityLoginView.png)

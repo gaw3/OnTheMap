@@ -1,12 +1,13 @@
 # MapKit
 
 ```
+MKMapView
+MKMapViewDelegate - protocol
+
 MKAnnotation
 MKAnnotationView
 MKCoordinateRegion
 MKCoordinateSpanMake
-MKMapView
-MKMapViewDelegate
 MKPinAnnotationView
 MKPointAnnotation
 ```

@@ -2,4 +2,4 @@
 
 | Enter Location                   | Enter Link to Share             |
 | :-------------:                  | :-------------:                 |
-| ![](./EnterYourLocationHere.png) | ![](./EnterLinkToShareHere.png) |
+| ![](../images/EnterYourLocationHere.png) | ![](../images/EnterLinkToShareHere.png) |
