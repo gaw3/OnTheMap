@@ -1,6 +1,6 @@
-# ![App Icon](./Paperwork/READMEFiles/OnTheMap_80.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OnTheMap
+# ![App Icon](./Paperwork/images/OnTheMap_80.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OnTheMap
 
-OnTheMap allows a Udacity student to share his location, and a URL of interest, with other students.  The locations specified in the 100 most-recent student postings are presented as pins on a map or as items in a table.  
+OnTheMap allows a Udacity student to share his location, and a URL of interest, with other students.  The locations specified in the 100 most-recent student postings are presented as pins on a map or as items in a table.  The student postings database is hosted on the Parse platform.  The app requires login via Udacity or Facebook.
 
 ## Project
 
@@ -9,7 +9,7 @@ OnTheMap is Portfolio Project #3 of the Udacity iOS Developer Nanodegree Program
 * [Udacity Grading Rubric](./Paperwork/Udacity/UdacityGradingRubric.pdf)  
 * [GitHub Swift Style Guide](./Paperwork/Udacity/GitHubSwiftStyleGuide.pdf)  
 * [Udacity Git Commit Message Style Guide](./Paperwork/Udacity/UdacityGitCommitMessageStyleGuide.pdf)  
-* [Udacity Project Review](./Paperwork/Udacity/ProjectReview.pdf)
+* [Udacity Project Review](./Paperwork/Udacity/ProjectReview.pdf)<br/><br/>
 
 |               | Project Submission         | Current State |
 | :----------   | :-------------             | :----------- |
@@ -42,9 +42,9 @@ Tap the [List tab](./Paperwork/READMEFiles/StudentLocationsTabbedView.md) to dis
 
 * Logout - tap to logout from Udacity, and optionally, Facebook.  The [Student Location Tabbed View](./Paperwork/READMEFiles/StudentLocationsTabbedView.md) disappears, and the [Udacity Login View](./Paperwork/READMEFiles/UdacityLoginView.md) is displayed.  
 
-* Post ![Pin Button](./Paperwork/READMEFiles/PinIcon.png) - Tap to present the Post Student Location View to allow for student location entry.  If this is the user's first post, the Post Student Location View is presented straightaway.  Otherwise, a **Confirm Update or Cancel** alert appears.  Tap **Confirm** to present the Post Student Location View with text fields populated with current data.
+* Post ![Pin Button](./Paperwork/images/PinIcon.png) - Tap to present the Post Student Location View to allow for student location entry.  If this is the user's first post, the Post Student Location View is presented straightaway.  Otherwise, a **Confirm Update or Cancel** alert appears.  Tap **Confirm** to present the Post Student Location View with text fields populated with current data.
 
-* Refresh ![Refresh Button](./Paperwork/READMEFiles/RefreshIcon.png) - Tap to retrieve a new list of the 100 most-recent student postings, sorted by most-recent update time.
+* Refresh ![Refresh Button](./Paperwork/images/RefreshIcon.png) - Tap to retrieve a new list of the 100 most-recent student postings, sorted by most-recent update time.
 
 ### Post Student Location View
 
