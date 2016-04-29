@@ -1,5 +1,12 @@
 # Post Student Location View
 
-| Enter Location                   | Enter Link to Share             |
-| :-------------:                  | :-------------:                 |
-| ![](../images/EnterYourLocationHere.png) | ![](../images/EnterLinkToShareHere.png) |
+| Enter Location | Enter Link to Share |
+| :------------: | :-------------:     |
+| ![][EYLH]      | ![][ELTSH]          |
+
+
+
+
+
+[ELTSH]:  ../images/EnterLinkToShareHere.png 
+[EYLH]:   ../images/EnterYourLocationHere.png

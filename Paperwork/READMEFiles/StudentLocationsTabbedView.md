@@ -1,5 +1,12 @@
 # Student Locations Tabbed View
 
-| Map Tab                           | List Tab     |
-| :-------------:                   | :-------------: |
-| ![](../images/StudentLocationsMapTab.png) | ![](../images/StudentLocationsListTab.png) |
+| Map Tab   | List Tab  |
+| :-----:   | :------:  |
+| ![][SLMT] | ![][SLLT] |
+
+
+
+
+
+[SLLT]:  ../images/StudentLocationsMapTab.png
+[SLMT]:  ../images/StudentLocationsMapTab.png

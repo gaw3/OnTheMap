@@ -1,3 +1,9 @@
 # Udacity Sign Up Webpage
 
-![](../images/UdacitySignUpWebpage.png)
+![][USUW]
+
+
+
+
+
+[USUW]:  ../images/UdacitySignUpWebpage.png

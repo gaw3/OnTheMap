@@ -1,4 +1,4 @@
-# CoreLocation
+# CoreLocation Framework
 
 ```
 CLGeocodeCompletionHandler

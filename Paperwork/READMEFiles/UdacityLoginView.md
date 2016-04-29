@@ -1,3 +1,9 @@
 # Udacity Login View
 
-![](../images/UdacityLoginView.png)
+![][ULV]
+
+
+
+
+
+[ULV]:  ../images/UdacityLoginView.png
