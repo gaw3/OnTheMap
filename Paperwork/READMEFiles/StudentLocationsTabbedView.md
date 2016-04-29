@@ -8,5 +8,5 @@
 
 
 
-[SLLT]:  ../images/StudentLocationsMapTab.png
-[SLMT]:  ../images/StudentLocationsListTab.png
+[SLLT]:  ../images/StudentLocationsListTab.png
+[SLMT]:  ../images/StudentLocationsMapTab.png
