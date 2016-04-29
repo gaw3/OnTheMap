@@ -73,8 +73,7 @@ Tap the **Cancel** button in the upper right-hand corner at any time to interrup
 * [CoreLocation][CL]
 * [Foundation][FDTN]
 * [MapKit][MK]
-* [UIKit][UK]
-
+* [UIKit][UK]<br/><br/>
 * [GCD][GCD]
 
 ### Web APIs

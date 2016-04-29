@@ -9,4 +9,4 @@
 
 
 [SLLT]:  ../images/StudentLocationsMapTab.png
-[SLMT]:  ../images/StudentLocationsMapTab.png
+[SLMT]:  ../images/StudentLocationsListTab.png
