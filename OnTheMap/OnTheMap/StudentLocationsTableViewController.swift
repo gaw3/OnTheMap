@@ -10,56 +10,56 @@ import Foundation
 import UIKit
 
 final internal class StudentLocationsTableViewController: UITableViewController {
-
-	// MARK: - Private Constants
-
-	fileprivate struct UIConstants {
-		static let ReuseID = "StudentLocsTVCell"
-	}
-
-	// MARK: - View Events
-
-	override internal func viewDidLoad() {
-		super.viewDidLoad()
-
-      addNotificationObservers()
-	}
-
-	// MARK: - UITableViewDataSource
-
-	 override internal func numberOfSections(in tableView: UITableView) -> Int {
-		assert(tableView == self.tableView, "Unexpected table view requesting number of sections in table view")
-
-		return 1
-	}
-	
-	override internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
-
-		let studentLocation = slMgr.studentLocationAtIndexPath(indexPath)
-		let cell = tableView.dequeueReusableCell(withIdentifier: UIConstants.ReuseID, for: indexPath)
-
-		cell.textLabel?.text       = studentLocation.fullName + "  (\(studentLocation.mapString))"
-		cell.detailTextLabel?.text = studentLocation.mediaURL
-
-		return cell
-	}
-
-	override internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		assert(tableView == self.tableView, "Unexpected table view requesting number of rows in section")
-
-		return slMgr.count
-	}
-	
-	// MARK: - UITableViewDelegate
-
-	override internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		assert(tableView == self.tableView, "Unexpected table view selected a row")
-      
-		tableView.deselectRow(at: indexPath, animated: false)
-		openSystemBrowserWithURL(slMgr.studentLocationAtIndexPath(indexPath).mediaURL)
-	}
-
+    
+    // MARK: - Private Constants
+    
+    fileprivate struct UIConstants {
+        static let ReuseID = "StudentLocsTVCell"
+    }
+    
+    // MARK: - View Events
+    
+    override internal func viewDidLoad() {
+        super.viewDidLoad()
+        
+        addNotificationObservers()
+    }
+    
+    // MARK: - UITableViewDataSource
+    
+    override internal func numberOfSections(in tableView: UITableView) -> Int {
+        assert(tableView == self.tableView, "Unexpected table view requesting number of sections in table view")
+        
+        return 1
+    }
+    
+    override internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
+        
+        let studentLocation = slMgr.studentLocationAtIndexPath(indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: UIConstants.ReuseID, for: indexPath)
+        
+        cell.textLabel?.text       = studentLocation.fullName + "  (\(studentLocation.mapString))"
+        cell.detailTextLabel?.text = studentLocation.mediaURL
+        
+        return cell
+    }
+    
+    override internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        assert(tableView == self.tableView, "Unexpected table view requesting number of rows in section")
+        
+        return slMgr.count
+    }
+    
+    // MARK: - UITableViewDelegate
+    
+    override internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        assert(tableView == self.tableView, "Unexpected table view selected a row")
+        
+        tableView.deselectRow(at: indexPath, animated: false)
+        openSystemBrowserWithURL(slMgr.studentLocationAtIndexPath(indexPath).mediaURL)
+    }
+    
 }
 
 // MARK: - Notifications
@@ -72,11 +72,11 @@ extension StudentLocationsTableViewController {
             
         case NotificationName.StudentLocationDidGetPosted:
             tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-
+            
             
         case NotificationName.StudentLocationsDidGetRefreshed:
             tableView.reloadData()
-
+            
             
         case NotificationName.StudentLocationDidGetUpdated:
             let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int

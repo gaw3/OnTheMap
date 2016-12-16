@@ -7,23 +7,23 @@
 //
 
 extension ParseAPIClient {
-
-   // MARK: - Internal Constants
-
-	internal struct API {
-		static let BaseURL        = "https://api.parse.com/1/classes/StudentLocation"
-
-		static let DateCreatedKey = "createdAt"
-		static let DateUpdatedKey = "updatedAt"
-		static let FirstNameKey   = "firstName"
-		static let LastNameKey    = "lastName"
-		static let LatKey			  = "latitude"
-		static let MapStringKey   = "mapString"
-		static let LongKey		  = "longitude"
-		static let MediaURLKey    = "mediaURL"
-		static let ObjectIDKey    = "objectId"
-		static let ResultsKey     = "results"
-		static let UniqueKeyKey   = "uniqueKey"
-	}
-
+    
+    // MARK: - Internal Constants
+    
+    internal struct API {
+        static let BaseURL        = "https://api.parse.com/1/classes/StudentLocation"
+        
+        static let DateCreatedKey = "createdAt"
+        static let DateUpdatedKey = "updatedAt"
+        static let FirstNameKey   = "firstName"
+        static let LastNameKey    = "lastName"
+        static let LatKey		  = "latitude"
+        static let MapStringKey   = "mapString"
+        static let LongKey		  = "longitude"
+        static let MediaURLKey    = "mediaURL"
+        static let ObjectIDKey    = "objectId"
+        static let ResultsKey     = "results"
+        static let UniqueKeyKey   = "uniqueKey"
+    }
+    
 }

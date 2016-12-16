@@ -11,59 +11,59 @@ import MapKit
 import UIKit
 
 final internal class StudentLocationsMapViewController: UIViewController {
-
-	// MARK: - Internal Constants
-
-	internal struct StudentLocsPinAnnoView {
-		static let ReuseID = "StudentLocsPinAnnoView"
-	}
-
-	// MARK: - Private Stored Variables
-
-	fileprivate var pointAnnotations = [MKPointAnnotation]()
-
-   // MARK: - IB Outlets
-   
-   @IBOutlet weak internal var mapView: MKMapView!
-
-   // MARK: - View Events
-
-   override internal func viewDidLoad() {
-      super.viewDidLoad()
-
-		addNotificationObservers()
-  }
-
-   // MARK: - MKMapViewDelegate
-   
-   internal func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-      
-      if control == view.rightCalloutAccessoryView {
-			openSystemBrowserWithURL((view.annotation!.subtitle!)!)
-      }
-      
-   }
-
-   internal func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-      var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
-      
-      if let _ = pinAnnotationView {
-         pinAnnotationView!.annotation = annotation
-      } else {
-         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocsPinAnnoView.ReuseID)
-		}
-
-		pinAnnotationView!.canShowCallout            = true
-		pinAnnotationView!.pinTintColor              = MKPinAnnotationView.redPinColor()
-		pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-
-		if annotation.title! == udacityDataMgr.user!.fullName {
-			pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
-		}
-
-      return pinAnnotationView
-   }
-   
+    
+    // MARK: - Internal Constants
+    
+    internal struct StudentLocsPinAnnoView {
+        static let ReuseID = "StudentLocsPinAnnoView"
+    }
+    
+    // MARK: - Private Stored Variables
+    
+    fileprivate var pointAnnotations = [MKPointAnnotation]()
+    
+    // MARK: - IB Outlets
+    
+    @IBOutlet weak internal var mapView: MKMapView!
+    
+    // MARK: - View Events
+    
+    override internal func viewDidLoad() {
+        super.viewDidLoad()
+        
+        addNotificationObservers()
+    }
+    
+    // MARK: - MKMapViewDelegate
+    
+    internal func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if control == view.rightCalloutAccessoryView {
+            openSystemBrowserWithURL((view.annotation!.subtitle!)!)
+        }
+        
+    }
+    
+    internal func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
+        
+        if let _ = pinAnnotationView {
+            pinAnnotationView!.annotation = annotation
+        } else {
+            pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocsPinAnnoView.ReuseID)
+        }
+        
+        pinAnnotationView!.canShowCallout            = true
+        pinAnnotationView!.pinTintColor              = MKPinAnnotationView.redPinColor()
+        pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        
+        if annotation.title! == udacityDataMgr.user!.fullName {
+            pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
+        }
+        
+        return pinAnnotationView
+    }
+    
 }
 
 // MARK: - Notifications
@@ -77,7 +77,7 @@ extension StudentLocationsMapViewController {
         case NotificationName.StudentLocationDidGetPosted:
             pointAnnotations.append(slMgr.postedLocation.pointAnnotation)
             mapView.addAnnotation(slMgr.postedLocation.pointAnnotation)
-
+            
         case NotificationName.StudentLocationsDidGetRefreshed:
             mapView.removeAnnotations(pointAnnotations)
             pointAnnotations.removeAll()
@@ -87,7 +87,7 @@ extension StudentLocationsMapViewController {
             }
             
             mapView.addAnnotations(pointAnnotations)
-
+            
         case NotificationName.StudentLocationDidGetUpdated:
             let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
             
@@ -95,7 +95,7 @@ extension StudentLocationsMapViewController {
             mapView.addAnnotation(slMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation)
             
             pointAnnotations[indexOfUpdate] = slMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation
-
+            
             
         default: fatalError("Received unknown notification = \(notification)")
         }

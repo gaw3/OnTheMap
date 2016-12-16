@@ -10,56 +10,56 @@ import Foundation
 import UIKit
 
 final internal class PleaseWaitView: NSObject {
-
-	// MARK: - Private Constants
-
-	fileprivate struct Consts {
-		static let NoAlpha:       CGFloat = 0.0
-		static let ActivityAlpha: CGFloat = 0.7
-	}
-
-	// MARK: - Private Stored Variables
-
-	fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-
-	fileprivate var _dimmedView: UIView? = nil
-
-	// MARK: - Internal Computed Variables
-
-	internal var dimmedView: UIView {
-		return _dimmedView!
-	}
-	
-	// MARK: - API
-
-	internal init(requestingView: UIView) {
-		super.init()
-
-		_dimmedView = UIView(frame: requestingView.frame)
-		_dimmedView?.backgroundColor = UIColor.black
-		_dimmedView?.alpha           = Consts.NoAlpha
-
-		activityIndicator.center    = _dimmedView!.center
-		activityIndicator.center.y *= 1.5
-		activityIndicator.hidesWhenStopped = true
-
-		_dimmedView?.addSubview(activityIndicator)
-	}
-
-	internal func startActivityIndicator() {
-		_dimmedView?.alpha = Consts.ActivityAlpha
-		activityIndicator.startAnimating()
-	}
-
-	internal func stopActivityIndicator() {
-		activityIndicator.stopAnimating()
-		_dimmedView?.alpha = Consts.NoAlpha
-	}
-
-	// MARK: - Private
-
-	override fileprivate init() {
-		super.init()
-	}
-
+    
+    // MARK: - Private Constants
+    
+    fileprivate struct Consts {
+        static let NoAlpha:       CGFloat = 0.0
+        static let ActivityAlpha: CGFloat = 0.7
+    }
+    
+    // MARK: - Private Stored Variables
+    
+    fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    
+    fileprivate var _dimmedView: UIView? = nil
+    
+    // MARK: - Internal Computed Variables
+    
+    internal var dimmedView: UIView {
+        return _dimmedView!
+    }
+    
+    // MARK: - API
+    
+    internal init(requestingView: UIView) {
+        super.init()
+        
+        _dimmedView = UIView(frame: requestingView.frame)
+        _dimmedView?.backgroundColor = UIColor.black
+        _dimmedView?.alpha           = Consts.NoAlpha
+        
+        activityIndicator.center    = _dimmedView!.center
+        activityIndicator.center.y *= 1.5
+        activityIndicator.hidesWhenStopped = true
+        
+        _dimmedView?.addSubview(activityIndicator)
+    }
+    
+    internal func startActivityIndicator() {
+        _dimmedView?.alpha = Consts.ActivityAlpha
+        activityIndicator.startAnimating()
+    }
+    
+    internal func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+        _dimmedView?.alpha = Consts.NoAlpha
+    }
+    
+    // MARK: - Private
+    
+    override fileprivate init() {
+        super.init()
+    }
+    
 }
