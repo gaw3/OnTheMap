@@ -94,7 +94,7 @@ extension UdacityLoginViewController {
         switch notification.name {
             
         case NotificationName.UdacityLoginResponseDataDidGetSaved:
-            UdacityAPIClient.shared.getUserProfileData(udacityDataMgr.account!.userID!, completionHandler: getUserProfileDataCompletionHandler)
+            UdacityAPIClient.shared.getUserProfileData(udacityDataMgr.account!.userID, completionHandler: getUserProfileDataCompletionHandler)
             
         case NotificationName.UdacityLogoutResponseDataDidGetSaved: break
             

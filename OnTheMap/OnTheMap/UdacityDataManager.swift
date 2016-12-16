@@ -10,34 +10,24 @@ import Foundation
 
 private let _sharedMgr = UdacityDataManager()
 
-final  class UdacityDataManager: NSObject {
+final class UdacityDataManager {
     
-    class  var sharedMgr: UdacityDataManager {
+    class var sharedMgr: UdacityDataManager {
         return _sharedMgr
     }
     
-    // MARK: - Private Stored Variables
+    // MARK: - Variables
     
-    fileprivate var _account:       UdacityAccount? = nil
-    fileprivate var _loginSession:  UdacitySession? = nil
-    fileprivate var _logoutSession: UdacitySession? = nil
-    fileprivate var _user:          UdacityUser?    = nil
+    private var _account:       UdacityAccount? = nil
+    private var _loginSession:  UdacitySession? = nil
+    private var _logoutSession: UdacitySession? = nil
+    private var _user:          UdacityUser?    = nil
     
-    // MARK: -  Computed Variables
+    var account: UdacityAccount? { return _account }
+    var isLoginSuccessful:  Bool { return ((_account != nil) && (_loginSession != nil)) }
+    var isLogoutSuccessful: Bool { return (_logoutSession != nil) }
     
-     var account: UdacityAccount? {
-        return _account
-    }
-    
-     var isLoginSuccessful: Bool {
-        return ((_account != nil) && (_loginSession != nil))
-    }
-    
-     var isLogoutSuccessful: Bool {
-        return (_logoutSession != nil)
-    }
-    
-     var loginData: (UdacityAccount?, UdacitySession?) {
+    var loginData: (UdacityAccount?, UdacitySession?) {
         get { return (_account, _loginSession) }
         
         set(data) {
@@ -47,7 +37,7 @@ final  class UdacityDataManager: NSObject {
         }
     }
     
-     var logoutData: (UdacitySession) {
+    var logoutData: (UdacitySession) {
         get { return _logoutSession! }
         
         set(data) {
@@ -56,19 +46,13 @@ final  class UdacityDataManager: NSObject {
         }
     }
     
-     var user: UdacityUser? {
+    var user: UdacityUser? {
         get { return _user }
         
         set(newUser) {
             _user = newUser
             NotificationCenter.default.post(name: NotificationName.UdacityUserDataDidGetSaved, object: nil)
         }
-    }
-    
-    // MARK: - Private
-    
-    override fileprivate init() {
-        super.init()
     }
     
 }

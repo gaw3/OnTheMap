@@ -6,25 +6,23 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
- struct UdacityAccount {
+struct UdacityAccount {
     
-    // MARK: - Private Stored Variables
+    // MARK: - Variables
     
-    fileprivate var _account: JSONDictionary
+    private var _account: JSONDictionary
     
-    // MARK: -  Computed Variables
-    
-     var isRegistered: Bool {
+    var isRegistered: Bool {
         if let isRegistered = _account[UdacityAPIClient.API.RegisteredKey] as! Bool? { return isRegistered }
         return false
     }
     
-     var userID: String? {
+    var userID: String {
         if let userID = _account[UdacityAPIClient.API.UserIDKey] as! String? { return userID }
-        return nil
+        return String()
     }
     
     // MARK: - API
     
-     init(accountDict: JSONDictionary) { _account = accountDict }
+    init(accountDict: JSONDictionary) { _account = accountDict }
 }

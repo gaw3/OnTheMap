@@ -6,85 +6,86 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 import FBSDKLoginKit
 
 private let _shared = UdacityAPIClient()
 
-final  class UdacityAPIClient: NSObject {
+final class UdacityAPIClient {
     
-    class  var shared: UdacityAPIClient {
+    class var shared: UdacityAPIClient {
         return _shared
     }
     
-    // MARK: - Private Constants
+}
+
+
+
+// MARK: - API
+
+extension UdacityAPIClient {
     
-    fileprivate struct XSRFTokenField {
+    func getUserProfileData(_ userID: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        let urlRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, urlString: UdacityAPIClient.API.UsersURL + userID, httpQuery: nil)
+        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
+        
+        dataTaskWithRequest.resume()
+    }
+    
+    func loginWithFacebookAuthorization(_ facebookAccessToken: FBSDKAccessToken, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        login(UdacityFBAccessToken(accessToken: facebookAccessToken).serializedData as Data, completionHandler: completionHandler)
+    }
+    
+    func loginWithUdacityUser(_ username: String, password: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        login(UdacityLogin(username: username, password: password).serializedData as Data, completionHandler: completionHandler)
+    }
+    
+    func logout(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        let urlRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Delete, urlString: UdacityAPIClient.API.SessionURL, httpQuery: nil)
+        let cookies    = HTTPCookieStorage.shared.cookies!
+        
+        if let index = cookies.index(where: { $0.name == XSRFTokenField.CookieName }) {
+            urlRequest.setValue(cookies[index].value, forHTTPHeaderField: XSRFTokenField.Name)
+        }
+        
+        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
+        dataTaskWithRequest.resume()
+    }
+    
+}
+
+
+
+// MARK: -
+// MARK: - Private Helpers
+
+private extension UdacityAPIClient {
+
+    struct XSRFTokenField {
         static let Name       = "X-XSRF-TOKEN"
         static let CookieName = "XSRF-TOKEN"
     }
     
-    // MARK: - API
-    
-     func getUserProfileData(_ userID: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get,
-                                                URLString: UdacityAPIClient.API.UsersURL + userID, HTTPQuery: nil)
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+    func getURLRequest(_ httpMethod: String, urlString: String, httpQuery: String?) -> NSMutableURLRequest {
+        var components = URLComponents(string: urlString)
         
-        dataTaskWithRequest.resume()
-    }
-    
-     func loginWithFacebookAuthorization(_ facebookAccessToken: FBSDKAccessToken, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        login(UdacityFBAccessToken(accessToken: facebookAccessToken).serializedData as Data, completionHandler: completionHandler)
-    }
-    
-     func loginWithUdacityUser(_ username: String, password: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        login(UdacityLogin(username: username, password: password).serializedData as Data, completionHandler: completionHandler)
-    }
-    
-     func logout(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Delete,
-                                       URLString: UdacityAPIClient.API.SessionURL, HTTPQuery: nil)
-        let cookies    = HTTPCookieStorage.shared.cookies!
-        
-        if let index = cookies.index(where: { $0.name == XSRFTokenField.CookieName }) {
-            URLRequest.setValue(cookies[index].value, forHTTPHeaderField: XSRFTokenField.Name)
-        }
-        
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
-        dataTaskWithRequest.resume()
-    }
-    
-    // MARK: - Private
-    
-    override fileprivate init() {
-        super.init()
-    }
-    
-    fileprivate func getURLRequest(_ HTTPMethod: String, URLString: String, HTTPQuery: String?) -> NSMutableURLRequest {
-        var components = URLComponents(string: URLString)
-        
-        if let _ = HTTPQuery { components?.query = HTTPQuery }
+        if let _ = httpQuery { components?.query = httpQuery }
         
         let URLRequest = NSMutableURLRequest(url: (components?.url)!)
-        URLRequest.httpMethod = HTTPMethod
+        URLRequest.httpMethod = httpMethod
         
         return URLRequest
     }
     
-    fileprivate func login(_ serializedData: Data, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Post,
-                                       URLString: UdacityAPIClient.API.SessionURL, HTTPQuery: nil)
+    func login(_ serializedData: Data, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        let urlRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Post, urlString: UdacityAPIClient.API.SessionURL, httpQuery: nil)
         
-        URLRequest.httpBody = serializedData
-        URLRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
-                            forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.Accept)
-        URLRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
-                            forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
+        urlRequest.httpBody = serializedData
+        urlRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.Accept)
+        urlRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
         
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
+        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()
     }
     
