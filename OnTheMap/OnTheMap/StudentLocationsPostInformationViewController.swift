@@ -122,12 +122,12 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
     // MARK: - MKMapViewDelegate
     
      func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: StudentLocationsMapViewController.StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
+        var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKPinAnnotationView
         
         if let _ = pinAnnotationView {
             pinAnnotationView!.annotation = annotation
         } else {
-            pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocationsMapViewController.StudentLocsPinAnnoView.ReuseID)
+            pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
             pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
         }
         
@@ -220,7 +220,7 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
             self.currentStudentLocation!.objectID    = responseData.id!
             
             self.dismiss(animated: true, completion: {
-                self.slMgr.postedLocation = self.currentStudentLocation!
+                StudentLocationsManager.shared.postedLocation = self.currentStudentLocation!
             })
             
         }
@@ -246,7 +246,7 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
             self.currentStudentLocation!.dateUpdated = responseData.dateUpdated!
             
             self.dismiss(animated: true, completion: {
-                self.slMgr.updateStudentLocation(self.currentStudentLocation!)
+                StudentLocationsManager.shared.updateStudentLocation(self.currentStudentLocation!)
             })
             
         }

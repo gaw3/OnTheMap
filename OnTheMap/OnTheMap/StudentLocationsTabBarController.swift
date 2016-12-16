@@ -124,7 +124,7 @@ final  class StudentLocationsTabBarController: UITabBarController {
                 newStudentLocations.append(StudentLocation(studentLocationDict: newStudentLocation))
             }
             
-            self.slMgr.refreshStudentLocations(newStudentLocations)
+            StudentLocationsManager.shared.refreshStudentLocations(newStudentLocations)
         }
         
     }

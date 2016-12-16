@@ -28,9 +28,9 @@ extension UIViewController {
         return ParseAPIClient.sharedClient
     }
     
-     var slMgr: StudentLocationsManager {
-        return StudentLocationsManager.sharedMgr
-    }
+//     var slMgr: StudentLocationsManager {
+//        return StudentLocationsManager.shared
+//    }
     
      var udacityDataMgr: UdacityDataManager {
         return UdacityDataManager.sharedMgr

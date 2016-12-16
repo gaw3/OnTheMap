@@ -36,7 +36,7 @@ final  class StudentLocationsTableViewController: UITableViewController {
     override  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
         
-        let studentLocation = slMgr.studentLocationAtIndexPath(indexPath)
+        let studentLocation = StudentLocationsManager.shared.studentLocationAtIndexPath(indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: UIConstants.ReuseID, for: indexPath)
         
         cell.textLabel?.text       = studentLocation.fullName + "  (\(studentLocation.mapString))"
@@ -48,7 +48,7 @@ final  class StudentLocationsTableViewController: UITableViewController {
     override  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         assert(tableView == self.tableView, "Unexpected table view requesting number of rows in section")
         
-        return slMgr.count
+        return StudentLocationsManager.shared.count
     }
     
     // MARK: - UITableViewDelegate
@@ -57,7 +57,7 @@ final  class StudentLocationsTableViewController: UITableViewController {
         assert(tableView == self.tableView, "Unexpected table view selected a row")
         
         tableView.deselectRow(at: indexPath, animated: false)
-        openSystemBrowserWithURL(slMgr.studentLocationAtIndexPath(indexPath).mediaURL)
+        openSystemBrowserWithURL(StudentLocationsManager.shared.studentLocationAtIndexPath(indexPath).mediaURL)
     }
     
 }

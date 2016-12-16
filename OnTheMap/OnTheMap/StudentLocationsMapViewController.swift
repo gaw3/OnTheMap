@@ -10,33 +10,54 @@ import Foundation
 import MapKit
 import UIKit
 
-final  class StudentLocationsMapViewController: UIViewController {
-    
-    // MARK: -  Constants
-    
-     struct StudentLocsPinAnnoView {
-        static let ReuseID = "StudentLocsPinAnnoView"
-    }
-    
-    // MARK: - Private Stored Variables
-    
-    fileprivate var pointAnnotations = [MKPointAnnotation]()
+final class StudentLocationsMapViewController: UIViewController {
     
     // MARK: - IB Outlets
     
-    @IBOutlet weak  var mapView: MKMapView!
+    @IBOutlet weak var mapView: MKMapView!
     
     // MARK: - View Events
     
-    override  func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         addNotificationObservers()
     }
     
-    // MARK: - MKMapViewDelegate
+    // MARK: - Variables
     
-     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    fileprivate var pointAnnotations = [MKPointAnnotation]()
+}
+
+
+
+// MARK: -
+// MARK: - Notifications
+
+extension StudentLocationsMapViewController {
+    
+    func processNotification(_ notification: Notification) {
+        
+        switch notification.name {
+            
+        case NotificationName.StudentLocationDidGetPosted:     studentLocationDidGetPosted()
+        case NotificationName.StudentLocationsDidGetRefreshed: studentLocationsDidGetRefreshed()
+        case NotificationName.StudentLocationDidGetUpdated:    studentLocationDidGetUpdated(notification)
+            
+        default: fatalError("Received unknown notification = \(notification)")
+        }
+        
+    }
+    
+}
+
+
+
+// MARK: - Map View Delegate
+
+extension StudentLocationsMapViewController {
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         if control == view.rightCalloutAccessoryView {
             openSystemBrowserWithURL((view.annotation!.subtitle!)!)
@@ -44,13 +65,13 @@ final  class StudentLocationsMapViewController: UIViewController {
         
     }
     
-     func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
+    func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKPinAnnotationView
         
         if let _ = pinAnnotationView {
             pinAnnotationView!.annotation = annotation
         } else {
-            pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocsPinAnnoView.ReuseID)
+            pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
         }
         
         pinAnnotationView!.canShowCallout            = true
@@ -66,43 +87,9 @@ final  class StudentLocationsMapViewController: UIViewController {
     
 }
 
-// MARK: - Notifications
 
-extension StudentLocationsMapViewController {
-    
-    func processNotification(_ notification: Notification) {
-        
-        switch notification.name {
-            
-        case NotificationName.StudentLocationDidGetPosted:
-            pointAnnotations.append(slMgr.postedLocation.pointAnnotation)
-            mapView.addAnnotation(slMgr.postedLocation.pointAnnotation)
-            
-        case NotificationName.StudentLocationsDidGetRefreshed:
-            mapView.removeAnnotations(pointAnnotations)
-            pointAnnotations.removeAll()
-            
-            for index in 0...(slMgr.count - 1) {
-                pointAnnotations.append(slMgr.studentLocationAtIndex(index).pointAnnotation)
-            }
-            
-            mapView.addAnnotations(pointAnnotations)
-            
-        case NotificationName.StudentLocationDidGetUpdated:
-            let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
-            
-            mapView.removeAnnotation(pointAnnotations[indexOfUpdate])
-            mapView.addAnnotation(slMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation)
-            
-            pointAnnotations[indexOfUpdate] = slMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation
-            
-            
-        default: fatalError("Received unknown notification = \(notification)")
-        }
-        
-    }
-    
-}
+
+// MARK: - Private Helpers
 
 private extension StudentLocationsMapViewController {
     
@@ -116,4 +103,28 @@ private extension StudentLocationsMapViewController {
         notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.StudentLocationDidGetUpdated,    object: nil)
     }
     
+    func studentLocationDidGetPosted() {
+        pointAnnotations.append(StudentLocationsManager.shared.postedLocation.pointAnnotation)
+        mapView.addAnnotation(StudentLocationsManager.shared.postedLocation.pointAnnotation)
+    }
+    
+    func studentLocationsDidGetRefreshed() {
+        mapView.removeAnnotations(pointAnnotations)
+        pointAnnotations.removeAll()
+        
+        for index in 0...(StudentLocationsManager.shared.count - 1) {
+            pointAnnotations.append(StudentLocationsManager.shared.studentLocationAtIndex(index).pointAnnotation)
+        }
+        
+        mapView.addAnnotations(pointAnnotations)
+    }
+    
+    func studentLocationDidGetUpdated(_ notification: Notification) {
+        let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
+        
+        mapView.removeAnnotation(pointAnnotations[indexOfUpdate])
+        mapView.addAnnotation(StudentLocationsManager.shared.studentLocationAtIndex(indexOfUpdate).pointAnnotation)
+        
+        pointAnnotations[indexOfUpdate] = StudentLocationsManager.shared.studentLocationAtIndex(indexOfUpdate).pointAnnotation
+    }
 }

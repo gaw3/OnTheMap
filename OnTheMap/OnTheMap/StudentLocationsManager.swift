@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-private let _sharedMgr = StudentLocationsManager()
+private let _shared = StudentLocationsManager()
 
 final  class StudentLocationsManager: NSObject {
     
-    class  var sharedMgr: StudentLocationsManager {
-        return _sharedMgr
+    class  var shared: StudentLocationsManager {
+        return _shared
     }
     
     // MARK: -  Constants
