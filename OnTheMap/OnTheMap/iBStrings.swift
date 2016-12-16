@@ -12,6 +12,7 @@ struct IB {
     
     struct ReuseID {
         static let StudentLocsPinAnnoView = "StudentLocsPinAnnoView"
+        static let StudentLocsTVCell      = "StudentLocsTVCell"
     }
     
     struct StoryboardID {

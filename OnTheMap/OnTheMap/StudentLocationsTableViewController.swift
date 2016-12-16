@@ -11,12 +11,6 @@ import UIKit
 
 final  class StudentLocationsTableViewController: UITableViewController {
     
-    // MARK: - Private Constants
-    
-    fileprivate struct UIConstants {
-        static let ReuseID = "StudentLocsTVCell"
-    }
-    
     // MARK: - View Events
     
     override  func viewDidLoad() {
@@ -25,43 +19,11 @@ final  class StudentLocationsTableViewController: UITableViewController {
         addNotificationObservers()
     }
     
-    // MARK: - UITableViewDataSource
-    
-    override  func numberOfSections(in tableView: UITableView) -> Int {
-        assert(tableView == self.tableView, "Unexpected table view requesting number of sections in table view")
-        
-        return 1
-    }
-    
-    override  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
-        
-        let studentLocation = StudentLocationsManager.shared.studentLocationAtIndexPath(indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: UIConstants.ReuseID, for: indexPath)
-        
-        cell.textLabel?.text       = studentLocation.fullName + "  (\(studentLocation.mapString))"
-        cell.detailTextLabel?.text = studentLocation.mediaURL
-        
-        return cell
-    }
-    
-    override  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        assert(tableView == self.tableView, "Unexpected table view requesting number of rows in section")
-        
-        return StudentLocationsManager.shared.count
-    }
-    
-    // MARK: - UITableViewDelegate
-    
-    override  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        assert(tableView == self.tableView, "Unexpected table view selected a row")
-        
-        tableView.deselectRow(at: indexPath, animated: false)
-        openSystemBrowserWithURL(StudentLocationsManager.shared.studentLocationAtIndexPath(indexPath).mediaURL)
-    }
-    
 }
 
+
+
+// MARK: -
 // MARK: - Notifications
 
 extension StudentLocationsTableViewController {
@@ -70,19 +32,12 @@ extension StudentLocationsTableViewController {
         
         switch notification.name {
             
-        case NotificationName.StudentLocationDidGetPosted:
-            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-            
-            
-        case NotificationName.StudentLocationsDidGetRefreshed:
-            tableView.reloadData()
-            
+        case NotificationName.StudentLocationDidGetPosted:     tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+        case NotificationName.StudentLocationsDidGetRefreshed: tableView.reloadData()
             
         case NotificationName.StudentLocationDidGetUpdated:
             let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
-            
             tableView.reloadRows(at: [IndexPath(row: indexOfUpdate, section: 0)], with: .fade)
-            
             
         default: fatalError("Received unknown notification = \(notification)")
         }
@@ -90,6 +45,57 @@ extension StudentLocationsTableViewController {
     }
     
 }
+
+
+
+// MARK: - Table View Data Source
+
+extension StudentLocationsTableViewController {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        assert(tableView == self.tableView, "Unexpected table view requesting number of sections in table view")
+        
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
+        
+        let studentLocation = StudentLocationsManager.shared.studentLocationAtIndexPath(indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: IB.ReuseID.StudentLocsTVCell, for: indexPath)
+        
+        cell.textLabel?.text       = studentLocation.fullName + "  (\(studentLocation.mapString))"
+        cell.detailTextLabel?.text = studentLocation.mediaURL
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        assert(tableView == self.tableView, "Unexpected table view requesting number of rows in section")
+        
+        return StudentLocationsManager.shared.count
+    }
+    
+}
+
+
+
+// MARK: - Table View Delegate
+
+extension StudentLocationsTableViewController {
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        assert(tableView == self.tableView, "Unexpected table view selected a row")
+        
+        tableView.deselectRow(at: indexPath, animated: false)
+        openSystemBrowserWithURL(StudentLocationsManager.shared.studentLocationAtIndexPath(indexPath).mediaURL)
+    }
+    
+}
+
+
+
+// MARK: - Private Helpers
 
 private extension StudentLocationsTableViewController {
     
