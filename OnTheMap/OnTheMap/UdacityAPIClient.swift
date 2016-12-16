@@ -11,12 +11,12 @@ import UIKit
 
 import FBSDKLoginKit
 
-private let _sharedClient = UdacityAPIClient()
+private let _shared = UdacityAPIClient()
 
 final  class UdacityAPIClient: NSObject {
     
-    class  var sharedClient: UdacityAPIClient {
-        return _sharedClient
+    class  var shared: UdacityAPIClient {
+        return _shared
     }
     
     // MARK: - Private Constants

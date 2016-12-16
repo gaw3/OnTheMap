@@ -8,8 +8,6 @@
 
 extension APIDataTaskWithRequest {
     
-    // MARK: -  Constants
-    
     struct HTTP {
         
         struct HeaderField {
