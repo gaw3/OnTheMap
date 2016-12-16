@@ -12,7 +12,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-final internal class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
+final  class UdacityLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     // MARK: - Private Constants
     
@@ -61,22 +61,22 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
     
     // MARK: - IB Outlets
     
-    @IBOutlet weak internal var udacityLogo:       UIImageView!
-    @IBOutlet weak internal var loginLabel:        UILabel!
-    @IBOutlet weak internal var emailTextField:    UITextField!
-    @IBOutlet weak internal var passwordTextField: UITextField!
-    @IBOutlet weak internal var loginButton:		  UIButton!
-    @IBOutlet weak internal var signUpButton:      UIButton!
+    @IBOutlet weak  var udacityLogo:       UIImageView!
+    @IBOutlet weak  var loginLabel:        UILabel!
+    @IBOutlet weak  var emailTextField:    UITextField!
+    @IBOutlet weak  var passwordTextField: UITextField!
+    @IBOutlet weak  var loginButton:		  UIButton!
+    @IBOutlet weak  var signUpButton:      UIButton!
     
     // MARK: - View Events
     
-    override internal func viewDidLayoutSubviews() {
+    override  func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         _ = foo
     }
     
-    override internal func viewDidLoad() {
+    override  func viewDidLoad() {
         super.viewDidLoad()
         
         addSubviews()
@@ -91,7 +91,7 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
     
     // MARK: - IB Actions
     
-    @IBAction internal func loginButtonDidTouchUpInside(_ sender: UIButton) {
+    @IBAction  func loginButtonDidTouchUpInside(_ sender: UIButton) {
         assert(sender == loginButton, "rcvd IB Action from unknown button")
         
         if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
@@ -104,7 +104,7 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
         
     }
     
-    @IBAction internal func signUpButtonDidTouchUpInside(_ sender: UIButton) {
+    @IBAction  func signUpButtonDidTouchUpInside(_ sender: UIButton) {
         assert(sender == signUpButton, "rcvd IB Action from unknown button")
         openSystemBrowserWithURL(URL.UdacitySignupURLString)
     }
@@ -119,7 +119,7 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
     
     // MARK: - FBSDKLoginButtonDelegate
     
-    internal func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         
         if let _ = error {
             self.presentAlert(Alert.Title.BadFBAuth, message: error!.localizedDescription)
@@ -130,13 +130,13 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
         
     }
     
-    internal func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         // must have this to satisfy the protocol
     }
     
     // MARK: - UITextFieldDelegate
     
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         assert(textField == emailTextField || textField == passwordTextField, "unknown UITextField = \(textField)")
         
         textField.resignFirstResponder()

@@ -11,9 +11,9 @@ import UIKit
 
 private let _sharedClient = ParseAPIClient()
 
-final internal class ParseAPIClient: NSObject {
+final class ParseAPIClient: NSObject {
     
-    class internal var sharedClient: ParseAPIClient {
+    class var sharedClient: ParseAPIClient {
         return _sharedClient
     }
     
@@ -31,7 +31,7 @@ final internal class ParseAPIClient: NSObject {
     
     // MARK: - API
     
-    internal func getStudentLocation(_ udacityUserID: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func getStudentLocation(_ udacityUserID: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let query               = "where={\"\(ParseAPIClient.API.UniqueKeyKey)\":\"\(udacityUserID)\"}"
         let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, URLString: ParseAPIClient.API.BaseURL, HTTPQuery: query)
         let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
@@ -39,7 +39,7 @@ final internal class ParseAPIClient: NSObject {
         dataTaskWithRequest.resume()
     }
     
-    internal func postStudentLocation(_ studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func postStudentLocation(_ studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Post, URLString: ParseAPIClient.API.BaseURL, HTTPQuery: nil)
         
         URLRequest.httpBody = studentLocation.newStudentSerializedData as Data
@@ -50,7 +50,7 @@ final internal class ParseAPIClient: NSObject {
         dataTaskWithRequest.resume()
     }
     
-    internal func refreshStudentLocations(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func refreshStudentLocations(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let query               = "limit=100&order=-updatedAt"
         let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, URLString: ParseAPIClient.API.BaseURL, HTTPQuery: query)
         let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
@@ -58,7 +58,7 @@ final internal class ParseAPIClient: NSObject {
         dataTaskWithRequest.resume()
     }
     
-    internal func updateStudentLocation(_ studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func updateStudentLocation(_ studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let URLString  = ParseAPIClient.API.BaseURL + "/\(studentLocation.objectID)"
         let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Put, URLString: URLString, HTTPQuery: nil)
         

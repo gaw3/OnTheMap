@@ -11,15 +11,15 @@ import UIKit
 
 private let _sharedMgr = StudentLocationsManager()
 
-final internal class StudentLocationsManager: NSObject {
+final  class StudentLocationsManager: NSObject {
     
-    class internal var sharedMgr: StudentLocationsManager {
+    class  var sharedMgr: StudentLocationsManager {
         return _sharedMgr
     }
     
-    // MARK: - Internal Constants
+    // MARK: -  Constants
     
-    internal struct Notifications {
+     struct Notifications {
         static let IndexOfUpdatedStudentLocationKey = "indexOfUpdate"
     }
     
@@ -27,13 +27,13 @@ final internal class StudentLocationsManager: NSObject {
     
     fileprivate var studentLocations: [StudentLocation]
     
-    // MARK: - Internal Computed Variables
+    // MARK: -  Computed Variables
     
-    internal var count: Int {
+     var count: Int {
         return studentLocations.count
     }
     
-    internal var postedLocation: StudentLocation {
+     var postedLocation: StudentLocation {
         get { return studentLocations[0] }
         
         set (location) {
@@ -44,22 +44,22 @@ final internal class StudentLocationsManager: NSObject {
     
     // MARK: - API
     
-    internal func refreshStudentLocations(_ newStudentLocations: [StudentLocation]) {
+     func refreshStudentLocations(_ newStudentLocations: [StudentLocation]) {
         studentLocations.removeAll()
         studentLocations.append(contentsOf: newStudentLocations)
         
         NotificationCenter.default.post(name: NotificationName.StudentLocationsDidGetRefreshed, object: nil)
     }
     
-    internal func studentLocationAtIndex(_ index: Int) -> StudentLocation {
+     func studentLocationAtIndex(_ index: Int) -> StudentLocation {
         return studentLocations[index]
     }
     
-    internal func studentLocationAtIndexPath(_ indexPath: IndexPath) -> StudentLocation {
+     func studentLocationAtIndexPath(_ indexPath: IndexPath) -> StudentLocation {
         return studentLocations[indexPath.row]
     }
     
-    internal func updateStudentLocation(_ studentLocation: StudentLocation) {
+     func updateStudentLocation(_ studentLocation: StudentLocation) {
         if let indexOfUpdate = studentLocations.index(where: {$0.objectID == studentLocation.objectID}) {
             studentLocations[indexOfUpdate] = studentLocation
             NotificationCenter.default.post(name: NotificationName.StudentLocationDidGetUpdated, object: nil,

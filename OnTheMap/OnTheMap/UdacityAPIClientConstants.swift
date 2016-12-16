@@ -8,9 +8,9 @@
 
 extension UdacityAPIClient {
     
-    // MARK: - Internal Constants
+    // MARK: -  Constants
     
-    internal struct API {
+     struct API {
         static let BaseURL           = "https://www.udacity.com/api/"
         static let SessionURL        = BaseURL + "session"
         static let UsersURL          = BaseURL + "users/"

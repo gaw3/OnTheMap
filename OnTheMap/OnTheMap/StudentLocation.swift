@@ -11,15 +11,15 @@ import Foundation
 import MapKit
 import UIKit
 
-internal struct StudentLocation {
+struct StudentLocation {
     
     // MARK: - Private Stored Variables
     
     fileprivate var _studentLocation: JSONDictionary
     
-    // MARK: - Internal Computed Variables
+    // MARK: -  Computed Variables
     
-    internal var dateCreated: String {
+    var dateCreated: String {
         get {
             if let date = _studentLocation[ParseAPIClient.API.DateCreatedKey] as! String? { return date }
             return String()
@@ -28,7 +28,7 @@ internal struct StudentLocation {
         set(date) { _studentLocation[ParseAPIClient.API.DateCreatedKey] = date as AnyObject? }
     }
     
-    internal var dateUpdated: String {
+    var dateUpdated: String {
         get {
             if let date = _studentLocation[ParseAPIClient.API.DateUpdatedKey] as! String? { return date }
             return String()
@@ -37,7 +37,7 @@ internal struct StudentLocation {
         set(date) { _studentLocation[ParseAPIClient.API.DateUpdatedKey] = date as AnyObject? }
     }
     
-    internal var firstName: String {
+    var firstName: String {
         get {
             if let name = _studentLocation[ParseAPIClient.API.FirstNameKey] as! String? { return name }
             return String()
@@ -46,7 +46,7 @@ internal struct StudentLocation {
         set(name) { _studentLocation[ParseAPIClient.API.FirstNameKey] = name as AnyObject? }
     }
     
-    internal var lastName: String {
+    var lastName: String {
         get {
             if let name = _studentLocation[ParseAPIClient.API.LastNameKey] as! String? { return name }
             return String()
@@ -55,17 +55,17 @@ internal struct StudentLocation {
         set(name) { _studentLocation[ParseAPIClient.API.LastNameKey] = name as AnyObject? }
     }
     
-    internal var latitude: Double {
+    var latitude: Double {
         get { return _studentLocation[ParseAPIClient.API.LatKey] as! Double}
         set(lat) { _studentLocation[ParseAPIClient.API.LatKey] = lat as AnyObject? }
     }
     
-    internal var longitude: Double {
+    var longitude: Double {
         get { return _studentLocation[ParseAPIClient.API.LongKey] as! Double }
         set(long) { _studentLocation[ParseAPIClient.API.LongKey] = long as AnyObject? }
     }
     
-    internal var mapString: String {
+     var mapString: String {
         get {
             if let str = _studentLocation[ParseAPIClient.API.MapStringKey] as! String? { return str }
             return String()
@@ -74,7 +74,7 @@ internal struct StudentLocation {
         set(str) { _studentLocation[ParseAPIClient.API.MapStringKey] = str as AnyObject? }
     }
     
-    internal var mediaURL: String {
+     var mediaURL: String {
         get {
             if let stringURL = _studentLocation[ParseAPIClient.API.MediaURLKey] as! String? { return stringURL }
             return String()
@@ -83,7 +83,7 @@ internal struct StudentLocation {
         set(stringURL) { _studentLocation[ParseAPIClient.API.MediaURLKey] = stringURL as AnyObject? }
     }
     
-    internal var objectID: String {
+     var objectID: String {
         get {
             if let id = _studentLocation[ParseAPIClient.API.ObjectIDKey] as! String? { return id }
             return String()
@@ -92,7 +92,7 @@ internal struct StudentLocation {
         set(id) { _studentLocation[ParseAPIClient.API.ObjectIDKey] = id as AnyObject? }
     }
     
-    internal var uniqueKey: String {
+     var uniqueKey: String {
         get {
             if let key = _studentLocation[ParseAPIClient.API.UniqueKeyKey] as! String? { return key }
             return String()
@@ -101,13 +101,13 @@ internal struct StudentLocation {
         set(key) { _studentLocation[ParseAPIClient.API.UniqueKeyKey] = key as AnyObject? }
     }
     
-    // MARK: - Internal Computed Meta Variables
+    // MARK: -  Computed Meta Variables
     
-    internal var fullName: String {
+     var fullName: String {
         return "\(firstName) \(lastName)"
     }
     
-    internal var newStudentSerializedData: Data {
+     var newStudentSerializedData: Data {
         let newStudentDict = [ ParseAPIClient.API.UniqueKeyKey: uniqueKey,
                                ParseAPIClient.API.FirstNameKey: firstName,
                                ParseAPIClient.API.LastNameKey: lastName,
@@ -120,7 +120,7 @@ internal struct StudentLocation {
         return newStudentData
     }
     
-    internal var pointAnnotation: MKPointAnnotation {
+     var pointAnnotation: MKPointAnnotation {
         let annotation = MKPointAnnotation()
         
         annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -132,15 +132,15 @@ internal struct StudentLocation {
     
     // MARK: - API
     
-    internal init() {
+     init() {
         _studentLocation = JSONDictionary()
     }
     
-    internal init(studentLocation: StudentLocation) {
+     init(studentLocation: StudentLocation) {
         _studentLocation = studentLocation._studentLocation
     }
     
-    internal init(studentLocationDict: JSONDictionary) {
+     init(studentLocationDict: JSONDictionary) {
         _studentLocation = studentLocationDict
     }
     

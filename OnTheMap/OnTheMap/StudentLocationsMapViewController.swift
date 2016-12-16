@@ -10,11 +10,11 @@ import Foundation
 import MapKit
 import UIKit
 
-final internal class StudentLocationsMapViewController: UIViewController {
+final  class StudentLocationsMapViewController: UIViewController {
     
-    // MARK: - Internal Constants
+    // MARK: -  Constants
     
-    internal struct StudentLocsPinAnnoView {
+     struct StudentLocsPinAnnoView {
         static let ReuseID = "StudentLocsPinAnnoView"
     }
     
@@ -24,11 +24,11 @@ final internal class StudentLocationsMapViewController: UIViewController {
     
     // MARK: - IB Outlets
     
-    @IBOutlet weak internal var mapView: MKMapView!
+    @IBOutlet weak  var mapView: MKMapView!
     
     // MARK: - View Events
     
-    override internal func viewDidLoad() {
+    override  func viewDidLoad() {
         super.viewDidLoad()
         
         addNotificationObservers()
@@ -36,7 +36,7 @@ final internal class StudentLocationsMapViewController: UIViewController {
     
     // MARK: - MKMapViewDelegate
     
-    internal func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         if control == view.rightCalloutAccessoryView {
             openSystemBrowserWithURL((view.annotation!.subtitle!)!)
@@ -44,7 +44,7 @@ final internal class StudentLocationsMapViewController: UIViewController {
         
     }
     
-    internal func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+     func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
         
         if let _ = pinAnnotationView {

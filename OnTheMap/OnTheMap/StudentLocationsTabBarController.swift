@@ -8,7 +8,7 @@
 
 import UIKit
 
-final internal class StudentLocationsTabBarController: UITabBarController {
+final  class StudentLocationsTabBarController: UITabBarController {
     
     // MARK: - Private Constants
     
@@ -34,18 +34,18 @@ final internal class StudentLocationsTabBarController: UITabBarController {
     
     // MARK: - View Events
     
-    override internal func viewDidLoad() {
+    override  func viewDidLoad() {
         super.viewDidLoad()
         parseClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
     }
     
     // MARK: - IB Actions
     
-    @IBAction internal func pinButtonWasTapped(_ sender: UIBarButtonItem) {
+    @IBAction  func pinButtonWasTapped(_ sender: UIBarButtonItem) {
         parseClient.getStudentLocation(udacityDataMgr.user!.userID!, completionHandler: getStudentLocationCompletionHandler)
     }
     
-    @IBAction internal func refreshButtonWasTapped(_ sender: UIBarButtonItem) {
+    @IBAction  func refreshButtonWasTapped(_ sender: UIBarButtonItem) {
         parseClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
     }
     

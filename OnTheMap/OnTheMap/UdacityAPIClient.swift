@@ -13,9 +13,9 @@ import FBSDKLoginKit
 
 private let _sharedClient = UdacityAPIClient()
 
-final internal class UdacityAPIClient: NSObject {
+final  class UdacityAPIClient: NSObject {
     
-    class internal var sharedClient: UdacityAPIClient {
+    class  var sharedClient: UdacityAPIClient {
         return _sharedClient
     }
     
@@ -28,7 +28,7 @@ final internal class UdacityAPIClient: NSObject {
     
     // MARK: - API
     
-    internal func getUserProfileData(_ userID: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+     func getUserProfileData(_ userID: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get,
                                                 URLString: UdacityAPIClient.API.UsersURL + userID, HTTPQuery: nil)
         let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
@@ -36,15 +36,15 @@ final internal class UdacityAPIClient: NSObject {
         dataTaskWithRequest.resume()
     }
     
-    internal func loginWithFacebookAuthorization(_ facebookAccessToken: FBSDKAccessToken, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+     func loginWithFacebookAuthorization(_ facebookAccessToken: FBSDKAccessToken, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         login(UdacityFBAccessToken(accessToken: facebookAccessToken).serializedData as Data, completionHandler: completionHandler)
     }
     
-    internal func loginWithUdacityUser(_ username: String, password: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+     func loginWithUdacityUser(_ username: String, password: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         login(UdacityLogin(username: username, password: password).serializedData as Data, completionHandler: completionHandler)
     }
     
-    internal func logout(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+     func logout(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Delete,
                                        URLString: UdacityAPIClient.API.SessionURL, HTTPQuery: nil)
         let cookies    = HTTPCookieStorage.shared.cookies!

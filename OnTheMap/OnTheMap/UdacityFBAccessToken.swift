@@ -10,7 +10,7 @@ import Foundation
 
 import FBSDKLoginKit
 
-internal struct UdacityFBAccessToken {
+ struct UdacityFBAccessToken {
     
     // MARK: - Private Constants
     
@@ -23,16 +23,16 @@ internal struct UdacityFBAccessToken {
     
     fileprivate var _dict: JSONDictionary
     
-    // MARK: - Internal Computed Meta Variables
+    // MARK: -  Computed Meta Variables
     
-    internal var serializedData: Data {
+     var serializedData: Data {
         let data = try! JSONSerialization.data(withJSONObject: _dict, options: .prettyPrinted)
         return data
     }
     
     // MARK: - API
     
-    internal init(accessToken: FBSDKAccessToken) {
+     init(accessToken: FBSDKAccessToken) {
         _dict = [ API.FBMobileKey: [ API.AccessTokenKey: accessToken.tokenString ] as AnyObject ]
     }
     

@@ -18,27 +18,27 @@ extension UIViewController {
         static let Title       = "Unable to open browser"
     }
     
-    // MARK: - Internal Computed Variables
+    // MARK: -  Computed Variables
     
-    internal var notifCtr: NotificationCenter{
+     var notifCtr: NotificationCenter{
         return NotificationCenter.default
     }
     
-    internal var parseClient: ParseAPIClient {
+     var parseClient: ParseAPIClient {
         return ParseAPIClient.sharedClient
     }
     
-    internal var slMgr: StudentLocationsManager {
+     var slMgr: StudentLocationsManager {
         return StudentLocationsManager.sharedMgr
     }
     
-    internal var udacityDataMgr: UdacityDataManager {
+     var udacityDataMgr: UdacityDataManager {
         return UdacityDataManager.sharedMgr
     }
     
     // MARK: - API
     
-    internal func openSystemBrowserWithURL(_ URLString: String) {
+     func openSystemBrowserWithURL(_ URLString: String) {
         var success = false
         
         if let URLComponents = URLComponents(string: URLString) {
@@ -51,7 +51,7 @@ extension UIViewController {
         
     }
     
-    internal func presentAlert(_ title: String, message: String) {
+     func presentAlert(_ title: String, message: String) {
         let alert  = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Alert.ActionTitle, style: .default, handler: nil)
         alert.addAction(action)

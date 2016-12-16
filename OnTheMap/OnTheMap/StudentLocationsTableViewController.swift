@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final internal class StudentLocationsTableViewController: UITableViewController {
+final  class StudentLocationsTableViewController: UITableViewController {
     
     // MARK: - Private Constants
     
@@ -19,7 +19,7 @@ final internal class StudentLocationsTableViewController: UITableViewController 
     
     // MARK: - View Events
     
-    override internal func viewDidLoad() {
+    override  func viewDidLoad() {
         super.viewDidLoad()
         
         addNotificationObservers()
@@ -27,13 +27,13 @@ final internal class StudentLocationsTableViewController: UITableViewController 
     
     // MARK: - UITableViewDataSource
     
-    override internal func numberOfSections(in tableView: UITableView) -> Int {
+    override  func numberOfSections(in tableView: UITableView) -> Int {
         assert(tableView == self.tableView, "Unexpected table view requesting number of sections in table view")
         
         return 1
     }
     
-    override internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
         
         let studentLocation = slMgr.studentLocationAtIndexPath(indexPath)
@@ -45,7 +45,7 @@ final internal class StudentLocationsTableViewController: UITableViewController 
         return cell
     }
     
-    override internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         assert(tableView == self.tableView, "Unexpected table view requesting number of rows in section")
         
         return slMgr.count
@@ -53,7 +53,7 @@ final internal class StudentLocationsTableViewController: UITableViewController 
     
     // MARK: - UITableViewDelegate
     
-    override internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         assert(tableView == self.tableView, "Unexpected table view selected a row")
         
         tableView.deselectRow(at: indexPath, animated: false)

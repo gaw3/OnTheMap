@@ -12,7 +12,7 @@ import UIKit
 typealias APIDataTaskWithRequestCompletionHandler = (_ result: AnyObject?, _ error: NSError?) -> Void
 typealias JSONDictionary = Dictionary<String, AnyObject>
 
-final internal class APIDataTaskWithRequest: NSObject {
+final class APIDataTaskWithRequest: NSObject {
     
     // MARK: - Private Constants
     
@@ -42,14 +42,14 @@ final internal class APIDataTaskWithRequest: NSObject {
     
     // MARK: - API
     
-    internal init(URLRequest: NSMutableURLRequest, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    init(URLRequest: NSMutableURLRequest, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         self.URLRequest        = URLRequest
         self.completionHandler = completionHandler
         
         super.init()
     }
     
-    internal func resume() {
+    func resume() {
         
         let session = URLSession(configuration: URLSessionConfiguration.default)
         let task = session.dataTask(with: URLRequest as URLRequest, completionHandler: { (rawJSONResponse, HTTPResponse, URLSessionError) in

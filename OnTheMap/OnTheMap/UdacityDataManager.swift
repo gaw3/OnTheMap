@@ -10,9 +10,9 @@ import Foundation
 
 private let _sharedMgr = UdacityDataManager()
 
-final internal class UdacityDataManager: NSObject {
+final  class UdacityDataManager: NSObject {
     
-    class internal var sharedMgr: UdacityDataManager {
+    class  var sharedMgr: UdacityDataManager {
         return _sharedMgr
     }
     
@@ -23,21 +23,21 @@ final internal class UdacityDataManager: NSObject {
     fileprivate var _logoutSession: UdacitySession? = nil
     fileprivate var _user:          UdacityUser?    = nil
     
-    // MARK: - internal Computed Variables
+    // MARK: -  Computed Variables
     
-    internal var account: UdacityAccount? {
+     var account: UdacityAccount? {
         return _account
     }
     
-    internal var isLoginSuccessful: Bool {
+     var isLoginSuccessful: Bool {
         return ((_account != nil) && (_loginSession != nil))
     }
     
-    internal var isLogoutSuccessful: Bool {
+     var isLogoutSuccessful: Bool {
         return (_logoutSession != nil)
     }
     
-    internal var loginData: (UdacityAccount?, UdacitySession?) {
+     var loginData: (UdacityAccount?, UdacitySession?) {
         get { return (_account, _loginSession) }
         
         set(data) {
@@ -47,7 +47,7 @@ final internal class UdacityDataManager: NSObject {
         }
     }
     
-    internal var logoutData: (UdacitySession) {
+     var logoutData: (UdacitySession) {
         get { return _logoutSession! }
         
         set(data) {
@@ -56,7 +56,7 @@ final internal class UdacityDataManager: NSObject {
         }
     }
     
-    internal var user: UdacityUser? {
+     var user: UdacityUser? {
         get { return _user }
         
         set(newUser) {

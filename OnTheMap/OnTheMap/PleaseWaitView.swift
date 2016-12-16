@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final internal class PleaseWaitView: NSObject {
+final class PleaseWaitView: NSObject {
     
     // MARK: - Private Constants
     
@@ -24,15 +24,15 @@ final internal class PleaseWaitView: NSObject {
     
     fileprivate var _dimmedView: UIView? = nil
     
-    // MARK: - Internal Computed Variables
+    // MARK: -  Computed Variables
     
-    internal var dimmedView: UIView {
+    var dimmedView: UIView {
         return _dimmedView!
     }
     
     // MARK: - API
     
-    internal init(requestingView: UIView) {
+    init(requestingView: UIView) {
         super.init()
         
         _dimmedView = UIView(frame: requestingView.frame)
@@ -46,12 +46,12 @@ final internal class PleaseWaitView: NSObject {
         _dimmedView?.addSubview(activityIndicator)
     }
     
-    internal func startActivityIndicator() {
+    func startActivityIndicator() {
         _dimmedView?.alpha = Consts.ActivityAlpha
         activityIndicator.startAnimating()
     }
     
-    internal func stopActivityIndicator() {
+    func stopActivityIndicator() {
         activityIndicator.stopAnimating()
         _dimmedView?.alpha = Consts.NoAlpha
     }
