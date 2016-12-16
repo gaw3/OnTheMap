@@ -27,7 +27,7 @@ extension ParseAPIClient {
     func getStudentLocation(withUserID id: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let query               = "where={\"\(ParseAPIClient.API.UniqueKeyKey)\":\"\(id)\"}"
         let urlRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         
         dataTaskWithRequest.resume()
     }
@@ -39,14 +39,14 @@ extension ParseAPIClient {
         urlRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
                             forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
         
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()
     }
     
     func refreshStudentLocations(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let query               = "limit=100&order=-updatedAt"
         let urlRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         
         dataTaskWithRequest.resume()
     }
@@ -58,7 +58,7 @@ extension ParseAPIClient {
         urlRequest.httpBody = studentLocation.newStudentSerializedData as Data
         urlRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
         
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()
     }
     

@@ -28,7 +28,7 @@ extension UdacityAPIClient {
     
     func getUserProfileData(_ userID: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let urlRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, urlString: UdacityAPIClient.API.UsersURL + userID, httpQuery: nil)
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         
         dataTaskWithRequest.resume()
     }
@@ -49,7 +49,7 @@ extension UdacityAPIClient {
             urlRequest.setValue(cookies[index].value, forHTTPHeaderField: XSRFTokenField.Name)
         }
         
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()
     }
     
@@ -85,7 +85,7 @@ private extension UdacityAPIClient {
         urlRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.Accept)
         urlRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
         
-        let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: urlRequest, completionHandler: completionHandler)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()
     }
     
