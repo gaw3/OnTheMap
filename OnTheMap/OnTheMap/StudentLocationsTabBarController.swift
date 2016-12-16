@@ -13,18 +13,18 @@ final class StudentLocationsTabBarController: UITabBarController {
     // MARK: - IB Actions
     
     @IBAction func pinButtonWasTapped(_ sender: UIBarButtonItem) {
-        parseClient.getStudentLocation(udacityDataMgr.user!.userID!, completionHandler: getStudentLocationCompletionHandler)
+        ParseAPIClient.shared.getStudentLocation(withUserID: udacityDataMgr.user!.userID!, completionHandler: getStudentLocationCompletionHandler)
     }
     
     @IBAction func refreshButtonWasTapped(_ sender: UIBarButtonItem) {
-        parseClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
+        ParseAPIClient.shared.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
     }
     
     // MARK: - View Events
     
     override  func viewDidLoad() {
         super.viewDidLoad()
-        parseClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
+        ParseAPIClient.shared.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
     }
     
 }

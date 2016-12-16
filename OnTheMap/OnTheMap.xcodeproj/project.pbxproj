@@ -115,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				7A0D0BCC1C0E84190087D9CE /* APIClientConstants.swift */,
-				7A29A8C01C631ACA0098E298 /* ParseAPIClientConstants.swift */,
 				7A29A8C21C631F260098E298 /* UdacityAPIClientConstants.swift */,
 			);
 			name = Constants;
@@ -263,6 +262,7 @@
 		7AA2863D1C4D72680059FF24 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
+				7A29A8C01C631ACA0098E298 /* ParseAPIClientConstants.swift */,
 				7A0D0BC11C0CFF910087D9CE /* ParseAPIClient.swift */,
 				7AA2863E1C4D74660059FF24 /* ParsePostStudentLocationResponseData.swift */,
 				7AA4D76E1C4DB4D700D5012C /* ParseUpdateStudentLocationResponseData.swift */,

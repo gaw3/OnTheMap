@@ -24,14 +24,6 @@ extension UIViewController {
         return NotificationCenter.default
     }
     
-     var parseClient: ParseAPIClient {
-        return ParseAPIClient.sharedClient
-    }
-    
-//     var slMgr: StudentLocationsManager {
-//        return StudentLocationsManager.shared
-//    }
-    
      var udacityDataMgr: UdacityDataManager {
         return UdacityDataManager.sharedMgr
     }

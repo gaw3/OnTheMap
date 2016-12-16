@@ -8,15 +8,13 @@
 
 struct ParseUpdateStudentLocationResponseData {
     
-    // MARK: - Private Stored Variables
+    // MARK: - Variables
     
-    fileprivate var _data: JSONDictionary
+    private var _data: JSONDictionary
     
-    // MARK: - Computed Variables
-    
-    var dateUpdated: String? {
+    var dateUpdated: String {
         if let date = _data[ParseAPIClient.API.DateUpdatedKey] as! String? { return date }
-        return nil
+        return String()
     }
     
     // MARK: - API

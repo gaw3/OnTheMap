@@ -194,9 +194,9 @@ private extension StudentLocationsPostInformationViewController {
             
             let responseData = ParsePostStudentLocationResponseData(dict: result as! JSONDictionary)
             
-            self.currentStudentLocation!.dateCreated = responseData.dateCreated!
-            self.currentStudentLocation!.dateUpdated = responseData.dateCreated!
-            self.currentStudentLocation!.objectID    = responseData.id!
+            self.currentStudentLocation!.dateCreated = responseData.dateCreated
+            self.currentStudentLocation!.dateUpdated = responseData.dateCreated
+            self.currentStudentLocation!.objectID    = responseData.id
             
             self.dismiss(animated: true, completion: {
                 StudentLocationsManager.shared.postedLocation = self.currentStudentLocation!
@@ -222,7 +222,7 @@ private extension StudentLocationsPostInformationViewController {
             
             let responseData = ParseUpdateStudentLocationResponseData(dict: result as! JSONDictionary)
             
-            self.currentStudentLocation!.dateUpdated = responseData.dateUpdated!
+            self.currentStudentLocation!.dateUpdated = responseData.dateUpdated
             
             self.dismiss(animated: true, completion: {
                 StudentLocationsManager.shared.updateStudentLocation(self.currentStudentLocation!)
@@ -329,9 +329,9 @@ private extension StudentLocationsPostInformationViewController {
             currentStudentLocation?.mediaURL = mediaURLTextField.text!
             
             if let _ = newStudent {
-                parseClient.postStudentLocation(currentStudentLocation!, completionHandler: postStudentLocationCompletionHandler)
+                ParseAPIClient.shared.postStudentLocation(currentStudentLocation!, completionHandler: postStudentLocationCompletionHandler)
             } else {
-                parseClient.updateStudentLocation(currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
+                ParseAPIClient.shared.updateStudentLocation(currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
             }
             
         }

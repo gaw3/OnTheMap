@@ -8,8 +8,6 @@
 
 extension ParseAPIClient {
     
-    // MARK: -  Constants
-    
     struct API {
         static let BaseURL        = "https://api.parse.com/1/classes/StudentLocation"
         
