@@ -16,20 +16,12 @@ final internal class UdacityDataManager: NSObject {
 		return _sharedMgr
 	}
 
-	// MARK: - Internal Constants
-
-	internal struct Notification {
-		static let LoginResponseDataDidGetSaved  = "LoginResponseDataDidGetSavedNotification"
-		static let LogoutResponseDataDidGetSaved = "LogoutResponseDataDidGetSavedNotification"
-		static let UserDataDidGetSaved           = "UserDataDidGetSavedNotification"
-	}
-
 	// MARK: - Private Stored Variables
 
-	private var _account:       UdacityAccount? = nil
-	private var _loginSession:  UdacitySession? = nil
-	private var _logoutSession: UdacitySession? = nil
-	private var _user:          UdacityUser?    = nil
+	fileprivate var _account:       UdacityAccount? = nil
+	fileprivate var _loginSession:  UdacitySession? = nil
+	fileprivate var _logoutSession: UdacitySession? = nil
+	fileprivate var _user:          UdacityUser?    = nil
 	
 	// MARK: - internal Computed Variables
 
@@ -51,7 +43,7 @@ final internal class UdacityDataManager: NSObject {
 		set(data) {
 			_account      = data.0
 			_loginSession = data.1
-			notifCtr.postNotificationName(Notification.LoginResponseDataDidGetSaved, object: nil)
+			NotificationCenter.default.post(name: NotificationName.UdacityLoginResponseDataDidGetSaved, object: nil)
 		}
 	}
 
@@ -60,7 +52,7 @@ final internal class UdacityDataManager: NSObject {
 
 		set(data) {
 			_logoutSession = data
-			notifCtr.postNotificationName(Notification.LogoutResponseDataDidGetSaved, object: nil)
+			NotificationCenter.default.post(name: NotificationName.UdacityLogoutResponseDataDidGetSaved, object: nil)
 		}
 	}
 	
@@ -69,19 +61,13 @@ final internal class UdacityDataManager: NSObject {
 
 		set(newUser) {
 			_user = newUser
-			notifCtr.postNotificationName(Notification.UserDataDidGetSaved, object: nil)
+			NotificationCenter.default.post(name: NotificationName.UdacityUserDataDidGetSaved, object: nil)
 		}
 	}
 	
-	// MARK: - Private Computed Variables
-
-	private var notifCtr: NSNotificationCenter{
-		return NSNotificationCenter.defaultCenter()
-	}
-
 	// MARK: - Private
 
-	override private init() {
+	override fileprivate init() {
 		super.init()
 	}
 	

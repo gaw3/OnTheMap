@@ -12,20 +12,19 @@ internal struct UdacityLogin {
 
 	// MARK: - Private Stored Variables
 
-	private var _udacity: JSONDictionary
+	fileprivate var _udacity: JSONDictionary
 
 	// MARK: - Internal Computed Meta Variables
 
-	internal var serializedData: NSData {
-		let data = try! NSJSONSerialization.dataWithJSONObject(_udacity, options: .PrettyPrinted)
+	internal var serializedData: Data {
+		let data = try! JSONSerialization.data(withJSONObject: _udacity, options: .prettyPrinted)
 		return data
 	}
 
 	// MARK: - API
 
 	internal init(username: String, password: String) {
-		_udacity = [ UdacityAPIClient.API.UdacityKey: [ UdacityAPIClient.API.UserNameKey: username,
-																	   UdacityAPIClient.API.PasswordKey: password ] ]
+		_udacity = [ UdacityAPIClient.API.UdacityKey: [ UdacityAPIClient.API.UserNameKey: username, UdacityAPIClient.API.PasswordKey: password ] as AnyObject ]
 	}
 	
 }

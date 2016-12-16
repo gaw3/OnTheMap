@@ -24,7 +24,7 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 	// MARK: - Private Constants
 
-	private struct Alert {
+	fileprivate struct Alert {
 
 		struct Message {
 			static let LocationNotEntered = "Location not yet entered"
@@ -42,22 +42,22 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 	}
 
-	private struct ButtonTitle {
+	fileprivate struct ButtonTitle {
 		static let Find   = "Find On The Map"
 		static let Submit = "Submit"
 	}
 
-	private struct PlaceholderText {
-		static let Attributes    = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+	fileprivate struct PlaceholderText {
+		static let Attributes    = [NSForegroundColorAttributeName: UIColor.white]
 		static let LocationField = "Enter Your Location Here"
 		static let MediaURLField = "Enter a Link to Share Here"
 	}
 
 	// MARK: - Private Stored Variables
 
-	private var _currentStudentLocation: StudentLocation? = nil
-	private var _newStudent:				 NewStudent?      = nil
-	private var pleaseWaitView:          PleaseWaitView?  = nil
+	fileprivate var _currentStudentLocation: StudentLocation? = nil
+	fileprivate var _newStudent:				 NewStudent?      = nil
+	fileprivate var pleaseWaitView:          PleaseWaitView?  = nil
 
 	// MARK: - Internal Computed Variables
 
@@ -102,13 +102,13 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 	
 	// MARK: - IB Actions
 
-	@IBAction internal func cancelButtonWasTapped(sender: UIButton) {
+	@IBAction internal func cancelButtonWasTapped(_ sender: UIButton) {
 		assert(sender == cancelButton, "rcvd IB Action from unknown button")
 
-		dismissViewControllerAnimated(true, completion: nil)
+		dismiss(animated: true, completion: nil)
 	}
 
-	@IBAction internal func toolbarButtonWasTapped(sender: UIBarButtonItem) {
+	@IBAction internal func toolbarButtonWasTapped(_ sender: UIBarButtonItem) {
 		assert(sender == toolbarButton, "rcvd IB Action from unknown button")
 
 		if sender.title == ButtonTitle.Find {
@@ -121,8 +121,8 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 	// MARK: - MKMapViewDelegate
 
-	internal func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-		var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(StudentLocationsMapViewController.StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
+	internal func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+		var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: StudentLocationsMapViewController.StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
 
 		if let _ = pinAnnotationView {
 			pinAnnotationView!.annotation = annotation
@@ -136,7 +136,7 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 	// MARK: - UITextFieldDelegate
 
-	internal func textFieldShouldReturn(textField: UITextField) -> Bool {
+	internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		assert(textField == mediaURLTextField || textField == locationTextField, "unknown UITextField = \(textField)")
 
 		textField.resignFirstResponder()
@@ -145,11 +145,11 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 	
 	// MARK: - Private:  Completion Handlers as Computed Variables
 
-	private var geocodeCompletionHandler: CLGeocodeCompletionHandler {
+	fileprivate var geocodeCompletionHandler: CLGeocodeCompletionHandler {
 
 		return { (placemarks, error) -> Void in
 
-			dispatch_async(dispatch_get_main_queue(), {
+			DispatchQueue.main.async(execute: {
 				NetworkActivityIndicatorManager.sharedManager.endActivity()
 				self.pleaseWaitView!.stopActivityIndicator()
 			})
@@ -191,7 +191,7 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 			let studentLocationRegion = MKCoordinateRegion(center: (studentLocationPlacemark.location?.coordinate)!,
 																			 span: MKCoordinateSpanMake(deltaDegrees, deltaDegrees))
 
-			dispatch_async(dispatch_get_main_queue(), {
+			DispatchQueue.main.async(execute: {
 				self.transitionToMapAndURL(studentLocationAnnotation, region: studentLocationRegion)
 			})
 
@@ -199,7 +199,7 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 	}
 
-	private var postStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+	fileprivate var postStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
 
 		return { (result, error) -> Void in
 
@@ -219,7 +219,7 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 			self.currentStudentLocation!.dateUpdated = responseData.dateCreated!
 			self.currentStudentLocation!.objectID    = responseData.id!
 
-			self.dismissViewControllerAnimated(true, completion: {
+			self.dismiss(animated: true, completion: {
 				self.slMgr.postedLocation = self.currentStudentLocation!
 			})
 
@@ -227,7 +227,7 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 		
 	}
 
-	private var updateStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+	fileprivate var updateStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
 
 		return { (result, error) -> Void in
 
@@ -245,7 +245,7 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 			self.currentStudentLocation!.dateUpdated = responseData.dateUpdated!
 
-			self.dismissViewControllerAnimated(true, completion: {
+			self.dismiss(animated: true, completion: {
 				self.slMgr.updateStudentLocation(self.currentStudentLocation!)
 			})
 
@@ -255,7 +255,7 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 	// MARK: - Private Helpers
 
-	private func addSubviews() {
+	fileprivate func addSubviews() {
 		questionLabels.forEach({view.addSubview($0)})
 
 		view.addSubview(cancelButton)
@@ -267,10 +267,10 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 		
 		pleaseWaitView = PleaseWaitView(requestingView: view)
 		view.addSubview((pleaseWaitView?.dimmedView)!)
-		view.bringSubviewToFront((pleaseWaitView?.dimmedView)!)
+		view.bringSubview(toFront: (pleaseWaitView?.dimmedView)!)
 	}
 
-	private func findOnTheMap() {
+	fileprivate func findOnTheMap() {
 
 		if locationTextField.text!.isEmpty {
 			presentAlert(Alert.Title.BadGeocode, message: Alert.Message.LocationNotEntered)
@@ -283,7 +283,7 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 	}
 
-	private func setInitialFieldValues() {
+	fileprivate func setInitialFieldValues() {
 
 		if let _ = newStudent {
 			currentStudentLocation = StudentLocation()
@@ -299,29 +299,29 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 	}
 
-	private func setInitialSubviewVisibility() {
-		imageView.hidden         = false
-		locationTextField.hidden = false
-		questionLabels.forEach({$0.hidden = false})
+	fileprivate func setInitialSubviewVisibility() {
+		imageView.isHidden         = false
+		locationTextField.isHidden = false
+		questionLabels.forEach({$0.isHidden = false})
 
-		mediaURLTextField.hidden = true
-		mapView.hidden	          = true
+		mediaURLTextField.isHidden = true
+		mapView.isHidden	          = true
 	}
 
-	private func setTextFieldPlaceholders() {
+	fileprivate func setTextFieldPlaceholders() {
 		locationTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.LocationField, attributes: PlaceholderText.Attributes)
 		mediaURLTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.MediaURLField, attributes: PlaceholderText.Attributes)
 	}
 
-	private func setToolbarButtonBackground() {
+	fileprivate func setToolbarButtonBackground() {
 		let buttonBackground = UIImage(named: UIConstants.BtnBkndFileName)
-		buttonBackground?.resizableImageWithCapInsets(UIEdgeInsetsZero)
+		buttonBackground?.resizableImage(withCapInsets: UIEdgeInsets.zero)
 
-		toolbarButton.setBackgroundImage(buttonBackground, forState: .Normal, barMetrics: .Default)
+		toolbarButton.setBackgroundImage(buttonBackground, for: UIControlState(), barMetrics: .default)
 		toolbarButton.title = ButtonTitle.Find
 	}
 	
-	private func submit() {
+	fileprivate func submit() {
 
 		if mediaURLTextField.text!.isEmpty {
 			presentAlert(Alert.Title.BadSubmit, message: Alert.Message.URLNotEntered)
@@ -338,22 +338,22 @@ final internal class StudentLocationsPostInformationViewController: UIViewContro
 
 	}
 	
-	private func transitionToMapAndURL(annotation: MKPointAnnotation, region: MKCoordinateRegion) {
+	fileprivate func transitionToMapAndURL(_ annotation: MKPointAnnotation, region: MKCoordinateRegion) {
 		view.backgroundColor = imageView.backgroundColor
 		toolbarButton.title  = ButtonTitle.Submit
-		toolbar.backgroundColor = UIColor.clearColor()
-		toolbar.translucent = true
-		cancelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+		toolbar.backgroundColor = UIColor.clear
+		toolbar.isTranslucent = true
+		cancelButton.setTitleColor(UIColor.white, for: UIControlState())
 
 		mapView.addAnnotation(annotation)
 		mapView.setRegion(region, animated: true)
 		mapView.regionThatFits(region)
-		mapView.hidden = false
+		mapView.isHidden = false
 
-		imageView.hidden         = true
-		locationTextField.hidden = true
-		mediaURLTextField.hidden = false
-		questionLabels.forEach({$0.hidden = true})
+		imageView.isHidden         = true
+		locationTextField.isHidden = true
+		mediaURLTextField.isHidden = false
+		questionLabels.forEach({$0.isHidden = true})
 	}
 
 }

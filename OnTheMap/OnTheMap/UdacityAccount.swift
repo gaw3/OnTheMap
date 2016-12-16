@@ -10,7 +10,7 @@ internal struct UdacityAccount {
 
 	// MARK: - Private Stored Variables
 
-	private var _account: JSONDictionary
+	fileprivate var _account: JSONDictionary
 	
 	// MARK: - Internal Computed Variables
 

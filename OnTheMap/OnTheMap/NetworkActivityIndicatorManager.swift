@@ -19,20 +19,20 @@ final internal class NetworkActivityIndicatorManager: NSObject {
 
 	// MARK: - Private Constants
 
-	private struct QName {
+	fileprivate struct QName {
 		static let NAIUpdateQueue = "com.gaw3.OnTheMap.NetworkActivityIndicatorUpdateQueue"
 	}
 
 	// MARK: - Private Stored Variables
 
-	private var numOfUpdateTasks      = 0
-	private let concurrentUpdateQueue = dispatch_queue_create(QName.NAIUpdateQueue, DISPATCH_QUEUE_CONCURRENT)
+	fileprivate var numOfUpdateTasks      = 0
+	fileprivate let concurrentUpdateQueue = DispatchQueue(label: QName.NAIUpdateQueue, attributes: DispatchQueue.Attributes.concurrent)
 
 
 	// MARK: - Private Computed Variables
 
-	private var app: UIApplication {
-		return UIApplication.sharedApplication()
+	fileprivate var app: UIApplication {
+		return UIApplication.shared
 	}
 
 
@@ -40,10 +40,10 @@ final internal class NetworkActivityIndicatorManager: NSObject {
 
 	internal func completeAllActivities() {
 
-		dispatch_sync(concurrentUpdateQueue, {
+		concurrentUpdateQueue.sync(execute: {
 
-			if !self.app.statusBarHidden {
-				self.app.networkActivityIndicatorVisible = false
+			if !self.app.isStatusBarHidden {
+				self.app.isNetworkActivityIndicatorVisible = false
 				self.numOfUpdateTasks = 0
 			}
 
@@ -53,13 +53,13 @@ final internal class NetworkActivityIndicatorManager: NSObject {
 
 	internal func endActivity() {
 
-		dispatch_sync(concurrentUpdateQueue, {
+		concurrentUpdateQueue.sync(execute: {
 
-			if !self.app.statusBarHidden {
+			if !self.app.isStatusBarHidden {
 				self.numOfUpdateTasks -= 1
 
 				if self.numOfUpdateTasks <= 0 {
-					self.app.networkActivityIndicatorVisible = false
+					self.app.isNetworkActivityIndicatorVisible = false
 					self.numOfUpdateTasks = 0
 				}
 
@@ -71,12 +71,12 @@ final internal class NetworkActivityIndicatorManager: NSObject {
 
 	internal func startActivity() {
 
-		dispatch_sync(concurrentUpdateQueue, {
+		concurrentUpdateQueue.sync(execute: {
 
-			if !self.app.statusBarHidden {
+			if !self.app.isStatusBarHidden {
 
-				if !self.app.networkActivityIndicatorVisible {
-					self.app.networkActivityIndicatorVisible = true
+				if !self.app.isNetworkActivityIndicatorVisible {
+					self.app.isNetworkActivityIndicatorVisible = true
 					self.numOfUpdateTasks = 0
 				}
 
@@ -89,7 +89,7 @@ final internal class NetworkActivityIndicatorManager: NSObject {
 
 	// MARK: - Private
 
-	override private init() {
+	override fileprivate init() {
 		super.init()
 	}
 

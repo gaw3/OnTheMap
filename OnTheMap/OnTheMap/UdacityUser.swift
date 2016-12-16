@@ -10,7 +10,7 @@ internal struct UdacityUser {
 	
 	// MARK: - Internal Stored Variables
 
-	private var _user: JSONDictionary? = nil
+	fileprivate var _user: JSONDictionary? = nil
 
 	// MARK: - Internal Computed Variables
 	
@@ -41,13 +41,13 @@ internal struct UdacityUser {
 		var fullName = String()
 
 		if let _ = firstName {
-			fullName.appendContentsOf(firstName!)
+			fullName.append(firstName!)
 		}
 
 		if let _ = lastName{
-			if !fullName.isEmpty { fullName.appendContentsOf(" ") }
+			if !fullName.isEmpty { fullName.append(" ") }
 			
-			fullName.appendContentsOf(lastName!)
+			fullName.append(lastName!)
 		}
 
 		return (!fullName.isEmpty) ? fullName : nil

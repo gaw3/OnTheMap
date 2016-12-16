@@ -16,13 +16,7 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 
 	// MARK: - Private Constants
 
-	private struct SEL {
-		static let LoginResponseDataDidGetSaved  = #selector(loginResponseDataDidGetSaved(_:))
-		static let LogoutResponseDataDidGetSaved = #selector(logoutResponseDataDidGetSaved(_:))
-		static let UserDataDidGetSaved           = #selector(userDataDidGetSaved(_:))
-	}
-
-	private struct Alert {
+	fileprivate struct Alert {
 
 		struct Message {
 			static let CheckLoginFields = "Check email & password fields"
@@ -39,28 +33,33 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 
 	}
 
-	private struct PlaceholderText {
-		static let Attributes    = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+	fileprivate struct PlaceholderText {
+		static let Attributes    = [NSForegroundColorAttributeName: UIColor.white]
 		static let EmailField    = "Email"
-		static let InsetRect     = CGRectMake(0, 0, 10, 50)
+		static let InsetRect     = CGRect(x: 0, y: 0, width: 10, height: 50)
 		static let PasswordField = "Password"
 	}
 
-	private struct URL {
+	fileprivate struct URL {
 		static let UdacitySignupURLString = "https://www.udacity.com/account/auth#!/signup"
 	}
 
 	// MARK: - Private Stored Variables
 
-	private var pleaseWaitView: PleaseWaitView? = nil
+	fileprivate var pleaseWaitView: PleaseWaitView? = nil
 
 	// MARK: - Private Computed Variables
 
-	private var udacityClient: UdacityAPIClient {
+	fileprivate var udacityClient: UdacityAPIClient {
 		return UdacityAPIClient.sharedClient
 	}
 
-	// MARK: - IB Outlets
+    private lazy var foo: Void = {
+        self.addFacebookLoginButton()
+        self.initPleaseWaitView()
+    }()
+    
+    // MARK: - IB Outlets
 
 	@IBOutlet weak internal var udacityLogo:       UIImageView!
 	@IBOutlet weak internal var loginLabel:        UILabel!
@@ -74,15 +73,7 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 	override internal func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 
-		struct DispatchOnce {
-			static var token: dispatch_once_t = 0
-		}
-
-		dispatch_once(&(DispatchOnce.token), {
-			self.addFacebookLoginButton()
-			self.initPleaseWaitView()
-		});
-
+        _ = foo
 	}
 
 	override internal func viewDidLoad() {
@@ -92,15 +83,15 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 		setTextFieldPlaceholders()
 		createBackgroundColorGradient()
 
-		loginLabel.textColor = UIColor.whiteColor()
-		signUpButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+		loginLabel.textColor = UIColor.white
+		signUpButton.setTitleColor(UIColor.white, for: UIControlState())
 
 		addNotificationObservers()
 	}
 	
 	// MARK: - IB Actions
 
-	@IBAction internal func loginButtonDidTouchUpInside(sender: UIButton) {
+	@IBAction internal func loginButtonDidTouchUpInside(_ sender: UIButton) {
 		assert(sender == loginButton, "rcvd IB Action from unknown button")
 
 		if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
@@ -113,12 +104,12 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 
 	}
 
-	@IBAction internal func signUpButtonDidTouchUpInside(sender: UIButton) {
+	@IBAction internal func signUpButtonDidTouchUpInside(_ sender: UIButton) {
 		assert(sender == signUpButton, "rcvd IB Action from unknown button")
       openSystemBrowserWithURL(URL.UdacitySignupURLString)
 	}
 
-	@IBAction func unwindToLoginViewController(segue: UIStoryboardSegue) {
+	@IBAction func unwindToLoginViewController(_ segue: UIStoryboardSegue) {
 		emailTextField.text    = ""
 		passwordTextField.text = ""
 
@@ -126,36 +117,9 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 		udacityClient.logout(logoutCompletionHandler)
 	}
 
-	// MARK: - Notifications
-
-	internal func loginResponseDataDidGetSaved(notification: NSNotification) {
-		assert(notification.name == UdacityDataManager.Notification.LoginResponseDataDidGetSaved, "unknown notification = \(notification)")
-		
-		udacityClient.getUserProfileData(udacityDataMgr.account!.userID!,
-													completionHandler: getUserProfileDataCompletionHandler)
-	}
-
-	internal func logoutResponseDataDidGetSaved(notification: NSNotification) {
-		assert(notification.name == UdacityDataManager.Notification.LogoutResponseDataDidGetSaved, "unknown notification = \(notification)")
-
-		// leave here in case there is ever anything to do
-	}
-
-	internal func userDataDidGetSaved(notification: NSNotification) {
-		assert(notification.name == UdacityDataManager.Notification.UserDataDidGetSaved, "unknown notification = \(notification)")
-
-		pleaseWaitView?.stopActivityIndicator()
-
-		if udacityDataMgr.isLoginSuccessful {
-			let navController = self.storyboard?.instantiateViewControllerWithIdentifier("StudentLocsTabBarNavCtlr") as! UINavigationController
-			self.presentViewController(navController, animated: true, completion: nil)
-		}
-
-	}
-
 	// MARK: - FBSDKLoginButtonDelegate
 
-	internal func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+	internal func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
 
 		if let _ = error {
 			self.presentAlert(Alert.Title.BadFBAuth, message: error!.localizedDescription)
@@ -166,13 +130,13 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 		
 	}
 
-	internal func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+	internal func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
 		// must have this to satisfy the protocol
 	}
 
 	// MARK: - UITextFieldDelegate
 
-	internal func textFieldShouldReturn(textField: UITextField) -> Bool {
+	internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		assert(textField == emailTextField || textField == passwordTextField, "unknown UITextField = \(textField)")
 
 		textField.resignFirstResponder()
@@ -181,7 +145,7 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 	
 	// MARK: - Private:  Completion Handlers as Computed Variables
 
-	private var getUserProfileDataCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+	fileprivate var getUserProfileDataCompletionHandler: APIDataTaskWithRequestCompletionHandler {
 
 		return { (result, error) -> Void in
 
@@ -200,7 +164,7 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 
 	}
 
-	private var loginCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+	fileprivate var loginCompletionHandler: APIDataTaskWithRequestCompletionHandler {
 
 		return { (result, error) -> Void in
 
@@ -224,7 +188,7 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 
 	}
 
-	private var logoutCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+	fileprivate var logoutCompletionHandler: APIDataTaskWithRequestCompletionHandler {
 
 		return { (result, error) -> Void in
 
@@ -245,30 +209,18 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 
 	// MARK: - Private UI Helpers
 
-	private func addFacebookLoginButton() {
+	fileprivate func addFacebookLoginButton() {
 		let facebookLoginButton = FBSDKLoginButton(frame: emailTextField.frame)
 
 		facebookLoginButton.frame.origin.y = view.frame.height - 20.0 - emailTextField.frame.height
 		facebookLoginButton.delegate = self
-		facebookLoginButton.hidden   = false
-		facebookLoginButton.enabled  = true
+		facebookLoginButton.isHidden   = false
+		facebookLoginButton.isEnabled  = true
 
 		view.addSubview(facebookLoginButton)
 	}
 
-	private func addNotificationObservers() {
-		notifCtr.addObserver(self, selector: SEL.LoginResponseDataDidGetSaved,
-												 name: UdacityDataManager.Notification.LoginResponseDataDidGetSaved,
-											  object: nil)
-		notifCtr.addObserver(self, selector: SEL.LogoutResponseDataDidGetSaved,
-											    name: UdacityDataManager.Notification.LogoutResponseDataDidGetSaved,
-											  object: nil)
-		notifCtr.addObserver(self, selector: SEL.UserDataDidGetSaved,
-												 name: UdacityDataManager.Notification.UserDataDidGetSaved,
-											  object: nil)
-	}
-
-	private func addSubviews() {
+	fileprivate func addSubviews() {
 		view.addSubview(udacityLogo)
 		view.addSubview(loginLabel)
 		view.addSubview(emailTextField)
@@ -277,18 +229,18 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 		view.addSubview(signUpButton)
 	}
 
-	private func cleanup(alertTitle: String, alertMessage: String) {
+	fileprivate func cleanup(_ alertTitle: String, alertMessage: String) {
 		logoutFromFacebook()
 		pleaseWaitView?.stopActivityIndicator()
 		presentAlert(alertTitle, message: alertMessage)
 	}
 
-	private func createBackgroundColorGradient() {
-		view.backgroundColor = UIColor.whiteColor()
+	fileprivate func createBackgroundColorGradient() {
+		view.backgroundColor = UIColor.white
 
-		let orange         = UIColor.orangeColor()
-		let startingOrange = orange.colorWithAlphaComponent(0.5).CGColor as CGColorRef
-		let endingOrange   = orange.colorWithAlphaComponent(1.0).CGColor as CGColorRef
+		let orange         = UIColor.orange
+		let startingOrange = orange.withAlphaComponent(0.5).cgColor as CGColor
+		let endingOrange   = orange.withAlphaComponent(1.0).cgColor as CGColor
 
 		let gradientLayer       = CAGradientLayer()
 		gradientLayer.frame     = view.bounds
@@ -298,25 +250,70 @@ final internal class UdacityLoginViewController: UIViewController, FBSDKLoginBut
 		view.layer.addSublayer(gradientLayer)
 	}
 
-	private func logoutFromFacebook() {
+	fileprivate func logoutFromFacebook() {
 		let loginManager = FBSDKLoginManager()
 		loginManager.logOut()
 	}
 
-	private func initPleaseWaitView() {
+	fileprivate func initPleaseWaitView() {
 		pleaseWaitView = PleaseWaitView(requestingView: view)
 		view.addSubview(pleaseWaitView!.dimmedView)
-		view.bringSubviewToFront(pleaseWaitView!.dimmedView)
+		view.bringSubview(toFront: pleaseWaitView!.dimmedView)
 	}
 
-	private func setTextFieldPlaceholders() {
+	fileprivate func setTextFieldPlaceholders() {
 		emailTextField.leftView                 = UIView(frame: PlaceholderText.InsetRect)
-		emailTextField.leftViewMode             = .Always
+		emailTextField.leftViewMode             = .always
 		emailTextField.attributedPlaceholder    = NSAttributedString(string: PlaceholderText.EmailField, attributes: PlaceholderText.Attributes)
 
 		passwordTextField.leftView              = UIView(frame: PlaceholderText.InsetRect)
-		passwordTextField.leftViewMode          = .Always
+		passwordTextField.leftViewMode          = .always
 		passwordTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.PasswordField, attributes: PlaceholderText.Attributes)
 	}
 	
 }
+
+// MARK: - Notifications
+
+extension UdacityLoginViewController {
+    
+    func processNotification(_ notification: Notification) {
+        
+        switch notification.name {
+            
+        case NotificationName.UdacityLoginResponseDataDidGetSaved:
+            udacityClient.getUserProfileData(udacityDataMgr.account!.userID!, completionHandler: getUserProfileDataCompletionHandler)
+
+        case NotificationName.UdacityLogoutResponseDataDidGetSaved: break
+            
+        case NotificationName.UdacityUserDataDidGetSaved:
+            pleaseWaitView?.stopActivityIndicator()
+            
+            if udacityDataMgr.isLoginSuccessful {
+                let navController = self.storyboard?.instantiateViewController(withIdentifier: "StudentLocsTabBarNavCtlr") as! UINavigationController
+                self.present(navController, animated: true, completion: nil)
+            }
+
+            
+        default: fatalError("Received unknown notification = \(notification)")
+        }
+        
+    }
+    
+}
+private extension UdacityLoginViewController {
+    
+    struct SEL {
+        static let ProcessNotification = #selector(processNotification(_:))
+    }
+    
+    func addNotificationObservers() {
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.UdacityLoginResponseDataDidGetSaved,  object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.UdacityLogoutResponseDataDidGetSaved, object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.UdacityUserDataDidGetSaved,           object: nil)
+    }
+    
+}
+
+
+

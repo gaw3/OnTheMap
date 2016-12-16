@@ -10,7 +10,7 @@ internal struct ParseUpdateStudentLocationResponseData {
 
 	// MARK: - Private Stored Variables
 
-	private var _data: JSONDictionary
+	fileprivate var _data: JSONDictionary
 
 	// MARK: - Internal Computed Variables
 

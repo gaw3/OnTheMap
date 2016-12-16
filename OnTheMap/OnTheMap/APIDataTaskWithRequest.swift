@@ -9,40 +9,40 @@
 import Foundation
 import UIKit
 
-typealias APIDataTaskWithRequestCompletionHandler = (result: AnyObject!, error: NSError?) -> Void
+typealias APIDataTaskWithRequestCompletionHandler = (_ result: AnyObject?, _ error: NSError?) -> Void
 typealias JSONDictionary = Dictionary<String, AnyObject>
 
 final internal class APIDataTaskWithRequest: NSObject {
 
 	// MARK: - Private Constants
 
-	private struct LocalizedError {
+	fileprivate struct LocalizedError {
 		static let Domain          = "OnTheMapExternalAPIInterfaceError"
 		static let UdacityHostName = "www.udacity.com"
 	}
 	
-	private struct LocalizedErrorCode {
+	fileprivate struct LocalizedErrorCode {
 		static let Network           = 1
 		static let HTTP              = 2
 		static let JSON              = 3
 		static let JSONSerialization = 4
 	}
 
-	private struct LocalizedErrorDescription {
+	fileprivate struct LocalizedErrorDescription {
 		static let Network           = "Network Error"
 		static let HTTP              = "HTTP Error"
-		static let JSON	           = "JSON Error"
+		static let JSON	             = "JSON Error"
 		static let JSONSerialization = "JSON JSONSerialization Error"
 	}
 
 	// MARK: - Private Stored Variables
 
-	private var URLRequest:        NSMutableURLRequest
-	private var completionHandler: APIDataTaskWithRequestCompletionHandler
+	fileprivate var URLRequest:        NSMutableURLRequest
+	fileprivate var completionHandler: APIDataTaskWithRequestCompletionHandler
 
 	// MARK: - API
 
-	internal init(URLRequest: NSMutableURLRequest, completionHandler: APIDataTaskWithRequestCompletionHandler) {
+	internal init(URLRequest: NSMutableURLRequest, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
 		self.URLRequest        = URLRequest
 		self.completionHandler = completionHandler
 
@@ -51,25 +51,26 @@ final internal class APIDataTaskWithRequest: NSObject {
 
 	internal func resume() {
 		
-		let task = NSURLSession.sharedSession().dataTaskWithRequest(URLRequest) { (rawJSONResponse, HTTPResponse, URLSessionError) in
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        let task = session.dataTask(with: URLRequest as URLRequest, completionHandler: { (rawJSONResponse, HTTPResponse, URLSessionError) in
 
-			dispatch_async(dispatch_get_main_queue(), {
+			DispatchQueue.main.async(execute: {
 				NetworkActivityIndicatorManager.sharedManager.endActivity()
 			})
 
 			guard URLSessionError == nil else {
 				let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.Network,
-									 NSUnderlyingErrorKey:      URLSessionError!]
+									 NSUnderlyingErrorKey:      URLSessionError!] as [String : Any]
 				let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.Network, userInfo: userInfo)
 
 				self.completeWithHandler(self.completionHandler, result: nil, error: error)
 				return
 			}
 
-			let HTTPURLResponse = HTTPResponse as? NSHTTPURLResponse
+			let HTTPURLResponse = HTTPResponse as? Foundation.HTTPURLResponse
 
-			guard HTTPURLResponse?.statusCodeClass == .Successful else {
-				let HTTPStatusText = NSHTTPURLResponse.localizedStringForStatusCode((HTTPURLResponse?.statusCode)!)
+			guard HTTPURLResponse?.statusCodeClass == .successful else {
+				let HTTPStatusText = Foundation.HTTPURLResponse.localizedString(forStatusCode: (HTTPURLResponse?.statusCode)!)
 				let failureReason  = "HTTP status code = \(HTTPURLResponse?.statusCode), HTTP status text = \(HTTPStatusText)"
 				let userInfo       = [NSLocalizedDescriptionKey:        LocalizedErrorDescription.HTTP,
 									       NSLocalizedFailureReasonErrorKey: failureReason]
@@ -89,24 +90,25 @@ final internal class APIDataTaskWithRequest: NSObject {
 
 			var JSONDataToParse = rawJSONResponse
 
-			if self.URLRequest.URL?.host == LocalizedError.UdacityHostName {
-				JSONDataToParse = rawJSONResponse.subdataWithRange(NSMakeRange(5, rawJSONResponse.length - 5))
+			if self.URLRequest.url?.host == LocalizedError.UdacityHostName {
+                JSONDataToParse = rawJSONResponse.subdata(in: 5..<rawJSONResponse.count)
+//				JSONDataToParse = rawJSONResponse.subdata(in: NSRange(location: 5, length: rawJSONResponse.count - 5))
 			}
 
 			do {
-				let JSONData = try NSJSONSerialization.JSONObjectWithData(JSONDataToParse, options: .AllowFragments) as! JSONDictionary
+				let JSONData = try JSONSerialization.jsonObject(with: JSONDataToParse, options: .allowFragments) as! JSONDictionary
 
-				self.completeWithHandler(self.completionHandler, result: JSONData, error: nil)
+				self.completeWithHandler(self.completionHandler, result: JSONData as AnyObject!, error: nil)
 			} catch let JSONError as NSError {
 				let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.JSONSerialization,
-									 NSUnderlyingErrorKey:      JSONError]
+									 NSUnderlyingErrorKey:      JSONError] as [String : Any]
 				let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.JSONSerialization, userInfo: userInfo)
 
 				self.completeWithHandler(self.completionHandler, result: nil, error: error)
 				return
 			}
 
-		}
+		}) 
 
 		NetworkActivityIndicatorManager.sharedManager.startActivity()
 		task.resume()
@@ -114,10 +116,10 @@ final internal class APIDataTaskWithRequest: NSObject {
 
 	// MARK: - Private
 
-	private func completeWithHandler(completionHandler: APIDataTaskWithRequestCompletionHandler, result: AnyObject!, error: NSError?) {
+	fileprivate func completeWithHandler(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler, result: AnyObject!, error: NSError?) {
 
-		dispatch_async(dispatch_get_main_queue()) {
-			completionHandler(result: result, error: error)
+		DispatchQueue.main.async {
+			completionHandler(result, error)
 		}
 		
 	}

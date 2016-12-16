@@ -10,7 +10,7 @@ internal struct UdacitySession {
 
 	// MARK: - Private Stored Variables
 
-	private var _session: JSONDictionary
+	fileprivate var _session: JSONDictionary
 
 	// MARK: - Internal Computed Variables
 

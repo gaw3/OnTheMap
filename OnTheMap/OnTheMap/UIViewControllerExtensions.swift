@@ -12,7 +12,7 @@ extension UIViewController {
 
 	// MARK: - Private Constants
 
-	private struct Alert {
+	fileprivate struct Alert {
 		static let ActionTitle = "OK"
 		static let Message     = "Malformed URL"
 		static let Title       = "Unable to open browser"
@@ -20,8 +20,8 @@ extension UIViewController {
 
 	// MARK: - Internal Computed Variables
 
-	internal var notifCtr: NSNotificationCenter{
-		return NSNotificationCenter.defaultCenter()
+	internal var notifCtr: NotificationCenter{
+		return NotificationCenter.default
 	}
 
 	internal var parseClient: ParseAPIClient {
@@ -38,25 +38,26 @@ extension UIViewController {
 
 	// MARK: - API
 
-   internal func openSystemBrowserWithURL(URLString: String) {
+   internal func openSystemBrowserWithURL(_ URLString: String) {
       var success = false
 
-		if let URLComponents = NSURLComponents(string: URLString) {
-			if UIApplication.sharedApplication().openURL(URLComponents.URL!) { success = true }
-		}
-
-		if !success {
-			presentAlert(Alert.Title, message: Alert.Message)
-		}
+    if let URLComponents = URLComponents(string: URLString) {
+        UIApplication.shared.open(URLComponents.url!, options: [:], completionHandler: nil)
+    }
+ 
+//		if !success {
+//			presentAlert(Alert.Title, message: Alert.Message)
+//		}
+        
 	}
 
-	internal func presentAlert(title: String, message: String) {
-		let alert  = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-		let action = UIAlertAction(title: Alert.ActionTitle, style: .Default, handler: nil)
+	internal func presentAlert(_ title: String, message: String) {
+		let alert  = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let action = UIAlertAction(title: Alert.ActionTitle, style: .default, handler: nil)
 		alert.addAction(action)
 
-		dispatch_async(dispatch_get_main_queue(), {
-			self.presentViewController(alert, animated: true, completion: nil)
+		DispatchQueue.main.async(execute: {
+			self.present(alert, animated: true, completion: nil)
 		})
 
 	}

@@ -15,7 +15,7 @@ internal struct StudentLocation {
 
 	// MARK: - Private Stored Variables
 
-	private var _studentLocation: JSONDictionary
+	fileprivate var _studentLocation: JSONDictionary
 	
    // MARK: - Internal Computed Variables
    
@@ -25,7 +25,7 @@ internal struct StudentLocation {
 			return String()
 		}
 
-		set(date) { _studentLocation[ParseAPIClient.API.DateCreatedKey] = date }
+		set(date) { _studentLocation[ParseAPIClient.API.DateCreatedKey] = date as AnyObject? }
 	}
 
 	internal var dateUpdated: String {
@@ -34,7 +34,7 @@ internal struct StudentLocation {
 			return String()
 		}
 
-		set(date) { _studentLocation[ParseAPIClient.API.DateUpdatedKey] = date }
+		set(date) { _studentLocation[ParseAPIClient.API.DateUpdatedKey] = date as AnyObject? }
 	}
 
 	internal var firstName: String {
@@ -43,7 +43,7 @@ internal struct StudentLocation {
 			return String()
 		}
 
-		set(name) { _studentLocation[ParseAPIClient.API.FirstNameKey] = name }
+		set(name) { _studentLocation[ParseAPIClient.API.FirstNameKey] = name as AnyObject? }
 	}
 
 	internal var lastName: String {
@@ -52,17 +52,17 @@ internal struct StudentLocation {
 			return String()
 		}
 
-		set(name) { _studentLocation[ParseAPIClient.API.LastNameKey] = name }
+		set(name) { _studentLocation[ParseAPIClient.API.LastNameKey] = name as AnyObject? }
 	}
 
 	internal var latitude: Double {
       get { return _studentLocation[ParseAPIClient.API.LatKey] as! Double}
-		set(lat) { _studentLocation[ParseAPIClient.API.LatKey] = lat }
+		set(lat) { _studentLocation[ParseAPIClient.API.LatKey] = lat as AnyObject? }
 	}
 
 	internal var longitude: Double {
 		get { return _studentLocation[ParseAPIClient.API.LongKey] as! Double }
-		set(long) { _studentLocation[ParseAPIClient.API.LongKey] = long }
+		set(long) { _studentLocation[ParseAPIClient.API.LongKey] = long as AnyObject? }
 	}
 
 	internal var mapString: String {
@@ -71,7 +71,7 @@ internal struct StudentLocation {
 			return String()
 		}
 
-		set(str) { _studentLocation[ParseAPIClient.API.MapStringKey] = str }
+		set(str) { _studentLocation[ParseAPIClient.API.MapStringKey] = str as AnyObject? }
 	}
 	
 	internal var mediaURL: String {
@@ -80,7 +80,7 @@ internal struct StudentLocation {
 			return String()
 		}
 
-		set(stringURL) { _studentLocation[ParseAPIClient.API.MediaURLKey] = stringURL }
+		set(stringURL) { _studentLocation[ParseAPIClient.API.MediaURLKey] = stringURL as AnyObject? }
 	}
 
 	internal var objectID: String {
@@ -89,7 +89,7 @@ internal struct StudentLocation {
 				return String()
 		}
 
-		set(id) { _studentLocation[ParseAPIClient.API.ObjectIDKey] = id }
+		set(id) { _studentLocation[ParseAPIClient.API.ObjectIDKey] = id as AnyObject? }
 	}
 	
 	internal var uniqueKey: String {
@@ -98,7 +98,7 @@ internal struct StudentLocation {
 			return String()
 		}
 
-		set(key) { _studentLocation[ParseAPIClient.API.UniqueKeyKey] = key }
+		set(key) { _studentLocation[ParseAPIClient.API.UniqueKeyKey] = key as AnyObject? }
 	}
 
 	// MARK: - Internal Computed Meta Variables
@@ -107,16 +107,16 @@ internal struct StudentLocation {
 		return "\(firstName) \(lastName)"
 	}
 
-	internal var newStudentSerializedData: NSData {
+	internal var newStudentSerializedData: Data {
 		let newStudentDict = [ ParseAPIClient.API.UniqueKeyKey: uniqueKey,
 									  ParseAPIClient.API.FirstNameKey: firstName,
 									  ParseAPIClient.API.LastNameKey: lastName,
 									  ParseAPIClient.API.MapStringKey: mapString,
 									  ParseAPIClient.API.MediaURLKey: mediaURL,
 									  ParseAPIClient.API.LatKey: latitude,
-									  ParseAPIClient.API.LongKey: longitude ]
+									  ParseAPIClient.API.LongKey: longitude ] as [String : Any]
 
-		let newStudentData = try! NSJSONSerialization.dataWithJSONObject(newStudentDict, options: .PrettyPrinted)
+		let newStudentData = try! JSONSerialization.data(withJSONObject: newStudentDict, options: .prettyPrinted)
 		return newStudentData
 	}
 

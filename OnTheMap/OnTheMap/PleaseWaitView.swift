@@ -13,16 +13,16 @@ final internal class PleaseWaitView: NSObject {
 
 	// MARK: - Private Constants
 
-	private struct Consts {
+	fileprivate struct Consts {
 		static let NoAlpha:       CGFloat = 0.0
 		static let ActivityAlpha: CGFloat = 0.7
 	}
 
 	// MARK: - Private Stored Variables
 
-	private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+	fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
-	private var _dimmedView: UIView? = nil
+	fileprivate var _dimmedView: UIView? = nil
 
 	// MARK: - Internal Computed Variables
 
@@ -36,7 +36,7 @@ final internal class PleaseWaitView: NSObject {
 		super.init()
 
 		_dimmedView = UIView(frame: requestingView.frame)
-		_dimmedView?.backgroundColor = UIColor.blackColor()
+		_dimmedView?.backgroundColor = UIColor.black
 		_dimmedView?.alpha           = Consts.NoAlpha
 
 		activityIndicator.center    = _dimmedView!.center
@@ -58,7 +58,7 @@ final internal class PleaseWaitView: NSObject {
 
 	// MARK: - Private
 
-	override private init() {
+	override fileprivate init() {
 		super.init()
 	}
 

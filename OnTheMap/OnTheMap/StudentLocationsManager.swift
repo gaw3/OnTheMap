@@ -20,15 +20,12 @@ final internal class StudentLocationsManager: NSObject {
 	// MARK: - Internal Constants
 
 	internal struct Notifications {
-		static let StudentLocationDidGetPosted      = "StudentLocationDidGetPostedNotification"
-		static let StudentLocationsDidGetRefreshed  = "StudentLocationsDidGetRefreshedNotification"
-		static let StudentLocationDidGetUpdated     = "StudentLocationDidGetUpdatedNotification"
 		static let IndexOfUpdatedStudentLocationKey = "indexOfUpdate"
 	}
 
 	// MARK: - Private Stored Variables
 
-	private var studentLocations: [StudentLocation]
+	fileprivate var studentLocations: [StudentLocation]
 
 	// MARK: - Internal Computed Variables
 
@@ -40,38 +37,32 @@ final internal class StudentLocationsManager: NSObject {
 		get { return studentLocations[0] }
 
 		set (location) {
-			studentLocations.insert(location, atIndex: 0)
-			notifCtr.postNotificationName(Notifications.StudentLocationDidGetPosted, object: nil)
+			studentLocations.insert(location, at: 0)
+			NotificationCenter.default.post(name: NotificationName.StudentLocationDidGetPosted, object: nil)
 		}
 	}
 
-	// MARK: - Private Computed Variables
-
-	private var notifCtr: NSNotificationCenter{
-		return NSNotificationCenter.defaultCenter()
-	}
-	
 	// MARK: - API
 
-	internal func refreshStudentLocations(newStudentLocations: [StudentLocation]) {
+	internal func refreshStudentLocations(_ newStudentLocations: [StudentLocation]) {
 		studentLocations.removeAll()
-		studentLocations.appendContentsOf(newStudentLocations)
+		studentLocations.append(contentsOf: newStudentLocations)
 
-		notifCtr.postNotificationName(Notifications.StudentLocationsDidGetRefreshed, object: nil)
+		NotificationCenter.default.post(name: NotificationName.StudentLocationsDidGetRefreshed, object: nil)
 	}
 
-   internal func studentLocationAtIndex(index: Int) -> StudentLocation {
+   internal func studentLocationAtIndex(_ index: Int) -> StudentLocation {
       return studentLocations[index]
    }
 
-	internal func studentLocationAtIndexPath(indexPath: NSIndexPath) -> StudentLocation {
+	internal func studentLocationAtIndexPath(_ indexPath: IndexPath) -> StudentLocation {
 		return studentLocations[indexPath.row]
 	}
 
-	internal func updateStudentLocation(studentLocation: StudentLocation) {
-		if let indexOfUpdate = studentLocations.indexOf({$0.objectID == studentLocation.objectID}) {
+	internal func updateStudentLocation(_ studentLocation: StudentLocation) {
+		if let indexOfUpdate = studentLocations.index(where: {$0.objectID == studentLocation.objectID}) {
 			studentLocations[indexOfUpdate] = studentLocation
-			notifCtr.postNotificationName(Notifications.StudentLocationDidGetUpdated, object: nil,
+			NotificationCenter.default.post(name: NotificationName.StudentLocationDidGetUpdated, object: nil,
 				userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey: indexOfUpdate ])
 		} else {
 			// how to handle this error case
@@ -81,9 +72,11 @@ final internal class StudentLocationsManager: NSObject {
 
 	// MARK: - Private
 
-	override private init() {
+	override fileprivate init() {
 		studentLocations = [StudentLocation]()
 		super.init()
 	}
 
 }
+
+

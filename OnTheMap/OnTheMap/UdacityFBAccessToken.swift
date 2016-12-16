@@ -14,26 +14,26 @@ internal struct UdacityFBAccessToken {
 
 	// MARK: - Private Constants
 
-	private struct API {
+	fileprivate struct API {
 		static let FBMobileKey    = "facebook_mobile"
 		static let AccessTokenKey = "access_token"
 	}
 
 	// MARK: - Private Stored Variables
 
-	private var _dict: JSONDictionary
+	fileprivate var _dict: JSONDictionary
 
 	// MARK: - Internal Computed Meta Variables
 
-	internal var serializedData: NSData {
-		let data = try! NSJSONSerialization.dataWithJSONObject(_dict, options: .PrettyPrinted)
+	internal var serializedData: Data {
+		let data = try! JSONSerialization.data(withJSONObject: _dict, options: .prettyPrinted)
 		return data
 	}
 
 	// MARK: - API
 
 	internal init(accessToken: FBSDKAccessToken) {
-		_dict = [ API.FBMobileKey: [ API.AccessTokenKey: accessToken.tokenString ] ]
+		_dict = [ API.FBMobileKey: [ API.AccessTokenKey: accessToken.tokenString ] as AnyObject ]
 	}
 	
 }
