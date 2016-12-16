@@ -129,7 +129,7 @@ private extension StudentLocationsPostInformationViewController {
         return { (placemarks, error) -> Void in
             
             DispatchQueue.main.async(execute: {
-                NetworkActivityIndicatorManager.sharedManager.endActivity()
+                NetworkActivityIndicatorManager.shared.endActivity()
                 self.pleaseWaitView!.stopActivityIndicator()
             })
             
@@ -276,7 +276,7 @@ private extension StudentLocationsPostInformationViewController {
             presentAlert(Alert.Title.BadGeocode, message: Alert.Message.LocationNotEntered)
         } else {
             let geocoder = CLGeocoder()
-            NetworkActivityIndicatorManager.sharedManager.startActivity();
+            NetworkActivityIndicatorManager.shared.startActivity();
             pleaseWaitView!.startActivityIndicator()
             geocoder.geocodeAddressString(locationTextField.text!, completionHandler: geocodeCompletionHandler)
         }
