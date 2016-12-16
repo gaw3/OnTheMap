@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7A0433901E034D4200FB2C04 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A04338F1E034D4200FB2C04 /* NotificationNames.swift */; };
 		7A0433921E036F2600FB2C04 /* iBStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0433911E036F2600FB2C04 /* iBStrings.swift */; };
+		7A0433941E03744500FB2C04 /* AlertStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0433931E03744500FB2C04 /* AlertStrings.swift */; };
 		7A0D0BC21C0CFF910087D9CE /* ParseAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0D0BC11C0CFF910087D9CE /* ParseAPIClient.swift */; };
 		7A0D0BC41C0D29330087D9CE /* APIDataTaskWithRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0D0BC31C0D29330087D9CE /* APIDataTaskWithRequest.swift */; };
 		7A0D0BCD1C0E84190087D9CE /* APIClientConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0D0BCC1C0E84190087D9CE /* APIClientConstants.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		7A04338F1E034D4200FB2C04 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		7A0433911E036F2600FB2C04 /* iBStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iBStrings.swift; sourceTree = "<group>"; };
+		7A0433931E03744500FB2C04 /* AlertStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertStrings.swift; sourceTree = "<group>"; };
 		7A0D0BC11C0CFF910087D9CE /* ParseAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseAPIClient.swift; sourceTree = "<group>"; };
 		7A0D0BC31C0D29330087D9CE /* APIDataTaskWithRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIDataTaskWithRequest.swift; sourceTree = "<group>"; };
 		7A0D0BCC1C0E84190087D9CE /* APIClientConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClientConstants.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				7A840F6E1C03E6CD006B5874 /* Info.plist */,
 				7A04338F1E034D4200FB2C04 /* NotificationNames.swift */,
 				7A0433911E036F2600FB2C04 /* iBStrings.swift */,
+				7A0433931E03744500FB2C04 /* AlertStrings.swift */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				7A261AC91C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift in Sources */,
 				7A29A8C11C631ACA0098E298 /* ParseAPIClientConstants.swift in Sources */,
 				7A0D0BCD1C0E84190087D9CE /* APIClientConstants.swift in Sources */,
+				7A0433941E03744500FB2C04 /* AlertStrings.swift in Sources */,
 				7A79BA3C1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift in Sources */,
 				7A0433921E036F2600FB2C04 /* iBStrings.swift in Sources */,
 				7A1507E31C478031009BAAA4 /* UdacitySession.swift in Sources */,

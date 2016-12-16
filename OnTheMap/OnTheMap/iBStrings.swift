@@ -14,4 +14,8 @@ struct IB {
         static let StudentLocsPinAnnoView = "StudentLocsPinAnnoView"
     }
     
+    struct StoryboardID {
+        static let StudentLocsPostInfoVC = "StudentLocsPostInfoVC"
+    }
+    
 }

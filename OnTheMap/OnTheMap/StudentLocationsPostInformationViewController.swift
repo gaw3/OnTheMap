@@ -7,75 +7,12 @@
 //
 
 import CoreLocation
-import Foundation
 import MapKit
 import UIKit
 
 typealias NewStudent = (firstName: String, lastName: String, udacityUserID: String)
 
-final  class StudentLocationsPostInformationViewController: UIViewController {
-    
-    // MARK: -   Constants
-    
-     struct UIConstants {
-        static let StoryboardID    = "StudentLocsPostInfoVC"
-        static let BtnBkndFileName = "WhitePixel"
-    }
-    
-    // MARK: - Private Constants
-    
-    fileprivate struct Alert {
-        
-        struct Message {
-            static let LocationNotEntered = "Location not yet entered"
-            static let NoJSONData         = "JSON data unavailable"
-            static let NoPlacemarks       = "Did not receive any placemarks"
-            static let URLNotEntered      = "Link to share not yet entered"
-        }
-        
-        struct Title {
-            static let BadGeocode = "Unable to geocode location"
-            static let BadPost    = "Unable to post new student location"
-            static let BadUpdate  = "Unable to update student location"
-            static let BadSubmit  = "Unable to submit student location update"
-        }
-        
-    }
-    
-    fileprivate struct ButtonTitle {
-        static let Find   = "Find On The Map"
-        static let Submit = "Submit"
-    }
-    
-    fileprivate struct PlaceholderText {
-        static let Attributes    = [NSForegroundColorAttributeName: UIColor.white]
-        static let LocationField = "Enter Your Location Here"
-        static let MediaURLField = "Enter a Link to Share Here"
-    }
-    
-    // MARK: - Private Stored Variables
-    
-    fileprivate var _currentStudentLocation: StudentLocation? = nil
-    fileprivate var _newStudent:				 NewStudent?      = nil
-    fileprivate var pleaseWaitView:          PleaseWaitView?  = nil
-    
-    // MARK: -  Computed Variables
-    
-     var currentStudentLocation: StudentLocation? {
-        get { return _currentStudentLocation }
-        
-        set(location) {
-            _currentStudentLocation = location
-        }
-    }
-    
-     var newStudent: NewStudent? {
-        get { return _newStudent }
-        
-        set(student) {
-            _newStudent = student
-        }
-    }
+final class StudentLocationsPostInformationViewController: UIViewController {
     
     // MARK: - IB Outlets
     
@@ -87,6 +24,48 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
     @IBOutlet weak  var toolbarButton:     UIBarButtonItem!
     @IBOutlet weak  var mediaURLTextField: UITextField!
     @IBOutlet weak  var locationTextField: UITextField!
+    
+    // MARK: - IB Actions
+    
+    @IBAction func cancelButtonWasTapped(_ sender: UIButton) {
+        assert(sender == cancelButton, "rcvd IB Action from unknown button")
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func toolbarButtonWasTapped(_ sender: UIBarButtonItem) {
+        assert(sender == toolbarButton, "rcvd IB Action from unknown button")
+        
+        if sender.title == ButtonTitle.Find {
+            findOnTheMap()
+        } else if sender.title == ButtonTitle.Submit {
+            submit()
+        }
+        
+    }
+    
+    // MARK: - Variables
+    
+    var currentStudentLocation: StudentLocation? {
+        get { return _currentStudentLocation }
+        
+        set(location) {
+            _currentStudentLocation = location
+        }
+    }
+    
+    var newStudent: NewStudent? {
+        get { return _newStudent }
+        
+        set(student) {
+            _newStudent = student
+        }
+    }
+    
+    fileprivate var _currentStudentLocation: StudentLocation? = nil
+    fileprivate var _newStudent:		     NewStudent?      = nil
+    fileprivate var pleaseWaitView:          PleaseWaitView?  = nil
+    
     
     // MARK: - View Events
     
@@ -100,28 +79,16 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         setToolbarButtonBackground()
     }
     
-    // MARK: - IB Actions
+}
+
+
+
+// MARK: -
+// MARK: - Map View Delegate
+
+extension StudentLocationsPostInformationViewController {
     
-    @IBAction  func cancelButtonWasTapped(_ sender: UIButton) {
-        assert(sender == cancelButton, "rcvd IB Action from unknown button")
-        
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction  func toolbarButtonWasTapped(_ sender: UIBarButtonItem) {
-        assert(sender == toolbarButton, "rcvd IB Action from unknown button")
-        
-        if sender.title == ButtonTitle.Find {
-            findOnTheMap()
-        } else if sender.title == ButtonTitle.Submit {
-            submit()
-        }
-        
-    }
-    
-    // MARK: - MKMapViewDelegate
-    
-     func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKPinAnnotationView
         
         if let _ = pinAnnotationView {
@@ -134,18 +101,30 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         return pinAnnotationView
     }
     
-    // MARK: - UITextFieldDelegate
+}
+
+
+
+// MARK: - Text Field Delegate
+
+extension StudentLocationsPostInformationViewController {
     
-     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         assert(textField == mediaURLTextField || textField == locationTextField, "unknown UITextField = \(textField)")
         
         textField.resignFirstResponder()
         return true
     }
     
-    // MARK: - Private:  Completion Handlers as Computed Variables
+}
+
+
+
+// MARK: - Private Completion Handlers
+
+private extension StudentLocationsPostInformationViewController {
     
-    fileprivate var geocodeCompletionHandler: CLGeocodeCompletionHandler {
+    var geocodeCompletionHandler: CLGeocodeCompletionHandler {
         
         return { (placemarks, error) -> Void in
             
@@ -199,7 +178,7 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         
     }
     
-    fileprivate var postStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var postStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
         return { (result, error) -> Void in
             
@@ -227,7 +206,7 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         
     }
     
-    fileprivate var updateStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var updateStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
         return { (result, error) -> Void in
             
@@ -253,9 +232,30 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         
     }
     
-    // MARK: - Private Helpers
+}
+
+
+
+// MARK: - Private Helpers
+
+private extension StudentLocationsPostInformationViewController {
     
-    fileprivate func addSubviews() {
+    struct UIConstants {
+        static let BtnBkndFileName = "WhitePixel"
+    }
+    
+    struct ButtonTitle {
+        static let Find   = "Find On The Map"
+        static let Submit = "Submit"
+    }
+    
+    struct PlaceholderText {
+        static let Attributes    = [NSForegroundColorAttributeName: UIColor.white]
+        static let LocationField = "Enter Your Location Here"
+        static let MediaURLField = "Enter a Link to Share Here"
+    }
+    
+    func addSubviews() {
         questionLabels.forEach({view.addSubview($0)})
         
         view.addSubview(cancelButton)
@@ -270,7 +270,7 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         view.bringSubview(toFront: (pleaseWaitView?.dimmedView)!)
     }
     
-    fileprivate func findOnTheMap() {
+    func findOnTheMap() {
         
         if locationTextField.text!.isEmpty {
             presentAlert(Alert.Title.BadGeocode, message: Alert.Message.LocationNotEntered)
@@ -283,7 +283,7 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         
     }
     
-    fileprivate func setInitialFieldValues() {
+    func setInitialFieldValues() {
         
         if let _ = newStudent {
             currentStudentLocation = StudentLocation()
@@ -299,21 +299,21 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         
     }
     
-    fileprivate func setInitialSubviewVisibility() {
+    func setInitialSubviewVisibility() {
         imageView.isHidden         = false
         locationTextField.isHidden = false
         questionLabels.forEach({$0.isHidden = false})
         
         mediaURLTextField.isHidden = true
-        mapView.isHidden	          = true
+        mapView.isHidden	       = true
     }
     
-    fileprivate func setTextFieldPlaceholders() {
+    func setTextFieldPlaceholders() {
         locationTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.LocationField, attributes: PlaceholderText.Attributes)
         mediaURLTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.MediaURLField, attributes: PlaceholderText.Attributes)
     }
     
-    fileprivate func setToolbarButtonBackground() {
+    func setToolbarButtonBackground() {
         let buttonBackground = UIImage(named: UIConstants.BtnBkndFileName)
         buttonBackground?.resizableImage(withCapInsets: UIEdgeInsets.zero)
         
@@ -321,7 +321,7 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         toolbarButton.title = ButtonTitle.Find
     }
     
-    fileprivate func submit() {
+    func submit() {
         
         if mediaURLTextField.text!.isEmpty {
             presentAlert(Alert.Title.BadSubmit, message: Alert.Message.URLNotEntered)
@@ -338,7 +338,7 @@ final  class StudentLocationsPostInformationViewController: UIViewController {
         
     }
     
-    fileprivate func transitionToMapAndURL(_ annotation: MKPointAnnotation, region: MKCoordinateRegion) {
+    func transitionToMapAndURL(_ annotation: MKPointAnnotation, region: MKCoordinateRegion) {
         view.backgroundColor = imageView.backgroundColor
         toolbarButton.title  = ButtonTitle.Submit
         toolbar.backgroundColor = UIColor.clear

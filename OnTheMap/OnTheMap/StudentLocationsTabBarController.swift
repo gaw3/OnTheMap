@@ -68,7 +68,7 @@ final  class StudentLocationsTabBarController: UITabBarController {
             let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as? [JSONDictionary]
             
             if results!.isEmpty {
-                let postInfoVC = self.storyboard?.instantiateViewController(withIdentifier: StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
+                let postInfoVC = self.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC)
                     as! StudentLocationsPostInformationViewController
                 
                 postInfoVC.newStudent = (self.udacityDataMgr.user!.firstName!,
@@ -81,7 +81,7 @@ final  class StudentLocationsTabBarController: UITabBarController {
                 let noAction  = UIAlertAction(title: Alert.ActionTitle.No, style: .cancel, handler: nil )
                 
                 let yesAction = UIAlertAction(title: Alert.ActionTitle.Yes, style: .default, handler: { (action) -> Void in
-                    let postInfoVC = self.storyboard?.instantiateViewController(withIdentifier: StudentLocationsPostInformationViewController.UIConstants.StoryboardID)
+                    let postInfoVC = self.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC)
                         as! StudentLocationsPostInformationViewController
                     postInfoVC.currentStudentLocation = StudentLocation(studentLocationDict: results!.first! as JSONDictionary)
                     self.present(postInfoVC, animated: true, completion: nil)
