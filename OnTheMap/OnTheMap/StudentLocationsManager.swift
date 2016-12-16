@@ -6,77 +6,68 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 private let _shared = StudentLocationsManager()
 
-final  class StudentLocationsManager: NSObject {
+final class StudentLocationsManager {
     
-    class  var shared: StudentLocationsManager {
+    class var shared: StudentLocationsManager {
         return _shared
     }
     
-    // MARK: -  Constants
+    // MARK: - Variables
     
-     struct Notifications {
-        static let IndexOfUpdatedStudentLocationKey = "indexOfUpdate"
-    }
+    fileprivate var studentLocations = [StudentLocation]()
     
-    // MARK: - Private Stored Variables
+    var count: Int { return studentLocations.count }
     
-    fileprivate var studentLocations: [StudentLocation]
-    
-    // MARK: -  Computed Variables
-    
-     var count: Int {
-        return studentLocations.count
-    }
-    
-     var postedLocation: StudentLocation {
+    var postedLocation: StudentLocation {
         get { return studentLocations[0] }
         
         set (location) {
             studentLocations.insert(location, at: 0)
-            NotificationCenter.default.post(name: NotificationName.StudentLocationDidGetPosted, object: nil)
+            NotificationCenter.default.post(name: Notifications.StudentLocationDidGetPosted, object: nil)
         }
-    }
-    
-    // MARK: - API
-    
-     func refreshStudentLocations(_ newStudentLocations: [StudentLocation]) {
-        studentLocations.removeAll()
-        studentLocations.append(contentsOf: newStudentLocations)
         
-        NotificationCenter.default.post(name: NotificationName.StudentLocationsDidGetRefreshed, object: nil)
     }
     
-     func studentLocationAtIndex(_ index: Int) -> StudentLocation {
+}
+
+
+
+// MARK: - API
+
+extension StudentLocationsManager {
+    
+    func refresh(studentLocations locations: [StudentLocation]) {
+        studentLocations.removeAll()
+        studentLocations.append(contentsOf: locations)
+        
+        NotificationCenter.default.post(name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
+    }
+    
+    func studentLocation(at index: Int) -> StudentLocation {
         return studentLocations[index]
     }
     
-     func studentLocationAtIndexPath(_ indexPath: IndexPath) -> StudentLocation {
+    func studentLocation(at indexPath: IndexPath) -> StudentLocation {
         return studentLocations[indexPath.row]
     }
     
-     func updateStudentLocation(_ studentLocation: StudentLocation) {
-        if let indexOfUpdate = studentLocations.index(where: {$0.objectID == studentLocation.objectID}) {
-            studentLocations[indexOfUpdate] = studentLocation
-            NotificationCenter.default.post(name: NotificationName.StudentLocationDidGetUpdated, object: nil,
-                                            userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey: indexOfUpdate ])
+    func update(studentLocation location: StudentLocation) {
+        
+        if let indexOfUpdate = studentLocations.index(where: {$0.objectID == location.objectID}) {
+            studentLocations[indexOfUpdate] = location
+            NotificationCenter.default.post(name: Notifications.StudentLocationDidGetUpdated, object: nil, userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey: indexOfUpdate ])
         } else {
             // how to handle this error case
         }
         
     }
     
-    // MARK: - Private
-    
-    override fileprivate init() {
-        studentLocations = [StudentLocation]()
-        super.init()
-    }
-    
 }
+
+
 
 

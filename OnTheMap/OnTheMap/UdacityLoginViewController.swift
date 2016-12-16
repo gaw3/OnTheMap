@@ -93,12 +93,12 @@ extension UdacityLoginViewController {
         
         switch notification.name {
             
-        case NotificationName.UdacityLoginResponseDataDidGetSaved:
+        case Notifications.UdacityLoginResponseDataDidGetSaved:
             UdacityAPIClient.shared.getUserProfileData(udacityDataMgr.account!.userID, completionHandler: getUserProfileDataCompletionHandler)
             
-        case NotificationName.UdacityLogoutResponseDataDidGetSaved: break
+        case Notifications.UdacityLogoutResponseDataDidGetSaved: break
             
-        case NotificationName.UdacityUserDataDidGetSaved:
+        case Notifications.UdacityUserDataDidGetSaved:
             pleaseWaitView?.stopActivityIndicator()
             
             if udacityDataMgr.isLoginSuccessful {
@@ -255,9 +255,9 @@ private extension UdacityLoginViewController {
     }
     
     func addNotificationObservers() {
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.UdacityLoginResponseDataDidGetSaved,  object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.UdacityLogoutResponseDataDidGetSaved, object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.UdacityUserDataDidGetSaved,           object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityLoginResponseDataDidGetSaved,  object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityLogoutResponseDataDidGetSaved, object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityUserDataDidGetSaved,           object: nil)
     }
     
     func addSubviews() {

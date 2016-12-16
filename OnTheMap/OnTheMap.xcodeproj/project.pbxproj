@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A0433901E034D4200FB2C04 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A04338F1E034D4200FB2C04 /* NotificationNames.swift */; };
+		7A0433901E034D4200FB2C04 /* NotificationStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A04338F1E034D4200FB2C04 /* NotificationStrings.swift */; };
 		7A0433921E036F2600FB2C04 /* iBStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0433911E036F2600FB2C04 /* iBStrings.swift */; };
 		7A0433941E03744500FB2C04 /* AlertStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0433931E03744500FB2C04 /* AlertStrings.swift */; };
 		7A0D0BC21C0CFF910087D9CE /* ParseAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0D0BC11C0CFF910087D9CE /* ParseAPIClient.swift */; };
@@ -48,7 +48,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7A04338F1E034D4200FB2C04 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
+		7A04338F1E034D4200FB2C04 /* NotificationStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationStrings.swift; sourceTree = "<group>"; };
 		7A0433911E036F2600FB2C04 /* iBStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iBStrings.swift; sourceTree = "<group>"; };
 		7A0433931E03744500FB2C04 /* AlertStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertStrings.swift; sourceTree = "<group>"; };
 		7A0D0BC11C0CFF910087D9CE /* ParseAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseAPIClient.swift; sourceTree = "<group>"; };
@@ -140,7 +140,7 @@
 				7A261ACA1C3FD20D00FAEF5A /* Images.xcassets */,
 				7A40DB001C546BAA00E5A1BC /* WhitePixel.png */,
 				7A840F6E1C03E6CD006B5874 /* Info.plist */,
-				7A04338F1E034D4200FB2C04 /* NotificationNames.swift */,
+				7A04338F1E034D4200FB2C04 /* NotificationStrings.swift */,
 				7A0433911E036F2600FB2C04 /* iBStrings.swift */,
 				7A0433931E03744500FB2C04 /* AlertStrings.swift */,
 			);
@@ -354,7 +354,7 @@
 				7A8F93181C12950800F63A73 /* StudentLocationsTableViewController.swift in Sources */,
 				7A8F93161C1294DC00F63A73 /* StudentLocationsMapViewController.swift in Sources */,
 				7A0D0BC21C0CFF910087D9CE /* ParseAPIClient.swift in Sources */,
-				7A0433901E034D4200FB2C04 /* NotificationNames.swift in Sources */,
+				7A0433901E034D4200FB2C04 /* NotificationStrings.swift in Sources */,
 				7A29A8C31C631F260098E298 /* UdacityAPIClientConstants.swift in Sources */,
 				7A1507E51C478069009BAAA4 /* UdacityAccount.swift in Sources */,
 				7AA2863F1C4D74660059FF24 /* ParsePostStudentLocationResponseData.swift in Sources */,

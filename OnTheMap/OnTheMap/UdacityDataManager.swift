@@ -33,7 +33,7 @@ final class UdacityDataManager {
         set(data) {
             _account      = data.0
             _loginSession = data.1
-            NotificationCenter.default.post(name: NotificationName.UdacityLoginResponseDataDidGetSaved, object: nil)
+            NotificationCenter.default.post(name: Notifications.UdacityLoginResponseDataDidGetSaved, object: nil)
         }
     }
     
@@ -42,7 +42,7 @@ final class UdacityDataManager {
         
         set(data) {
             _logoutSession = data
-            NotificationCenter.default.post(name: NotificationName.UdacityLogoutResponseDataDidGetSaved, object: nil)
+            NotificationCenter.default.post(name: Notifications.UdacityLogoutResponseDataDidGetSaved, object: nil)
         }
     }
     
@@ -51,7 +51,7 @@ final class UdacityDataManager {
         
         set(newUser) {
             _user = newUser
-            NotificationCenter.default.post(name: NotificationName.UdacityUserDataDidGetSaved, object: nil)
+            NotificationCenter.default.post(name: Notifications.UdacityUserDataDidGetSaved, object: nil)
         }
     }
     

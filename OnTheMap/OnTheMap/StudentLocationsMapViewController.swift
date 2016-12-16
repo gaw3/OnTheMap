@@ -39,9 +39,9 @@ extension StudentLocationsMapViewController {
         
         switch notification.name {
             
-        case NotificationName.StudentLocationDidGetPosted:     studentLocationDidGetPosted()
-        case NotificationName.StudentLocationsDidGetRefreshed: studentLocationsDidGetRefreshed()
-        case NotificationName.StudentLocationDidGetUpdated:    studentLocationDidGetUpdated(notification)
+        case Notifications.StudentLocationDidGetPosted:     studentLocationDidGetPosted()
+        case Notifications.StudentLocationsDidGetRefreshed: studentLocationsDidGetRefreshed()
+        case Notifications.StudentLocationDidGetUpdated:    studentLocationDidGetUpdated(notification)
             
         default: fatalError("Received unknown notification = \(notification)")
         }
@@ -97,9 +97,9 @@ private extension StudentLocationsMapViewController {
     }
     
     func addNotificationObservers() {
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.StudentLocationDidGetPosted,     object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.StudentLocationsDidGetRefreshed, object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.StudentLocationDidGetUpdated,    object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetPosted,     object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
     }
     
     func studentLocationDidGetPosted() {
@@ -112,18 +112,18 @@ private extension StudentLocationsMapViewController {
         pointAnnotations.removeAll()
         
         for index in 0...(StudentLocationsManager.shared.count - 1) {
-            pointAnnotations.append(StudentLocationsManager.shared.studentLocationAtIndex(index).pointAnnotation)
+            pointAnnotations.append(StudentLocationsManager.shared.studentLocation(at: index).pointAnnotation)
         }
         
         mapView.addAnnotations(pointAnnotations)
     }
     
     func studentLocationDidGetUpdated(_ notification: Notification) {
-        let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
+        let indexOfUpdate = notification.userInfo![Notifications.IndexOfUpdatedStudentLocationKey] as! Int
         
         mapView.removeAnnotation(pointAnnotations[indexOfUpdate])
-        mapView.addAnnotation(StudentLocationsManager.shared.studentLocationAtIndex(indexOfUpdate).pointAnnotation)
+        mapView.addAnnotation(StudentLocationsManager.shared.studentLocation(at: indexOfUpdate).pointAnnotation)
         
-        pointAnnotations[indexOfUpdate] = StudentLocationsManager.shared.studentLocationAtIndex(indexOfUpdate).pointAnnotation
+        pointAnnotations[indexOfUpdate] = StudentLocationsManager.shared.studentLocation(at: indexOfUpdate).pointAnnotation
     }
 }

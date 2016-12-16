@@ -7,17 +7,14 @@
 //
 
 import CoreLocation
-import Foundation
 import MapKit
 import UIKit
 
 struct StudentLocation {
     
-    // MARK: - Private Stored Variables
+    // MARK: - Variables
     
-    fileprivate var _studentLocation: JSONDictionary
-    
-    // MARK: -  Computed Variables
+    private var _studentLocation: JSONDictionary
     
     var dateCreated: String {
         get {
@@ -46,6 +43,10 @@ struct StudentLocation {
         set(name) { _studentLocation[ParseAPIClient.API.FirstNameKey] = name as AnyObject? }
     }
     
+    var fullName: String {
+        return "\(firstName) \(lastName)"
+    }
+    
     var lastName: String {
         get {
             if let name = _studentLocation[ParseAPIClient.API.LastNameKey] as! String? { return name }
@@ -65,7 +66,7 @@ struct StudentLocation {
         set(long) { _studentLocation[ParseAPIClient.API.LongKey] = long as AnyObject? }
     }
     
-     var mapString: String {
+    var mapString: String {
         get {
             if let str = _studentLocation[ParseAPIClient.API.MapStringKey] as! String? { return str }
             return String()
@@ -74,7 +75,7 @@ struct StudentLocation {
         set(str) { _studentLocation[ParseAPIClient.API.MapStringKey] = str as AnyObject? }
     }
     
-     var mediaURL: String {
+    var mediaURL: String {
         get {
             if let stringURL = _studentLocation[ParseAPIClient.API.MediaURLKey] as! String? { return stringURL }
             return String()
@@ -83,31 +84,7 @@ struct StudentLocation {
         set(stringURL) { _studentLocation[ParseAPIClient.API.MediaURLKey] = stringURL as AnyObject? }
     }
     
-     var objectID: String {
-        get {
-            if let id = _studentLocation[ParseAPIClient.API.ObjectIDKey] as! String? { return id }
-            return String()
-        }
-        
-        set(id) { _studentLocation[ParseAPIClient.API.ObjectIDKey] = id as AnyObject? }
-    }
-    
-     var uniqueKey: String {
-        get {
-            if let key = _studentLocation[ParseAPIClient.API.UniqueKeyKey] as! String? { return key }
-            return String()
-        }
-        
-        set(key) { _studentLocation[ParseAPIClient.API.UniqueKeyKey] = key as AnyObject? }
-    }
-    
-    // MARK: -  Computed Meta Variables
-    
-     var fullName: String {
-        return "\(firstName) \(lastName)"
-    }
-    
-     var newStudentSerializedData: Data {
+    var newStudentSerializedData: Data {
         let newStudentDict = [ ParseAPIClient.API.UniqueKeyKey: uniqueKey,
                                ParseAPIClient.API.FirstNameKey: firstName,
                                ParseAPIClient.API.LastNameKey: lastName,
@@ -120,7 +97,16 @@ struct StudentLocation {
         return newStudentData
     }
     
-     var pointAnnotation: MKPointAnnotation {
+    var objectID: String {
+        get {
+            if let id = _studentLocation[ParseAPIClient.API.ObjectIDKey] as! String? { return id }
+            return String()
+        }
+        
+        set(id) { _studentLocation[ParseAPIClient.API.ObjectIDKey] = id as AnyObject? }
+    }
+    
+    var pointAnnotation: MKPointAnnotation {
         let annotation = MKPointAnnotation()
         
         annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -130,18 +116,20 @@ struct StudentLocation {
         return annotation
     }
     
+    var uniqueKey: String {
+        get {
+            if let key = _studentLocation[ParseAPIClient.API.UniqueKeyKey] as! String? { return key }
+            return String()
+        }
+        
+        set(key) { _studentLocation[ParseAPIClient.API.UniqueKeyKey] = key as AnyObject? }
+    }
+    
     // MARK: - API
     
-     init() {
-        _studentLocation = JSONDictionary()
-    }
+    init() { _studentLocation = JSONDictionary() }
     
-     init(studentLocation: StudentLocation) {
-        _studentLocation = studentLocation._studentLocation
-    }
+    init(studentLocation: StudentLocation) { _studentLocation = studentLocation._studentLocation }
     
-     init(studentLocationDict: JSONDictionary) {
-        _studentLocation = studentLocationDict
-    }
-    
+    init(studentLocationDict: JSONDictionary) { _studentLocation = studentLocationDict }
 }

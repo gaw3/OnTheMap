@@ -225,7 +225,7 @@ private extension StudentLocationsPostInformationViewController {
             self.currentStudentLocation!.dateUpdated = responseData.dateUpdated
             
             self.dismiss(animated: true, completion: {
-                StudentLocationsManager.shared.updateStudentLocation(self.currentStudentLocation!)
+                StudentLocationsManager.shared.update(studentLocation: self.currentStudentLocation!)
             })
             
         }

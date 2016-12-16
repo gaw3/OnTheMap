@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 import FBSDKLoginKit
 
 private let _shared = UdacityAPIClient()

@@ -108,7 +108,7 @@ private extension StudentLocationsTabBarController {
                 newStudentLocations.append(StudentLocation(studentLocationDict: newStudentLocation))
             }
             
-            StudentLocationsManager.shared.refreshStudentLocations(newStudentLocations)
+            StudentLocationsManager.shared.refresh(studentLocations: newStudentLocations)
         }
         
     }

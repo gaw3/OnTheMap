@@ -32,11 +32,11 @@ extension StudentLocationsTableViewController {
         
         switch notification.name {
             
-        case NotificationName.StudentLocationDidGetPosted:     tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-        case NotificationName.StudentLocationsDidGetRefreshed: tableView.reloadData()
+        case Notifications.StudentLocationDidGetPosted:     tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+        case Notifications.StudentLocationsDidGetRefreshed: tableView.reloadData()
             
-        case NotificationName.StudentLocationDidGetUpdated:
-            let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
+        case Notifications.StudentLocationDidGetUpdated:
+            let indexOfUpdate = notification.userInfo![Notifications.IndexOfUpdatedStudentLocationKey] as! Int
             tableView.reloadRows(at: [IndexPath(row: indexOfUpdate, section: 0)], with: .fade)
             
         default: fatalError("Received unknown notification = \(notification)")
@@ -61,7 +61,7 @@ extension StudentLocationsTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         assert(tableView == self.tableView, "Unexpected table view requesting cell for row at index path")
         
-        let studentLocation = StudentLocationsManager.shared.studentLocationAtIndexPath(indexPath)
+        let studentLocation = StudentLocationsManager.shared.studentLocation(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: IB.ReuseID.StudentLocsTVCell, for: indexPath)
         
         cell.textLabel?.text       = studentLocation.fullName + "  (\(studentLocation.mapString))"
@@ -88,7 +88,7 @@ extension StudentLocationsTableViewController {
         assert(tableView == self.tableView, "Unexpected table view selected a row")
         
         tableView.deselectRow(at: indexPath, animated: false)
-        openSystemBrowserWithURL(StudentLocationsManager.shared.studentLocationAtIndexPath(indexPath).mediaURL)
+        openSystemBrowserWithURL(StudentLocationsManager.shared.studentLocation(at: indexPath).mediaURL)
     }
     
 }
@@ -104,9 +104,9 @@ private extension StudentLocationsTableViewController {
     }
     
     func addNotificationObservers() {
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.StudentLocationDidGetPosted,     object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.StudentLocationsDidGetRefreshed, object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: NotificationName.StudentLocationDidGetUpdated,    object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetPosted,     object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
+        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
     }
     
 }
