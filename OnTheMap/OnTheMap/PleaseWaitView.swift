@@ -6,35 +6,27 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-final class PleaseWaitView: NSObject {
+final class PleaseWaitView {
     
-    // MARK: - Private Constants
+    // MARK: - Constants
     
     fileprivate struct Consts {
-        static let NoAlpha:       CGFloat = 0.0
-        static let ActivityAlpha: CGFloat = 0.7
+        static let NoAlpha       = CGFloat(0.0)
+        static let ActivityAlpha = CGFloat(0.7)
     }
     
-    // MARK: - Private Stored Variables
+    // MARK: - Variables
     
-    fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    private var _dimmedView: UIView? = nil
     
-    fileprivate var _dimmedView: UIView? = nil
-    
-    // MARK: -  Computed Variables
-    
-    var dimmedView: UIView {
-        return _dimmedView!
-    }
+    var dimmedView: UIView { return _dimmedView! }
     
     // MARK: - API
     
     init(requestingView: UIView) {
-        super.init()
-        
         _dimmedView = UIView(frame: requestingView.frame)
         _dimmedView?.backgroundColor = UIColor.black
         _dimmedView?.alpha           = Consts.NoAlpha
@@ -54,12 +46,6 @@ final class PleaseWaitView: NSObject {
     func stopActivityIndicator() {
         activityIndicator.stopAnimating()
         _dimmedView?.alpha = Consts.NoAlpha
-    }
-    
-    // MARK: - Private
-    
-    override fileprivate init() {
-        super.init()
     }
     
 }
