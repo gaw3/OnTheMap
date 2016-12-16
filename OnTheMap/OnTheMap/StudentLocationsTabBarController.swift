@@ -8,28 +8,16 @@
 
 import UIKit
 
-final  class StudentLocationsTabBarController: UITabBarController {
+final class StudentLocationsTabBarController: UITabBarController {
     
-    // MARK: - Private Constants
+    // MARK: - IB Actions
     
-    fileprivate struct Alert {
-        
-        struct ActionTitle {
-            static let Yes = "Yes"
-            static let No  = "No"
-        }
-        
-        struct Message {
-            static let IsUpdateDesired = "Would you like to update your location?"
-            static let NoJSONData      = "JSON data unavailable"
-        }
-        
-        struct Title {
-            static let AlreadyPosted = "Your location already posted"
-            static let BadGet        = "Unable to find student location"
-            static let BadRefresh    = "Unable to refresh list of student locations"
-        }
-        
+    @IBAction func pinButtonWasTapped(_ sender: UIBarButtonItem) {
+        parseClient.getStudentLocation(udacityDataMgr.user!.userID!, completionHandler: getStudentLocationCompletionHandler)
+    }
+    
+    @IBAction func refreshButtonWasTapped(_ sender: UIBarButtonItem) {
+        parseClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
     }
     
     // MARK: - View Events
@@ -39,19 +27,16 @@ final  class StudentLocationsTabBarController: UITabBarController {
         parseClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
     }
     
-    // MARK: - IB Actions
+}
+
+
+
+// MARK: -
+// MARK: - Private Completion Handlers
+
+private extension StudentLocationsTabBarController {
     
-    @IBAction  func pinButtonWasTapped(_ sender: UIBarButtonItem) {
-        parseClient.getStudentLocation(udacityDataMgr.user!.userID!, completionHandler: getStudentLocationCompletionHandler)
-    }
-    
-    @IBAction  func refreshButtonWasTapped(_ sender: UIBarButtonItem) {
-        parseClient.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
-    }
-    
-    // MARK: - Private:  Completion Handlers as Computed Variables
-    
-    fileprivate var getStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var getStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
         return { (result, error) -> Void in
             
@@ -68,8 +53,7 @@ final  class StudentLocationsTabBarController: UITabBarController {
             let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as? [JSONDictionary]
             
             if results!.isEmpty {
-                let postInfoVC = self.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC)
-                    as! StudentLocationsPostInformationViewController
+                let postInfoVC = self.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC) as! StudentLocationsPostInformationViewController
                 
                 postInfoVC.newStudent = (self.udacityDataMgr.user!.firstName!,
                                          self.udacityDataMgr.user!.lastName!,
@@ -97,7 +81,7 @@ final  class StudentLocationsTabBarController: UITabBarController {
         
     }
     
-    fileprivate var refreshStudentLocationsCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var refreshStudentLocationsCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
         return { (result, error) -> Void in
             

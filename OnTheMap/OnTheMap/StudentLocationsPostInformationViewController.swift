@@ -69,7 +69,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
     
     // MARK: - View Events
     
-    override  func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         addSubviews()
