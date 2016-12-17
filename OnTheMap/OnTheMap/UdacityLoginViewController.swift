@@ -59,13 +59,15 @@ final class UdacityLoginViewController: UIViewController {
         self.initPleaseWaitView()
     }()
     
-    // MARK: - View Events
+    // MARK: - View Layout
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         _ = foo
     }
+    
+    // MARK: - View Management
     
     override func viewDidLoad() {
         super.viewDidLoad()

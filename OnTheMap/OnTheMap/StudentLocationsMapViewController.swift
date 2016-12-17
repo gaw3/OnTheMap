@@ -15,7 +15,11 @@ final class StudentLocationsMapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    // MARK: - View Events
+    // MARK: - Variables
+    
+    fileprivate var pointAnnotations = [MKPointAnnotation]()
+    
+    // MARK: - View Management
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +27,6 @@ final class StudentLocationsMapViewController: UIViewController {
         addNotificationObservers()
     }
     
-    // MARK: - Variables
-    
-    fileprivate var pointAnnotations = [MKPointAnnotation]()
 }
 
 

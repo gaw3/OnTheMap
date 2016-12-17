@@ -11,7 +11,7 @@ import UIKit
 
 final  class StudentLocationsTableViewController: UITableViewController {
     
-    // MARK: - View Events
+    // MARK: - View Management
     
     override  func viewDidLoad() {
         super.viewDidLoad()
