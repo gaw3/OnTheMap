@@ -31,8 +31,7 @@ final class UdacityLoginViewController: UIViewController {
             self.presentAlert(Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
         } else {
             pleaseWaitView?.startActivityIndicator()
-            UdacityAPIClient.shared.loginWithUdacityUser(emailTextField.text! as String, password: passwordTextField.text! as String,
-                                               completionHandler: loginCompletionHandler)
+            UdacityAPIClient.shared.loginWithUdacityUser(emailTextField.text! as String, password: passwordTextField.text! as String, completionHandler: loginCompletionHandler)
         }
         
     }
@@ -162,34 +161,38 @@ private extension UdacityLoginViewController {
     
     var getUserProfileDataCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
-        return { (result, error) -> Void in
+        return { [weak self] (result, error) -> Void in
             
+            guard let strongSelf = self else { return }
+
             guard error == nil else {
-                self.cleanup(Alert.Title.BadUserProfileData, alertMessage: error!.localizedDescription)
+                strongSelf.cleanup(Alert.Title.BadUserProfileData, alertMessage: error!.localizedDescription)
                 return
             }
             
             guard result != nil else {
-                self.cleanup(Alert.Title.BadUserProfileData, alertMessage: Alert.Message.NoJSONData)
+                strongSelf.cleanup(Alert.Title.BadUserProfileData, alertMessage: Alert.Message.NoJSONData)
                 return
             }
             
-            self.udacityDataMgr.user = UdacityUser(userDict: result as! JSONDictionary)
+            strongSelf.udacityDataMgr.user = UdacityUser(userDict: result as! JSONDictionary)
         }
         
     }
     
     var loginCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
-        return { (result, error) -> Void in
+        return { [weak self] (result, error) -> Void in
+            
+            guard let strongSelf = self else { return }
             
             guard error == nil else {
-                self.cleanup(Alert.Title.BadLogin, alertMessage: error!.localizedDescription)
+                strongSelf.cleanup(Alert.Title.BadLogin, alertMessage: error!.localizedDescription)
                 return
             }
             
             guard result != nil else {
-                self.cleanup(Alert.Title.BadLogin, alertMessage: Alert.Message.NoJSONData)
+                strongSelf.cleanup(Alert.Title.BadLogin, alertMessage: Alert.Message.NoJSONData)
                 return
             }
             
@@ -198,26 +201,28 @@ private extension UdacityLoginViewController {
             let account = UdacityAccount(accountDict: JSONResult[UdacityAPIClient.API.AccountKey] as! JSONDictionary)
             let session = UdacitySession(sessionDict: JSONResult[UdacityAPIClient.API.SessionKey] as! JSONDictionary)
             
-            self.udacityDataMgr.loginData = (account, session)
+            strongSelf.udacityDataMgr.loginData = (account, session)
         }
         
     }
     
     var logoutCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
-        return { (result, error) -> Void in
+        return { [weak self] (result, error) -> Void in
+            
+            guard let strongSelf = self else { return }
             
             guard error == nil else {
-                self.presentAlert(Alert.Title.BadLogout, message: error!.localizedDescription)
+                strongSelf.presentAlert(Alert.Title.BadLogout, message: error!.localizedDescription)
                 return
             }
             
             guard result != nil else {
-                self.presentAlert(Alert.Title.BadLogout, message: Alert.Message.NoJSONData)
+                strongSelf.presentAlert(Alert.Title.BadLogout, message: Alert.Message.NoJSONData)
                 return
             }
             
-            self.udacityDataMgr.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
+            strongSelf.udacityDataMgr.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
         }
         
     }

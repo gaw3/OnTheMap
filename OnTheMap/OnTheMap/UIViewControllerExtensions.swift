@@ -37,9 +37,9 @@ extension UIViewController {
             UIApplication.shared.open(URLComponents.url!, options: [:], completionHandler: nil)
         }
         
-        //		if !success {
-        //			presentAlert(Alert.Title, message: Alert.Message)
-        //		}
+        if !success {
+            presentAlert(Alert.Title, message: Alert.Message)
+        }
         
     }
     

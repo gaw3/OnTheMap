@@ -126,33 +126,35 @@ private extension StudentLocationsPostInformationViewController {
     
     var geocodeCompletionHandler: CLGeocodeCompletionHandler {
         
-        return { (placemarks, error) -> Void in
+        return { [weak self] (placemarks, error) -> Void in
+            
+            guard let strongSelf = self else { return }
             
             DispatchQueue.main.async(execute: {
                 NetworkActivityIndicatorManager.shared.endActivity()
-                self.pleaseWaitView!.stopActivityIndicator()
+                strongSelf.pleaseWaitView!.stopActivityIndicator()
             })
             
             guard error == nil else {
-                self.presentAlert(Alert.Title.BadGeocode, message: error!.localizedDescription)
+                strongSelf.presentAlert(Alert.Title.BadGeocode, message: error!.localizedDescription)
                 return
             }
             
             guard placemarks != nil else {
-                self.presentAlert(Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
+                strongSelf.presentAlert(Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
                 return
             }
             
             guard placemarks!.count > 0 else {
-                self.presentAlert(Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
+                strongSelf.presentAlert(Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
                 return
             }
             
             let studentLocationPlacemark = placemarks![0] as CLPlacemark
             
-            self.currentStudentLocation?.mapString = self.locationTextField.text!
-            self.currentStudentLocation?.latitude  = studentLocationPlacemark.location!.coordinate.latitude
-            self.currentStudentLocation?.longitude	= studentLocationPlacemark.location!.coordinate.longitude
+            strongSelf.currentStudentLocation?.mapString = strongSelf.locationTextField.text!
+            strongSelf.currentStudentLocation?.latitude  = studentLocationPlacemark.location!.coordinate.latitude
+            strongSelf.currentStudentLocation?.longitude = studentLocationPlacemark.location!.coordinate.longitude
             
             var deltaDegrees: CLLocationDegrees
             
@@ -171,7 +173,7 @@ private extension StudentLocationsPostInformationViewController {
                                                            span: MKCoordinateSpanMake(deltaDegrees, deltaDegrees))
             
             DispatchQueue.main.async(execute: {
-                self.transitionToMapAndURL(studentLocationAnnotation, region: studentLocationRegion)
+                strongSelf.transitionToMapAndURL(studentLocationAnnotation, region: studentLocationRegion)
             })
             
         }
@@ -180,26 +182,28 @@ private extension StudentLocationsPostInformationViewController {
     
     var postStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
-        return { (result, error) -> Void in
+        return { [weak self] (result, error) -> Void in
             
+            guard let strongSelf = self else { return }
+
             guard error == nil else {
-                self.presentAlert(Alert.Title.BadPost, message: error!.localizedDescription)
+                strongSelf.presentAlert(Alert.Title.BadPost, message: error!.localizedDescription)
                 return
             }
             
             guard result != nil else {
-                self.presentAlert(Alert.Title.BadPost, message: Alert.Message.NoJSONData)
+                strongSelf.presentAlert(Alert.Title.BadPost, message: Alert.Message.NoJSONData)
                 return
             }
             
             let responseData = ParsePostStudentLocationResponseData(dict: result as! JSONDictionary)
             
-            self.currentStudentLocation!.dateCreated = responseData.dateCreated
-            self.currentStudentLocation!.dateUpdated = responseData.dateCreated
-            self.currentStudentLocation!.objectID    = responseData.id
+            strongSelf.currentStudentLocation!.dateCreated = responseData.dateCreated
+            strongSelf.currentStudentLocation!.dateUpdated = responseData.dateCreated
+            strongSelf.currentStudentLocation!.objectID    = responseData.id
             
-            self.dismiss(animated: true, completion: {
-                StudentLocationsManager.shared.postedLocation = self.currentStudentLocation!
+            strongSelf.dismiss(animated: true, completion: {
+                StudentLocationsManager.shared.postedLocation = strongSelf.currentStudentLocation!
             })
             
         }
@@ -208,24 +212,26 @@ private extension StudentLocationsPostInformationViewController {
     
     var updateStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
-        return { (result, error) -> Void in
+        return { [weak self] (result, error) -> Void in
+            
+            guard let strongSelf = self else { return }
             
             guard error == nil else {
-                self.presentAlert(Alert.Title.BadUpdate, message: error!.localizedDescription)
+                strongSelf.presentAlert(Alert.Title.BadUpdate, message: error!.localizedDescription)
                 return
             }
             
             guard result != nil else {
-                self.presentAlert(Alert.Title.BadUpdate, message: Alert.Message.NoJSONData)
+                strongSelf.presentAlert(Alert.Title.BadUpdate, message: Alert.Message.NoJSONData)
                 return
             }
             
             let responseData = ParseUpdateStudentLocationResponseData(dict: result as! JSONDictionary)
             
-            self.currentStudentLocation!.dateUpdated = responseData.dateUpdated
+            strongSelf.currentStudentLocation!.dateUpdated = responseData.dateUpdated
             
-            self.dismiss(animated: true, completion: {
-                StudentLocationsManager.shared.update(studentLocation: self.currentStudentLocation!)
+            strongSelf.dismiss(animated: true, completion: {
+                StudentLocationsManager.shared.update(studentLocation: strongSelf.currentStudentLocation!)
             })
             
         }

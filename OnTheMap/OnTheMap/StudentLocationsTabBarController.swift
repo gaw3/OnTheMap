@@ -38,43 +38,42 @@ private extension StudentLocationsTabBarController {
     
     var getStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
-        return { (result, error) -> Void in
+        return { [weak self] (result, error) -> Void in
+            
+            guard let strongSelf = self else { return }
             
             guard error == nil else {
-                self.presentAlert(Alert.Title.BadGet, message: error!.localizedDescription)
+                strongSelf.presentAlert(Alert.Title.BadGet, message: error!.localizedDescription)
                 return
             }
             
             guard result != nil else {
-                self.presentAlert(Alert.Title.BadGet, message: Alert.Message.NoJSONData)
+                strongSelf.presentAlert(Alert.Title.BadGet, message: Alert.Message.NoJSONData)
                 return
             }
             
             let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as? [JSONDictionary]
             
             if results!.isEmpty {
-                let postInfoVC = self.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC) as! StudentLocationsPostInformationViewController
+                let postInfoVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC) as! StudentLocationsPostInformationViewController
                 
-                postInfoVC.newStudent = (self.udacityDataMgr.user!.firstName,
-                                         self.udacityDataMgr.user!.lastName,
-                                         self.udacityDataMgr.user!.userID)
+                postInfoVC.newStudent = (strongSelf.udacityDataMgr.user!.firstName, strongSelf.udacityDataMgr.user!.lastName, strongSelf.udacityDataMgr.user!.userID)
                 
-                self.present(postInfoVC, animated: true, completion: nil)
+                strongSelf.present(postInfoVC, animated: true, completion: nil)
             } else {
                 let alert     = UIAlertController(title: Alert.Title.AlreadyPosted, message: Alert.Message.IsUpdateDesired, preferredStyle: .alert)
                 let noAction  = UIAlertAction(title: Alert.ActionTitle.No, style: .cancel, handler: nil )
                 
                 let yesAction = UIAlertAction(title: Alert.ActionTitle.Yes, style: .default, handler: { (action) -> Void in
-                    let postInfoVC = self.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC)
-                        as! StudentLocationsPostInformationViewController
+                    let postInfoVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC) as! StudentLocationsPostInformationViewController
                     postInfoVC.currentStudentLocation = StudentLocation(studentLocationDict: results!.first! as JSONDictionary)
-                    self.present(postInfoVC, animated: true, completion: nil)
+                    strongSelf.present(postInfoVC, animated: true, completion: nil)
                 })
                 
                 alert.addAction(yesAction)
                 alert.addAction(noAction)
                 
-                self.present(alert, animated: true, completion: nil)
+                strongSelf.present(alert, animated: true, completion: nil)
             }
             
         }
@@ -83,22 +82,24 @@ private extension StudentLocationsTabBarController {
     
     var refreshStudentLocationsCompletionHandler: APIDataTaskWithRequestCompletionHandler {
         
-        return { (result, error) -> Void in
+        return { [weak self] (result, error) -> Void in
+            
+            guard let strongSelf = self else { return }
             
             guard error == nil else {
-                self.presentAlert(Alert.Title.BadRefresh, message: error!.localizedDescription)
+                strongSelf.presentAlert(Alert.Title.BadRefresh, message: error!.localizedDescription)
                 return
             }
             
             guard result != nil else {
-                self.presentAlert(Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)
+                strongSelf.presentAlert(Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)
                 return
             }
             
             let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as! [JSONDictionary]?
             
             guard !(results!.isEmpty) else {
-                self.presentAlert(Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)
+                strongSelf.presentAlert(Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)
                 return
             }
             
