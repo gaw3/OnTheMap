@@ -95,14 +95,14 @@ extension UdacityLoginViewController {
         switch notification.name {
             
         case Notifications.UdacityLoginResponseDataDidGetSaved:
-            UdacityAPIClient.shared.getUserProfileData(udacityDataMgr.account!.userID, completionHandler: getUserProfileDataCompletionHandler)
+            UdacityAPIClient.shared.getUserProfileData(UdacityDataManager.shared.account!.userID, completionHandler: getUserProfileDataCompletionHandler)
             
         case Notifications.UdacityLogoutResponseDataDidGetSaved: break
             
         case Notifications.UdacityUserDataDidGetSaved:
             pleaseWaitView?.stopActivityIndicator()
             
-            if udacityDataMgr.isLoginSuccessful {
+            if UdacityDataManager.shared.isLoginSuccessful {
                 let navController = self.storyboard?.instantiateViewController(withIdentifier: "StudentLocsTabBarNavCtlr") as! UINavigationController
                 self.present(navController, animated: true, completion: nil)
             }
@@ -175,7 +175,7 @@ private extension UdacityLoginViewController {
                 return
             }
             
-            strongSelf.udacityDataMgr.user = UdacityUser(userDict: result as! JSONDictionary)
+            UdacityDataManager.shared.user = UdacityUser(userDict: result as! JSONDictionary)
         }
         
     }
@@ -201,7 +201,7 @@ private extension UdacityLoginViewController {
             let account = UdacityAccount(accountDict: JSONResult[UdacityAPIClient.API.AccountKey] as! JSONDictionary)
             let session = UdacitySession(sessionDict: JSONResult[UdacityAPIClient.API.SessionKey] as! JSONDictionary)
             
-            strongSelf.udacityDataMgr.loginData = (account, session)
+            UdacityDataManager.shared.loginData = (account, session)
         }
         
     }
@@ -222,7 +222,7 @@ private extension UdacityLoginViewController {
                 return
             }
             
-            strongSelf.udacityDataMgr.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
+            UdacityDataManager.shared.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
         }
         
     }
@@ -262,9 +262,9 @@ private extension UdacityLoginViewController {
     }
     
     func addNotificationObservers() {
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityLoginResponseDataDidGetSaved,  object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityLogoutResponseDataDidGetSaved, object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityUserDataDidGetSaved,           object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityLoginResponseDataDidGetSaved,  object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityLogoutResponseDataDidGetSaved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityUserDataDidGetSaved,           object: nil)
     }
     
     func addSubviews() {

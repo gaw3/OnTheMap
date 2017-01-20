@@ -104,9 +104,9 @@ private extension StudentLocationsTableViewController {
     }
     
     func addNotificationObservers() {
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetPosted,     object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetPosted,     object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
     }
     
 }

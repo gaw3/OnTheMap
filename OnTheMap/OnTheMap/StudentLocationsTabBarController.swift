@@ -13,7 +13,7 @@ final class StudentLocationsTabBarController: UITabBarController {
     // MARK: - IB Actions
     
     @IBAction func pinButtonWasTapped(_ sender: UIBarButtonItem) {
-        ParseAPIClient.shared.getStudentLocation(withUserID: udacityDataMgr.user!.userID, completionHandler: getStudentLocationCompletionHandler)
+        ParseAPIClient.shared.getStudentLocation(withUserID: UdacityDataManager.shared.user!.userID, completionHandler: getStudentLocationCompletionHandler)
     }
     
     @IBAction func refreshButtonWasTapped(_ sender: UIBarButtonItem) {
@@ -57,7 +57,7 @@ private extension StudentLocationsTabBarController {
             if results!.isEmpty {
                 let postInfoVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC) as! StudentLocationsPostInformationViewController
                 
-                postInfoVC.newStudent = (strongSelf.udacityDataMgr.user!.firstName, strongSelf.udacityDataMgr.user!.lastName, strongSelf.udacityDataMgr.user!.userID)
+                postInfoVC.newStudent = (UdacityDataManager.shared.user!.firstName, UdacityDataManager.shared.user!.lastName, UdacityDataManager.shared.user!.userID)
                 
                 strongSelf.present(postInfoVC, animated: true, completion: nil)
             } else {

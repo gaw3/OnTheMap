@@ -18,16 +18,6 @@ extension UIViewController {
         static let Title       = "Unable to open browser"
     }
     
-    // MARK: -  Computed Variables
-    
-     var notifCtr: NotificationCenter{
-        return NotificationCenter.default
-    }
-    
-     var udacityDataMgr: UdacityDataManager {
-        return UdacityDataManager.sharedMgr
-    }
-    
     // MARK: - API
     
      func openSystemBrowserWithURL(_ URLString: String) {

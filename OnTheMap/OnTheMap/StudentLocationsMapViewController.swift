@@ -78,7 +78,7 @@ extension StudentLocationsMapViewController {
         pinAnnotationView!.pinTintColor              = MKPinAnnotationView.redPinColor()
         pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         
-        if annotation.title! == udacityDataMgr.user!.fullName {
+        if annotation.title! == UdacityDataManager.shared.user!.fullName {
             pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
         }
         
@@ -98,9 +98,9 @@ private extension StudentLocationsMapViewController {
     }
     
     func addNotificationObservers() {
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetPosted,     object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
-        notifCtr.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetPosted,     object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
     }
     
     func studentLocationDidGetPosted() {

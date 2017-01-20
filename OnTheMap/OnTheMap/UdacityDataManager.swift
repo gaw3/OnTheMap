@@ -8,12 +8,12 @@
 
 import Foundation
 
-private let _sharedMgr = UdacityDataManager()
+private let _shared = UdacityDataManager()
 
 final class UdacityDataManager {
     
-    class var sharedMgr: UdacityDataManager {
-        return _sharedMgr
+    class var shared: UdacityDataManager {
+        return _shared
     }
     
     // MARK: - Variables
