@@ -216,14 +216,18 @@ private extension UdacityLoginViewController {
             guard let strongSelf = self else { return }
             
             guard error == nil else {
-                strongSelf.presentAlert(Alert.Title.BadLogout, message: error!.localizedDescription)
+                var message = String()
+                
+                switch error!.code {
+                case LocalizedError.Code.Network: message = Alert.Message.NetworkUnavailable
+                case LocalizedError.Code.HTTP:    message = Alert.Message.BadLoginData
+                default:                          message = Alert.Message.BadServerData
+                }
+                
+                strongSelf.cleanup(Alert.Title.BadLogout, alertMessage: message)
                 return
             }
             
-            guard result != nil else {
-                strongSelf.presentAlert(Alert.Title.BadLogout, message: Alert.Message.NoJSONData)
-                return
-            }
             
             UdacityDataManager.shared.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
         }
