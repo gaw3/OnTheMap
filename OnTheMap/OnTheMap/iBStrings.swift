@@ -1,5 +1,5 @@
 //
-//  iBStrings.swift
+//  IBStrings.swift
 //  OnTheMap
 //
 //  Created by Gregory White on 12/15/16.
@@ -17,6 +17,7 @@ struct IB {
     
     struct StoryboardID {
         static let StudentLocsPostInfoVC = "StudentLocsPostInfoVC"
+        static let StudentLocsTabBarNC   = "StudentLocsTabBarNavCtlr"
     }
     
 }

@@ -15,12 +15,12 @@ final class UdacityLoginViewController: UIViewController {
     
     // MARK: - IB Outlets
     
-    @IBOutlet weak  var udacityLogo:       UIImageView!
-    @IBOutlet weak  var loginLabel:        UILabel!
-    @IBOutlet weak  var emailTextField:    UITextField!
-    @IBOutlet weak  var passwordTextField: UITextField!
-    @IBOutlet weak  var loginButton:	   UIButton!
-    @IBOutlet weak  var signUpButton:      UIButton!
+    @IBOutlet weak var udacityLogo:       UIImageView!
+    @IBOutlet weak var loginLabel:        UILabel!
+    @IBOutlet weak var emailTextField:    UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var loginButton:	      UIButton!
+    @IBOutlet weak var signUpButton:      UIButton!
     
     // MARK: - IB Actions
     
@@ -28,10 +28,10 @@ final class UdacityLoginViewController: UIViewController {
         assert(sender == loginButton, "rcvd IB Action from unknown button")
         
         if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-            self.presentAlert(Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
+            presentAlert(Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
         } else {
             pleaseWaitView?.startActivityIndicator()
-            UdacityAPIClient.shared.loginWithUdacityUser(emailTextField.text! as String, password: passwordTextField.text! as String, completionHandler: loginCompletionHandler)
+            UdacityAPIClient.shared.login(username: emailTextField.text! as String, password: passwordTextField.text! as String, completionHandler: completeLogin)
         }
         
     }
@@ -46,7 +46,7 @@ final class UdacityLoginViewController: UIViewController {
         passwordTextField.text = ""
         
         logoutFromFacebook()
-        UdacityAPIClient.shared.logout(logoutCompletionHandler)
+        UdacityAPIClient.shared.logout(completionHandler: completeLogout)
     }
     
     // MARK: - Variables
@@ -95,7 +95,7 @@ extension UdacityLoginViewController {
         switch notification.name {
             
         case Notifications.UdacityLoginResponseDataDidGetSaved:
-            UdacityAPIClient.shared.getUserProfileData(UdacityDataManager.shared.account!.userID, completionHandler: getUserProfileDataCompletionHandler)
+            UdacityAPIClient.shared.getProfileData(forUserID: UdacityDataManager.shared.account!.userID, completionHandler: completeGetProfileData)
             
         case Notifications.UdacityLogoutResponseDataDidGetSaved: break
             
@@ -103,8 +103,8 @@ extension UdacityLoginViewController {
             pleaseWaitView?.stopActivityIndicator()
             
             if UdacityDataManager.shared.isLoginSuccessful {
-                let navController = self.storyboard?.instantiateViewController(withIdentifier: "StudentLocsTabBarNavCtlr") as! UINavigationController
-                self.present(navController, animated: true, completion: nil)
+                let navController = storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsTabBarNC) as! UINavigationController
+                present(navController, animated: true, completion: nil)
             }
             
             
@@ -127,7 +127,7 @@ extension UdacityLoginViewController: FBSDKLoginButtonDelegate {
             self.presentAlert(Alert.Title.BadFBAuth, message: error!.localizedDescription)
         } else if let facebookAccessToken = result.token {
             pleaseWaitView?.startActivityIndicator()
-            UdacityAPIClient.shared.loginWithFacebookAuthorization(facebookAccessToken, completionHandler: loginCompletionHandler)
+            UdacityAPIClient.shared.loginWithFacebookAuthorization(facebookAccessToken, completionHandler: completeLogin)
         }
         
     }
@@ -159,7 +159,7 @@ extension UdacityLoginViewController {
 
 private extension UdacityLoginViewController {
     
-    var getUserProfileDataCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var completeGetProfileData: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
@@ -180,19 +180,22 @@ private extension UdacityLoginViewController {
         
     }
     
-    var loginCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var completeLogin: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
             guard let strongSelf = self else { return }
             
             guard error == nil else {
-                strongSelf.cleanup(Alert.Title.BadLogin, alertMessage: error!.localizedDescription)
-                return
-            }
-            
-            guard result != nil else {
-                strongSelf.cleanup(Alert.Title.BadLogin, alertMessage: Alert.Message.NoJSONData)
+                var message = String()
+                
+                switch error!.code {
+                case LocalizedError.Code.Network: message = Alert.Message.NetworkUnavailable
+                case LocalizedError.Code.HTTP:    message = Alert.Message.BadLoginData
+                default:                          message = Alert.Message.BadServerData
+                }
+                
+                strongSelf.cleanup(Alert.Title.BadLogin, alertMessage: message)
                 return
             }
             
@@ -206,7 +209,7 @@ private extension UdacityLoginViewController {
         
     }
     
-    var logoutCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var completeLogout: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
@@ -254,7 +257,7 @@ private extension UdacityLoginViewController {
         let facebookLoginButton = FBSDKLoginButton(frame: emailTextField.frame)
         
         facebookLoginButton.frame.origin.y = view.frame.height - 20.0 - emailTextField.frame.height
-        facebookLoginButton.delegate = self
+        facebookLoginButton.delegate   = self
         facebookLoginButton.isHidden   = false
         facebookLoginButton.isEnabled  = true
         

@@ -10,14 +10,6 @@ import UIKit
 
 extension UIViewController {
     
-    // MARK: - Private Constants
-    
-    fileprivate struct Alert {
-        static let ActionTitle = "OK"
-        static let Message     = "Malformed URL"
-        static let Title       = "Unable to open browser"
-    }
-    
     // MARK: - API
     
      func openSystemBrowserWithURL(_ URLString: String) {
@@ -28,14 +20,14 @@ extension UIViewController {
         }
         
         if !success {
-            presentAlert(Alert.Title, message: Alert.Message)
+            presentAlert(Alert.Title.UnableToOpenBrowser, message: Alert.Message.MalformedURL)
         }
         
     }
     
      func presentAlert(_ title: String, message: String) {
         let alert  = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: Alert.ActionTitle, style: .default, handler: nil)
+        let action = UIAlertAction(title: Alert.ActionTitle.OK, style: .default, handler: nil)
         alert.addAction(action)
         
         DispatchQueue.main.async(execute: {

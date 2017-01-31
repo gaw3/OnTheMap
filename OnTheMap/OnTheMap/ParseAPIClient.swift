@@ -26,18 +26,18 @@ extension ParseAPIClient {
     
     func getStudentLocation(withUserID id: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let query               = "where={\"\(ParseAPIClient.API.UniqueKeyKey)\":\"\(id)\"}"
-        let urlRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
+        let urlRequest          = getURLRequest(HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         
         dataTaskWithRequest.resume()
     }
     
     func postStudentLocation(_ studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        let urlRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Post, urlString: ParseAPIClient.API.BaseURL, httpQuery: nil)
+        let urlRequest = getURLRequest(HTTP.Method.Post, urlString: ParseAPIClient.API.BaseURL, httpQuery: nil)
         
         urlRequest.httpBody = studentLocation.newStudentSerializedData as Data
-        urlRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
-                            forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
+        urlRequest.addValue(HTTP.MIMEType.ApplicationJSON,
+                            forHTTPHeaderField: HTTP.HeaderField.ContentType)
         
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()
@@ -45,7 +45,7 @@ extension ParseAPIClient {
     
     func refreshStudentLocations(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let query               = "limit=100&order=-updatedAt"
-        let urlRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
+        let urlRequest          = getURLRequest(HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         
         dataTaskWithRequest.resume()
@@ -53,10 +53,10 @@ extension ParseAPIClient {
     
     func updateStudentLocation(_ studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let urlString  = ParseAPIClient.API.BaseURL + "/\(studentLocation.objectID)"
-        let urlRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Put, urlString: urlString, httpQuery: nil)
+        let urlRequest = getURLRequest(HTTP.Method.Put, urlString: urlString, httpQuery: nil)
         
         urlRequest.httpBody = studentLocation.newStudentSerializedData as Data
-        urlRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
+        urlRequest.addValue(HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: HTTP.HeaderField.ContentType)
         
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()

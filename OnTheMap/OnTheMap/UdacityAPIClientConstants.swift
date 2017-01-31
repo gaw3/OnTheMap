@@ -27,4 +27,9 @@ extension UdacityAPIClient {
         static let UserNameKey       = "username"
     }
     
+    struct XSRFTokenField {
+        static let Name       = "X-XSRF-TOKEN"
+        static let CookieName = "XSRF-TOKEN"
+    }
+    
 }

@@ -27,52 +27,52 @@ final class APIDataTaskWithRequest {
     
     func resume() {
         
-        let session = URLSession(configuration: URLSessionConfiguration.default)
+        let session = URLSession.shared
         let task    = session.dataTask(with: urlRequest as URLRequest, completionHandler: { (rawJSONResponse, httpResponse, urlSessionError) in
             
             NetworkActivityIndicatorManager.shared.endActivity()
             
             guard urlSessionError == nil else {
-                let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.Network, NSUnderlyingErrorKey: urlSessionError!] as [String : Any]
-                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.Network, userInfo: userInfo)
+                let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.Network, NSUnderlyingErrorKey: urlSessionError!] as [String : Any]
+                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.Network, userInfo: userInfo)
                 
                 self.complete(withCompletionHandler: self.completionHandler, result: nil, error: error)
                 return
             }
             
-            let HTTPURLResponse = httpResponse as? Foundation.HTTPURLResponse
+            let httpURLResponse = httpResponse as! Foundation.HTTPURLResponse
             
-            guard HTTPURLResponse?.statusCodeClass == .successful else {
-                let HTTPStatusText = Foundation.HTTPURLResponse.localizedString(forStatusCode: (HTTPURLResponse?.statusCode)!)
-                let failureReason  = "HTTP status code = \(HTTPURLResponse?.statusCode), HTTP status text = \(HTTPStatusText)"
-                let userInfo       = [NSLocalizedDescriptionKey: LocalizedErrorDescription.HTTP, NSLocalizedFailureReasonErrorKey: failureReason]
-                let error          = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.HTTP, userInfo: userInfo)
+            guard httpURLResponse.statusCodeClass == .successful else {
+                let httpStatusText = Foundation.HTTPURLResponse.localizedString(forStatusCode: httpURLResponse.statusCode)
+                let failureReason  = "HTTP status code = \(httpURLResponse.statusCode), HTTP status text = \(httpStatusText)"
+                let userInfo       = [NSLocalizedDescriptionKey: LocalizedError.Description.HTTP, NSLocalizedFailureReasonErrorKey: failureReason]
+                let error          = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.HTTP, userInfo: userInfo)
                 
                 self.complete(withCompletionHandler: self.completionHandler, result: nil, error: error)
                 return
             }
             
             guard let rawJSONResponse = rawJSONResponse else {
-                let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.JSON]
-                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.JSON, userInfo: userInfo)
+                let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.JSON]
+                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.JSON, userInfo: userInfo)
                 
                 self.complete(withCompletionHandler: self.completionHandler, result: nil, error: error)
                 return
             }
             
-            var JSONDataToParse = rawJSONResponse
+            var jsonDataToParse = rawJSONResponse
             
             if self.urlRequest.url?.host == LocalizedError.UdacityHostName {
-                JSONDataToParse = rawJSONResponse.subdata(in: 5..<rawJSONResponse.count)
+                jsonDataToParse = rawJSONResponse.subdata(in: 5..<rawJSONResponse.count)
             }
             
             do {
-                let JSONData = try JSONSerialization.jsonObject(with: JSONDataToParse, options: .allowFragments) as! JSONDictionary
+                let jsonData = try JSONSerialization.jsonObject(with: jsonDataToParse, options: .allowFragments) as! JSONDictionary
                 
-                self.complete(withCompletionHandler: self.completionHandler, result: JSONData as AnyObject!, error: nil)
-            } catch let JSONError as NSError {
-                let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.JSONSerialization, NSUnderlyingErrorKey: JSONError] as [String : Any]
-                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.JSONSerialization, userInfo: userInfo)
+                self.complete(withCompletionHandler: self.completionHandler, result: jsonData as AnyObject!, error: nil)
+            } catch let jsonError as NSError {
+                let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.JSONSerialization, NSUnderlyingErrorKey: jsonError] as [String : Any]
+                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.JSONSerialization, userInfo: userInfo)
                 
                 self.complete(withCompletionHandler: self.completionHandler, result: nil, error: error)
                 return
@@ -91,25 +91,6 @@ final class APIDataTaskWithRequest {
 // MARK - Private Helpers
 
 private extension APIDataTaskWithRequest {
-    
-    struct LocalizedError {
-        static let Domain          = "OnTheMapExternalAPIInterfaceError"
-        static let UdacityHostName = "www.udacity.com"
-    }
-    
-    struct LocalizedErrorCode {
-        static let Network           = 1
-        static let HTTP              = 2
-        static let JSON              = 3
-        static let JSONSerialization = 4
-    }
-    
-    struct LocalizedErrorDescription {
-        static let Network           = "Network Error"
-        static let HTTP              = "HTTP Error"
-        static let JSON	             = "JSON Error"
-        static let JSONSerialization = "JSON JSONSerialization Error"
-    }
     
     func complete(withCompletionHandler handler: @escaping APIDataTaskWithRequestCompletionHandler, result: AnyObject!, error: NSError?) {
         
