@@ -258,7 +258,8 @@ private extension UdacityLoginViewController {
     }
     
     func addFacebookLoginButton() {
-        let facebookLoginButton = FBSDKLoginButton(frame: emailTextField.frame)
+        let facebookLoginButtonFrame = CGRect(x: emailTextField.frame.origin.x, y: emailTextField.frame.origin.y, width: emailTextField.frame.width, height: 28.0)
+        let facebookLoginButton      = FBSDKLoginButton(frame: facebookLoginButtonFrame)
         
         facebookLoginButton.frame.origin.y = view.frame.height - 20.0 - emailTextField.frame.height
         facebookLoginButton.delegate   = self

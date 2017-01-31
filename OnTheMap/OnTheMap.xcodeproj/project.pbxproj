@@ -28,8 +28,6 @@
 		7A4871FE1C16678F00E1E9CD /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4871FD1C16678F00E1E9CD /* StudentLocation.swift */; };
 		7A4997401C5C273400002D19 /* PleaseWaitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A49973F1C5C273400002D19 /* PleaseWaitView.swift */; };
 		7A6DB2F01C52C53800F1E4E2 /* UdacityFBAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */; };
-		7A6E5CCC1C69B4A9000BF529 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6E5CCA1C69B4A9000BF529 /* FBSDKCoreKit.framework */; };
-		7A6E5CCD1C69B4A9000BF529 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6E5CCB1C69B4A9000BF529 /* FBSDKLoginKit.framework */; };
 		7A79BA3C1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79BA3B1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift */; };
 		7A840F611C03E6CD006B5874 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A840F601C03E6CD006B5874 /* AppDelegate.swift */; };
 		7A840F681C03E6CD006B5874 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A840F661C03E6CD006B5874 /* Main.storyboard */; };
@@ -45,6 +43,9 @@
 		7AC6A4741C4F313700470E22 /* UdacityLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC6A4731C4F313700470E22 /* UdacityLogin.swift */; };
 		7AD293CD1C44755F00E61B85 /* UdacityUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD293CC1C44755F00E61B85 /* UdacityUser.swift */; };
 		7AD293CF1C447BCD00E61B85 /* UdacityDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD293CE1C447BCD00E61B85 /* UdacityDataManager.swift */; };
+		7ADB708B1E40756200950EDF /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADB70891E40756200950EDF /* FBSDKCoreKit.framework */; };
+		7ADB708C1E40756200950EDF /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADB708A1E40756200950EDF /* FBSDKLoginKit.framework */; };
+		7ADB708E1E40782A00950EDF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADB708D1E40782A00950EDF /* Bolts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,8 +70,6 @@
 		7A4871FD1C16678F00E1E9CD /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
 		7A49973F1C5C273400002D19 /* PleaseWaitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PleaseWaitView.swift; sourceTree = "<group>"; };
 		7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityFBAccessToken.swift; sourceTree = "<group>"; };
-		7A6E5CCA1C69B4A9000BF529 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		7A6E5CCB1C69B4A9000BF529 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		7A79BA3B1C45AEBB004FD316 /* NetworkActivityIndicatorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicatorManager.swift; sourceTree = "<group>"; };
 		7A840F5D1C03E6CD006B5874 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A840F601C03E6CD006B5874 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +87,9 @@
 		7AC6A4731C4F313700470E22 /* UdacityLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityLogin.swift; sourceTree = "<group>"; };
 		7AD293CC1C44755F00E61B85 /* UdacityUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityUser.swift; sourceTree = "<group>"; };
 		7AD293CE1C447BCD00E61B85 /* UdacityDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UdacityDataManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		7ADB70891E40756200950EDF /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		7ADB708A1E40756200950EDF /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		7ADB708D1E40782A00950EDF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +97,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A6E5CCD1C69B4A9000BF529 /* FBSDKLoginKit.framework in Frameworks */,
-				7A6E5CCC1C69B4A9000BF529 /* FBSDKCoreKit.framework in Frameworks */,
+				7ADB708E1E40782A00950EDF /* Bolts.framework in Frameworks */,
+				7ADB708C1E40756200950EDF /* FBSDKLoginKit.framework in Frameworks */,
+				7ADB708B1E40756200950EDF /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,8 +127,9 @@
 		7A6DB2F11C52F70C00F1E4E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7A6E5CCA1C69B4A9000BF529 /* FBSDKCoreKit.framework */,
-				7A6E5CCB1C69B4A9000BF529 /* FBSDKLoginKit.framework */,
+				7ADB708D1E40782A00950EDF /* Bolts.framework */,
+				7ADB70891E40756200950EDF /* FBSDKCoreKit.framework */,
+				7ADB708A1E40756200950EDF /* FBSDKLoginKit.framework */,
 			);
 			name = Frameworks;
 			path = OnTheMap;
