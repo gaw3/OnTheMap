@@ -12,20 +12,17 @@ extension UIViewController {
     
     // MARK: - API
     
-     func openSystemBrowserWithURL(_ URLString: String) {
-        var success = false
+    func openSystemBrowserWithURL(_ URLString: String) {
         
         if let URLComponents = URLComponents(string: URLString) {
             UIApplication.shared.open(URLComponents.url!, options: [:], completionHandler: nil)
-        }
-        
-        if !success {
+        } else {
             presentAlert(Alert.Title.UnableToOpenBrowser, message: Alert.Message.MalformedURL)
         }
         
     }
     
-     func presentAlert(_ title: String, message: String) {
+    func presentAlert(_ title: String, message: String) {
         let alert  = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Alert.ActionTitle.OK, style: .default, handler: nil)
         alert.addAction(action)
@@ -35,6 +32,5 @@ extension UIViewController {
         })
         
     }
-    
     
 }
