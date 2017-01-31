@@ -90,6 +90,7 @@
 		7ADB70891E40756200950EDF /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		7ADB708A1E40756200950EDF /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		7ADB708D1E40782A00950EDF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		7ADB708F1E413D8E00950EDF /* OnTheMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OnTheMap.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +139,7 @@
 		7A78CD241C069C7700CFF3F2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7ADB708F1E413D8E00950EDF /* OnTheMap.entitlements */,
 				7A40DAFA1C5431B600E5A1BC /* Roboto-Medium.ttf */,
 				7A40DAFB1C5431B600E5A1BC /* Roboto-Regular.ttf */,
 				7A40DAFC1C5431B600E5A1BC /* Roboto-Thin.ttf */,
@@ -300,6 +302,11 @@
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = G828UK7MUR;
 						LastSwiftMigration = 0810;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -489,6 +496,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OnTheMap/OnTheMap.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -508,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OnTheMap/OnTheMap.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
