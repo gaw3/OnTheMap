@@ -166,12 +166,15 @@ private extension UdacityLoginViewController {
             guard let strongSelf = self else { return }
 
             guard error == nil else {
-                strongSelf.cleanup(Alert.Title.BadUserProfileData, alertMessage: error!.localizedDescription)
-                return
-            }
-            
-            guard result != nil else {
-                strongSelf.cleanup(Alert.Title.BadUserProfileData, alertMessage: Alert.Message.NoJSONData)
+                var message = String()
+                
+                switch error!.code {
+                case LocalizedError.Code.Network: message = Alert.Message.NetworkUnavailable
+                case LocalizedError.Code.HTTP:    message = Alert.Message.BadLoginData
+                default:                          message = Alert.Message.BadServerData
+                }
+                
+                strongSelf.cleanup(Alert.Title.BadLogout, alertMessage: message)
                 return
             }
             
@@ -227,7 +230,6 @@ private extension UdacityLoginViewController {
                 strongSelf.cleanup(Alert.Title.BadLogout, alertMessage: message)
                 return
             }
-            
             
             UdacityDataManager.shared.logoutData = UdacitySession(sessionDict: result as! JSONDictionary)
         }

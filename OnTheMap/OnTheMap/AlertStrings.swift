@@ -19,6 +19,7 @@ struct Alert {
     struct Message {
         static let BadLoginData       = "invalid username/password combination"
         static let BadServerData      = "received malformed server data"
+        static let BadUserID          = "invalid user account ID"
         static let CheckLoginFields   = "check email & password fields"
         static let IsUpdateDesired    = "Would you like to update your location?"
         static let LocationNotEntered = "Location not yet entered"
