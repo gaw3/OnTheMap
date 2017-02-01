@@ -27,14 +27,16 @@ final class UdacityLoginViewController: UIViewController {
     @IBAction func loginButtonDidTouchUpInside(_ sender: UIButton) {
         assert(sender == loginButton, "rcvd IB Action from unknown button")
         
-        if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-            presentAlert(Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
-        } else {
-            pleaseWaitView?.startActivityIndicator()
-            UdacityAPIClient.shared.login(username: emailTextField.text! as String, password: passwordTextField.text! as String, completionHandler: completeLogin)
-        }
+//        if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
+//            presentAlert(Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
+//        } else {
+//            pleaseWaitView?.startActivityIndicator()
+//            UdacityAPIClient.shared.login(username: emailTextField.text! as String, password: passwordTextField.text! as String, completionHandler: completeLogin)
+//        }
         
-    }
+        pleaseWaitView?.startActivityIndicator()
+        UdacityAPIClient.shared.login(username: "gregory.a.white.42@gmail.com", password: "JrbKZsUZwoH3YU", completionHandler: completeLogin)
+   }
     
     @IBAction func signUpButtonDidTouchUpInside(_ sender: UIButton) {
         assert(sender == signUpButton, "rcvd IB Action from unknown button")

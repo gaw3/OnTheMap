@@ -335,9 +335,9 @@ private extension StudentLocationsPostInformationViewController {
             currentStudentLocation?.mediaURL = mediaURLTextField.text!
             
             if let _ = newStudent {
-                ParseAPIClient.shared.postStudentLocation(currentStudentLocation!, completionHandler: postStudentLocationCompletionHandler)
+                ParseAPIClient.shared.post(studentLocation: currentStudentLocation!, completionHandler: postStudentLocationCompletionHandler)
             } else {
-                ParseAPIClient.shared.updateStudentLocation(currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
+                ParseAPIClient.shared.update(studentLocation: currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
             }
             
         }

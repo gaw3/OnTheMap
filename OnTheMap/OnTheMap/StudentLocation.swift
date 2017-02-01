@@ -12,6 +12,11 @@ import UIKit
 
 struct StudentLocation {
     
+    struct UdacityHQ {
+        static let Lat  = Double(37.3999)
+        static let Long = Double(-122.108401)
+    }
+    
     // MARK: - Variables
     
     private var _studentLocation: JSONDictionary
@@ -56,13 +61,21 @@ struct StudentLocation {
         set(name) { _studentLocation[ParseAPIClient.API.LastNameKey] = name as AnyObject? }
     }
     
-    var latitude: Double {
-        get { return _studentLocation[ParseAPIClient.API.LatKey] as! Double}
+    var latitude: CLLocationDegrees {
+        get {
+            if let lat = _studentLocation[ParseAPIClient.API.LatKey] as! CLLocationDegrees? { return lat }
+            return 0.0
+        }
+        
         set(lat) { _studentLocation[ParseAPIClient.API.LatKey] = lat as AnyObject? }
     }
     
-    var longitude: Double {
-        get { return _studentLocation[ParseAPIClient.API.LongKey] as! Double }
+    var longitude: CLLocationDegrees {
+        get {
+            if let long = _studentLocation[ParseAPIClient.API.LongKey] as! CLLocationDegrees? { return long }
+            return 0.0
+        }
+        
         set(long) { _studentLocation[ParseAPIClient.API.LongKey] = long as AnyObject? }
     }
     
@@ -124,6 +137,8 @@ struct StudentLocation {
         
         set(key) { _studentLocation[ParseAPIClient.API.UniqueKeyKey] = key as AnyObject? }
     }
+    
+
     
     // MARK: - API
     

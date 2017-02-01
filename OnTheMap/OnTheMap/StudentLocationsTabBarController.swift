@@ -22,7 +22,7 @@ final class StudentLocationsTabBarController: UITabBarController {
     
     // MARK: - View Management
     
-    override  func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         ParseAPIClient.shared.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
     }

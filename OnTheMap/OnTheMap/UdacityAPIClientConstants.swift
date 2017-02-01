@@ -8,7 +8,7 @@
 
 extension UdacityAPIClient {
     
-      struct API {
+    struct API {
         static let BaseURL           = "https://www.udacity.com/api/"
         static let SessionURL        = BaseURL + "session"
         static let UsersURL          = BaseURL + "users/"

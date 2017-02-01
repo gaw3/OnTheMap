@@ -32,12 +32,11 @@ extension ParseAPIClient {
         dataTaskWithRequest.resume()
     }
     
-    func postStudentLocation(_ studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func post(studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let urlRequest = getURLRequest(HTTP.Method.Post, urlString: ParseAPIClient.API.BaseURL, httpQuery: nil)
         
         urlRequest.httpBody = studentLocation.newStudentSerializedData as Data
-        urlRequest.addValue(HTTP.MIMEType.ApplicationJSON,
-                            forHTTPHeaderField: HTTP.HeaderField.ContentType)
+        urlRequest.addValue(HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: HTTP.HeaderField.ContentType)
         
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()
@@ -51,7 +50,7 @@ extension ParseAPIClient {
         dataTaskWithRequest.resume()
     }
     
-    func updateStudentLocation(_ studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func update(studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let urlString  = ParseAPIClient.API.BaseURL + "/\(studentLocation.objectID)"
         let urlRequest = getURLRequest(HTTP.Method.Put, urlString: urlString, httpQuery: nil)
         
@@ -71,16 +70,6 @@ extension ParseAPIClient {
 
 private extension ParseAPIClient {
 
-    struct ParseAppIDField {
-        static let Name  = "X-Parse-Application-Id"
-        static let Value = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-    }
-    
-    struct ParseRESTAPIKeyField {
-        static let Name  = "X-Parse-REST-API-Key"
-        static let Value = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
-    }
-    
     func getURLRequest(_ httpMethod: String, urlString: String, httpQuery: String?) -> NSMutableURLRequest {
         var components = URLComponents(string: urlString)
         
@@ -89,8 +78,8 @@ private extension ParseAPIClient {
         let URLRequest = NSMutableURLRequest(url: (components?.url)!)
         
         URLRequest.httpMethod = httpMethod
-        URLRequest.addValue(ParseAppIDField.Value,      forHTTPHeaderField: ParseAppIDField.Name)
-        URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)
+        URLRequest.addValue(AppIDField.Value,      forHTTPHeaderField: AppIDField.Name)
+        URLRequest.addValue(RESTAPIKeyField.Value, forHTTPHeaderField: RESTAPIKeyField.Name)
         
         return URLRequest
     }
