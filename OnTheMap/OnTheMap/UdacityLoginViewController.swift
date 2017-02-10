@@ -40,7 +40,7 @@ final class UdacityLoginViewController: UIViewController {
     
     @IBAction func signUpButtonDidTouchUpInside(_ button: UIButton) {
         assert(button == signUpButton, "rcvd IB Action from unknown button")
-        openSystemBrowserWithURL(URL.UdacitySignupURLString)
+        openSystemBrowserWithURL(URL.UdacitySignup)
     }
     
     @IBAction func unwindToLoginViewController(_ segue: UIStoryboardSegue) {
@@ -121,6 +121,7 @@ extension UdacityLoginViewController: FBSDKLoginButtonDelegate {
 
 
 
+// MARK: -
 // MARK: - Notifications
 
 extension UdacityLoginViewController {
@@ -152,6 +153,7 @@ extension UdacityLoginViewController {
 
 
 
+// MARK: -
 // MARK: - Text Field Delegate
 
 extension UdacityLoginViewController {
@@ -253,24 +255,16 @@ private extension UdacityLoginViewController {
 
 
 
+// MARK: -
 // MARK: - Private Helpers
 
 private extension UdacityLoginViewController {
     
-    struct PlaceholderText {
-        static let Attributes    = [NSForegroundColorAttributeName: UIColor.white]
-        static let EmailField    = "Email"
-        static let InsetRect     = CGRect(x: 0, y: 0, width: 10, height: 50)
-        static let PasswordField = "Password"
-    }
-    
-    struct SEL {
-        static let ProcessNotification = #selector(processNotification(_:))
-    }
-    
     struct URL {
-        static let UdacitySignupURLString = "https://www.udacity.com/account/auth#!/signup"
+        static let UdacitySignup = "https://www.udacity.com/account/auth#!/signup"
     }
+    
+    // MARK: - Facebook
     
     func addFacebookLoginButton() {
         let facebookLoginButtonFrame = CGRect(x: emailTextField.frame.origin.x, y: view.frame.height - 48.0, width: emailTextField.frame.width, height: 28.0)
@@ -283,10 +277,36 @@ private extension UdacityLoginViewController {
         view.addSubview(facebookLoginButton)
     }
     
+    func logoutFromFacebook() {
+        let loginManager = FBSDKLoginManager()
+        loginManager.logOut()
+    }
+    
+    // MARK: - Notifications
+    
+    struct SEL {
+        static let ProcessNotification = #selector(processNotification(_:))
+    }
+    
     func addNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityLoginResponseDataDidGetSaved,  object: nil)
         NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityLogoutResponseDataDidGetSaved, object: nil)
         NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.UdacityUserDataDidGetSaved,           object: nil)
+    }
+    
+    func removeNotificationObservers() {
+        NotificationCenter.default.removeObserver(self, name: Notifications.UdacityLoginResponseDataDidGetSaved,  object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notifications.UdacityLogoutResponseDataDidGetSaved, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notifications.UdacityUserDataDidGetSaved,           object: nil)
+    }
+    
+    // MARK: - Views
+
+    struct PlaceholderText {
+        static let Attributes    = [NSForegroundColorAttributeName: UIColor.white]
+        static let EmailField    = "Email"
+        static let InsetRect     = CGRect(x: 0, y: 0, width: 10, height: 50)
+        static let PasswordField = "Password"
     }
     
     func addSubviews() {
@@ -319,21 +339,10 @@ private extension UdacityLoginViewController {
         view.layer.addSublayer(gradientLayer)
     }
     
-    func logoutFromFacebook() {
-        let loginManager = FBSDKLoginManager()
-        loginManager.logOut()
-    }
-    
     func initPleaseWaitView() {
         pleaseWaitView = PleaseWaitView(requestingView: view)
         view.addSubview(pleaseWaitView!.dimmedView)
         view.bringSubview(toFront: pleaseWaitView!.dimmedView)
-    }
-    
-    func removeNotificationObservers() {
-        NotificationCenter.default.removeObserver(self, name: Notifications.UdacityLoginResponseDataDidGetSaved,  object: nil)
-        NotificationCenter.default.removeObserver(self, name: Notifications.UdacityLogoutResponseDataDidGetSaved, object: nil)
-        NotificationCenter.default.removeObserver(self, name: Notifications.UdacityUserDataDidGetSaved,           object: nil)
     }
     
     func setTextFieldPlaceholders() {

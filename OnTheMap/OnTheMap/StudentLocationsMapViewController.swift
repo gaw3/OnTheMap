@@ -36,27 +36,6 @@ final class StudentLocationsMapViewController: UIViewController {
 
 
 // MARK: -
-// MARK: - Notifications
-
-extension StudentLocationsMapViewController {
-    
-    func processNotification(_ notification: Notification) {
-        
-        switch notification.name {
-            
-        case Notifications.StudentLocationDidGetPosted:     studentLocationDidGetPosted()
-        case Notifications.StudentLocationsDidGetRefreshed: studentLocationsDidGetRefreshed()
-        case Notifications.StudentLocationDidGetUpdated:    studentLocationDidGetUpdated(notification)
-            
-        default: fatalError("Received unknown notification = \(notification)")
-        }
-        
-    }
-    
-}
-
-
-
 // MARK: - Map View Delegate
 
 extension StudentLocationsMapViewController {
@@ -93,6 +72,29 @@ extension StudentLocationsMapViewController {
 
 
 
+// MARK: -
+// MARK: - Notifications
+
+extension StudentLocationsMapViewController {
+    
+    func processNotification(_ notification: Notification) {
+        
+        switch notification.name {
+            
+        case Notifications.StudentLocationDidGetPosted:     studentLocationDidGetPosted()
+        case Notifications.StudentLocationsDidGetRefreshed: studentLocationsDidGetRefreshed()
+        case Notifications.StudentLocationDidGetUpdated:    studentLocationDidGetUpdated(notification)
+            
+        default: fatalError("Received unknown notification = \(notification)")
+        }
+        
+    }
+    
+}
+
+
+
+// MARK: -
 // MARK: - Private Helpers
 
 private extension StudentLocationsMapViewController {
