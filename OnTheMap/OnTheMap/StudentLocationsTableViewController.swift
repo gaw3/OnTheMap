@@ -11,11 +11,15 @@ import UIKit
 
 final class StudentLocationsTableViewController: UITableViewController {
     
-    // MARK: - View Management
+    // MARK: - View Events
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeNotificationObservers()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         addNotificationObservers()
     }
     
@@ -108,6 +112,12 @@ private extension StudentLocationsTableViewController {
         NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetPosted,     object: nil)
         NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
         NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
+    }
+    
+    func removeNotificationObservers() {
+        NotificationCenter.default.removeObserver(self, name: Notifications.StudentLocationDidGetPosted,     object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
     }
     
 }

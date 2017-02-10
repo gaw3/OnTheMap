@@ -60,6 +60,18 @@ final class UdacityLoginViewController: UIViewController {
         self.initPleaseWaitView()
     }()
     
+    // MARK: - View Events
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeNotificationObservers()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addNotificationObservers()
+    }
+
     // MARK: - View Layout
     
     override func viewDidLayoutSubviews() {
@@ -79,8 +91,6 @@ final class UdacityLoginViewController: UIViewController {
         
         loginLabel.textColor = UIColor.white
         signUpButton.setTitleColor(UIColor.white, for: UIControlState())
-        
-        addNotificationObservers()
     }
     
 }
@@ -318,6 +328,12 @@ private extension UdacityLoginViewController {
         pleaseWaitView = PleaseWaitView(requestingView: view)
         view.addSubview(pleaseWaitView!.dimmedView)
         view.bringSubview(toFront: pleaseWaitView!.dimmedView)
+    }
+    
+    func removeNotificationObservers() {
+        NotificationCenter.default.removeObserver(self, name: Notifications.UdacityLoginResponseDataDidGetSaved,  object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notifications.UdacityLogoutResponseDataDidGetSaved, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notifications.UdacityUserDataDidGetSaved,           object: nil)
     }
     
     func setTextFieldPlaceholders() {
