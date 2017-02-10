@@ -12,19 +12,19 @@ final class StudentLocationsTabBarController: UITabBarController {
     
     // MARK: - IB Actions
     
-    @IBAction func pinButtonWasTapped(_ sender: UIBarButtonItem) {
-        ParseAPIClient.shared.getStudentLocation(withUserID: UdacityDataManager.shared.user!.userID, completionHandler: getStudentLocationCompletionHandler)
+    @IBAction func pinButtonWasTapped(_ button: UIBarButtonItem) {
+        ParseAPIClient.shared.getStudentLocation(withUserID: UdacityDataManager.shared.user!.userID, completionHandler: finishGettingStudentLocation)
     }
     
-    @IBAction func refreshButtonWasTapped(_ sender: UIBarButtonItem) {
-        ParseAPIClient.shared.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
+    @IBAction func refreshButtonWasTapped(_ button: UIBarButtonItem) {
+        ParseAPIClient.shared.refreshStudentLocations(finishRefreshingStudentLocations)
     }
     
     // MARK: - View Management
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ParseAPIClient.shared.refreshStudentLocations(refreshStudentLocationsCompletionHandler)
+        ParseAPIClient.shared.refreshStudentLocations(finishRefreshingStudentLocations)
     }
     
 }
@@ -36,22 +36,25 @@ final class StudentLocationsTabBarController: UITabBarController {
 
 private extension StudentLocationsTabBarController {
     
-    var getStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var finishGettingStudentLocation: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
             guard let strongSelf = self else { return }
             
             guard error == nil else {
-                strongSelf.presentAlert(Alert.Title.BadGet, message: error!.localizedDescription)
+                var message = String()
+                
+                switch error!.code {
+                case LocalizedError.Code.Network: message = Alert.Message.NetworkUnavailable
+                case LocalizedError.Code.HTTP:    message = Alert.Message.HTTPError
+                default:                          message = Alert.Message.BadServerData
+                }
+                
+                strongSelf.presentAlert(title: Alert.Title.BadGet, message: message)
                 return
             }
-            
-            guard result != nil else {
-                strongSelf.presentAlert(Alert.Title.BadGet, message: Alert.Message.NoJSONData)
-                return
-            }
-            
+
             let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as? [JSONDictionary]
             
             if results!.isEmpty {
@@ -80,26 +83,29 @@ private extension StudentLocationsTabBarController {
         
     }
     
-    var refreshStudentLocationsCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var finishRefreshingStudentLocations: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
             guard let strongSelf = self else { return }
             
             guard error == nil else {
-                strongSelf.presentAlert(Alert.Title.BadRefresh, message: error!.localizedDescription)
+                var message = String()
+                
+                switch error!.code {
+                case LocalizedError.Code.Network: message = Alert.Message.NetworkUnavailable
+                case LocalizedError.Code.HTTP:    message = Alert.Message.HTTPError
+                default:                          message = Alert.Message.BadServerData
+                }
+                
+                strongSelf.presentAlert(title: Alert.Title.BadRefresh, message: message)
                 return
             }
-            
-            guard result != nil else {
-                strongSelf.presentAlert(Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)
-                return
-            }
-            
+
             let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as! [JSONDictionary]?
             
-            guard !(results!.isEmpty) else {
-                strongSelf.presentAlert(Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)
+            guard !results!.isEmpty else {
+                strongSelf.presentAlert(title: Alert.Title.BadRefresh, message: Alert.Message.NoJSONData)
                 return
             }
             

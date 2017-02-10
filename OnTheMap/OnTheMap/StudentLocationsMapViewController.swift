@@ -108,6 +108,15 @@ private extension StudentLocationsMapViewController {
         mapView.addAnnotation(StudentLocationsManager.shared.postedLocation.pointAnnotation)
     }
     
+    func studentLocationDidGetUpdated(_ notification: Notification) {
+        let indexOfUpdate = notification.userInfo![Notifications.IndexOfUpdatedStudentLocationKey] as! Int
+        
+        mapView.removeAnnotation(pointAnnotations[indexOfUpdate])
+        mapView.addAnnotation(StudentLocationsManager.shared.studentLocation(at: indexOfUpdate).pointAnnotation)
+        
+        pointAnnotations[indexOfUpdate] = StudentLocationsManager.shared.studentLocation(at: indexOfUpdate).pointAnnotation
+    }
+
     func studentLocationsDidGetRefreshed() {
         mapView.removeAnnotations(pointAnnotations)
         pointAnnotations.removeAll()
@@ -119,12 +128,4 @@ private extension StudentLocationsMapViewController {
         mapView.addAnnotations(pointAnnotations)
     }
     
-    func studentLocationDidGetUpdated(_ notification: Notification) {
-        let indexOfUpdate = notification.userInfo![Notifications.IndexOfUpdatedStudentLocationKey] as! Int
-        
-        mapView.removeAnnotation(pointAnnotations[indexOfUpdate])
-        mapView.addAnnotation(StudentLocationsManager.shared.studentLocation(at: indexOfUpdate).pointAnnotation)
-        
-        pointAnnotations[indexOfUpdate] = StudentLocationsManager.shared.studentLocation(at: indexOfUpdate).pointAnnotation
-    }
 }

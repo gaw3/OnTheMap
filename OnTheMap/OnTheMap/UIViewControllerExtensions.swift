@@ -17,12 +17,12 @@ extension UIViewController {
         if let URLComponents = URLComponents(string: URLString) {
             UIApplication.shared.open(URLComponents.url!, options: [:], completionHandler: nil)
         } else {
-            presentAlert(Alert.Title.UnableToOpenBrowser, message: Alert.Message.MalformedURL)
+            presentAlert(title: Alert.Title.UnableToOpenBrowser, message: Alert.Message.MalformedURL)
         }
         
     }
     
-    func presentAlert(_ title: String, message: String) {
+    func presentAlert(title: String, message: String) {
         let alert  = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Alert.ActionTitle.OK, style: .default, handler: nil)
         alert.addAction(action)

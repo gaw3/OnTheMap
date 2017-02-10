@@ -24,8 +24,8 @@ final class UdacityLoginViewController: UIViewController {
     
     // MARK: - IB Actions
     
-    @IBAction func loginButtonDidTouchUpInside(_ sender: UIButton) {
-        assert(sender == loginButton, "rcvd IB Action from unknown button")
+    @IBAction func loginButtonDidTouchUpInside(_ button: UIButton) {
+        assert(button == loginButton, "rcvd IB Action from unknown button")
         
 //        if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
 //            presentAlert(Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
@@ -35,20 +35,20 @@ final class UdacityLoginViewController: UIViewController {
 //        }
         
         pleaseWaitView?.startActivityIndicator()
-        UdacityAPIClient.shared.login(username: "gregory.a.white.42@gmail.com", password: "JrbKZsUZwoH3YU", completionHandler: completeLogin)
+        UdacityAPIClient.shared.login(username: "gregory.a.white.42@gmail.com", password: "JrbKZsUZwoH3YU", completionHandler: finishLoggingIn)
    }
     
-    @IBAction func signUpButtonDidTouchUpInside(_ sender: UIButton) {
-        assert(sender == signUpButton, "rcvd IB Action from unknown button")
+    @IBAction func signUpButtonDidTouchUpInside(_ button: UIButton) {
+        assert(button == signUpButton, "rcvd IB Action from unknown button")
         openSystemBrowserWithURL(URL.UdacitySignupURLString)
     }
     
     @IBAction func unwindToLoginViewController(_ segue: UIStoryboardSegue) {
-        emailTextField.text    = ""
-        passwordTextField.text = ""
+        emailTextField.text    = String()
+        passwordTextField.text = String()
         
         logoutFromFacebook()
-        UdacityAPIClient.shared.logout(completionHandler: completeLogout)
+        UdacityAPIClient.shared.logout(completionHandler: finishLoggingOut)
     }
     
     // MARK: - Variables
@@ -88,6 +88,29 @@ final class UdacityLoginViewController: UIViewController {
 
 
 // MARK: -
+// MARK: - Facebook SDK Login Button Delegate
+
+extension UdacityLoginViewController: FBSDKLoginButtonDelegate {
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        
+        if let _ = error {
+            self.presentAlert(title: Alert.Title.BadFBAuth, message: error!.localizedDescription)
+        } else if let facebookAccessToken = result.token {
+            pleaseWaitView?.startActivityIndicator()
+            UdacityAPIClient.shared.loginWithFacebookAuthorization(facebookAccessToken, completionHandler: finishLoggingIn)
+        }
+        
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        // must have this to satisfy the protocol
+    }
+    
+}
+
+
+
 // MARK: - Notifications
 
 extension UdacityLoginViewController {
@@ -97,7 +120,7 @@ extension UdacityLoginViewController {
         switch notification.name {
             
         case Notifications.UdacityLoginResponseDataDidGetSaved:
-            UdacityAPIClient.shared.getProfileData(forUserID: UdacityDataManager.shared.account!.userID, completionHandler: completeGetProfileData)
+            UdacityAPIClient.shared.getProfileData(forUserID: UdacityDataManager.shared.account!.userID, completionHandler: finishGettingProfileData)
             
         case Notifications.UdacityLogoutResponseDataDidGetSaved: break
             
@@ -119,29 +142,6 @@ extension UdacityLoginViewController {
 
 
 
-// MARK: - Facebook SDK Login Button Delegate
-
-extension UdacityLoginViewController: FBSDKLoginButtonDelegate {
-    
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
-        if let _ = error {
-            self.presentAlert(Alert.Title.BadFBAuth, message: error!.localizedDescription)
-        } else if let facebookAccessToken = result.token {
-            pleaseWaitView?.startActivityIndicator()
-            UdacityAPIClient.shared.loginWithFacebookAuthorization(facebookAccessToken, completionHandler: completeLogin)
-        }
-        
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        // must have this to satisfy the protocol
-    }
-    
-}
-
-
-
 // MARK: - Text Field Delegate
 
 extension UdacityLoginViewController {
@@ -157,11 +157,12 @@ extension UdacityLoginViewController {
 
 
 
+// MARK: -
 // MARK: - Private Completion Handlers
 
 private extension UdacityLoginViewController {
     
-    var completeGetProfileData: APIDataTaskWithRequestCompletionHandler {
+    var finishGettingProfileData: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
@@ -176,7 +177,7 @@ private extension UdacityLoginViewController {
                 default:                          message = Alert.Message.BadServerData
                 }
                 
-                strongSelf.cleanup(Alert.Title.BadLogout, alertMessage: message)
+                strongSelf.cleanup(alertTitle: Alert.Title.BadLogin, alertMessage: message)
                 return
             }
             
@@ -185,7 +186,7 @@ private extension UdacityLoginViewController {
         
     }
     
-    var completeLogin: APIDataTaskWithRequestCompletionHandler {
+    var finishLoggingIn: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
@@ -200,7 +201,7 @@ private extension UdacityLoginViewController {
                 default:                          message = Alert.Message.BadServerData
                 }
                 
-                strongSelf.cleanup(Alert.Title.BadLogin, alertMessage: message)
+                strongSelf.cleanup(alertTitle: Alert.Title.BadLogin, alertMessage: message)
                 return
             }
             
@@ -214,7 +215,7 @@ private extension UdacityLoginViewController {
         
     }
     
-    var completeLogout: APIDataTaskWithRequestCompletionHandler {
+    var finishLoggingOut: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
@@ -225,11 +226,11 @@ private extension UdacityLoginViewController {
                 
                 switch error!.code {
                 case LocalizedError.Code.Network: message = Alert.Message.NetworkUnavailable
-                case LocalizedError.Code.HTTP:    message = Alert.Message.BadLoginData
+                case LocalizedError.Code.HTTP:    break
                 default:                          message = Alert.Message.BadServerData
                 }
                 
-                strongSelf.cleanup(Alert.Title.BadLogout, alertMessage: message)
+                strongSelf.cleanup(alertTitle: Alert.Title.BadLogout, alertMessage: message)
                 return
             }
             
@@ -262,10 +263,9 @@ private extension UdacityLoginViewController {
     }
     
     func addFacebookLoginButton() {
-        let facebookLoginButtonFrame = CGRect(x: emailTextField.frame.origin.x, y: emailTextField.frame.origin.y, width: emailTextField.frame.width, height: 28.0)
+        let facebookLoginButtonFrame = CGRect(x: emailTextField.frame.origin.x, y: view.frame.height - 48.0, width: emailTextField.frame.width, height: 28.0)
         let facebookLoginButton      = FBSDKLoginButton(frame: facebookLoginButtonFrame)
         
-        facebookLoginButton.frame.origin.y = view.frame.height - 20.0 - emailTextField.frame.height
         facebookLoginButton.delegate   = self
         facebookLoginButton.isHidden   = false
         facebookLoginButton.isEnabled  = true
@@ -288,10 +288,10 @@ private extension UdacityLoginViewController {
         view.addSubview(signUpButton)
     }
     
-    func cleanup(_ alertTitle: String, alertMessage: String) {
+    func cleanup(alertTitle: String, alertMessage: String) {
         logoutFromFacebook()
         pleaseWaitView?.stopActivityIndicator()
-        presentAlert(alertTitle, message: alertMessage)
+        presentAlert(title: alertTitle, message: alertMessage)
     }
     
     func createBackgroundColorGradient() {

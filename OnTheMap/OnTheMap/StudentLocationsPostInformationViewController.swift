@@ -120,11 +120,12 @@ extension StudentLocationsPostInformationViewController {
 
 
 
+// MARK: -
 // MARK: - Private Completion Handlers
 
 private extension StudentLocationsPostInformationViewController {
     
-    var geocodeCompletionHandler: CLGeocodeCompletionHandler {
+    var finishGeocoding: CLGeocodeCompletionHandler {
         
         return { [weak self] (placemarks, error) -> Void in
             
@@ -136,17 +137,12 @@ private extension StudentLocationsPostInformationViewController {
             })
             
             guard error == nil else {
-                strongSelf.presentAlert(Alert.Title.BadGeocode, message: error!.localizedDescription)
+                strongSelf.presentAlert(title: Alert.Title.BadGeocode, message: error!.localizedDescription)
                 return
             }
             
-            guard placemarks != nil else {
-                strongSelf.presentAlert(Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
-                return
-            }
-            
-            guard placemarks!.count > 0 else {
-                strongSelf.presentAlert(Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
+            guard placemarks != nil, !placemarks!.isEmpty else {
+                strongSelf.presentAlert(title: Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
                 return
             }
             
@@ -158,13 +154,9 @@ private extension StudentLocationsPostInformationViewController {
             
             var deltaDegrees: CLLocationDegrees
             
-            if let _ = studentLocationPlacemark.thoroughfare {
-                deltaDegrees = 0.2
-            } else if let _ = studentLocationPlacemark.locality {
-                deltaDegrees = 0.5
-            } else {
-                deltaDegrees = 12.0
-            }
+            if let _ = studentLocationPlacemark.thoroughfare  { deltaDegrees = 0.2 }
+            else if let _ = studentLocationPlacemark.locality { deltaDegrees = 0.5 }
+            else                                              { deltaDegrees = 12.0 }
             
             let studentLocationAnnotation = MKPointAnnotation()
             studentLocationAnnotation.coordinate = (studentLocationPlacemark.location?.coordinate)!
@@ -180,19 +172,14 @@ private extension StudentLocationsPostInformationViewController {
         
     }
     
-    var postStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var finishPostingStudentLocation: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
             guard let strongSelf = self else { return }
 
             guard error == nil else {
-                strongSelf.presentAlert(Alert.Title.BadPost, message: error!.localizedDescription)
-                return
-            }
-            
-            guard result != nil else {
-                strongSelf.presentAlert(Alert.Title.BadPost, message: Alert.Message.NoJSONData)
+                strongSelf.processError(error!, alertTitle: Alert.Title.BadPost)
                 return
             }
             
@@ -210,19 +197,14 @@ private extension StudentLocationsPostInformationViewController {
         
     }
     
-    var updateStudentLocationCompletionHandler: APIDataTaskWithRequestCompletionHandler {
+    var finishUpdatingStudentLocation: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
             
             guard let strongSelf = self else { return }
             
             guard error == nil else {
-                strongSelf.presentAlert(Alert.Title.BadUpdate, message: error!.localizedDescription)
-                return
-            }
-            
-            guard result != nil else {
-                strongSelf.presentAlert(Alert.Title.BadUpdate, message: Alert.Message.NoJSONData)
+                strongSelf.processError(error!, alertTitle: Alert.Title.BadUpdate)
                 return
             }
             
@@ -236,6 +218,18 @@ private extension StudentLocationsPostInformationViewController {
             
         }
         
+    }
+    
+    func processError(_ error: NSError, alertTitle: String) {
+        var message = String()
+        
+        switch error.code {
+        case LocalizedError.Code.Network: message = Alert.Message.NetworkUnavailable
+        case LocalizedError.Code.HTTP:    message = Alert.Message.HTTPError
+        default:                          message = Alert.Message.BadServerData
+        }
+        
+        presentAlert(title: Alert.Title.BadUpdate, message: message)
     }
     
 }
@@ -279,12 +273,12 @@ private extension StudentLocationsPostInformationViewController {
     func findOnTheMap() {
         
         if locationTextField.text!.isEmpty {
-            presentAlert(Alert.Title.BadGeocode, message: Alert.Message.LocationNotEntered)
+            presentAlert(title: Alert.Title.BadGeocode, message: Alert.Message.LocationNotEntered)
         } else {
             let geocoder = CLGeocoder()
             NetworkActivityIndicatorManager.shared.startActivity();
             pleaseWaitView!.startActivityIndicator()
-            geocoder.geocodeAddressString(locationTextField.text!, completionHandler: geocodeCompletionHandler)
+            geocoder.geocodeAddressString(locationTextField.text!, completionHandler: finishGeocoding)
         }
         
     }
@@ -308,10 +302,9 @@ private extension StudentLocationsPostInformationViewController {
     func setInitialSubviewVisibility() {
         imageView.isHidden         = false
         locationTextField.isHidden = false
-        questionLabels.forEach({$0.isHidden = false})
-        
         mediaURLTextField.isHidden = true
         mapView.isHidden	       = true
+        questionLabels.forEach({$0.isHidden = false})
     }
     
     func setTextFieldPlaceholders() {
@@ -330,14 +323,14 @@ private extension StudentLocationsPostInformationViewController {
     func submit() {
         
         if mediaURLTextField.text!.isEmpty {
-            presentAlert(Alert.Title.BadSubmit, message: Alert.Message.URLNotEntered)
+            presentAlert(title: Alert.Title.BadSubmit, message: Alert.Message.URLNotEntered)
         } else {
             currentStudentLocation?.mediaURL = mediaURLTextField.text!
             
             if let _ = newStudent {
-                ParseAPIClient.shared.post(studentLocation: currentStudentLocation!, completionHandler: postStudentLocationCompletionHandler)
+                ParseAPIClient.shared.post(studentLocation: currentStudentLocation!, completionHandler: finishPostingStudentLocation)
             } else {
-                ParseAPIClient.shared.update(studentLocation: currentStudentLocation!, completionHandler: updateStudentLocationCompletionHandler)
+                ParseAPIClient.shared.update(studentLocation: currentStudentLocation!, completionHandler: finishUpdatingStudentLocation)
             }
             
         }
@@ -345,10 +338,10 @@ private extension StudentLocationsPostInformationViewController {
     }
     
     func transitionToMapAndURL(_ annotation: MKPointAnnotation, region: MKCoordinateRegion) {
-        view.backgroundColor = imageView.backgroundColor
-        toolbarButton.title  = ButtonTitle.Submit
+        view.backgroundColor    = imageView.backgroundColor
+        toolbarButton.title     = ButtonTitle.Submit
         toolbar.backgroundColor = UIColor.clear
-        toolbar.isTranslucent = true
+        toolbar.isTranslucent   = true
         cancelButton.setTitleColor(UIColor.white, for: UIControlState())
         
         mapView.addAnnotation(annotation)

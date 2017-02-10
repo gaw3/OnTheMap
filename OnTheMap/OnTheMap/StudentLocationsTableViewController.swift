@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 
-final  class StudentLocationsTableViewController: UITableViewController {
+final class StudentLocationsTableViewController: UITableViewController {
     
     // MARK: - View Management
     
-    override  func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         addNotificationObservers()
@@ -95,6 +95,7 @@ extension StudentLocationsTableViewController {
 
 
 
+// MARK: -
 // MARK: - Private Helpers
 
 private extension StudentLocationsTableViewController {
