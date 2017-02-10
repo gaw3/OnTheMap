@@ -66,8 +66,7 @@ final class StudentLocationsPostInformationViewController: UIViewController {
     fileprivate var _newStudent:		     NewStudent?      = nil
     fileprivate var pleaseWaitView:          PleaseWaitView?  = nil
     
-    
-    // MARK: - View Management
+    // MARK: - View Events
     
     override func viewDidLoad() {
         super.viewDidLoad()

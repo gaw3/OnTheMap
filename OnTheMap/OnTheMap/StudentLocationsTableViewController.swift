@@ -94,7 +94,7 @@ extension StudentLocationsTableViewController {
         assert(tableView == self.tableView, "Unexpected table view selected a row")
         
         tableView.deselectRow(at: indexPath, animated: false)
-        openSystemBrowserWithURL(StudentLocationsManager.shared.studentLocation(at: indexPath).mediaURL)
+        openSystemBrowser(withURLString: StudentLocationsManager.shared.studentLocation(at: indexPath).mediaURL)
     }
     
 }

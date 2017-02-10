@@ -40,7 +40,7 @@ final class UdacityLoginViewController: UIViewController {
     
     @IBAction func signUpButtonDidTouchUpInside(_ button: UIButton) {
         assert(button == signUpButton, "rcvd IB Action from unknown button")
-        openSystemBrowserWithURL(URL.UdacitySignup)
+        openSystemBrowser(withURLString: URL.UdacitySignup)
     }
     
     @IBAction func unwindToLoginViewController(_ segue: UIStoryboardSegue) {
@@ -67,20 +67,11 @@ final class UdacityLoginViewController: UIViewController {
         removeNotificationObservers()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        addNotificationObservers()
-    }
-
-    // MARK: - View Layout
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         _ = foo
     }
-    
-    // MARK: - View Management
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +84,11 @@ final class UdacityLoginViewController: UIViewController {
         signUpButton.setTitleColor(UIColor.white, for: UIControlState())
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addNotificationObservers()
+    }
+
 }
 
 

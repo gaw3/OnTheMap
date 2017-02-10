@@ -12,9 +12,9 @@ extension UIViewController {
     
     // MARK: - API
     
-    func openSystemBrowserWithURL(_ URLString: String) {
+    func openSystemBrowser(withURLString urlString: String) {
         
-        if let URLComponents = URLComponents(string: URLString) {
+        if let URLComponents = URLComponents(string: urlString) {
             UIApplication.shared.open(URLComponents.url!, options: [:], completionHandler: nil)
         } else {
             presentAlert(title: Alert.Title.UnableToOpenBrowser, message: Alert.Message.MalformedURL)

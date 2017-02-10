@@ -43,7 +43,7 @@ extension StudentLocationsMapViewController {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         if control == view.rightCalloutAccessoryView {
-            openSystemBrowserWithURL((view.annotation!.subtitle!)!)
+            openSystemBrowser(withURLString: (view.annotation!.subtitle!)!)
         }
         
     }
