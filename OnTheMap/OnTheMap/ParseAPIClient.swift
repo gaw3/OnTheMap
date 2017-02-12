@@ -24,7 +24,7 @@ final class ParseAPIClient {
 
 extension ParseAPIClient {
     
-    func getStudentLocation(withUserID id: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func getStudentLocation(forUserID id: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let query               = "where={\"\(ParseAPIClient.API.UniqueKeyKey)\":\"\(id)\"}"
         let urlRequest          = getURLRequest(HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
@@ -42,7 +42,7 @@ extension ParseAPIClient {
         dataTaskWithRequest.resume()
     }
     
-    func refreshStudentLocations(_ completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func refreshStudentLocations(completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         let query               = "limit=100&order=-updatedAt"
         let urlRequest          = getURLRequest(HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)

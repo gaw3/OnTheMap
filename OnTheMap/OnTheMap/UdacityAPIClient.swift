@@ -32,12 +32,12 @@ extension UdacityAPIClient {
         dataTaskWithRequest.resume()
     }
     
-    func login(username: String, password: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        login(UdacityLogin(username: username, password: password).serializedData as Data, completionHandler: completionHandler)
+    func login(facebookAccessToken: FBSDKAccessToken, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        login(UdacityFBAccessToken(accessToken: facebookAccessToken).serializedData as Data, completionHandler: completionHandler)
     }
     
-    func loginWithFacebookAuthorization(_ facebookAccessToken: FBSDKAccessToken, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        login(UdacityFBAccessToken(accessToken: facebookAccessToken).serializedData as Data, completionHandler: completionHandler)
+    func login(username: String, password: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        login(UdacityLogin(username: username, password: password).serializedData as Data, completionHandler: completionHandler)
     }
     
     func logout(completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {

@@ -102,9 +102,9 @@ extension UdacityLoginViewController: FBSDKLoginButtonDelegate {
         
         if let _ = error {
             self.presentAlert(title: Alert.Title.BadFBAuth, message: error!.localizedDescription)
-        } else if let facebookAccessToken = result.token {
+        } else if let token = result.token {
             pleaseWaitView?.startActivityIndicator()
-            UdacityAPIClient.shared.loginWithFacebookAuthorization(facebookAccessToken, completionHandler: finishLoggingIn)
+            UdacityAPIClient.shared.login(facebookAccessToken: token, completionHandler: finishLoggingIn)
         }
         
     }
