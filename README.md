@@ -12,14 +12,13 @@ OnTheMap is Portfolio Project #3 of the Udacity iOS Developer Nanodegree Program
 * [Udacity Git Commit Message Style Guide][CommitMsgStyleGuide]
 * [Udacity Project Review][ProjectReview]<br/><br/>
 
-|               | Project Submission         | Current State       |
-| :----------   | :-------------             | :-----------        |
-| Grade:        | ***Exceeds Expectations*** |                     |
-| GitHub Tag:   | v1.1                       | v1.3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[changelog][ChangeLog] |
-| App Version:  | 1.1                        | 1.3                 |
-| Environment:  | Xcode 7.2.1 / iOS 9.2      | Xcode 7.3 / iOS 9.3 |
-| Devices:      | iPhone Only                | same                |
-| Orientations: | Portrait Only              | same                |
+| [Change Log][ChangeLog] | iOS 10 version - IN WORK       | Final iOS 9 Build   | Project Submission - ***Exceeds Expectations*** |
+| :----------             | :-----------------             | :-------------      | :-------------                                  |
+| GitHub Tag              | pull from branch *iOS10Update* | v1.3                | v1.1                                            |
+| App Version:            | will be 2.0                    | 1.3                 | 1.1                                             |
+| Environment:            | Xcode 8.2.1 / iOS 10.2         | Xcode 7.3 / iOS 9.3 | Xcode 7.2.1 / iOS 9.2                           |
+| Devices:                | iPhone Only                    | iPhone Only         | iPhone Only                                     |
+| Orientations:           | Portrait Only                  | Portrait Only       | Portrait Only                                   |
 
 ## Design  
 
@@ -92,7 +91,7 @@ Tap the **Cancel** button in the upper right-hand corner at any time to interrup
 * `Swift.gitignore`, the template used to create the local `.gitignore` file, lives in this [repo][GitIgnoreRepo].
 
 ---
-**Copyright © 2016 Gregory White. All rights reserved.**
+**Copyright © 2016-2017 Gregory White. All rights reserved.**
 
 
 
