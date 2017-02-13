@@ -12,13 +12,15 @@ OnTheMap is Portfolio Project #3 of the Udacity iOS Developer Nanodegree Program
 * [Udacity Git Commit Message Style Guide][CommitMsgStyleGuide]
 * [Udacity Project Review][ProjectReview]<br/><br/>
 
-| [Change Log][ChangeLog] | iOS 10 version - IN WORK       | Final iOS 9 Build   | Project Submission - ***Exceeds Expectations*** |
-| :----------             | :-----------------             | :-------------      | :-------------                                  |
-| GitHub Tag              | pull from branch *iOS10Update* | v1.3                | v1.1                                            |
-| App Version:            | will be 2.0                    | 1.3                 | 1.1                                             |
-| Environment:            | Xcode 8.2.1 / iOS 10.2         | Xcode 7.3 / iOS 9.3 | Xcode 7.2.1 / iOS 9.2                           |
-| Devices:                | iPhone Only                    | iPhone Only         | iPhone Only                                     |
-| Orientations:           | Portrait Only                  | Portrait Only       | Portrait Only                                   |
+| [Change Log][ChangeLog] | iOS 10 - IN WORK       | Final iOS 9 Build   | Project Submission - ***Exceeds Expectations*** |
+| :----------             | :-----------------     | :-------------      | :-------------                                  |
+| GitHub Tag              | will be v2.0           | v1.3                | v1.1                                            |
+| App Version:            | will be 2.0            | 1.3                 | 1.1                                             |
+| Environment:            | Xcode 8.2.1 / iOS 10.2 | Xcode 7.3 / iOS 9.3 | Xcode 7.2.1 / iOS 9.2                           |
+| Devices:                | iPhone Only            | iPhone Only         | iPhone Only                                     |
+| Orientations:           | Portrait Only          | Portrait Only       | Portrait Only                                   |
+
+**IN WORK** - project is not done yet, but is available for review by pulling latest from the *iOS10Update* branch.  Once the project is complete, it will be merged into the master branch and tagged.
 
 ## Design  
 
