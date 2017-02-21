@@ -39,13 +39,19 @@ final class PleaseWaitView {
     }
     
     func startActivityIndicator() {
-        _dimmedView?.alpha = Consts.ActivityAlpha
-        activityIndicator.startAnimating()
+        DispatchQueue.main.async(execute:  {
+            self._dimmedView?.alpha = Consts.ActivityAlpha
+            self.activityIndicator.startAnimating()
+        })
     }
     
     func stopActivityIndicator() {
-        activityIndicator.stopAnimating()
-        _dimmedView?.alpha = Consts.NoAlpha
+        DispatchQueue.main.async(execute:  {
+            self.activityIndicator.stopAnimating()
+            self._dimmedView?.alpha = Consts.NoAlpha
+        })
+//        activityIndicator.stopAnimating()
+//        _dimmedView?.alpha = Consts.NoAlpha
     }
     
 }

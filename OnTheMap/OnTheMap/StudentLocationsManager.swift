@@ -44,10 +44,8 @@ extension StudentLocationsManager {
         studentLocations.removeAll()
         
         for location in locations {
-            debugPrint("location = \(location)")
             if location.latitude != 0.0 && location.longitude != 0.0 {
                 studentLocations.append(location)
-                debugPrint("location added")
             }
         }
         

@@ -136,7 +136,11 @@ extension UdacityLoginViewController {
             
             if UdacityDataManager.shared.isLoginSuccessful {
                 let navController = storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsTabBarNC) as! UINavigationController
-                present(navController, animated: true, completion: nil)
+                
+                DispatchQueue.main.async(execute:  {
+                    self.present(navController, animated: true, completion: nil)
+                })
+                
             }
             
             

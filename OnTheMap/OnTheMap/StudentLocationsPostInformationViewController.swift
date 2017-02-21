@@ -189,8 +189,12 @@ private extension StudentLocationsPostInformationViewController {
             strongSelf.currentStudentLocation!.dateUpdated = responseData.dateCreated
             strongSelf.currentStudentLocation!.objectID    = responseData.id
             
-            strongSelf.dismiss(animated: true, completion: {
-                StudentLocationsManager.shared.postedLocation = strongSelf.currentStudentLocation!
+            DispatchQueue.main.async(execute: {
+                
+                strongSelf.dismiss(animated: true, completion: {
+                    StudentLocationsManager.shared.postedLocation = strongSelf.currentStudentLocation!
+                })
+            
             })
             
         }
@@ -212,8 +216,12 @@ private extension StudentLocationsPostInformationViewController {
             
             strongSelf.currentStudentLocation!.dateUpdated = responseData.dateUpdated
             
-            strongSelf.dismiss(animated: true, completion: {
-                StudentLocationsManager.shared.update(studentLocation: strongSelf.currentStudentLocation!)
+            DispatchQueue.main.async(execute: {
+                
+                strongSelf.dismiss(animated: true, completion: {
+                    StudentLocationsManager.shared.update(studentLocation: strongSelf.currentStudentLocation!)
+                })
+            
             })
             
         }

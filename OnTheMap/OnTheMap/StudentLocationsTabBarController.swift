@@ -62,7 +62,10 @@ private extension StudentLocationsTabBarController {
                 
                 postInfoVC.newStudent = (UdacityDataManager.shared.user!.firstName, UdacityDataManager.shared.user!.lastName, UdacityDataManager.shared.user!.userID)
                 
-                strongSelf.present(postInfoVC, animated: true, completion: nil)
+                DispatchQueue.main.async(execute:  {
+                    strongSelf.present(postInfoVC, animated: true, completion: nil)
+                })
+                
             } else {
                 let alert     = UIAlertController(title: Alert.Title.AlreadyPosted, message: Alert.Message.IsUpdateDesired, preferredStyle: .alert)
                 let noAction  = UIAlertAction(title: Alert.ActionTitle.No, style: .cancel, handler: nil )
@@ -70,13 +73,20 @@ private extension StudentLocationsTabBarController {
                 let yesAction = UIAlertAction(title: Alert.ActionTitle.Yes, style: .default, handler: { (action) -> Void in
                     let postInfoVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC) as! StudentLocationsPostInformationViewController
                     postInfoVC.currentStudentLocation = StudentLocation(studentLocationDict: results!.first! as JSONDictionary)
-                    strongSelf.present(postInfoVC, animated: true, completion: nil)
+                    
+                    DispatchQueue.main.async(execute:  {
+                        strongSelf.present(postInfoVC, animated: true, completion: nil)
+                    })
+                    
                 })
                 
                 alert.addAction(yesAction)
                 alert.addAction(noAction)
                 
-                strongSelf.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.async(execute:  {
+                    strongSelf.present(alert, animated: true, completion: nil)
+                })
+                
             }
             
         }

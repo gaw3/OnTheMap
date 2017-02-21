@@ -79,14 +79,18 @@ extension StudentLocationsMapViewController {
     
     func processNotification(_ notification: Notification) {
         
-        switch notification.name {
+        DispatchQueue.main.async(execute: {
             
-        case Notifications.StudentLocationDidGetPosted:     studentLocationDidGetPosted()
-        case Notifications.StudentLocationsDidGetRefreshed: studentLocationsDidGetRefreshed()
-        case Notifications.StudentLocationDidGetUpdated:    studentLocationDidGetUpdated(notification)
-            
-        default: fatalError("Received unknown notification = \(notification)")
-        }
+            switch notification.name {
+                
+            case Notifications.StudentLocationDidGetPosted:     self.studentLocationDidGetPosted()
+            case Notifications.StudentLocationsDidGetRefreshed: self.studentLocationsDidGetRefreshed()
+            case Notifications.StudentLocationDidGetUpdated:    self.studentLocationDidGetUpdated(notification)
+                
+            default: fatalError("Received unknown notification = \(notification)")
+            }
+        
+        })
         
     }
     
