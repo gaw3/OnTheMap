@@ -10,14 +10,21 @@ import UIKit
 
 final class StudentLocationsTabBarController: UITabBarController {
     
+    // MARK: - IB Outlets
+    
+    @IBOutlet weak var refreshBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var pinBarButtonItem:     UIBarButtonItem!
+    
     // MARK: - IB Actions
     
-    @IBAction func pinButtonWasTapped(_ button: UIBarButtonItem) {
-        ParseAPIClient.shared.getStudentLocation(forUserID: UdacityDataManager.shared.user!.userID, completionHandler: finishGettingStudentLocation)
-    }
-    
-    @IBAction func refreshButtonWasTapped(_ button: UIBarButtonItem) {
-        ParseAPIClient.shared.refreshStudentLocations(completionHandler: finishRefreshingStudentLocations)
+    @IBAction func barButtonItemWasTapped(_ barButtonItem: UIBarButtonItem) {
+        switch barButtonItem {
+            
+        case pinBarButtonItem:     ParseAPIClient.shared.getStudentLocation(forUserID: UdacityDataManager.shared.user!.userID, completionHandler: finishGettingStudentLocation)
+        case refreshBarButtonItem: ParseAPIClient.shared.refreshStudentLocations(completionHandler: finishRefreshingStudentLocations)
+        default:                   fatalError("Received action from unknown bar button item = \(barButtonItem)")
+            
+        }
     }
     
     // MARK: - View Events

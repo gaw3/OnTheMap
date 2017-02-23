@@ -24,23 +24,12 @@ final class UdacityLoginViewController: UIViewController {
     
     // MARK: - IB Actions
     
-    @IBAction func loginButtonDidTouchUpInside(_ button: UIButton) {
-        assert(button == loginButton, "rcvd IB Action from unknown button")
-        
-//        if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-//            presentAlert(Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
-//        } else {
-//            pleaseWaitView?.startActivityIndicator()
-//            UdacityAPIClient.shared.login(username: emailTextField.text! as String, password: passwordTextField.text! as String, completionHandler: completeLogin)
-//        }
-        
-        pleaseWaitView?.startActivityIndicator()
-        UdacityAPIClient.shared.login(username: "gregory.a.white.42@gmail.com", password: "JrbKZsUZwoH3YU", completionHandler: finishLoggingIn)
-   }
-    
-    @IBAction func signUpButtonDidTouchUpInside(_ button: UIButton) {
-        assert(button == signUpButton, "rcvd IB Action from unknown button")
-        openSystemBrowser(withURLString: URL.UdacitySignup)
+    @IBAction func buttonDidTouchUpInside(_ button: UIButton) {
+        switch button {
+        case loginButton: login()
+        case signUpButton: openSystemBrowser(withURLString: URL.UdacitySignup)
+        default: fatalError("Received action from unknown button = \(button)")
+        }
     }
     
     @IBAction func unwindToLoginViewController(_ segue: UIStoryboardSegue) {
@@ -135,14 +124,13 @@ extension UdacityLoginViewController {
             pleaseWaitView?.stopActivityIndicator()
             
             if UdacityDataManager.shared.isLoginSuccessful {
-                let navController = storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsTabBarNC) as! UINavigationController
                 
                 DispatchQueue.main.async(execute:  {
+                    let navController = self.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsTabBarNC) as! UINavigationController
                     self.present(navController, animated: true, completion: nil)
                 })
                 
             }
-            
             
         default: fatalError("Received unknown notification = \(notification)")
         }
@@ -353,6 +341,19 @@ private extension UdacityLoginViewController {
         passwordTextField.leftView              = UIView(frame: PlaceholderText.InsetRect)
         passwordTextField.leftViewMode          = .always
         passwordTextField.attributedPlaceholder = NSAttributedString(string: PlaceholderText.PasswordField, attributes: PlaceholderText.Attributes)
+    }
+    
+    // MARK: - Udacity
+    
+    func login() {
+        
+        if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
+            presentAlert(title: Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
+        } else {
+            pleaseWaitView?.startActivityIndicator()
+            UdacityAPIClient.shared.login(username: emailTextField.text! as String, password: passwordTextField.text! as String, completionHandler: finishLoggingIn)
+        }
+        
     }
     
 }
