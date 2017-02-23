@@ -1,4 +1,5 @@
-# Change Log
+# ![][AppIcon]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Change Log
+---
 
 ### Version 1.3
 * Update to Xcode 7.3 / iOS 9.3
@@ -11,3 +12,10 @@
 * Add README
 
 ### Version 1.1 - Submission
+
+---
+**Copyright © 2016-2017 Gregory White. All rights reserved.**
+
+
+
+[AppIcon]:  ../images/OnTheMap_80.png

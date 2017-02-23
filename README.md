@@ -1,6 +1,8 @@
 # ![][AppIcon]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OnTheMap
 
-OnTheMap allows a Udacity student to share his location, and a URL of interest, with other students.  The locations specified in the 100 most-recent student postings are presented as pins on a map or as items in a table.  The student postings database is hosted on the Parse platform.  The app requires login via Udacity or Facebook.
+OnTheMap allows a Udacity student to share his location, and a URL of interest, with other students.  The locations specified in the 100 most-recent student postings are presented as pins on a map or as items in a table.  The student postings database is hosted on a Udacity server using a local copy of Parse.
+
+---
 
 ## Project
 
@@ -12,15 +14,14 @@ OnTheMap is Portfolio Project #3 of the Udacity iOS Developer Nanodegree Program
 * [Udacity Git Commit Message Style Guide][CommitMsgStyleGuide]
 * [Udacity Project Review][ProjectReview]<br/><br/>
 
-| [Change Log][ChangeLog] | iOS 10 - IN WORK       | Final iOS 9 Build   | Project Submission - ***Exceeds Expectations*** |
+| [Change Log][ChangeLog] | Current iOS 10 Build   | Final iOS 9 Build   | Project Submission - ***Exceeds Expectations*** |
 | :----------             | :-----------------     | :-------------      | :-------------                                  |
-| GitHub Tag              | will be v2.0           | v1.3                | v1.1                                            |
-| App Version:            | will be 2.0            | 1.3                 | 1.1                                             |
+| GitHub Tag              | v2.0                   | v1.3                | v1.1                                            |
+| App Version:            | 2.0                    | 1.3                 | 1.1                                             |
 | Environment:            | Xcode 8.2.1 / iOS 10.2 | Xcode 7.3 / iOS 9.3 | Xcode 7.2.1 / iOS 9.2                           |
 | Devices:                | iPhone Only            | iPhone Only         | iPhone Only                                     |
 | Orientations:           | Portrait Only          | Portrait Only       | Portrait Only                                   |
 
-**IN WORK** - project is not done yet, but is available for review by pulling latest from the *iOS10Update* branch.  Once the project is complete, it will be merged into the master branch and tagged.
 
 ## Design  
 
@@ -32,7 +33,7 @@ The user must have a Udacity account to be able to login with this app.  If the 
 
 Enter email address and password, and tap the **Login** button in order to login with Udacity authentication.
 
-Tap on the **Log in with Facebook** button in order to login with Facebook authentication.  Email address and password fields are ignored.
+Tap on the **Continue with Facebook** button in order to login with Facebook authentication.  Email address and password fields are ignored.
 
 ### Student Location Tabbed View
 
@@ -79,21 +80,21 @@ Tap the **Cancel** button in the upper right-hand corner at any time to interrup
 
 ### Web APIs
 
-[Udacity API][UAPI] - login/logout with Udacity email/password or Facebook Authentication Token; retrieve Udacity user profile data.
-
-[Parse API][PAPI] - modify data in, and retrieve data from, the student location database hosted on the Facebook Parse platform.  [Website][PWebsite] and [Terms of Service][PTOS]
+* [Udacity API][UAPI] - login/logout with Udacity email/password or Facebook Authentication Token; retrieve Udacity user profile data.
+* [Parse API][PAPI] - access student location database hosted on Udacity server using a local copy of Parse.
 
 ### 3rd-Party
 
-* `FBSDKCoreKit` & `FBSDKLoginKit` from Facebook SDK for iOS (v4.9.1).
-  - [REPO][FBRepo]
-  - [LICENSE][FBLicense]
-  - [README][FBREADME]
+* Facebook SDK for **iOS 9** (v4.19.0).&nbsp;&nbsp;[Repo][FBRepo], [License][FBLicense] & [README][FBREADME]
+  - iOS 10 version not available.
+  - `Bolts.framework`
+  - `FBSDKCoreKit.framework`
+  - `FBSDKLoginKit.framework`
 * *GitHub Swift Style Guide* lives in this [repo][StyleGuideRepo].
 * `Swift.gitignore`, the template used to create the local `.gitignore` file, lives in this [repo][GitIgnoreRepo].
 
 ---
-**Copyright © 2016 Gregory White. All rights reserved.**
+**Copyright © 2016-2017 Gregory White. All rights reserved.**
 
 
 
