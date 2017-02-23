@@ -1,5 +1,4 @@
 # ![][AppIcon]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Udacity Sign Up Webpage
----
 
 ![][USUW]
 

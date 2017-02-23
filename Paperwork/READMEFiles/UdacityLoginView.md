@@ -1,5 +1,4 @@
 # ![][AppIcon]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Udacity Login View
----
 
 ![][ULV]
 

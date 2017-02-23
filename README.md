@@ -2,8 +2,6 @@
 
 OnTheMap allows a Udacity student to share his location, and a URL of interest, with other students.  The locations specified in the 100 most-recent student postings are presented as pins on a map or as items in a table.  The student postings database is hosted on a Udacity server using a local copy of Parse.
 
----
-
 ## Project
 
 OnTheMap is Portfolio Project #3 of the Udacity iOS Developer Nanodegree Program.  The following list contains pertinent course documents:
