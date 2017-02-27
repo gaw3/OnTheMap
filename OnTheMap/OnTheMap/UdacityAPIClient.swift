@@ -21,6 +21,7 @@ final class UdacityAPIClient {
 
 
 
+// MARK: -
 // MARK: - API
 
 extension UdacityAPIClient {

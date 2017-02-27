@@ -36,6 +36,7 @@ final class StudentLocationsManager {
 
 
 
+// MARK: -
 // MARK: - API
 
 extension StudentLocationsManager {

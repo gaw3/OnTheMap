@@ -27,10 +27,9 @@ final class APIDataTaskWithRequest {
     
     func resume() {
         
-        let session = URLSession.shared
-        let task    = session.dataTask(with: urlRequest as URLRequest, completionHandler: { (rawJSONResponse, httpResponse, urlSessionError) in
+        let task = URLSession.shared.dataTask(with: urlRequest as URLRequest, completionHandler: { (rawJSONResponse, httpResponse, urlSessionError) in
             
-            NetworkActivityIndicatorManager.shared.endActivity()
+            NetworkActivityIndicator.shared.stop()
             
             guard urlSessionError == nil else {
                 let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.Network, NSUnderlyingErrorKey: urlSessionError!] as [String : Any]
@@ -43,7 +42,7 @@ final class APIDataTaskWithRequest {
             let httpURLResponse = httpResponse as! Foundation.HTTPURLResponse
             
             guard httpURLResponse.statusCodeClass == .successful else {
-                let httpStatusText = Foundation.HTTPURLResponse.localizedString(forStatusCode: httpURLResponse.statusCode)
+                let httpStatusText = HTTPURLResponse.localizedString(forStatusCode: httpURLResponse.statusCode)
                 let failureReason  = "HTTP status code = \(httpURLResponse.statusCode), HTTP status text = \(httpStatusText)"
                 let userInfo       = [NSLocalizedDescriptionKey: LocalizedError.Description.HTTP, NSLocalizedFailureReasonErrorKey: failureReason]
                 let error          = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.HTTP, userInfo: userInfo)
@@ -80,24 +79,8 @@ final class APIDataTaskWithRequest {
             
         }) 
         
-        NetworkActivityIndicatorManager.shared.startActivity()
+        NetworkActivityIndicator.shared.start()
         task.resume()
     }
     
 }
-
-
-
-// MARK - Private Helpers
-
-//private extension APIDataTaskWithRequest {
-//    
-//    func complete(withCompletionHandler handler: @escaping APIDataTaskWithRequestCompletionHandler, result: AnyObject!, error: NSError?) {
-//        
-////        DispatchQueue.main.async(execute:  {
-//            self.completionHandler(result, error)
-////        })
-//        
-//    }
-
-//}

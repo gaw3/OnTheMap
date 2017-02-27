@@ -23,12 +23,12 @@ struct Alert {
         static let CheckLoginFields   = "check email & password fields"
         static let HTTPError          = "problem communicating with server"
         static let IsUpdateDesired    = "would you like to update your location?"
-        static let LocationNotEntered = "Location not yet entered"
+        static let LocationNotEntered = "location not yet entered"
         static let MalformedURL       = "malformed URL"
         static let NetworkUnavailable = "network is unavailable"
         static let NoJSONData         = "JSON data unavailable"
         static let NoPlacemarks       = "did not receive any placemarks"
-        static let URLNotEntered      = "Link to share not yet entered"
+        static let URLNotEntered      = "link to share not yet entered"
     }
     
     struct Title {

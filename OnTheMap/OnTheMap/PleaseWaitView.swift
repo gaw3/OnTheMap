@@ -19,8 +19,8 @@ final class PleaseWaitView {
     
     // MARK: - Variables
     
-    private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-    private var _dimmedView: UIView? = nil
+    fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    fileprivate var _dimmedView: UIView? = nil
     
     var dimmedView: UIView { return _dimmedView! }
     
@@ -38,20 +38,30 @@ final class PleaseWaitView {
         _dimmedView?.addSubview(activityIndicator)
     }
     
+}
+
+
+
+// MARK: -
+// MARK: - API
+
+extension PleaseWaitView {
+
     func startActivityIndicator() {
+        
         DispatchQueue.main.async(execute:  {
             self._dimmedView?.alpha = Consts.ActivityAlpha
             self.activityIndicator.startAnimating()
         })
+        
     }
     
     func stopActivityIndicator() {
+        
         DispatchQueue.main.async(execute:  {
             self.activityIndicator.stopAnimating()
             self._dimmedView?.alpha = Consts.NoAlpha
         })
-//        activityIndicator.stopAnimating()
-//        _dimmedView?.alpha = Consts.NoAlpha
+        
     }
-    
 }

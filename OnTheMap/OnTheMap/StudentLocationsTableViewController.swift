@@ -34,17 +34,21 @@ extension StudentLocationsTableViewController {
     
     func processNotification(_ notification: Notification) {
         
-        switch notification.name {
+        DispatchQueue.main.async(execute: {
+
+            switch notification.name {
             
-        case Notifications.StudentLocationDidGetPosted:     tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-        case Notifications.StudentLocationsDidGetRefreshed: tableView.reloadData()
+            case Notifications.StudentLocationDidGetPosted:     self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+            case Notifications.StudentLocationsDidGetRefreshed: self.tableView.reloadData()
+                
+            case Notifications.StudentLocationDidGetUpdated:
+                let indexOfUpdate = notification.userInfo![Notifications.IndexOfUpdatedStudentLocationKey] as! Int
+                self.tableView.reloadRows(at: [IndexPath(row: indexOfUpdate, section: 0)], with: .fade)
+                
+            default: fatalError("Received unknown notification = \(notification)")
+            }
             
-        case Notifications.StudentLocationDidGetUpdated:
-            let indexOfUpdate = notification.userInfo![Notifications.IndexOfUpdatedStudentLocationKey] as! Int
-            tableView.reloadRows(at: [IndexPath(row: indexOfUpdate, section: 0)], with: .fade)
-            
-        default: fatalError("Received unknown notification = \(notification)")
-        }
+        })
         
     }
     

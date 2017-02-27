@@ -138,8 +138,6 @@ struct StudentLocation {
         set(key) { _studentLocation[ParseAPIClient.API.UniqueKeyKey] = key as AnyObject? }
     }
     
-
-    
     // MARK: - API
     
     init() { _studentLocation = JSONDictionary() }

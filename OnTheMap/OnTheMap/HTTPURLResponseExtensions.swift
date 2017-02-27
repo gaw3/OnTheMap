@@ -1,5 +1,5 @@
 //
-//  NSHTTPURLResponseExtensions.swift
+//  HTTPURLResponseExtensions.swift
 //  OnTheMap
 //
 //  Created by Gregory White on 11/24/15.

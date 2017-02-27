@@ -132,7 +132,7 @@ private extension StudentLocationsPostInformationViewController {
             guard let strongSelf = self else { return }
             
             DispatchQueue.main.async(execute: {
-                NetworkActivityIndicatorManager.shared.endActivity()
+                NetworkActivityIndicator.shared.stop()
                 strongSelf.pleaseWaitView!.stopActivityIndicator()
             })
             
@@ -176,6 +176,8 @@ private extension StudentLocationsPostInformationViewController {
         
         return { [weak self] (result, error) -> Void in
             
+            NetworkActivityIndicator.shared.stop()
+
             guard let strongSelf = self else { return }
 
             guard error == nil else {
@@ -204,6 +206,8 @@ private extension StudentLocationsPostInformationViewController {
     var finishUpdatingStudentLocation: APIDataTaskWithRequestCompletionHandler {
         
         return { [weak self] (result, error) -> Void in
+            
+            NetworkActivityIndicator.shared.stop()
             
             guard let strongSelf = self else { return }
             
@@ -284,7 +288,7 @@ private extension StudentLocationsPostInformationViewController {
             presentAlert(title: Alert.Title.BadGeocode, message: Alert.Message.LocationNotEntered)
         } else {
             let geocoder = CLGeocoder()
-            NetworkActivityIndicatorManager.shared.startActivity();
+            NetworkActivityIndicator.shared.start();
             pleaseWaitView!.startActivityIndicator()
             geocoder.geocodeAddressString(locationTextField.text!, completionHandler: finishGeocoding)
         }

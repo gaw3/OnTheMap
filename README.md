@@ -68,13 +68,13 @@ Tap the **Cancel** button in the upper right-hand corner at any time to interrup
   - the local copy of the student location database has been modified
   - various steps in the Udacity login/logout sequence have completed
 
-### iOS Frameworks & Grand Central Dispatch
+### iOS Frameworks
 
-* [CoreLocation][CL]
-* [Foundation][FDTN]
-* [MapKit][MK]
-* [UIKit][UK]<br/><br/>
-* [GCD][GCD]
+* CoreLocation
+* Foundation
+* Grand Central Dispatch
+* MapKit
+* UIKit
 
 ### Web APIs
 
@@ -83,11 +83,10 @@ Tap the **Cancel** button in the upper right-hand corner at any time to interrup
 
 ### 3rd-Party
 
-* Facebook SDK for **iOS 9** (v4.19.0).&nbsp;&nbsp;[Repo][FBRepo], [License][FBLicense] & [README][FBREADME]
-  - iOS 10 version not available.
-  - `Bolts.framework`
-  - `FBSDKCoreKit.framework`
-  - `FBSDKLoginKit.framework`
+* Facebook SDK for **iOS 9** (v4.19.0).&nbsp;&nbsp;iOS 10 version not available.&nbsp;&nbsp;[Repo][FBRepo], [License][FBLicense] & [README][FBREADME].
+  - ```Bolts.framework```
+  - ```FBSDKCoreKit.framework```
+  - ```FBSDKLoginKit.framework```
 * *GitHub Swift Style Guide* lives in this [repo][StyleGuideRepo].
 * `Swift.gitignore`, the template used to create the local `.gitignore` file, lives in this [repo][GitIgnoreRepo].
 
