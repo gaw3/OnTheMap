@@ -6,61 +6,51 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-internal struct UdacityUser {
-	
-	// MARK: - Internal Stored Variables
-
-	private var _user: JSONDictionary? = nil
-
-	// MARK: - Internal Computed Variables
-	
-	internal var firstName: String? {
-		if let _ = _user {
-			if let name = _user![UdacityAPIClient.API.FirstNameKey] as! String? { return name }
-		}
-		return nil
-	}
-
-	internal var lastName: String? {
-			if let _ = _user {
-				if let name = _user![UdacityAPIClient.API.LastNameKey] as! String? { return name }
-			}
-			return nil
-	}
-
-	internal var userID: String? {
-		if let _ = _user {
-			if let id = _user![UdacityAPIClient.API.UserIDKey] as! String? { return id }
-		}
-		return nil
-	}
-	
-	// MARK: - Internal Computed Meta Variables
-
-	internal var fullName: String? {
-		var fullName = String()
-
-		if let _ = firstName {
-			fullName.appendContentsOf(firstName!)
-		}
-
-		if let _ = lastName{
-			if !fullName.isEmpty { fullName.appendContentsOf(" ") }
-			
-			fullName.appendContentsOf(lastName!)
-		}
-
-		return (!fullName.isEmpty) ? fullName : nil
-	}
-
-	// MARK: - API
-
-	internal init(userDict: JSONDictionary) {
-
-		if let user = userDict[UdacityAPIClient.API.UserKey] as! JSONDictionary? {
-			_user = user
-		}
-
-	}
-
+struct UdacityUser {
+    
+    // MARK: - Variables
+    
+    private var _user: JSONDictionary? = nil
+    
+    // MARK: - Variables
+    
+    var firstName: String {
+        if let _ = _user, let name = _user![UdacityAPIClient.API.FirstNameKey] as! String? { return name }
+        return String()
+    }
+    
+    var fullName: String {
+        var fullName = String()
+        
+        if !firstName.isEmpty { fullName.append(firstName) }
+        
+        if !lastName.isEmpty {
+            if !fullName.isEmpty { fullName.append(" ") }
+            
+            fullName.append(lastName)
+        }
+        
+        return fullName
+    }
+    
+    var lastName: String {
+        if let _ = _user, let name = _user![UdacityAPIClient.API.LastNameKey] as! String? { return name }
+        return String()
+    }
+    
+    var userID: String {
+        if let _ = _user, let id = _user![UdacityAPIClient.API.UserIDKey] as! String? { return id }
+        return String()
+    }
+    
+    // MARK: - API
+    
+    init(userDict: JSONDictionary) {
+        
+        if let user = userDict[UdacityAPIClient.API.UserKey] as! JSONDictionary? {
+            _user = user
+        }
+        
+    }
+    
 }

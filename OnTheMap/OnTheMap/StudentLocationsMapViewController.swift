@@ -6,120 +6,142 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
 import MapKit
 import UIKit
 
-final internal class StudentLocationsMapViewController: UIViewController {
+final class StudentLocationsMapViewController: UIViewController {
+    
+    // MARK: - IB Outlets
+    
+    @IBOutlet weak var mapView: MKMapView!
+    
+    // MARK: - Variables
+    
+    fileprivate var pointAnnotations = [MKPointAnnotation]()
+    
+    // MARK: - View Events
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeNotificationObservers()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addNotificationObservers()
+    }
+    
+}
 
-	// MARK: - Internal Constants
 
-	internal struct StudentLocsPinAnnoView {
-		static let ReuseID = "StudentLocsPinAnnoView"
-	}
 
-	// MARK: - Private Constants
+// MARK: -
+// MARK: - Map View Delegate
 
-	private struct SEL {
-		static let DidGetPosted    = #selector(studentLocationDidGetPosted(_:))
-		static let DidGetRefreshed = #selector(studentLocationsDidGetRefreshed(_:))
-		static let DidGetUpdated   = #selector(studentLocationDidGetUpdated(_:))
-	}
-	
-	// MARK: - Private Stored Variables
+extension StudentLocationsMapViewController {
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if control == view.rightCalloutAccessoryView {
+            openSystemBrowser(withURLString: (view.annotation!.subtitle!)!)
+        }
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKPinAnnotationView
+        
+        if let _ = pinAnnotationView {
+            pinAnnotationView!.annotation = annotation
+        } else {
+            pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+        }
+        
+        pinAnnotationView!.canShowCallout            = true
+        pinAnnotationView!.pinTintColor              = MKPinAnnotationView.redPinColor()
+        pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        
+        if annotation.title! == UdacityDataManager.shared.user!.fullName {
+            pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
+        }
+        
+        return pinAnnotationView
+    }
+    
+}
 
-	private var pointAnnotations = [MKPointAnnotation]()
 
-   // MARK: - IB Outlets
-   
-   @IBOutlet weak internal var mapView: MKMapView!
 
-   // MARK: - View Events
+// MARK: -
+// MARK: - Notifications
 
-   override internal func viewDidLoad() {
-      super.viewDidLoad()
+extension StudentLocationsMapViewController {
+    
+    func processNotification(_ notification: Notification) {
+        
+        DispatchQueue.main.async(execute: {
+            
+            switch notification.name {
+                
+            case Notifications.StudentLocationDidGetPosted:     self.studentLocationDidGetPosted()
+            case Notifications.StudentLocationsDidGetRefreshed: self.studentLocationsDidGetRefreshed()
+            case Notifications.StudentLocationDidGetUpdated:    self.studentLocationDidGetUpdated(notification)
+                
+            default: fatalError("Received unknown notification = \(notification)")
+            }
+        
+        })
+        
+    }
+    
+}
 
-		addNotificationObservers()
-  }
 
-   // MARK: - Notifications
 
-	internal func studentLocationDidGetPosted(notification: NSNotification) {
-		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
-				 "unknown notification = \(notification)")
+// MARK: -
+// MARK: - Private Helpers
 
-		pointAnnotations.append(slMgr.postedLocation.pointAnnotation)
-		mapView.addAnnotation(slMgr.postedLocation.pointAnnotation)
-   }
-   
-	internal func studentLocationsDidGetRefreshed(notification: NSNotification) {
-		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
-			    "unknown notification = \(notification)")
+private extension StudentLocationsMapViewController {
+    
+    struct SEL {
+        static let ProcessNotification = #selector(processNotification(_:))
+    }
+    
+    func addNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetPosted,     object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: SEL.ProcessNotification, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
+    }
+    
+    func removeNotificationObservers() {
+        NotificationCenter.default.removeObserver(self, name: Notifications.StudentLocationDidGetPosted,     object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notifications.StudentLocationDidGetUpdated,    object: nil)
+    }
+    
+    func studentLocationDidGetPosted() {
+        pointAnnotations.append(StudentLocationsManager.shared.postedLocation.pointAnnotation)
+        mapView.addAnnotation(StudentLocationsManager.shared.postedLocation.pointAnnotation)
+    }
+    
+    func studentLocationDidGetUpdated(_ notification: Notification) {
+        let indexOfUpdate = notification.userInfo![Notifications.IndexOfUpdatedStudentLocationKey] as! Int
+        
+        mapView.removeAnnotation(pointAnnotations[indexOfUpdate])
+        mapView.addAnnotation(StudentLocationsManager.shared.studentLocation(at: indexOfUpdate).pointAnnotation)
+        
+        pointAnnotations[indexOfUpdate] = StudentLocationsManager.shared.studentLocation(at: indexOfUpdate).pointAnnotation
+    }
 
-		mapView.removeAnnotations(pointAnnotations)
-		pointAnnotations.removeAll()
-
-      for index in 0...(slMgr.count - 1) {
-         pointAnnotations.append(slMgr.studentLocationAtIndex(index).pointAnnotation)
-      }
-      
-      mapView.addAnnotations(pointAnnotations)
-   }
-   
-	internal func studentLocationDidGetUpdated(notification: NSNotification) {
-		assert(notification.name == StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
-			    "unknown notification = \(notification)")
-
-		let indexOfUpdate = notification.userInfo![StudentLocationsManager.Notifications.IndexOfUpdatedStudentLocationKey] as! Int
-
-		mapView.removeAnnotation(pointAnnotations[indexOfUpdate])
-		mapView.addAnnotation(slMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation)
-
-		pointAnnotations[indexOfUpdate] = slMgr.studentLocationAtIndex(indexOfUpdate).pointAnnotation
-	}
-
-   // MARK: - MKMapViewDelegate
-   
-   internal func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-      
-      if control == view.rightCalloutAccessoryView {
-			openSystemBrowserWithURL((view.annotation!.subtitle!)!)
-      }
-      
-   }
-
-   internal func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-      var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(StudentLocsPinAnnoView.ReuseID) as? MKPinAnnotationView
-      
-      if let _ = pinAnnotationView {
-         pinAnnotationView!.annotation = annotation
-      } else {
-         pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: StudentLocsPinAnnoView.ReuseID)
-		}
-
-		pinAnnotationView!.canShowCallout            = true
-		pinAnnotationView!.pinTintColor              = MKPinAnnotationView.redPinColor()
-		pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
-
-		if annotation.title! == udacityDataMgr.user!.fullName {
-			pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
-		}
-
-      return pinAnnotationView
-   }
-   
-	// MARK: - Private Helpers
-
-	private func addNotificationObservers() {
-		notifCtr.addObserver(self, selector: SEL.DidGetPosted,
-												 name: StudentLocationsManager.Notifications.StudentLocationDidGetPosted,
-											  object: nil)
-		notifCtr.addObserver(self, selector: SEL.DidGetRefreshed,
-										       name: StudentLocationsManager.Notifications.StudentLocationsDidGetRefreshed,
-											  object: nil)
-		notifCtr.addObserver(self, selector: SEL.DidGetUpdated,
-											    name: StudentLocationsManager.Notifications.StudentLocationDidGetUpdated,
-											  object: nil)
-	}
-
+    func studentLocationsDidGetRefreshed() {
+        mapView.removeAnnotations(pointAnnotations)
+        pointAnnotations.removeAll()
+        
+        for index in 0...(StudentLocationsManager.shared.count - 1) {
+            pointAnnotations.append(StudentLocationsManager.shared.studentLocation(at: index).pointAnnotation)
+        }
+        
+        mapView.addAnnotations(pointAnnotations)
+    }
+    
 }

@@ -6,88 +6,83 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-private let _sharedClient = ParseAPIClient()
+private let _shared = ParseAPIClient()
 
-final internal class ParseAPIClient: NSObject {
+final class ParseAPIClient {
+    
+    class var shared: ParseAPIClient {
+        return _shared
+    }
+    
+}
 
-	class internal var sharedClient: ParseAPIClient {
-		return _sharedClient
-	}
 
-	// MARK: - Private Constants
 
-	private struct ParseAppIDField {
-		static let Name  = "X-Parse-Application-Id"
-		static let Value = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-	}
+// MARK: -
+// MARK: - API
 
-	private struct ParseRESTAPIKeyField {
-		static let Name  = "X-Parse-REST-API-Key"
-		static let Value = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
-	}
+extension ParseAPIClient {
+    
+    func getStudentLocation(forUserID id: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        let query               = "where={\"\(ParseAPIClient.API.UniqueKeyKey)\":\"\(id)\"}"
+        let urlRequest          = getURLRequest(HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
+        
+        dataTaskWithRequest.resume()
+    }
+    
+    func post(studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        let urlRequest = getURLRequest(HTTP.Method.Post, urlString: ParseAPIClient.API.BaseURL, httpQuery: nil)
+        
+        urlRequest.httpBody = studentLocation.newStudentSerializedData as Data
+        urlRequest.addValue(HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: HTTP.HeaderField.ContentType)
+        
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
+        dataTaskWithRequest.resume()
+    }
+    
+    func refreshStudentLocations(completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        let query               = "limit=100&order=-updatedAt"
+        let urlRequest          = getURLRequest(HTTP.Method.Get, urlString: ParseAPIClient.API.BaseURL, httpQuery: query)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
+        
+        dataTaskWithRequest.resume()
+    }
+    
+    func update(studentLocation: StudentLocation, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        let urlString  = ParseAPIClient.API.BaseURL + "/\(studentLocation.objectID)"
+        let urlRequest = getURLRequest(HTTP.Method.Put, urlString: urlString, httpQuery: nil)
+        
+        urlRequest.httpBody = studentLocation.newStudentSerializedData as Data
+        urlRequest.addValue(HTTP.MIMEType.ApplicationJSON, forHTTPHeaderField: HTTP.HeaderField.ContentType)
+        
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
+        dataTaskWithRequest.resume()
+    }
+    
+}
 
-	// MARK: - API
 
-	internal func getStudentLocation(udacityUserID: String, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let query               = "where={\"\(ParseAPIClient.API.UniqueKeyKey)\":\"\(udacityUserID)\"}"
-		let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, URLString: ParseAPIClient.API.BaseURL, HTTPQuery: query)
-		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
 
-		dataTaskWithRequest.resume()
-	}
-	
-	internal func postStudentLocation(studentLocation: StudentLocation, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Post, URLString: ParseAPIClient.API.BaseURL, HTTPQuery: nil)
+// MARK: -
+// MARK: - Private Helpers
 
-		URLRequest.HTTPBody = studentLocation.newStudentSerializedData
-		URLRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
-			                 forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
+private extension ParseAPIClient {
 
-		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
-		dataTaskWithRequest.resume()
-	}
-	
-	internal func refreshStudentLocations(completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let query               = "limit=100&order=-updatedAt"
-		let URLRequest          = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Get, URLString: ParseAPIClient.API.BaseURL, HTTPQuery: query)
-		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
-
-		dataTaskWithRequest.resume()
-	}
-
-	internal func updateStudentLocation(studentLocation: StudentLocation, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		let URLString  = ParseAPIClient.API.BaseURL + "/\(studentLocation.objectID)"
-		let URLRequest = getURLRequest(APIDataTaskWithRequest.HTTP.Method.Put, URLString: URLString, HTTPQuery: nil)
-
-		URLRequest.HTTPBody = studentLocation.newStudentSerializedData
-		URLRequest.addValue(APIDataTaskWithRequest.HTTP.MIMEType.ApplicationJSON,
-			                 forHTTPHeaderField: APIDataTaskWithRequest.HTTP.HeaderField.ContentType)
-
-		let dataTaskWithRequest = APIDataTaskWithRequest(URLRequest: URLRequest, completionHandler: completionHandler)
-		dataTaskWithRequest.resume()
-	}
-	
-	// MARK: - Private
-
-	override private init() {
-		super.init()
-	}
-
-	private func getURLRequest(HTTPMethod: String, URLString: String, HTTPQuery: String?) -> NSMutableURLRequest {
-		let components = NSURLComponents(string: URLString)
-
-		if let _ = HTTPQuery { components?.query = HTTPQuery }
-
-		let URLRequest = NSMutableURLRequest(URL: (components?.URL)!)
-
-		URLRequest.HTTPMethod = HTTPMethod
-		URLRequest.addValue(ParseAppIDField.Value,      forHTTPHeaderField: ParseAppIDField.Name)
-		URLRequest.addValue(ParseRESTAPIKeyField.Value, forHTTPHeaderField: ParseRESTAPIKeyField.Name)
-
-		return URLRequest
-	}
-
+    func getURLRequest(_ httpMethod: String, urlString: String, httpQuery: String?) -> NSMutableURLRequest {
+        var components = URLComponents(string: urlString)
+        
+        if let _ = httpQuery { components?.query = httpQuery }
+        
+        let URLRequest = NSMutableURLRequest(url: (components?.url)!)
+        
+        URLRequest.httpMethod = httpMethod
+        URLRequest.addValue(AppIDField.Value,      forHTTPHeaderField: AppIDField.Name)
+        URLRequest.addValue(RESTAPIKeyField.Value, forHTTPHeaderField: RESTAPIKeyField.Name)
+        
+        return URLRequest
+    }
+    
 }

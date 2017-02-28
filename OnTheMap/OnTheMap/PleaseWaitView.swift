@@ -6,60 +6,62 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-final internal class PleaseWaitView: NSObject {
+final class PleaseWaitView {
+    
+    // MARK: - Constants
+    
+    fileprivate struct Consts {
+        static let NoAlpha       = CGFloat(0.0)
+        static let ActivityAlpha = CGFloat(0.7)
+    }
+    
+    // MARK: - Variables
+    
+    fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    fileprivate var _dimmedView: UIView? = nil
+    
+    var dimmedView: UIView { return _dimmedView! }
+    
+    // MARK: - API
+    
+    init(requestingView: UIView) {
+        _dimmedView = UIView(frame: requestingView.frame)
+        _dimmedView?.backgroundColor = UIColor.black
+        _dimmedView?.alpha           = Consts.NoAlpha
+        
+        activityIndicator.center    = _dimmedView!.center
+        activityIndicator.center.y *= 1.5
+        activityIndicator.hidesWhenStopped = true
+        
+        _dimmedView?.addSubview(activityIndicator)
+    }
+    
+}
 
-	// MARK: - Private Constants
 
-	private struct Consts {
-		static let NoAlpha:       CGFloat = 0.0
-		static let ActivityAlpha: CGFloat = 0.7
-	}
 
-	// MARK: - Private Stored Variables
+// MARK: -
+// MARK: - API
 
-	private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+extension PleaseWaitView {
 
-	private var _dimmedView: UIView? = nil
-
-	// MARK: - Internal Computed Variables
-
-	internal var dimmedView: UIView {
-		return _dimmedView!
-	}
-	
-	// MARK: - API
-
-	internal init(requestingView: UIView) {
-		super.init()
-
-		_dimmedView = UIView(frame: requestingView.frame)
-		_dimmedView?.backgroundColor = UIColor.blackColor()
-		_dimmedView?.alpha           = Consts.NoAlpha
-
-		activityIndicator.center    = _dimmedView!.center
-		activityIndicator.center.y *= 1.5
-		activityIndicator.hidesWhenStopped = true
-
-		_dimmedView?.addSubview(activityIndicator)
-	}
-
-	internal func startActivityIndicator() {
-		_dimmedView?.alpha = Consts.ActivityAlpha
-		activityIndicator.startAnimating()
-	}
-
-	internal func stopActivityIndicator() {
-		activityIndicator.stopAnimating()
-		_dimmedView?.alpha = Consts.NoAlpha
-	}
-
-	// MARK: - Private
-
-	override private init() {
-		super.init()
-	}
-
+    func startActivityIndicator() {
+        
+        DispatchQueue.main.async(execute:  {
+            self._dimmedView?.alpha = Consts.ActivityAlpha
+            self.activityIndicator.startAnimating()
+        })
+        
+    }
+    
+    func stopActivityIndicator() {
+        
+        DispatchQueue.main.async(execute:  {
+            self.activityIndicator.stopAnimating()
+            self._dimmedView?.alpha = Consts.NoAlpha
+        })
+        
+    }
 }

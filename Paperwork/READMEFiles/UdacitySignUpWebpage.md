@@ -1,9 +1,11 @@
-# Udacity Sign Up Webpage
+# ![][AppIcon]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Udacity Sign Up Webpage
 
 ![][USUW]
 
+---
+**Copyright © 2016-2017 Gregory White. All rights reserved.**
 
 
 
-
-[USUW]:  ../images/UdacitySignUpWebpage.png
+[AppIcon]:  ../images/OnTheMap_80.png
+[USUW]:     ../images/UdacitySignUpWebpage.png

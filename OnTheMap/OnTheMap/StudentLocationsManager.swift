@@ -6,84 +6,74 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-private let _sharedMgr = StudentLocationsManager()
+private let _shared = StudentLocationsManager()
 
-final internal class StudentLocationsManager: NSObject {
-
-	class internal var sharedMgr: StudentLocationsManager {
-		return _sharedMgr
-	}
-
-	// MARK: - Internal Constants
-
-	internal struct Notifications {
-		static let StudentLocationDidGetPosted      = "StudentLocationDidGetPostedNotification"
-		static let StudentLocationsDidGetRefreshed  = "StudentLocationsDidGetRefreshedNotification"
-		static let StudentLocationDidGetUpdated     = "StudentLocationDidGetUpdatedNotification"
-		static let IndexOfUpdatedStudentLocationKey = "indexOfUpdate"
-	}
-
-	// MARK: - Private Stored Variables
-
-	private var studentLocations: [StudentLocation]
-
-	// MARK: - Internal Computed Variables
-
-	internal var count: Int {
-		return studentLocations.count
-	}
-
-	internal var postedLocation: StudentLocation {
-		get { return studentLocations[0] }
-
-		set (location) {
-			studentLocations.insert(location, atIndex: 0)
-			notifCtr.postNotificationName(Notifications.StudentLocationDidGetPosted, object: nil)
-		}
-	}
-
-	// MARK: - Private Computed Variables
-
-	private var notifCtr: NSNotificationCenter{
-		return NSNotificationCenter.defaultCenter()
-	}
-	
-	// MARK: - API
-
-	internal func refreshStudentLocations(newStudentLocations: [StudentLocation]) {
-		studentLocations.removeAll()
-		studentLocations.appendContentsOf(newStudentLocations)
-
-		notifCtr.postNotificationName(Notifications.StudentLocationsDidGetRefreshed, object: nil)
-	}
-
-   internal func studentLocationAtIndex(index: Int) -> StudentLocation {
-      return studentLocations[index]
-   }
-
-	internal func studentLocationAtIndexPath(indexPath: NSIndexPath) -> StudentLocation {
-		return studentLocations[indexPath.row]
-	}
-
-	internal func updateStudentLocation(studentLocation: StudentLocation) {
-		if let indexOfUpdate = studentLocations.indexOf({$0.objectID == studentLocation.objectID}) {
-			studentLocations[indexOfUpdate] = studentLocation
-			notifCtr.postNotificationName(Notifications.StudentLocationDidGetUpdated, object: nil,
-				userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey: indexOfUpdate ])
-		} else {
-			// how to handle this error case
-		}
-
-	}
-
-	// MARK: - Private
-
-	override private init() {
-		studentLocations = [StudentLocation]()
-		super.init()
-	}
-
+final class StudentLocationsManager {
+    
+    class var shared: StudentLocationsManager {
+        return _shared
+    }
+    
+    // MARK: - Variables
+    
+    fileprivate var studentLocations = [StudentLocation]()
+    
+    var count: Int { return studentLocations.count }
+    
+    var postedLocation: StudentLocation {
+        get { return studentLocations[0] }
+        
+        set (location) {
+            studentLocations.insert(location, at: 0)
+            NotificationCenter.default.post(name: Notifications.StudentLocationDidGetPosted, object: nil)
+        }
+        
+    }
+    
 }
+
+
+
+// MARK: -
+// MARK: - API
+
+extension StudentLocationsManager {
+    
+    func refresh(studentLocations locations: [StudentLocation]) {
+        studentLocations.removeAll()
+        
+        for location in locations {
+            if location.latitude != 0.0 && location.longitude != 0.0 {
+                studentLocations.append(location)
+            }
+        }
+        
+        NotificationCenter.default.post(name: Notifications.StudentLocationsDidGetRefreshed, object: nil)
+    }
+    
+    func studentLocation(at index: Int) -> StudentLocation {
+        return studentLocations[index]
+    }
+    
+    func studentLocation(at indexPath: IndexPath) -> StudentLocation {
+        return studentLocations[indexPath.row]
+    }
+    
+    func update(studentLocation location: StudentLocation) {
+        
+        if let indexOfUpdate = studentLocations.index(where: {$0.objectID == location.objectID}) {
+            studentLocations[indexOfUpdate] = location
+            NotificationCenter.default.post(name: Notifications.StudentLocationDidGetUpdated, object: nil, userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey: indexOfUpdate ])
+        } else {
+            // how to handle this error case
+        }
+        
+    }
+    
+}
+
+
+
+

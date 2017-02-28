@@ -6,120 +6,81 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-typealias APIDataTaskWithRequestCompletionHandler = (result: AnyObject!, error: NSError?) -> Void
+typealias APIDataTaskWithRequestCompletionHandler = (_ result: AnyObject?, _ error: NSError?) -> Void
 typealias JSONDictionary = Dictionary<String, AnyObject>
 
-final internal class APIDataTaskWithRequest: NSObject {
-
-	// MARK: - Private Constants
-
-	private struct LocalizedError {
-		static let Domain          = "OnTheMapExternalAPIInterfaceError"
-		static let UdacityHostName = "www.udacity.com"
-	}
-	
-	private struct LocalizedErrorCode {
-		static let Network           = 1
-		static let HTTP              = 2
-		static let JSON              = 3
-		static let JSONSerialization = 4
-	}
-
-	private struct LocalizedErrorDescription {
-		static let Network           = "Network Error"
-		static let HTTP              = "HTTP Error"
-		static let JSON	           = "JSON Error"
-		static let JSONSerialization = "JSON JSONSerialization Error"
-	}
-
-	// MARK: - Private Stored Variables
-
-	private var URLRequest:        NSMutableURLRequest
-	private var completionHandler: APIDataTaskWithRequestCompletionHandler
-
-	// MARK: - API
-
-	internal init(URLRequest: NSMutableURLRequest, completionHandler: APIDataTaskWithRequestCompletionHandler) {
-		self.URLRequest        = URLRequest
-		self.completionHandler = completionHandler
-
-		super.init()
-	}
-
-	internal func resume() {
-		
-		let task = NSURLSession.sharedSession().dataTaskWithRequest(URLRequest) { (rawJSONResponse, HTTPResponse, URLSessionError) in
-
-			dispatch_async(dispatch_get_main_queue(), {
-				NetworkActivityIndicatorManager.sharedManager.endActivity()
-			})
-
-			guard URLSessionError == nil else {
-				let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.Network,
-									 NSUnderlyingErrorKey:      URLSessionError!]
-				let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.Network, userInfo: userInfo)
-
-				self.completeWithHandler(self.completionHandler, result: nil, error: error)
-				return
-			}
-
-			let HTTPURLResponse = HTTPResponse as? NSHTTPURLResponse
-
-			guard HTTPURLResponse?.statusCodeClass == .Successful else {
-				let HTTPStatusText = NSHTTPURLResponse.localizedStringForStatusCode((HTTPURLResponse?.statusCode)!)
-				let failureReason  = "HTTP status code = \(HTTPURLResponse?.statusCode), HTTP status text = \(HTTPStatusText)"
-				let userInfo       = [NSLocalizedDescriptionKey:        LocalizedErrorDescription.HTTP,
-									       NSLocalizedFailureReasonErrorKey: failureReason]
-				let error          = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.HTTP, userInfo: userInfo)
-
-				self.completeWithHandler(self.completionHandler, result: nil, error: error)
-				return
-			}
-
-			guard let rawJSONResponse = rawJSONResponse else {
-				let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.JSON]
-				let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.JSON, userInfo: userInfo)
-
-				self.completeWithHandler(self.completionHandler, result: nil, error: error)
-				return
-			}
-
-			var JSONDataToParse = rawJSONResponse
-
-			if self.URLRequest.URL?.host == LocalizedError.UdacityHostName {
-				JSONDataToParse = rawJSONResponse.subdataWithRange(NSMakeRange(5, rawJSONResponse.length - 5))
-			}
-
-			do {
-				let JSONData = try NSJSONSerialization.JSONObjectWithData(JSONDataToParse, options: .AllowFragments) as! JSONDictionary
-
-				self.completeWithHandler(self.completionHandler, result: JSONData, error: nil)
-			} catch let JSONError as NSError {
-				let userInfo = [NSLocalizedDescriptionKey: LocalizedErrorDescription.JSONSerialization,
-									 NSUnderlyingErrorKey:      JSONError]
-				let error    = NSError(domain: LocalizedError.Domain, code: LocalizedErrorCode.JSONSerialization, userInfo: userInfo)
-
-				self.completeWithHandler(self.completionHandler, result: nil, error: error)
-				return
-			}
-
-		}
-
-		NetworkActivityIndicatorManager.sharedManager.startActivity()
-		task.resume()
-	}
-
-	// MARK: - Private
-
-	private func completeWithHandler(completionHandler: APIDataTaskWithRequestCompletionHandler, result: AnyObject!, error: NSError?) {
-
-		dispatch_async(dispatch_get_main_queue()) {
-			completionHandler(result: result, error: error)
-		}
-		
-	}
-
+final class APIDataTaskWithRequest {
+    
+    // MARK: - Variables
+    
+    fileprivate var urlRequest:        NSMutableURLRequest
+    fileprivate var completionHandler: APIDataTaskWithRequestCompletionHandler
+    
+    // MARK: - API
+    
+    init(urlRequest: NSMutableURLRequest, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+        self.urlRequest        = urlRequest
+        self.completionHandler = completionHandler
+    }
+    
+    func resume() {
+        
+        let task = URLSession.shared.dataTask(with: urlRequest as URLRequest, completionHandler: { (rawJSONResponse, httpResponse, urlSessionError) in
+            
+            NetworkActivityIndicator.shared.stop()
+            
+            guard urlSessionError == nil else {
+                let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.Network, NSUnderlyingErrorKey: urlSessionError!] as [String : Any]
+                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.Network, userInfo: userInfo)
+                
+                self.completionHandler(nil, error)
+                return
+            }
+            
+            let httpURLResponse = httpResponse as! Foundation.HTTPURLResponse
+            
+            guard httpURLResponse.statusCodeClass == .successful else {
+                let httpStatusText = HTTPURLResponse.localizedString(forStatusCode: httpURLResponse.statusCode)
+                let failureReason  = "HTTP status code = \(httpURLResponse.statusCode), HTTP status text = \(httpStatusText)"
+                let userInfo       = [NSLocalizedDescriptionKey: LocalizedError.Description.HTTP, NSLocalizedFailureReasonErrorKey: failureReason]
+                let error          = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.HTTP, userInfo: userInfo)
+                
+                self.completionHandler(nil, error)
+                return
+            }
+            
+            guard let rawJSONResponse = rawJSONResponse else {
+                let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.JSON]
+                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.JSON, userInfo: userInfo)
+                
+                self.completionHandler(nil, error)
+                return
+            }
+            
+            var jsonDataToParse = rawJSONResponse
+            
+            if self.urlRequest.url?.host == LocalizedError.UdacityHostName {
+                jsonDataToParse = rawJSONResponse.subdata(in: 5..<rawJSONResponse.count)
+            }
+            
+            do {
+                let jsonData = try JSONSerialization.jsonObject(with: jsonDataToParse, options: .allowFragments) as! JSONDictionary
+                
+                self.completionHandler(jsonData as AnyObject!, nil)
+            } catch let jsonError as NSError {
+                let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.JSONSerialization, NSUnderlyingErrorKey: jsonError] as [String : Any]
+                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.JSONSerialization, userInfo: userInfo)
+                
+                self.completionHandler(nil, error)
+                return
+            }
+            
+        }) 
+        
+        NetworkActivityIndicator.shared.start()
+        task.resume()
+    }
+    
 }
