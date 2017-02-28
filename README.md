@@ -20,6 +20,8 @@ OnTheMap is Portfolio Project #3 of the Udacity iOS Developer Nanodegree Program
 | Devices:                | iPhone Only            | iPhone Only         | iPhone Only                                     |
 | Orientations:           | Portrait Only          | Portrait Only       | Portrait Only                                   |
 
+**NOTA BENE:**  Runtime warnings will appear when running on the simulator due to simulator bugs;  however, running on a device with debugger attached will show that the runtime warnings do not appear.  See those runtime warnings [here][RWarn].
+
 
 ## Design  
 
@@ -106,6 +108,7 @@ Tap the **Cancel** button in the upper right-hand corner at any time to interrup
 [FDTN]:                 ./Paperwork/READMEFiles/Foundation.md
 [GCD]:                  ./Paperwork/READMEFiles/GCD.md
 [MK]:                   ./Paperwork/READMEFiles/MapKit.md
+[RWarn]:                ./Paperwork/READMEFiles/RuntimeWarnings.md
 [UK]:                   ./Paperwork/READMEFiles/UIKit.md 
 
 [AppIcon]:              ./Paperwork/images/OnTheMap_80.png
