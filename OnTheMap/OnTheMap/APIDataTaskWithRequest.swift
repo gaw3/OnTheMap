@@ -68,7 +68,7 @@ final class APIDataTaskWithRequest {
             do {
                 let jsonData = try JSONSerialization.jsonObject(with: jsonDataToParse, options: .allowFragments) as! JSONDictionary
                 
-                self.completionHandler(jsonData as AnyObject!, nil)
+                self.completionHandler(jsonData as AnyObject?, nil)
             } catch let jsonError as NSError {
                 let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.JSONSerialization, NSUnderlyingErrorKey: jsonError] as [String : Any]
                 let error    = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.JSONSerialization, userInfo: userInfo)

@@ -19,7 +19,7 @@ final class PleaseWaitView {
     
     // MARK: - Variables
     
-    fileprivate let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    fileprivate let activityIndicator = UIActivityIndicatorView(style: .large)
     fileprivate var _dimmedView: UIView? = nil
     
     var dimmedView: UIView { return _dimmedView! }

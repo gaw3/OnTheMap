@@ -70,7 +70,7 @@ final class UdacityLoginViewController: UIViewController {
         createBackgroundColorGradient()
         
         loginLabel.textColor = UIColor.white
-        signUpButton.setTitleColor(UIColor.white, for: UIControlState())
+        signUpButton.setTitleColor(UIColor.white, for: UIControl.State())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,7 +111,7 @@ extension UdacityLoginViewController: FBSDKLoginButtonDelegate {
 
 extension UdacityLoginViewController {
     
-    func processNotification(_ notification: Notification) {
+    @objc func processNotification(_ notification: Notification) {
         
         switch notification.name {
             
@@ -291,7 +291,7 @@ private extension UdacityLoginViewController {
     // MARK: - Views
 
     struct PlaceholderText {
-        static let Attributes    = [NSForegroundColorAttributeName: UIColor.white]
+        static let Attributes    = [NSAttributedString.Key.foregroundColor: UIColor.white]
         static let EmailField    = "Email"
         static let InsetRect     = CGRect(x: 0, y: 0, width: 10, height: 50)
         static let PasswordField = "Password"
@@ -330,7 +330,7 @@ private extension UdacityLoginViewController {
     func initPleaseWaitView() {
         pleaseWaitView = PleaseWaitView(requestingView: view)
         view.addSubview(pleaseWaitView!.dimmedView)
-        view.bringSubview(toFront: pleaseWaitView!.dimmedView)
+        view.bringSubviewToFront(pleaseWaitView!.dimmedView)
     }
     
     func setTextFieldPlaceholders() {

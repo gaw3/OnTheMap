@@ -32,7 +32,7 @@ final class StudentLocationsTableViewController: UITableViewController {
 
 extension StudentLocationsTableViewController {
     
-    func processNotification(_ notification: Notification) {
+    @objc func processNotification(_ notification: Notification) {
         
         DispatchQueue.main.async(execute: {
 

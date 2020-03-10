@@ -162,7 +162,7 @@ private extension StudentLocationsPostInformationViewController {
             studentLocationAnnotation.coordinate = (studentLocationPlacemark.location?.coordinate)!
             
             let studentLocationRegion = MKCoordinateRegion(center: (studentLocationPlacemark.location?.coordinate)!,
-                                                           span: MKCoordinateSpanMake(deltaDegrees, deltaDegrees))
+                                                             span: MKCoordinateSpan(latitudeDelta: deltaDegrees, longitudeDelta: deltaDegrees))
             
             DispatchQueue.main.async(execute: {
                 strongSelf.transitionToMapAndURL(studentLocationAnnotation, region: studentLocationRegion)
@@ -262,7 +262,7 @@ private extension StudentLocationsPostInformationViewController {
     }
     
     struct PlaceholderText {
-        static let Attributes    = [NSForegroundColorAttributeName: UIColor.white]
+        static let Attributes    = [NSAttributedString.Key.foregroundColor: UIColor.white]
         static let LocationField = "Enter Your Location Here"
         static let MediaURLField = "Enter a Link to Share Here"
     }
@@ -279,7 +279,7 @@ private extension StudentLocationsPostInformationViewController {
         
         pleaseWaitView = PleaseWaitView(requestingView: view)
         view.addSubview((pleaseWaitView?.dimmedView)!)
-        view.bringSubview(toFront: (pleaseWaitView?.dimmedView)!)
+        view.bringSubviewToFront((pleaseWaitView?.dimmedView)!)
     }
     
     func findOnTheMap() {
@@ -328,7 +328,7 @@ private extension StudentLocationsPostInformationViewController {
         let buttonBackground = UIImage(named: UIConstants.BtnBkndFileName)
         buttonBackground?.resizableImage(withCapInsets: UIEdgeInsets.zero)
         
-        toolbarButton.setBackgroundImage(buttonBackground, for: UIControlState(), barMetrics: .default)
+        toolbarButton?.setBackgroundImage(buttonBackground, for: UIControl.State(), barMetrics: .default)
         toolbarButton.title = ButtonTitle.Find
     }
     
@@ -354,7 +354,7 @@ private extension StudentLocationsPostInformationViewController {
         toolbarButton.title     = ButtonTitle.Submit
         toolbar.backgroundColor = UIColor.clear
         toolbar.isTranslucent   = true
-        cancelButton.setTitleColor(UIColor.white, for: UIControlState())
+        cancelButton.setTitleColor(UIColor.white, for: UIControl.State())
         
         mapView.addAnnotation(annotation)
         mapView.setRegion(region, animated: true)
