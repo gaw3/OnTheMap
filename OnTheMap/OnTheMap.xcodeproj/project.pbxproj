@@ -33,7 +33,7 @@
 		7A840F681C03E6CD006B5874 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A840F661C03E6CD006B5874 /* Main.storyboard */; };
 		7A840F6D1C03E6CD006B5874 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A840F6B1C03E6CD006B5874 /* LaunchScreen.storyboard */; };
 		7A840F751C04E82B006B5874 /* UdacityLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A840F741C04E82B006B5874 /* UdacityLoginViewController.swift */; };
-		7A840F7C1C04EBB7006B5874 /* UdacityAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A840F7B1C04EBB7006B5874 /* UdacityAPIClient.swift */; };
+		7A840F7C1C04EBB7006B5874 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A840F7B1C04EBB7006B5874 /* UdacityClient.swift */; };
 		7A840F7F1C057469006B5874 /* HTTPURLResponseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A840F7E1C057469006B5874 /* HTTPURLResponseExtensions.swift */; };
 		7A87AE971C49BB5B00C9F091 /* StudentLocationsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A87AE961C49BB5B00C9F091 /* StudentLocationsTabBarController.swift */; };
 		7A8F93161C1294DC00F63A73 /* StudentLocationsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8F93151C1294DC00F63A73 /* StudentLocationsMapViewController.swift */; };
@@ -43,9 +43,6 @@
 		7AC6A4741C4F313700470E22 /* UdacityLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC6A4731C4F313700470E22 /* UdacityLogin.swift */; };
 		7AD293CD1C44755F00E61B85 /* UdacityUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD293CC1C44755F00E61B85 /* UdacityUser.swift */; };
 		7AD293CF1C447BCD00E61B85 /* UdacityDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD293CE1C447BCD00E61B85 /* UdacityDataManager.swift */; };
-		7ADB708B1E40756200950EDF /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADB70891E40756200950EDF /* FBSDKCoreKit.framework */; };
-		7ADB708C1E40756200950EDF /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADB708A1E40756200950EDF /* FBSDKLoginKit.framework */; };
-		7ADB708E1E40782A00950EDF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADB708D1E40782A00950EDF /* Bolts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,7 +74,7 @@
 		7A840F6C1C03E6CD006B5874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7A840F6E1C03E6CD006B5874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A840F741C04E82B006B5874 /* UdacityLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UdacityLoginViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		7A840F7B1C04EBB7006B5874 /* UdacityAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityAPIClient.swift; sourceTree = "<group>"; };
+		7A840F7B1C04EBB7006B5874 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		7A840F7E1C057469006B5874 /* HTTPURLResponseExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPURLResponseExtensions.swift; sourceTree = "<group>"; };
 		7A87AE961C49BB5B00C9F091 /* StudentLocationsTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StudentLocationsTabBarController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		7A8F93151C1294DC00F63A73 /* StudentLocationsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StudentLocationsMapViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -87,9 +84,6 @@
 		7AC6A4731C4F313700470E22 /* UdacityLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityLogin.swift; sourceTree = "<group>"; };
 		7AD293CC1C44755F00E61B85 /* UdacityUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityUser.swift; sourceTree = "<group>"; };
 		7AD293CE1C447BCD00E61B85 /* UdacityDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UdacityDataManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		7ADB70891E40756200950EDF /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		7ADB708A1E40756200950EDF /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		7ADB708D1E40782A00950EDF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		7ADB708F1E413D8E00950EDF /* OnTheMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OnTheMap.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,9 +92,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7ADB708E1E40782A00950EDF /* Bolts.framework in Frameworks */,
-				7ADB708C1E40756200950EDF /* FBSDKLoginKit.framework in Frameworks */,
-				7ADB708B1E40756200950EDF /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,9 +119,6 @@
 		7A6DB2F11C52F70C00F1E4E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7ADB708D1E40782A00950EDF /* Bolts.framework */,
-				7ADB70891E40756200950EDF /* FBSDKCoreKit.framework */,
-				7ADB708A1E40756200950EDF /* FBSDKLoginKit.framework */,
 			);
 			name = Frameworks;
 			path = OnTheMap;
@@ -247,7 +235,7 @@
 			children = (
 				7A29A8C21C631F260098E298 /* UdacityAPIClientConstants.swift */,
 				7A1507E41C478069009BAAA4 /* UdacityAccount.swift */,
-				7A840F7B1C04EBB7006B5874 /* UdacityAPIClient.swift */,
+				7A840F7B1C04EBB7006B5874 /* UdacityClient.swift */,
 				7AD293CE1C447BCD00E61B85 /* UdacityDataManager.swift */,
 				7A1507E21C478031009BAAA4 /* UdacitySession.swift */,
 				7AD293CC1C44755F00E61B85 /* UdacityUser.swift */,
@@ -376,7 +364,7 @@
 				7A840F611C03E6CD006B5874 /* AppDelegate.swift in Sources */,
 				7A6DB2F01C52C53800F1E4E2 /* UdacityFBAccessToken.swift in Sources */,
 				7AA4D76F1C4DB4D700D5012C /* ParseUpdateStudentLocationResponseData.swift in Sources */,
-				7A840F7C1C04EBB7006B5874 /* UdacityAPIClient.swift in Sources */,
+				7A840F7C1C04EBB7006B5874 /* UdacityClient.swift in Sources */,
 				7A0D0BC41C0D29330087D9CE /* APIDataTaskWithRequest.swift in Sources */,
 				7AD293CD1C44755F00E61B85 /* UdacityUser.swift in Sources */,
 			);

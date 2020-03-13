@@ -15,21 +15,23 @@ final class APIDataTaskWithRequest {
     
     // MARK: - Variables
     
-    fileprivate var urlRequest:        NSMutableURLRequest
-    fileprivate var completionHandler: APIDataTaskWithRequestCompletionHandler
+    private var urlRequest:        NSMutableURLRequest
+    private var completionHandler: APIDataTaskWithRequestCompletionHandler
+    private var isSessionURL:      Bool
     
     // MARK: - API
     
-    init(urlRequest: NSMutableURLRequest, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    init(urlRequest: NSMutableURLRequest, isSessionURL: Bool = true, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
         self.urlRequest        = urlRequest
         self.completionHandler = completionHandler
+        self.isSessionURL      = isSessionURL
     }
     
     func resume() {
         
         let task = URLSession.shared.dataTask(with: urlRequest as URLRequest, completionHandler: { (rawJSONResponse, httpResponse, urlSessionError) in
             
-            NetworkActivityIndicator.shared.stop()
+//            NetworkActivityIndicator.shared.stop()
             
             guard urlSessionError == nil else {
                 let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.Network, NSUnderlyingErrorKey: urlSessionError!] as [String : Any]
@@ -61,7 +63,7 @@ final class APIDataTaskWithRequest {
             
             var jsonDataToParse = rawJSONResponse
             
-            if self.urlRequest.url?.host == LocalizedError.UdacityHostName {
+            if self.isSessionURL {
                 jsonDataToParse = rawJSONResponse.subdata(in: 5..<rawJSONResponse.count)
             }
             
@@ -79,7 +81,7 @@ final class APIDataTaskWithRequest {
             
         }) 
         
-        NetworkActivityIndicator.shared.start()
+//        NetworkActivityIndicator.shared.start()
         task.resume()
     }
     

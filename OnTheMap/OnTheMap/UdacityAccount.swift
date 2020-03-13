@@ -13,12 +13,12 @@ struct UdacityAccount {
     private var _account: JSONDictionary
     
     var isRegistered: Bool {
-        if let isRegistered = _account[UdacityAPIClient.API.RegisteredKey] as! Bool? { return isRegistered }
+        if let isRegistered = _account[UdacityClient.API.RegisteredKey] as! Bool? { return isRegistered }
         return false
     }
     
     var userID: String {
-        if let userID = _account[UdacityAPIClient.API.UserIDKey] as! String? { return userID }
+        if let userID = _account[UdacityClient.API.UserIDKey] as! String? { return userID }
         return String()
     }
     

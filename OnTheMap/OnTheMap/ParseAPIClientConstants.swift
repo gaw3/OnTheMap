@@ -9,7 +9,7 @@
 extension ParseAPIClient {
     
     struct API {
-        static let BaseURL        = "https://parse.udacity.com/parse/classes/StudentLocation"
+        static let BaseURL        = "https://onthemap-api.udacity.com/v1/StudentLocation"
         
         static let DateCreatedKey = "createdAt"
         static let DateUpdatedKey = "updatedAt"
@@ -24,14 +24,14 @@ extension ParseAPIClient {
         static let UniqueKeyKey   = "uniqueKey"
     }
     
-    struct AppIDField {
-        static let Name  = "X-Parse-Application-Id"
-        static let Value = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-    }
-    
-    struct RESTAPIKeyField {
-        static let Name  = "X-Parse-REST-API-Key"
-        static let Value = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
-    }
+//    struct AppIDField {
+//        static let Name  = "X-Parse-Application-Id"
+//        static let Value = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
+//    }
+//    
+//    struct RESTAPIKeyField {
+//        static let Name  = "X-Parse-REST-API-Key"
+//        static let Value = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+//    }
     
 }

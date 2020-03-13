@@ -50,16 +50,32 @@ private extension StudentLocationsTabBarController {
             guard let strongSelf = self else { return }
             
             guard error == nil else {
-                var message = String()
+//                var message = String()
                 
                 switch error!.code {
-                case LocalizedError.Code.Network: message = Alert.Message.NetworkUnavailable
-                case LocalizedError.Code.HTTP:    message = Alert.Message.HTTPError
-                default:                          message = Alert.Message.BadServerData
+                    
+                case LocalizedError.Code.Network:
+                    strongSelf.presentAlert(title: Alert.Title.BadGet, message: Alert.Message.NetworkUnavailable)
+                    return
+                    
+                case LocalizedError.Code.HTTP:
+                   
+                    DispatchQueue.main.async(execute:  {
+                        let postInfoVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsPostInfoVC) as! StudentLocationsPostInformationViewController
+                                           
+                        postInfoVC.newStudent = (UdacityDataManager.shared.user!.firstName, UdacityDataManager.shared.user!.lastName, UdacityDataManager.shared.user!.userID)
+                        strongSelf.present(postInfoVC, animated: true, completion: nil)
+                    })
+                    
+                    return
+                    
+                default:                          
+                    strongSelf.presentAlert(title: Alert.Title.BadGet, message: Alert.Message.BadServerData)
+                    return
                 }
                 
-                strongSelf.presentAlert(title: Alert.Title.BadGet, message: message)
-                return
+//                strongSelf.presentAlert(title: Alert.Title.BadGet, message: message)
+//                return
             }
 
             let results = (result as! JSONDictionary)[ParseAPIClient.API.ResultsKey] as? [JSONDictionary]

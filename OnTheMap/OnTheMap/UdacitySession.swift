@@ -13,12 +13,12 @@ struct UdacitySession {
     private var _session: JSONDictionary
     
     var expirationDate: String {
-        if let date = _session[UdacityAPIClient.API.ExpirationDateKey] as! String? { return date }
+        if let date = _session[UdacityClient.API.ExpirationDateKey] as! String? { return date }
         return String()
     }
     
     var id: String {
-        if let id = _session[UdacityAPIClient.API.SessionIDKey] as! String? { return id }
+        if let id = _session[UdacityClient.API.SessionIDKey] as! String? { return id }
         return String()
     }
     

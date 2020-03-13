@@ -6,22 +6,22 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-struct HTTP {
+enum HTTP {
     
-    struct HeaderField {
-        static let Accept      = "Accept"
-        static let ContentType = "Content-Type"
+    enum HeaderField {
+        static let accept      = "Accept"
+        static let contentType = "Content-Type"
     }
     
-    struct Method {
-        static let Delete = "DELETE"
-        static let Get    = "GET"
-        static let Post   = "POST"
-        static let Put    = "PUT"
+    enum Method {
+        static let delete = "DELETE"
+        static let get    = "GET"
+        static let post   = "POST"
+        static let put    = "PUT"
     }
     
-    struct MIMEType {
-        static let ApplicationJSON = "application/json"
+    enum MIMEType {
+        static let applicationJSON = "application/json"
     }
     
 }

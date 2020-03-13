@@ -63,7 +63,7 @@ extension StudentLocationsManager {
     
     func update(studentLocation location: StudentLocation) {
         
-        if let indexOfUpdate = studentLocations.index(where: {$0.objectID == location.objectID}) {
+        if let indexOfUpdate = studentLocations.firstIndex(where: {$0.objectID == location.objectID}) {
             studentLocations[indexOfUpdate] = location
             NotificationCenter.default.post(name: Notifications.StudentLocationDidGetUpdated, object: nil, userInfo: [ Notifications.IndexOfUpdatedStudentLocationKey: indexOfUpdate ])
         } else {

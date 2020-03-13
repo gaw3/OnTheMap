@@ -8,8 +8,8 @@
 
 import UIKit
 
-import FBSDKCoreKit
-import FBSDKLoginKit
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 
 final class UdacityLoginViewController: UIViewController {
     
@@ -36,8 +36,8 @@ final class UdacityLoginViewController: UIViewController {
         emailTextField.text    = String()
         passwordTextField.text = String()
         
-        logoutFromFacebook()
-        UdacityAPIClient.shared.logout(completionHandler: finishLoggingOut)
+//        logoutFromFacebook()
+        UdacityClient.shared.logout(completionHandler: finishLoggingOut)
     }
     
     // MARK: - Variables
@@ -45,7 +45,7 @@ final class UdacityLoginViewController: UIViewController {
     fileprivate var pleaseWaitView: PleaseWaitView? = nil
     
     private lazy var foo: Void = {
-        self.addFacebookLoginButton()
+//        self.addFacebookLoginButton()
         self.initPleaseWaitView()
     }()
     
@@ -85,24 +85,24 @@ final class UdacityLoginViewController: UIViewController {
 // MARK: -
 // MARK: - Facebook SDK Login Button Delegate
 
-extension UdacityLoginViewController: FBSDKLoginButtonDelegate {
-    
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
-        if let _ = error {
-            self.presentAlert(title: Alert.Title.BadFBAuth, message: error!.localizedDescription)
-        } else if let token = result.token {
-            pleaseWaitView?.startActivityIndicator()
-            UdacityAPIClient.shared.login(facebookAccessToken: token, completionHandler: finishLoggingIn)
-        }
-        
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        // must have this to satisfy the protocol
-    }
-    
-}
+//extension UdacityLoginViewController: FBSDKLoginButtonDelegate {
+//    
+//    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+//        
+//        if let _ = error {
+//            self.presentAlert(title: Alert.Title.BadFBAuth, message: error!.localizedDescription)
+//        } else if let token = result.token {
+//            pleaseWaitView?.startActivityIndicator()
+//            UdacityClient.shared.login(facebookAccessToken: token, completionHandler: finishLoggingIn)
+//        }
+//        
+//    }
+//    
+//    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+//        // must have this to satisfy the protocol
+//    }
+//    
+//}
 
 
 
@@ -116,7 +116,7 @@ extension UdacityLoginViewController {
         switch notification.name {
             
         case Notifications.UdacityLoginResponseDataDidGetSaved:
-            UdacityAPIClient.shared.getProfileData(forUserID: UdacityDataManager.shared.account!.userID, completionHandler: finishGettingProfileData)
+            UdacityClient.shared.getProfileData(forUserID: UdacityDataManager.shared.account!.userID, completionHandler: finishGettingProfileData)
             
         case Notifications.UdacityLogoutResponseDataDidGetSaved: break
             
@@ -126,6 +126,8 @@ extension UdacityLoginViewController {
             if UdacityDataManager.shared.isLoginSuccessful {
                 
                 DispatchQueue.main.async(execute:  {
+//                    self.performSegue(withIdentifier: "SegueFromLoginToNavCtlr", sender: self)
+                    
                     let navController = self.storyboard?.instantiateViewController(withIdentifier: IB.StoryboardID.StudentLocsTabBarNC) as! UINavigationController
                     self.present(navController, animated: true, completion: nil)
                 })
@@ -207,8 +209,8 @@ private extension UdacityLoginViewController {
             
             let JSONResult = result as! JSONDictionary
             
-            let account = UdacityAccount(accountDict: JSONResult[UdacityAPIClient.API.AccountKey] as! JSONDictionary)
-            let session = UdacitySession(sessionDict: JSONResult[UdacityAPIClient.API.SessionKey] as! JSONDictionary)
+            let account = UdacityAccount(accountDict: JSONResult[UdacityClient.API.AccountKey] as! JSONDictionary)
+            let session = UdacitySession(sessionDict: JSONResult[UdacityClient.API.SessionKey] as! JSONDictionary)
             
             UdacityDataManager.shared.loginData = (account, session)
         }
@@ -254,21 +256,21 @@ private extension UdacityLoginViewController {
     
     // MARK: - Facebook
     
-    func addFacebookLoginButton() {
-        let facebookLoginButtonFrame = CGRect(x: emailTextField.frame.origin.x, y: view.frame.height - 48.0, width: emailTextField.frame.width, height: 28.0)
-        let facebookLoginButton      = FBSDKLoginButton(frame: facebookLoginButtonFrame)
-        
-        facebookLoginButton.delegate   = self
-        facebookLoginButton.isHidden   = false
-        facebookLoginButton.isEnabled  = true
-        
-        view.addSubview(facebookLoginButton)
-    }
-    
-    func logoutFromFacebook() {
-        let loginManager = FBSDKLoginManager()
-        loginManager.logOut()
-    }
+//    func addFacebookLoginButton() {
+//        let facebookLoginButtonFrame = CGRect(x: emailTextField.frame.origin.x, y: view.frame.height - 48.0, width: emailTextField.frame.width, height: 28.0)
+//        let facebookLoginButton      = FBSDKLoginButton(frame: facebookLoginButtonFrame)
+//        
+//        facebookLoginButton.delegate   = self
+//        facebookLoginButton.isHidden   = false
+//        facebookLoginButton.isEnabled  = true
+//        
+//        view.addSubview(facebookLoginButton)
+//    }
+//    
+//    func logoutFromFacebook() {
+//        let loginManager = FBSDKLoginManager()
+//        loginManager.logOut()
+//    }
     
     // MARK: - Notifications
     
@@ -307,7 +309,7 @@ private extension UdacityLoginViewController {
     }
     
     func cleanup(alertTitle: String, alertMessage: String) {
-        logoutFromFacebook()
+//        logoutFromFacebook()
         pleaseWaitView?.stopActivityIndicator()
         presentAlert(title: alertTitle, message: alertMessage)
     }
@@ -351,7 +353,7 @@ private extension UdacityLoginViewController {
             presentAlert(title: Alert.Title.BadUserLoginData, message: Alert.Message.CheckLoginFields)
         } else {
             pleaseWaitView?.startActivityIndicator()
-            UdacityAPIClient.shared.login(username: emailTextField.text! as String, password: passwordTextField.text! as String, completionHandler: finishLoggingIn)
+            UdacityClient.shared.login(username: emailTextField.text! as String, password: passwordTextField.text! as String, completionHandler: finishLoggingIn)
         }
         
     }

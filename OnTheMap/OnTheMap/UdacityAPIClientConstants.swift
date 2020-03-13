@@ -6,7 +6,7 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-extension UdacityAPIClient {
+extension UdacityClient {
     
     struct API {
         static let BaseURL           = "https://www.udacity.com/api/"
@@ -30,6 +30,26 @@ extension UdacityAPIClient {
     struct XSRFTokenField {
         static let Name       = "X-XSRF-TOKEN"
         static let CookieName = "XSRF-TOKEN"
+    }
+    
+}
+
+
+extension UdacityClient {
+    
+    enum URL {
+        static let session = "https://onthemap-api.udacity.com/v1/session"
+        static let user    = "https://onthemap-api.udacity.com/v1/users/"
+        static let getStudentLocations   = "https://onthemap-api.udacity.com/v1/StudentLocation?limit=100&order=-updateAt"
+        static let createStudentLocation = "https://onthemap-api.udacity.com/v1/StudentLocation"
+        
+        static func updateStudentLocation(forObjectID id: String) -> String {
+            return "\(createStudentLocation)/\(id)"
+        }
+        
+        static func getStudentLocation(forUserID id: String) -> String {
+            return "\(createStudentLocation)/\(id)"
+        }
     }
     
 }
