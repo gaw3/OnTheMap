@@ -32,7 +32,12 @@ extension UdacityClient {
 //    }
     
     func login(username: String, password: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        login(UdacityLogin(username: username, password: password).serializedData as Data, completionHandler: completionHandler)
+        let udacityLoginData     = UdacityLoginData(udacity: UdacityLoginData.Udacity(username: username, password: password))
+        let encoder              = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let endodedData          = try! encoder.encode(udacityLoginData)
+        
+        login(endodedData, completionHandler: completionHandler)
     }
     
     func logout(completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {

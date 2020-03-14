@@ -12,6 +12,21 @@ extension UIViewController {
     
     // MARK: - API
     
+    func goToWebsite(withURLString urlString: String) {
+        
+        guard let urlComponents = URLComponents(string: urlString) else {
+            presentAlert(title: "Bad URL", message: "The following URL is malformed:  \(urlString)")
+            return
+        }
+        
+        guard UIApplication.shared.canOpenURL(urlComponents.url!) else {
+            presentAlert(title: "Bad URL", message: "Your device does not contain an app that can handle the following URL:  \(urlComponents.url!)")
+            return
+        }
+        
+        UIApplication.shared.open(urlComponents.url!, completionHandler: nil)
+    }
+    
     func openSystemBrowser(withURLString urlString: String) {
         
         if let URLComponents = URLComponents(string: urlString) {

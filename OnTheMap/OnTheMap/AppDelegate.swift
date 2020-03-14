@@ -10,6 +10,8 @@ import UIKit
 
 //import FBSDKCoreKit
 
+let dataMgr = DataManager.shared
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     

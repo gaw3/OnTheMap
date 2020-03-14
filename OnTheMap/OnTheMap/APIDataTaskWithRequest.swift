@@ -8,6 +8,7 @@
 
 import UIKit
 
+typealias NetworkTaskCompletionHandler = (_ result: AnyObject?, _ error: NSError?) -> Void
 typealias APIDataTaskWithRequestCompletionHandler = (_ result: AnyObject?, _ error: NSError?) -> Void
 typealias JSONDictionary = Dictionary<String, AnyObject>
 
@@ -67,17 +68,18 @@ final class APIDataTaskWithRequest {
                 jsonDataToParse = rawJSONResponse.subdata(in: 5..<rawJSONResponse.count)
             }
             
-            do {
-                let jsonData = try JSONSerialization.jsonObject(with: jsonDataToParse, options: .allowFragments) as! JSONDictionary
-                
-                self.completionHandler(jsonData as AnyObject?, nil)
-            } catch let jsonError as NSError {
-                let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.JSONSerialization, NSUnderlyingErrorKey: jsonError] as [String : Any]
-                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.JSONSerialization, userInfo: userInfo)
-                
-                self.completionHandler(nil, error)
-                return
-            }
+            self.completionHandler(jsonDataToParse as AnyObject?, nil)
+//            do {
+//                _ = try JSONSerialization.jsonObject(with: jsonDataToParse, options: .allowFragments) as! JSONDictionary
+//                
+//                self.completionHandler(jsonDataToParse as AnyObject?, nil)
+//            } catch let jsonError as NSError {
+//                let userInfo = [NSLocalizedDescriptionKey: LocalizedError.Description.JSONSerialization, NSUnderlyingErrorKey: jsonError] as [String : Any]
+//                let error    = NSError(domain: LocalizedError.Domain, code: LocalizedError.Code.JSONSerialization, userInfo: userInfo)
+//                
+//                self.completionHandler(nil, error)
+//                return
+//            }
             
         }) 
         

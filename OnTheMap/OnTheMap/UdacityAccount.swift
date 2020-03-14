@@ -26,3 +26,5 @@ struct UdacityAccount {
     
     init(accountDict: JSONDictionary) { _account = accountDict }
 }
+
+
