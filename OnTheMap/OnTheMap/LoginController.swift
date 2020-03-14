@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginController: UIViewController {
+final class LoginController: UIViewController {
     
     // MARK: - IB Outlets
     
@@ -115,14 +115,12 @@ private extension LoginController{
             let decoder = JSONDecoder()
  
             dataMgr.udacityLoginResponse = try! decoder.decode(UdacityLoginResponse.self, from: result as! Data)
-            print("\(String(describing: dataMgr.udacityLoginResponse))")
-            
+
             DispatchQueue.main.async(execute: {
                 strongSelf.activityIndicator.stopAnimating()
-            })
+                strongSelf.performSegue(withIdentifier: "SegueToTabBarController", sender: nil)
+           })
 
-            
-//            UdacityClient.shared.getProfileData(forUserID: dataMgr.udacityLoginResponse!.account.key, completionHandler: nil)
         }
 
     }
