@@ -34,6 +34,8 @@
 		7A50C8E1241C93C300740900 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A50C8E0241C93C300740900 /* MapController.swift */; };
 		7A6DB2F01C52C53800F1E4E2 /* UdacityFBAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */; };
 		7A79BA3C1C45AEBB004FD316 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A79BA3B1C45AEBB004FD316 /* NetworkActivityIndicator.swift */; };
+		7A7DC8B4241F3ECF00C6268C /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7DC8B3241F3ECF00C6268C /* JSON.swift */; };
+		7A7DC8B7241F40DB00C6268C /* GetLocationsWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7DC8B6241F40DB00C6268C /* GetLocationsWorkflow.swift */; };
 		7A840F611C03E6CD006B5874 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A840F601C03E6CD006B5874 /* AppDelegate.swift */; };
 		7A840F681C03E6CD006B5874 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A840F661C03E6CD006B5874 /* Main.storyboard */; };
 		7A840F6D1C03E6CD006B5874 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A840F6B1C03E6CD006B5874 /* LaunchScreen.storyboard */; };
@@ -78,6 +80,8 @@
 		7A50C8E0241C93C300740900 /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityFBAccessToken.swift; sourceTree = "<group>"; };
 		7A79BA3B1C45AEBB004FD316 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicator.swift; sourceTree = "<group>"; };
+		7A7DC8B3241F3ECF00C6268C /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
+		7A7DC8B6241F40DB00C6268C /* GetLocationsWorkflow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationsWorkflow.swift; sourceTree = "<group>"; };
 		7A840F5D1C03E6CD006B5874 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A840F601C03E6CD006B5874 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A840F671C03E6CD006B5874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -151,6 +155,14 @@
 			name = Delegates;
 			sourceTree = "<group>";
 		};
+		7A7DC8B5241F3FFA00C6268C /* Workflows */ = {
+			isa = PBXGroup;
+			children = (
+				7A7DC8B6241F40DB00C6268C /* GetLocationsWorkflow.swift */,
+			);
+			name = Workflows;
+			sourceTree = "<group>";
+		};
 		7A840F541C03E6CD006B5874 = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +232,7 @@
 		7A840F791C04EB7A006B5874 /* API Clients */ = {
 			isa = PBXGroup;
 			children = (
+				7A7DC8B5241F3FFA00C6268C /* Workflows */,
 				7A0D0BC71C0D4AF30087D9CE /* Common */,
 				7AA2863D1C4D72680059FF24 /* Parse */,
 				7AA2863C1C4D724B0059FF24 /* Udacity */,
@@ -248,6 +261,7 @@
 				7AC6A4731C4F313700470E22 /* UdacityLogin.swift */,
 				7A6DB2EF1C52C53800F1E4E2 /* UdacityFBAccessToken.swift */,
 				7A50C8DA241C697000740900 /* DataManager.swift */,
+				7A7DC8B3241F3ECF00C6268C /* JSON.swift */,
 			);
 			name = Udacity;
 			sourceTree = "<group>";
@@ -353,11 +367,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A1E9AB01C459FC8008BCB02 /* UIViewControllerExtensions.swift in Sources */,
+				7A7DC8B4241F3ECF00C6268C /* JSON.swift in Sources */,
 				7A50C8DD241C918A00740900 /* TabBarController.swift in Sources */,
 				7AC6A4741C4F313700470E22 /* UdacityLogin.swift in Sources */,
 				7AD293CF1C447BCD00E61B85 /* UdacityDataManager.swift in Sources */,
 				7A261AC91C3F342100FAEF5A /* StudentLocationsPostInformationViewController.swift in Sources */,
 				7A29A8C11C631ACA0098E298 /* ParseAPIClientConstants.swift in Sources */,
+				7A7DC8B7241F40DB00C6268C /* GetLocationsWorkflow.swift in Sources */,
 				7A0D0BCD1C0E84190087D9CE /* APIClientConstants.swift in Sources */,
 				7A0433941E03744500FB2C04 /* AlertStrings.swift in Sources */,
 				7A79BA3C1C45AEBB004FD316 /* NetworkActivityIndicator.swift in Sources */,

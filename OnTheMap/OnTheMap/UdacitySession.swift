@@ -27,29 +27,3 @@ struct UdacitySession {
     init(sessionDict: JSONDictionary) { _session = sessionDict }
 }
 
-struct UdacityLoginData: Encodable {
-    let udacity: Udacity
-    
-    struct Udacity: Encodable {
-        let username: String
-        let password: String
-    }
-    
-}
-
-struct UdacityLoginResponse: Decodable {
-    let account: Account
-    let session: Session
-    
-    struct Account: Decodable {
-        let registered: Bool
-        let key:        String
-    }
-
-    struct Session: Decodable {
-        let id:         String
-        let expiration: String
-    }
-    
-}
-

@@ -23,19 +23,29 @@ final class ListController: UITableViewController {
         switch barButtonItem {
         case addButton:     print("add button was tapped")
         case logoutButton:  print("logout button was tapped")
-        case refreshButton: print("refresh button was tapped")
+        case refreshButton: dataMgr.refresh(delegate: self)
         default:            assertionFailure("Received event from unknown button")
         }
         
     }
     
-    // MARK: - View Events
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ListCell")
-    }
+}
 
+
+
+// MARK: -
+// MARK: - Get Locations Workflow Delegate
+
+extension ListController: GetLocationsWorkflowDelegate
+{
+    func complete() {
+        
+         DispatchQueue.main.async(execute: {
+            self.tableView.reloadData()
+        })
+        
+    }
+    
 }
 
 
@@ -56,14 +66,16 @@ extension ListController {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "ListCell")
         }
         
-        cell?.textLabel?.text       = "This is title \(indexPath.row)"
-        cell?.detailTextLabel?.text = "This is subtitle \(indexPath.row)"
+        let location = dataMgr.locations!.results[indexPath.row]
+        
+        cell?.textLabel?.text       = "\(location.firstName ?? "NFM") \(location.lastName ?? "NLM") (\(location.mapString ?? "No Mapstring"))"
+        cell?.detailTextLabel?.text = location.mediaURL ?? "No URL"
 
         return cell!
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return dataMgr.locations == nil ? 0 : dataMgr.locations!.results.count
     }
     
 }
@@ -79,8 +91,4 @@ extension ListController {
         print("did select row at \(indexPath)")
     }
 
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return CGFloat(55.0)
-//    }
-    
 }

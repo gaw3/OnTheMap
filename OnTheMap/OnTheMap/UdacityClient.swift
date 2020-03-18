@@ -51,7 +51,7 @@ extension UdacityClient {
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()
     }
-    
+
 }
 
 

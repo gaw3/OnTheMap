@@ -124,12 +124,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="beA-vY-w2h">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="beA-vY-w2h">
                                 <rect key="frame" x="0.0" y="44" width="375" height="574"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="PaG-us-LeO" id="qk2-R4-akU"/>
+                                </connections>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="beA-vY-w2h" firstAttribute="centerX" secondItem="eQF-JC-8Km" secondAttribute="centerX" id="FUZ-EW-yQL"/>
+                            <constraint firstItem="beA-vY-w2h" firstAttribute="bottom" secondItem="eQF-JC-8Km" secondAttribute="bottomMargin" id="Lqb-5Y-OLO"/>
+                            <constraint firstItem="beA-vY-w2h" firstAttribute="top" secondItem="eQF-JC-8Km" secondAttribute="topMargin" id="d1G-v1-vG2"/>
+                            <constraint firstItem="beA-vY-w2h" firstAttribute="leading" secondItem="eQF-JC-8Km" secondAttribute="leadingMargin" constant="-16" id="l6x-hP-yQp"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="On the Map" id="5LF-Z0-Aag">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="IGx-fB-I1s">
