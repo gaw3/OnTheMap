@@ -10,6 +10,12 @@ import UIKit
 
 final class TabBarController: UITabBarController {
 
+    // MARK: - IB Actions
+    
+    @IBAction func unwindToTabBarController(_ segue: UIStoryboardSegue) {
+        print("did unwind to tab bar controller")
+    }
+    
     // MARK: - View Events
     
     override func viewDidLoad() {

@@ -16,18 +16,17 @@ final class MapController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    @IBOutlet weak var addButton:     UIBarButtonItem!
     @IBOutlet weak var logoutButton:  UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
-    private let locationManager = CLLocationManager()
+//    private let locationManager = CLLocationManager()
     
     // MARK: - IB Actions
     
     @IBAction func didTapBarButtonItem(_ barButtonItem: UIBarButtonItem) {
         
         switch barButtonItem {
-        case addButton:     print("add button was tapped")
+//        case addButton:     print("add button was tapped")
         case logoutButton:  print("logout button was tapped")
         case refreshButton: dataMgr.refresh(delegate: self)
         default:            assertionFailure("Received event from unknown button")

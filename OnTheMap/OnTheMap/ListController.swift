@@ -12,7 +12,6 @@ final class ListController: UITableViewController {
 
     // MARK: - IB Outlets
     
-    @IBOutlet weak var addButton: UIBarButtonItem!
     @IBOutlet weak var logoutButton: UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
@@ -21,7 +20,6 @@ final class ListController: UITableViewController {
     @IBAction func didTapBarButtonItem(_ barButtonItem: UIBarButtonItem) {
         
         switch barButtonItem {
-        case addButton:     print("add button was tapped")
         case logoutButton:  print("logout button was tapped")
         case refreshButton: dataMgr.refresh(delegate: self)
         default:            assertionFailure("Received event from unknown button")
