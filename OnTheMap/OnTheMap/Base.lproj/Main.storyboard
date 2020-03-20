@@ -220,7 +220,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" textContentType="given-name"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="URL" textAlignment="natural" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="TUS-KJ-l04">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://google.com" borderStyle="bezel" placeholder="URL" textAlignment="natural" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="TUS-KJ-l04">
                                 <rect key="frame" x="40" y="358.5" width="295" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="J2C-tn-g8F"/>
@@ -277,12 +277,74 @@
                         <outlet property="lastNameField" destination="6Xu-7j-ZSt" id="PYW-ey-fbZ"/>
                         <outlet property="locationField" destination="OPc-YX-TAB" id="Qye-kK-LV3"/>
                         <outlet property="urlField" destination="TUS-KJ-l04" id="WVY-hb-jV4"/>
+                        <segue destination="wHV-gf-ddK" kind="show" identifier="SegueToVerifyLocation" id="32s-DN-VDN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yh2-7s-pfD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="gPs-Fp-qbQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-55.200000000000003" y="-818.14092953523243"/>
+        </scene>
+        <!--Verify Location Controller-->
+        <scene sceneID="bRK-YN-6jX">
+            <objects>
+                <viewController storyboardIdentifier="VerifyLoctionVC" title="Verify Location Controller" id="wHV-gf-ddK" customClass="VerifyLocationController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="G6Q-7b-fxJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="oDC-xV-ZEi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rvB-R6-0fm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dtC-Or-C7G">
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <connections>
+                                    <outlet property="delegate" destination="wHV-gf-ddK" id="b4d-Nv-8VJ"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fw2-M2-n4N">
+                                <rect key="frame" x="8" y="629" width="359" height="30"/>
+                                <color key="backgroundColor" name="UdacityBlue"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="j3d-1o-bZL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Finish">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTouchUpInside:" destination="wHV-gf-ddK" eventType="touchUpInside" id="DcJ-Vb-yoL"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="oDC-xV-ZEi" firstAttribute="top" secondItem="fw2-M2-n4N" secondAttribute="bottom" constant="8" id="9pP-bs-ppo"/>
+                            <constraint firstItem="dtC-Or-C7G" firstAttribute="top" secondItem="G6Q-7b-fxJ" secondAttribute="bottom" id="BUI-uh-MeC"/>
+                            <constraint firstItem="fw2-M2-n4N" firstAttribute="leading" secondItem="rvB-R6-0fm" secondAttribute="leading" constant="8" id="K4b-b7-FlP"/>
+                            <constraint firstAttribute="trailing" secondItem="dtC-Or-C7G" secondAttribute="trailing" id="MQP-El-Mve"/>
+                            <constraint firstItem="dtC-Or-C7G" firstAttribute="leading" secondItem="rvB-R6-0fm" secondAttribute="leading" id="OCe-KO-wdZ"/>
+                            <constraint firstAttribute="trailing" secondItem="fw2-M2-n4N" secondAttribute="trailing" constant="8" id="agd-sJ-8bo"/>
+                            <constraint firstItem="oDC-xV-ZEi" firstAttribute="top" secondItem="dtC-Or-C7G" secondAttribute="bottom" id="qER-v5-vNS"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="FVi-lU-EcO">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="NKQ-L4-JM3">
+                            <connections>
+                                <segue destination="xPW-Zs-UtY" kind="unwind" identifier="UnwindSegueToTabBarController" unwindAction="unwindToTabBarController:" id="9si-VQ-kRD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="finishButton" destination="fw2-M2-n4N" id="1C9-b7-dVL"/>
+                        <outlet property="mapView" destination="dtC-Or-C7G" id="kgW-Ns-sak"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gMv-uD-txT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="xPW-Zs-UtY" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="700" y="-818.14092953523243"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="4za-ey-onl">
@@ -447,6 +509,6 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="e2s-6t-4OA"/>
+        <segue reference="ueT-QY-Dan"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Gregory White. All rights reserved.
 //
 
+import CoreLocation
 import UIKit
 
 final class AddLocationController: UIViewController {
@@ -47,8 +48,9 @@ final class AddLocationController: UIViewController {
             return
         }
         
-        print("all input data passes")
-        
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(locationField.text!, completionHandler: finishGeocoding)
+
     }
     
     // MARK: - View Events
@@ -56,6 +58,46 @@ final class AddLocationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+    
+}
+
+
+
+// MARK: -
+// MARK: - Private Completion Handlers
+
+private extension AddLocationController {
+    
+    var finishGeocoding: CLGeocodeCompletionHandler {
+        
+        return { [weak self] (placemarks, error) -> Void in
+            
+            guard let strongSelf = self else { return }
+                        
+            guard error == nil else {
+                strongSelf.presentAlert(title: Alert.Title.BadGeocode, message: error!.localizedDescription)
+                return
+            }
+            
+            guard placemarks != nil, !placemarks!.isEmpty else {
+                strongSelf.presentAlert(title: Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
+                return
+            }
+            
+            let addedLocation = AddedLocation(placemark: placemarks![0] as CLPlacemark,
+                                              firstName: strongSelf.firstNameField.text!,
+                                               lastName: strongSelf.lastNameField.text!,
+                                                    url: strongSelf.urlField.text!)
+            
+            DispatchQueue.main.async(execute: {
+                let verifyLocationVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: "VerifyLoctionVC") as! VerifyLocationController
+                verifyLocationVC.addedLocation = addedLocation
+                strongSelf.navigationController?.pushViewController(verifyLocationVC, animated: true)
+            })
+            
+        }
+        
     }
     
 }

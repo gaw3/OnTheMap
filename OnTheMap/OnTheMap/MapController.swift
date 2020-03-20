@@ -28,8 +28,11 @@ final class MapController: UIViewController {
         switch barButtonItem {
 //        case addButton:     print("add button was tapped")
         case logoutButton:  print("logout button was tapped")
-        case refreshButton: dataMgr.refresh(delegate: self)
-        default:            assertionFailure("Received event from unknown button")
+        case refreshButton:
+            dataMgr.refresh(delegate: self)
+            mapView.removeAnnotations(dataMgr.annotations!)
+        default:
+            assertionFailure("Received event from unknown button")
         }
         
     }
@@ -38,6 +41,7 @@ final class MapController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        mapView.removeAnnotations(dataMgr.annotations!)
         dataMgr.refresh(delegate: self)
 
 //        locationManager.delegate = self as? CLLocationManagerDelegate
@@ -79,6 +83,38 @@ extension MapController: GetLocationsWorkflowDelegate
             self.mapView.addAnnotations(dataMgr.annotations!)
             dataMgr.areAnnotationsDirty = false
         })
+        
+    }
+    
+}
+
+
+
+// MARK: -
+// MARK: - Map View Delegate
+
+extension MapController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKPinAnnotationView ??
+                                MKPinAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+        
+//        if let _ = pinAnnotationView {
+//            pinAnnotationView!.annotation = annotation
+//        } else {
+//            pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+//        }
+        
+        pinAnnotationView.animatesDrop              = true
+        pinAnnotationView.canShowCallout            = true
+        pinAnnotationView.pinTintColor              = MKPinAnnotationView.redPinColor()
+        pinAnnotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        
+//        if annotation.title! == UdacityDataManager.shared.user!.fullName {
+//            pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
+//        }
+        
+        return pinAnnotationView
         
     }
     

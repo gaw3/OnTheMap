@@ -22,6 +22,8 @@ final class DataManager {
     var udacityLoginResponse: UdacityLoginResponse? = nil
     var getLocationsWorkflow: GetLocationsWorkflow? = nil
     
+    var addedLocations = [AnnotationViewable]()
+    
     // MARK: - API
     
     func refresh(delegate: GetLocationsWorkflowDelegate?) {

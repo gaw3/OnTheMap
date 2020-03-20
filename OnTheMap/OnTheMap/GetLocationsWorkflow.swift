@@ -71,7 +71,7 @@ private extension GetLocationsWorkflow {
                 
                 annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude!, longitude: location.longitude!)
                 annotation.title      = "\(location.firstName ?? "NFN") \(location.lastName ?? "NLN")"
-                annotation.subtitle   = "[\(location.latitude!), \(location.longitude!)]"
+                annotation.subtitle   = "\(location.mediaURL!)"
                 
                 dataMgr.annotations!.append(annotation)
             }

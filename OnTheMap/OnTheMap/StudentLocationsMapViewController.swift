@@ -58,6 +58,7 @@ extension StudentLocationsMapViewController {
         }
         
         pinAnnotationView!.canShowCallout            = true
+        pinAnnotationView!.animatesDrop              = true
         pinAnnotationView!.pinTintColor              = MKPinAnnotationView.redPinColor()
         pinAnnotationView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         
