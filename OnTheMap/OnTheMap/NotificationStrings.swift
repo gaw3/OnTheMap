@@ -17,4 +17,12 @@ struct Notifications {
     static let UdacityUserDataDidGetSaved           = Notification.Name(rawValue: "UserDataDidGetSavedNotification")
     
     static let IndexOfUpdatedStudentLocationKey     = "indexOfUpdate"
+    
+
+}
+
+
+extension Notification.Name {
+    static let NewAddedLocationsAvailable  = Notification.Name(rawValue: "NewAddedLocationsAvailable")
+    static let NewCannedLocationsAvailable = Notification.Name(rawValue: "NewCannedLocationsAvailable")
 }

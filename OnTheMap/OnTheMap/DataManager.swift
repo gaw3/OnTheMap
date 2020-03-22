@@ -15,20 +15,68 @@ final class DataManager {
     
     static let shared = DataManager()
     
-    var areAnnotationsDirty: Bool = false
-    
-    var annotations:          [MKPointAnnotation]?  = nil
-    var locations:            Locations?            = nil
     var udacityLoginResponse: UdacityLoginResponse? = nil
-    var getLocationsWorkflow: GetLocationsWorkflow? = nil
-    
-    var addedLocations = [AnnotationViewable]()
+    var getLocationsWorkflow = GetLocationsWorkflow()
+    var addedLocations       = AddedLocations()
+    var cannedLocations      = CannedLocations()
     
     // MARK: - API
     
-    func refresh(delegate: GetLocationsWorkflowDelegate?) {
-        getLocationsWorkflow = GetLocationsWorkflow(delegate: delegate)
-        getLocationsWorkflow?.get()
+    func refreshCannedLocations() {
+        getLocationsWorkflow.get()
     }
     
+}
+
+class AddedLocations {
+    private var annotations = [AddedLocationAnnotation]()
+    
+    func add(annotation: AddedLocationAnnotation) {
+        annotations.append(annotation)
+        NotificationCenter.default.post(name: .NewAddedLocationsAvailable, object: nil)
+    }
+    
+    var newest: AddedLocationAnnotation? {
+        return annotations.last
+    }
+    
+}
+
+
+class CannedLocations {
+    
+    private var newAnnotations = [CannedLocationAnnotation]()
+    private var oldAnnotations = [CannedLocationAnnotation]()
+    private var _locations     = [Locations.Location]()
+    
+    func put(newLocations: Locations) {
+        _locations = newLocations.results
+        
+        oldAnnotations.removeAll()
+        
+        for annotation in newAnnotations {
+            oldAnnotations.append(annotation)
+        }
+        
+        newAnnotations.removeAll()
+
+        for location in _locations {
+            newAnnotations.append(CannedLocationAnnotation(location: location))
+        }
+
+        NotificationCenter.default.post(name: .NewCannedLocationsAvailable, object: nil)
+    }
+    
+    var locations: [Locations.Location] {
+        return _locations
+    }
+    
+    var newAnnos: [CannedLocationAnnotation] {
+        return newAnnotations
+    }
+    
+    var oldAnnos: [CannedLocationAnnotation] {
+        return oldAnnotations
+    }
+
 }

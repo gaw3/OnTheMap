@@ -1,19 +1,14 @@
 //
-//  AddedLocation.swift
+//  AddedLocationAnnotation.swift
 //  OnTheMap
 //
 //  Created by Gregory White on 3/19/20.
 //  Copyright © 2020 Gregory White. All rights reserved.
 //
 
-import Foundation
 import MapKit
 
-struct AddedLocation {
-    
-    // MARK: - Variables
-
-    var annotation:   MKPointAnnotation
+class AddedLocationAnnotation: MKPointAnnotation {
     var deltaDegrees: CLLocationDegrees
     var placemark:    CLPlacemark
     var region:       MKCoordinateRegion
@@ -21,9 +16,7 @@ struct AddedLocation {
     var firstName: String
     var lastName:  String
     var url:       String
-
-    // MARK: - Initializers
-
+    
     init(placemark: CLPlacemark, firstName: String, lastName: String, url: String) {
         self.placemark = placemark
         self.firstName = firstName
@@ -38,14 +31,15 @@ struct AddedLocation {
             deltaDegrees = 12.0
         }
         
-        annotation = MKPointAnnotation()
-        annotation.coordinate = placemark.location!.coordinate
-        annotation.title      = "\(firstName) \(lastName)"
-        annotation.subtitle   = "\(url)"
-
         let span = MKCoordinateSpan(latitudeDelta: deltaDegrees, longitudeDelta: deltaDegrees)
         
         region = MKCoordinateRegion(center: placemark.location!.coordinate, span: span)
+        
+        super.init()
+        
+        coordinate = placemark.location!.coordinate
+        title      = "\(firstName) \(lastName)"
+        subtitle   = "\(url)"
     }
     
 }
@@ -55,11 +49,7 @@ struct AddedLocation {
 // MARK: -
 // MARK: - Annotation Viewable
 
-extension AddedLocation: AnnotationViewable {
-    
-    func configure(annotationView view: MKPinAnnotationView) {
-        
-    }
+extension AddedLocationAnnotation: AnnotationViewable {
     
     func configure(annotationView view: MKMarkerAnnotationView) {
         view.canShowCallout    = true
@@ -69,4 +59,8 @@ extension AddedLocation: AnnotationViewable {
         view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
     }
 
+    func configure(annotationView view: MKPinAnnotationView) {
+        
+    }
+    
 }

@@ -21,10 +21,20 @@ final class ListController: UITableViewController {
         
         switch barButtonItem {
         case logoutButton:  print("logout button was tapped")
-        case refreshButton: dataMgr.refresh(delegate: self)
+        case refreshButton: dataMgr.refreshCannedLocations()
         default:            assertionFailure("Received event from unknown button")
         }
         
+    }
+    
+    // MARK: - View Events
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
+                                                         name: .NewCannedLocationsAvailable,
+                                                       object: nil)
     }
     
 }
@@ -32,14 +42,23 @@ final class ListController: UITableViewController {
 
 
 // MARK: -
-// MARK: - Get Locations Workflow Delegate
+// MARK: - Notifications
 
-extension ListController: GetLocationsWorkflowDelegate
-{
-    func complete() {
+extension ListController {
+    
+    @objc func process(notification: Notification) {
         
-         DispatchQueue.main.async(execute: {
-            self.tableView.reloadData()
+        DispatchQueue.main.async(execute: {
+
+            switch notification.name {
+            
+            case .NewCannedLocationsAvailable:
+                print("list controller is refreshing")
+                self.tableView.reloadData()
+
+            default: assertionFailure("Received unknown notification = \(notification)")
+            }
+            
         })
         
     }
@@ -64,7 +83,7 @@ extension ListController {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "ListCell")
         }
         
-        let location = dataMgr.locations!.results[indexPath.row]
+        let location = dataMgr.cannedLocations.locations[indexPath.row]
         
         cell?.textLabel?.text       = "\(location.firstName ?? "NFM") \(location.lastName ?? "NLM") (\(location.mapString ?? "No Mapstring"))"
         cell?.detailTextLabel?.text = location.mediaURL ?? "No URL"
@@ -73,7 +92,7 @@ extension ListController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataMgr.locations == nil ? 0 : dataMgr.locations!.results.count
+        return dataMgr.cannedLocations.locations.count
     }
     
 }

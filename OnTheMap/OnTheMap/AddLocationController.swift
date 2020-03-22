@@ -50,14 +50,6 @@ final class AddLocationController: UIViewController {
         
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(locationField.text!, completionHandler: finishGeocoding)
-
-    }
-    
-    // MARK: - View Events
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
     }
     
 }
@@ -85,14 +77,14 @@ private extension AddLocationController {
                 return
             }
             
-            let addedLocation = AddedLocation(placemark: placemarks![0] as CLPlacemark,
-                                              firstName: strongSelf.firstNameField.text!,
-                                               lastName: strongSelf.lastNameField.text!,
-                                                    url: strongSelf.urlField.text!)
+            let addedLocationAnnotation = AddedLocationAnnotation(placemark: placemarks![0] as CLPlacemark,
+                                                                  firstName: strongSelf.firstNameField.text!,
+                                                                   lastName: strongSelf.lastNameField.text!,
+                                                                        url: strongSelf.urlField.text!)
             
             DispatchQueue.main.async(execute: {
-                let verifyLocationVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: "VerifyLoctionVC") as! VerifyLocationController
-                verifyLocationVC.addedLocation = addedLocation
+                let verifyLocationVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: "VerifyLocationVC") as! VerifyLocationController
+                verifyLocationVC.addedLocationAnnotation = addedLocationAnnotation
                 strongSelf.navigationController?.pushViewController(verifyLocationVC, animated: true)
             })
             

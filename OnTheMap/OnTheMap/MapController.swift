@@ -26,11 +26,9 @@ final class MapController: UIViewController {
     @IBAction func didTapBarButtonItem(_ barButtonItem: UIBarButtonItem) {
         
         switch barButtonItem {
-//        case addButton:     print("add button was tapped")
         case logoutButton:  print("logout button was tapped")
         case refreshButton:
-            dataMgr.refresh(delegate: self)
-            mapView.removeAnnotations(dataMgr.annotations!)
+            dataMgr.refreshCannedLocations()
         default:
             assertionFailure("Received event from unknown button")
         }
@@ -41,8 +39,16 @@ final class MapController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        mapView.removeAnnotations(dataMgr.annotations!)
-        dataMgr.refresh(delegate: self)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
+                                                         name: .NewCannedLocationsAvailable,
+                                                       object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
+                                                         name: .NewAddedLocationsAvailable,
+                                                       object: nil)
+
+        mapView.addAnnotations(dataMgr.cannedLocations.newAnnos)
 
 //        locationManager.delegate = self as? CLLocationManagerDelegate
 //        locationManager.requestWhenInUseAuthorization()
@@ -51,21 +57,7 @@ final class MapController: UIViewController {
 //        locationManager.distanceFilter  = kCLDistanceFilterNone
 //        locationManager.startUpdatingLocation()
 //
-//        mapView.showsUserLocation = true
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        if dataMgr.areAnnotationsDirty {
-            
-            DispatchQueue.main.async(execute: {
-                self.mapView.addAnnotations(dataMgr.annotations!)
-                dataMgr.areAnnotationsDirty = false
-            })
-            
-        }
-        
+//        mapView.showsUserLocation = true                                                                                                                              
     }
     
 }
@@ -73,15 +65,30 @@ final class MapController: UIViewController {
 
 
 // MARK: -
-// MARK: - Get Locations Workflow Delegate
+// MARK: - Notifications
 
-extension MapController: GetLocationsWorkflowDelegate
-{
-    func complete() {
+extension MapController {
+    
+    @objc func process(notification: Notification) {
         
         DispatchQueue.main.async(execute: {
-            self.mapView.addAnnotations(dataMgr.annotations!)
-            dataMgr.areAnnotationsDirty = false
+
+            switch notification.name {
+            
+            case .NewCannedLocationsAvailable:
+                print("map controller is refreshing")
+                self.mapView.removeAnnotations(dataMgr.cannedLocations.oldAnnos)
+                self.mapView.addAnnotations(dataMgr.cannedLocations.newAnnos)
+                
+            case .NewAddedLocationsAvailable:
+                if let anno = dataMgr.addedLocations.newest {
+                    print("map controller is adding new location")
+                    self.mapView.addAnnotation(anno)
+                }
+
+            default: assertionFailure("Received unknown notification = \(notification)")
+            }
+            
         })
         
     }
@@ -96,26 +103,11 @@ extension MapController: GetLocationsWorkflowDelegate
 extension MapController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKPinAnnotationView ??
-                                MKPinAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+        let marker = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKMarkerAnnotationView ??
+                     MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
         
-//        if let _ = pinAnnotationView {
-//            pinAnnotationView!.annotation = annotation
-//        } else {
-//            pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
-//        }
-        
-        pinAnnotationView.animatesDrop              = true
-        pinAnnotationView.canShowCallout            = true
-        pinAnnotationView.pinTintColor              = MKPinAnnotationView.redPinColor()
-        pinAnnotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        
-//        if annotation.title! == UdacityDataManager.shared.user!.fullName {
-//            pinAnnotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
-//        }
-        
-        return pinAnnotationView
-        
+        (annotation as! AnnotationViewable).configure(annotationView: marker)
+        return marker
     }
     
 }

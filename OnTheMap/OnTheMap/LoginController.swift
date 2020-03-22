@@ -34,6 +34,38 @@ final class LoginController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
+                                                         name: .NewCannedLocationsAvailable,
+                                                       object: nil)
+    }
+    
+}
+
+
+
+// MARK: -
+// MARK: - Notifications
+
+extension LoginController {
+    
+    @objc func process(notification: Notification) {
+        
+        DispatchQueue.main.async(execute: {
+
+            switch notification.name {
+            
+            case .NewCannedLocationsAvailable:
+                NotificationCenter.default.removeObserver(self, name: .NewCannedLocationsAvailable,
+                                                              object: nil)
+                self.activityIndicator.stopAnimating()
+                self.performSegue(withIdentifier: "SegueToTabBarController", sender: nil)
+
+            default: assertionFailure("Received unknown notification = \(notification)")
+            }
+            
+        })
+        
     }
     
 }
@@ -98,13 +130,14 @@ private extension LoginController {
 
 
 
+// MARK: -
+// MARK: - Private Completion Handlers
+
 private extension LoginController{
     
     var processUdacityLoginResponse: NetworkTaskCompletionHandler {
         
-        return { [weak self] (result, error) -> Void in
-            
-            guard let strongSelf = self else { return }
+        return { (result, error) -> Void in
             
             guard error == nil else{
                 // need a alert thingy here
@@ -115,12 +148,7 @@ private extension LoginController{
             let decoder = JSONDecoder()
  
             dataMgr.udacityLoginResponse = try! decoder.decode(UdacityLoginResponse.self, from: result as! Data)
-
-            DispatchQueue.main.async(execute: {
-                strongSelf.activityIndicator.stopAnimating()
-                strongSelf.performSegue(withIdentifier: "SegueToTabBarController", sender: nil)
-           })
-
+            dataMgr.refreshCannedLocations()
         }
 
     }

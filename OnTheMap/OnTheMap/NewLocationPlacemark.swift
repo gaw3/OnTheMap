@@ -14,15 +14,3 @@ protocol AnnotationViewable {
     func configure(annotationView view: MKMarkerAnnotationView)
 }
 
-struct CannedLocation: AnnotationViewable {
-    
-    func configure(annotationView view: MKPinAnnotationView) {
-        return
-    }
-    
-    func configure(annotationView view: MKMarkerAnnotationView) {
-        return
-    }
-    
-}
-

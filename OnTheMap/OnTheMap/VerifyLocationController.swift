@@ -23,7 +23,7 @@ final class VerifyLocationController: UIViewController {
         switch button {
             
         case finishButton:
-            dataMgr.addedLocations.append(addedLocation)
+            dataMgr.addedLocations.add(annotation: addedLocationAnnotation)
             performSegue(withIdentifier: "UnwindSegueToTabBarController", sender: self)
             
         default:
@@ -34,16 +34,16 @@ final class VerifyLocationController: UIViewController {
     
     // MARK: - Variables
 
-    var addedLocation: AddedLocation!
+    var addedLocationAnnotation: AddedLocationAnnotation!
     
     // MARK: - View Events
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView.addAnnotation(addedLocation.annotation)
-        mapView.setRegion(addedLocation.region, animated: true)
-        mapView.regionThatFits(addedLocation.region)
+        mapView.addAnnotation(addedLocationAnnotation)
+        mapView.setRegion(addedLocationAnnotation.region, animated: true)
+        mapView.regionThatFits(addedLocationAnnotation.region)
     }
     
 }
@@ -57,9 +57,9 @@ extension VerifyLocationController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let marker = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKMarkerAnnotationView ??
-                             MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+                     MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
         
-        addedLocation.configure(annotationView: marker)
+        addedLocationAnnotation.configure(annotationView: marker)
         return marker
     }
     

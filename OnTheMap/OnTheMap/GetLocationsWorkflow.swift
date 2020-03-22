@@ -21,11 +21,13 @@ protocol GetLocationsWorkflowDelegate: class {
 // MARK: -
 
 final class GetLocationsWorkflow: NSObject {
-    private weak var delegate: GetLocationsWorkflowDelegate?
+//    private weak var delegate: GetLocationsWorkflowDelegate?
     
-    init(delegate: GetLocationsWorkflowDelegate?) {
-        self.delegate = delegate
-    }
+//    init(delegate: GetLocationsWorkflowDelegate?) {
+//        self.delegate = delegate
+//    }
+//
+//    init()
     
     func get() {
         ParseAPIClient.shared.refreshStudentLocations(completionHandler: processLocations)
@@ -61,24 +63,33 @@ private extension GetLocationsWorkflow {
             }
             
             
-            let decoder = JSONDecoder()
+            let decoder   = JSONDecoder()
+            let locations = try! decoder.decode(Locations.self, from: result as! Data)
+            dataMgr.cannedLocations.put(newLocations: locations)
+//            dataMgr.cannedLocations.putNewLocations(locations)
             
-            dataMgr.locations   = try! decoder.decode(Locations.self, from: result as! Data)
-            dataMgr.annotations = [MKPointAnnotation]()
             
-            for location in dataMgr.locations!.results {
-                let annotation = MKPointAnnotation()
-                
-                annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude!, longitude: location.longitude!)
-                annotation.title      = "\(location.firstName ?? "NFN") \(location.lastName ?? "NLN")"
-                annotation.subtitle   = "\(location.mediaURL!)"
-                
-                dataMgr.annotations!.append(annotation)
-            }
+//            for location in locations.results {
+//                dataMgr.cannedLocationAnnotations.append(CannedLocationAnnotation(location: location))
+//            }
+            
+            
+            
+//            dataMgr.locations   = try! decoder.decode(Locations.self, from: result as! Data)
+//            dataMgr.annotations = [MKPointAnnotation]()
+//
+//            for location in dataMgr.locations!.results {
+//                let annotation = MKPointAnnotation()
+//
+//                annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude!, longitude: location.longitude!)
+//                annotation.title      = "\(location.firstName ?? "NFN") \(location.lastName ?? "NLN")"
+//                annotation.subtitle   = "\(location.mediaURL!)"
+//
+//                dataMgr.annotations!.append(annotation)
+//            }
 
-            dataMgr.areAnnotationsDirty = true
-            
-            strongSelf.delegate?.complete()
+//            NotificationCenter.default.post(name: .New, object: <#T##Any?#>)
+//            strongSelf.delegate?.complete()
         }
         
     }

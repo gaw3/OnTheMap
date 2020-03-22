@@ -288,7 +288,7 @@
         <!--Verify Location Controller-->
         <scene sceneID="bRK-YN-6jX">
             <objects>
-                <viewController storyboardIdentifier="VerifyLoctionVC" title="Verify Location Controller" id="wHV-gf-ddK" customClass="VerifyLocationController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VerifyLocationVC" title="Verify Location Controller" id="wHV-gf-ddK" customClass="VerifyLocationController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="G6Q-7b-fxJ"/>
                         <viewControllerLayoutGuide type="bottom" id="oDC-xV-ZEi"/>
