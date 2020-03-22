@@ -36,6 +36,12 @@ class AddedLocations {
         NotificationCenter.default.post(name: .NewAddedLocationsAvailable, object: nil)
     }
     
+    var count: Int { return annotations.count }
+    
+    func getLocation(at index: Int) -> AddedLocationAnnotation {
+        return annotations[index]
+    }
+    
     var newest: AddedLocationAnnotation? {
         return annotations.last
     }
