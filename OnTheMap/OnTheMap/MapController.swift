@@ -17,8 +17,9 @@ final class MapController: UIViewController {
     @IBOutlet weak var mapType: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
     
-    @IBOutlet weak var logoutButton:  UIBarButtonItem!
-    @IBOutlet weak var refreshButton: UIBarButtonItem!
+    @IBOutlet weak var logoutButton:          UIBarButtonItem!
+    @IBOutlet weak var annotationStyleButton: UIBarButtonItem!
+    @IBOutlet weak var refreshButton:         UIBarButtonItem!
     
 //    private let locationManager = CLLocationManager()
     
@@ -28,8 +29,9 @@ final class MapController: UIViewController {
         
         switch barButtonItem {
         case logoutButton:  print("logout button was tapped")
-        case refreshButton:
-            dataMgr.refreshCannedLocations()
+        case refreshButton: dataMgr.refreshCannedLocations()
+        case annotationStyleButton: toggleAnnotationStyle()
+
         default:
             assertionFailure("Received event from unknown button")
         }
@@ -48,6 +50,10 @@ final class MapController: UIViewController {
         }
         
     }
+    
+    // MARK: - Variables
+    
+    private var annotationStyle = AnnotationStyle.marker
     
     // MARK: - View Events
     
@@ -101,7 +107,8 @@ extension MapController {
                     self.mapView.addAnnotation(anno)
                 }
 
-            default: assertionFailure("Received unknown notification = \(notification)")
+            default:
+                assertionFailure("Received unknown notification = \(notification)")
             }
             
         })
@@ -116,13 +123,55 @@ extension MapController {
 // MARK: - Map View Delegate
 
 extension MapController: MKMapViewDelegate {
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let marker = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKMarkerAnnotationView ??
-                     MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
         
-        (annotation as! AnnotationViewable).configure(annotationView: marker)
-        return marker
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if annotationStyle == .marker {
+            let marker = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKMarkerAnnotationView ??
+                         MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+            
+            (annotation as! AnnotationViewable).configure(annotationView: marker)
+            return marker
+        } else {
+            let pin = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKPinAnnotationView ??
+                         MKPinAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+            
+            (annotation as! AnnotationViewable).configure(annotationView: pin)
+            return pin
+        }
+        
+    }
+    
+}
+
+
+
+// MARK: -
+// MARK: - Private Helpers
+
+private extension MapController {
+    
+    enum AnnotationStyle {
+        case pin
+        case marker
+    }
+    
+    func toggleAnnotationStyle() {
+        
+        if annotationStyle == .marker {
+            annotationStyle = .pin
+            annotationStyleButton.image = UIImage(named: "MapMarker")
+        } else {
+            annotationStyle = .marker
+            annotationStyleButton.image = UIImage(named: "MapPin")
+
+        }
+
+        mapView.removeAnnotations(dataMgr.cannedLocations.newAnnos)
+        mapView.removeAnnotations(dataMgr.addedLocations.annos)
+        mapView.addAnnotations(dataMgr.cannedLocations.newAnnos)
+        mapView.addAnnotations(dataMgr.addedLocations.annos)
+
     }
     
 }

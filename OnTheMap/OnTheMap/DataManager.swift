@@ -9,6 +9,9 @@
 import Foundation
 import MapKit
 
+// MARK: -
+// MARK: -
+
 final class DataManager {
     
     // MARK: - Variables
@@ -28,32 +31,49 @@ final class DataManager {
     
 }
 
-class AddedLocations {
+// MARK: -
+// MARK: -
+
+final class AddedLocations {
+    
+    // MARK: - Variables
+        
     private var annotations = [AddedLocationAnnotation]()
+    
+    var annos:  [AddedLocationAnnotation] { return annotations }
+    var count:  Int                       { return annotations.count }
+    var newest: AddedLocationAnnotation?  { return annotations.last }
+    
+    // MARK: - API
     
     func add(annotation: AddedLocationAnnotation) {
         annotations.append(annotation)
         NotificationCenter.default.post(name: .NewAddedLocationsAvailable, object: nil)
     }
     
-    var count: Int { return annotations.count }
-    
     func getLocation(at index: Int) -> AddedLocationAnnotation {
         return annotations[index]
-    }
-    
-    var newest: AddedLocationAnnotation? {
-        return annotations.last
     }
     
 }
 
 
-class CannedLocations {
+// MARK: -
+// MARK: -
+
+final class CannedLocations {
     
+    // MARK: - Variables
+        
     private var newAnnotations = [CannedLocationAnnotation]()
     private var oldAnnotations = [CannedLocationAnnotation]()
     private var _locations     = [Locations.Location]()
+    
+    var locations: [Locations.Location]       { return _locations }
+    var newAnnos:  [CannedLocationAnnotation] { return newAnnotations }
+    var oldAnnos:  [CannedLocationAnnotation] { return oldAnnotations }
+
+    // MARK: - API
     
     func put(newLocations: Locations) {
         _locations = newLocations.results
@@ -71,18 +91,6 @@ class CannedLocations {
         }
 
         NotificationCenter.default.post(name: .NewCannedLocationsAvailable, object: nil)
-    }
-    
-    var locations: [Locations.Location] {
-        return _locations
-    }
-    
-    var newAnnos: [CannedLocationAnnotation] {
-        return newAnnotations
-    }
-    
-    var oldAnnos: [CannedLocationAnnotation] {
-        return oldAnnotations
     }
 
 }

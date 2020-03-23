@@ -38,6 +38,10 @@ extension CannedLocationAnnotation: AnnotationViewable {
     }
 
     func configure(annotationView view: MKPinAnnotationView) {
+        view.canShowCallout = true
+        view.animatesDrop   = true
+        view.pinTintColor   = .red
+        view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         
     }
     

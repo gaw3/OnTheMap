@@ -162,11 +162,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="On the Map" id="5LF-Z0-Aag">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="IGx-fB-I1s">
-                            <connections>
-                                <action selector="didTapBarButtonItem:" destination="PaG-us-LeO" id="Ew4-8t-M0s"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Logout" id="IGx-fB-I1s">
+                                <connections>
+                                    <action selector="didTapBarButtonItem:" destination="PaG-us-LeO" id="Ew4-8t-M0s"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="MapPin" id="70M-bX-2uy">
+                                <connections>
+                                    <action selector="didTapBarButtonItem:" destination="PaG-us-LeO" id="nPv-hU-zep"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="boQ-7r-BLx">
                                 <connections>
@@ -181,6 +188,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="annotationStyleButton" destination="70M-bX-2uy" id="NuQ-Gc-ds2"/>
                         <outlet property="logoutButton" destination="IGx-fB-I1s" id="EyX-pC-njE"/>
                         <outlet property="mapType" destination="Q5z-Py-tU6" id="JUv-G9-nOK"/>
                         <outlet property="mapView" destination="beA-vY-w2h" id="70C-pp-u1t"/>
@@ -529,6 +537,7 @@
     <resources>
         <image name="ListIcon" width="75" height="50"/>
         <image name="MapIcon" width="75" height="50"/>
+        <image name="MapPin" width="25" height="25"/>
         <image name="PinIcon" width="48" height="48"/>
         <image name="UdacityLogo" width="62" height="62"/>
         <image name="World" width="52" height="67"/>

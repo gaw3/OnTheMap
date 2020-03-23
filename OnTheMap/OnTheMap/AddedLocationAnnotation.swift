@@ -9,19 +9,11 @@
 import MapKit
 
 class AddedLocationAnnotation: MKPointAnnotation {
-    var deltaDegrees: CLLocationDegrees
-    var placemark:    CLPlacemark
-    var region:       MKCoordinateRegion
-
-    var firstName: String
-    var lastName:  String
-    var url:       String
     
-    init(placemark: CLPlacemark, firstName: String, lastName: String, url: String) {
-        self.placemark = placemark
-        self.firstName = firstName
-        self.lastName  = lastName
-        self.url       = url
+    // MARK: - Variables
+        
+    var region: MKCoordinateRegion {
+        var deltaDegrees: CLLocationDegrees
         
         if let _ = placemark.thoroughfare {
             deltaDegrees = 0.2
@@ -33,7 +25,21 @@ class AddedLocationAnnotation: MKPointAnnotation {
         
         let span = MKCoordinateSpan(latitudeDelta: deltaDegrees, longitudeDelta: deltaDegrees)
         
-        region = MKCoordinateRegion(center: placemark.location!.coordinate, span: span)
+        return MKCoordinateRegion(center: placemark.location!.coordinate, span: span)
+    }
+
+    var placemark: CLPlacemark
+    var firstName: String
+    var lastName:  String
+    var url:       String
+    
+    // MARK: - Initializers
+        
+    init(placemark: CLPlacemark, firstName: String, lastName: String, url: String) {
+        self.placemark = placemark
+        self.firstName = firstName
+        self.lastName  = lastName
+        self.url       = url
         
         super.init()
         
@@ -60,7 +66,10 @@ extension AddedLocationAnnotation: AnnotationViewable {
     }
 
     func configure(annotationView view: MKPinAnnotationView) {
-        
+        view.canShowCallout = true
+        view.animatesDrop   = true
+        view.pinTintColor   = .blue
+        view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
     }
     
 }
