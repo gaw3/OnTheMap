@@ -14,6 +14,7 @@ final class VerifyLocationController: UIViewController {
     // MARK: - IB Outlets
 
     @IBOutlet weak var finishButton: UIButton!
+    @IBOutlet weak var mapType:      UISegmentedControl!
     @IBOutlet weak var mapView:      MKMapView!
     
     // MARK: - IB Actions
@@ -32,6 +33,19 @@ final class VerifyLocationController: UIViewController {
         
     }
     
+    @IBAction func valueChanged(_ segControl: UISegmentedControl) {
+        
+        switch segControl.selectedSegmentIndex {
+            
+        case 0:  mapView.mapType = .standard
+        case 1:  mapView.mapType = .satellite
+        case 2:  mapView.mapType = .hybrid
+        default: mapView.mapType = .standard
+            
+        }
+        
+    }
+    
     // MARK: - Variables
 
     var addedLocationAnnotation: AddedLocationAnnotation!
@@ -40,6 +54,8 @@ final class VerifyLocationController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapType.configure()
         
         mapView.addAnnotation(addedLocationAnnotation)
         mapView.setRegion(addedLocationAnnotation.region, animated: true)

@@ -139,13 +139,26 @@
                                     <outlet property="delegate" destination="PaG-us-LeO" id="qk2-R4-akU"/>
                                 </connections>
                             </mapView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Q5z-Py-tU6">
+                                <rect key="frame" x="83" y="52" width="209" height="32"/>
+                                <segments>
+                                    <segment title="Map"/>
+                                    <segment title="Satellite"/>
+                                    <segment title="Hybrid"/>
+                                </segments>
+                                <connections>
+                                    <action selector="valueChanged:" destination="PaG-us-LeO" eventType="valueChanged" id="hQ9-OB-fML"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="beA-vY-w2h" firstAttribute="centerX" secondItem="eQF-JC-8Km" secondAttribute="centerX" id="FUZ-EW-yQL"/>
                             <constraint firstItem="beA-vY-w2h" firstAttribute="bottom" secondItem="eQF-JC-8Km" secondAttribute="bottomMargin" id="Lqb-5Y-OLO"/>
+                            <constraint firstItem="Q5z-Py-tU6" firstAttribute="centerX" secondItem="eQF-JC-8Km" secondAttribute="centerX" id="U82-4u-DdF"/>
                             <constraint firstItem="beA-vY-w2h" firstAttribute="top" secondItem="eQF-JC-8Km" secondAttribute="topMargin" id="d1G-v1-vG2"/>
                             <constraint firstItem="beA-vY-w2h" firstAttribute="leading" secondItem="eQF-JC-8Km" secondAttribute="leadingMargin" constant="-16" id="l6x-hP-yQp"/>
+                            <constraint firstItem="Q5z-Py-tU6" firstAttribute="top" secondItem="aT3-7R-Zej" secondAttribute="bottom" constant="8" id="oJy-2f-tOP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="On the Map" id="5LF-Z0-Aag">
@@ -169,13 +182,14 @@
                     </navigationItem>
                     <connections>
                         <outlet property="logoutButton" destination="IGx-fB-I1s" id="EyX-pC-njE"/>
+                        <outlet property="mapType" destination="Q5z-Py-tU6" id="JUv-G9-nOK"/>
                         <outlet property="mapView" destination="beA-vY-w2h" id="70C-pp-u1t"/>
                         <outlet property="refreshButton" destination="MzH-jV-Skf" id="b62-bV-g6W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zf2-Yc-wJl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1590" y="-1133"/>
+            <point key="canvasLocation" x="-1591.2" y="-1133.8830584707648"/>
         </scene>
         <!--Add Location Controller-->
         <scene sceneID="Wqj-qc-ej8">
@@ -317,14 +331,27 @@
                                     <action selector="didTouchUpInside:" destination="wHV-gf-ddK" eventType="touchUpInside" id="DcJ-Vb-yoL"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KKe-Vi-FiM">
+                                <rect key="frame" x="83" y="52" width="209" height="32"/>
+                                <segments>
+                                    <segment title="Map"/>
+                                    <segment title="Satellite"/>
+                                    <segment title="Hybrid"/>
+                                </segments>
+                                <connections>
+                                    <action selector="valueChanged:" destination="wHV-gf-ddK" eventType="valueChanged" id="YB7-yv-j9e"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="KKe-Vi-FiM" firstAttribute="centerX" secondItem="rvB-R6-0fm" secondAttribute="centerX" id="6VG-5P-iNv"/>
                             <constraint firstItem="oDC-xV-ZEi" firstAttribute="top" secondItem="fw2-M2-n4N" secondAttribute="bottom" constant="8" id="9pP-bs-ppo"/>
                             <constraint firstItem="dtC-Or-C7G" firstAttribute="top" secondItem="G6Q-7b-fxJ" secondAttribute="bottom" id="BUI-uh-MeC"/>
                             <constraint firstItem="fw2-M2-n4N" firstAttribute="leading" secondItem="rvB-R6-0fm" secondAttribute="leading" constant="8" id="K4b-b7-FlP"/>
                             <constraint firstAttribute="trailing" secondItem="dtC-Or-C7G" secondAttribute="trailing" id="MQP-El-Mve"/>
                             <constraint firstItem="dtC-Or-C7G" firstAttribute="leading" secondItem="rvB-R6-0fm" secondAttribute="leading" id="OCe-KO-wdZ"/>
+                            <constraint firstItem="KKe-Vi-FiM" firstAttribute="top" secondItem="G6Q-7b-fxJ" secondAttribute="bottom" constant="8" id="Pco-7R-akr"/>
                             <constraint firstAttribute="trailing" secondItem="fw2-M2-n4N" secondAttribute="trailing" constant="8" id="agd-sJ-8bo"/>
                             <constraint firstItem="oDC-xV-ZEi" firstAttribute="top" secondItem="dtC-Or-C7G" secondAttribute="bottom" id="qER-v5-vNS"/>
                         </constraints>
@@ -338,6 +365,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="finishButton" destination="fw2-M2-n4N" id="1C9-b7-dVL"/>
+                        <outlet property="mapType" destination="KKe-Vi-FiM" id="mNY-Oq-N0z"/>
                         <outlet property="mapView" destination="dtC-Or-C7G" id="kgW-Ns-sak"/>
                     </connections>
                 </viewController>
@@ -509,6 +537,6 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ueT-QY-Dan"/>
+        <segue reference="e2s-6t-4OA"/>
     </inferredMetricsTieBreakers>
 </document>

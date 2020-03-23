@@ -14,6 +14,7 @@ final class MapController: UIViewController {
 
     // MARK: - IB Outlets
     
+    @IBOutlet weak var mapType: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
     
     @IBOutlet weak var logoutButton:  UIBarButtonItem!
@@ -35,6 +36,19 @@ final class MapController: UIViewController {
         
     }
     
+    @IBAction func valueChanged(_ segControl: UISegmentedControl) {
+        
+        switch segControl.selectedSegmentIndex {
+            
+        case 0:  mapView.mapType = .standard
+        case 1:  mapView.mapType = .satellite
+        case 2:  mapView.mapType = .hybrid
+        default: mapView.mapType = .standard
+            
+        }
+        
+    }
+    
     // MARK: - View Events
     
     override func viewDidLoad() {
@@ -48,6 +62,7 @@ final class MapController: UIViewController {
                                                          name: .NewAddedLocationsAvailable,
                                                        object: nil)
 
+        mapType.configure()
         mapView.addAnnotations(dataMgr.cannedLocations.newAnnos)
 
 //        locationManager.delegate = self as? CLLocationManagerDelegate
