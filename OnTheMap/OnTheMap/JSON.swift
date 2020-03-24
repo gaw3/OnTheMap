@@ -9,6 +9,7 @@
 import Foundation
 
 // MARK: -
+// MARK: -
 
 struct UdacityLoginData: Encodable {
     let udacity: Udacity
@@ -20,6 +21,7 @@ struct UdacityLoginData: Encodable {
     
 }
 
+// MARK: -
 // MARK: -
 
 struct UdacityLoginResponse: Decodable {
@@ -38,6 +40,7 @@ struct UdacityLoginResponse: Decodable {
     
 }
 
+// MARK: -
 // MARK: -
 
 struct Locations: Decodable {

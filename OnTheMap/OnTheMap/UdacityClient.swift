@@ -20,8 +20,8 @@ final class UdacityClient {
 
 extension UdacityClient {
     
-    func getProfileData(forUserID userID: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        let urlRequest          = getURLRequest(UdacityClient.URL.user + userID, httpMethod: HTTP.Method.get, httpQuery: nil)
+    func getProfileData(forUserID userID: String, completionHandler: @escaping NetworkTaskCompletionHandler) {
+        let urlRequest          = getURLRequest(UdacityClient.URL.user + userID, httpMethod: HTTP.Method.get)
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         
         dataTaskWithRequest.resume()
@@ -31,7 +31,14 @@ extension UdacityClient {
 //        login(UdacityFBAccessToken(accessToken: facebookAccessToken).serializedData as Data, completionHandler: completionHandler)
 //    }
     
-    func login(username: String, password: String, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func getStudentLocation(forUserID id: String, completionHandler: @escaping NetworkTaskCompletionHandler) {
+        let urlRequest            = getURLRequest(UdacityClient.URL.getStudentLocation(forUserID: id), httpMethod: HTTP.Method.get)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, isSessionURL: false, completionHandler: completionHandler)
+        
+        dataTaskWithRequest.resume()
+    }
+    
+    func login(username: String, password: String, completionHandler: @escaping NetworkTaskCompletionHandler) {
         let udacityLoginData     = UdacityLoginData(udacity: UdacityLoginData.Udacity(username: username, password: password))
         let encoder              = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -40,18 +47,25 @@ extension UdacityClient {
         login(endodedData, completionHandler: completionHandler)
     }
     
-    func logout(completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
-        let urlRequest = getURLRequest(UdacityClient.URL.session, httpMethod: HTTP.Method.delete, httpQuery: nil)
+    func logout(completionHandler: @escaping NetworkTaskCompletionHandler) {
+        let urlRequest = getURLRequest(UdacityClient.URL.session, httpMethod: HTTP.Method.delete)
         let cookies    = HTTPCookieStorage.shared.cookies!
         
-        if let index = cookies.firstIndex(where: { $0.name == XSRFTokenField.CookieName }) {
-            urlRequest.setValue(cookies[index].value, forHTTPHeaderField: XSRFTokenField.Name)
+        if let index = cookies.firstIndex(where: { $0.name == XSRFTokenField.cookieName }) {
+            urlRequest.setValue(cookies[index].value, forHTTPHeaderField: XSRFTokenField.name)
         }
         
         let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, completionHandler: completionHandler)
         dataTaskWithRequest.resume()
     }
-
+    
+    func refreshStudentLocations(completionHandler: @escaping NetworkTaskCompletionHandler) {
+        let urlRequest          = getURLRequest(UdacityClient.URL.getStudentLocations, httpMethod: HTTP.Method.get)
+        let dataTaskWithRequest = APIDataTaskWithRequest(urlRequest: urlRequest, isSessionURL: false, completionHandler: completionHandler)
+        
+        dataTaskWithRequest.resume()
+    }
+    
 }
 
 
@@ -60,8 +74,8 @@ extension UdacityClient {
 // MARK: - Private Helpers
 
 private extension UdacityClient {
-
-    func getURLRequest(_ urlString: String, httpMethod: String, httpQuery: String?) -> NSMutableURLRequest {
+    
+    func getURLRequest(_ urlString: String, httpMethod: String, httpQuery: String? = nil) -> NSMutableURLRequest {
         var components = URLComponents(string: urlString)
         
         if let _ = httpQuery { components?.query = httpQuery }
@@ -72,7 +86,7 @@ private extension UdacityClient {
         return URLRequest
     }
     
-    func login(_ serializedData: Data, completionHandler: @escaping APIDataTaskWithRequestCompletionHandler) {
+    func login(_ serializedData: Data, completionHandler: @escaping NetworkTaskCompletionHandler) {
         let urlRequest = getURLRequest(UdacityClient.URL.session, httpMethod: HTTP.Method.post, httpQuery: nil)
         
         urlRequest.httpBody = serializedData

@@ -36,7 +36,7 @@ final class LoginController: UIViewController {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
-                                                         name: .NewCannedLocationsAvailable,
+                                                         name: .newCannedLocationsAvailable,
                                                        object: nil)
     }
     
@@ -55,11 +55,11 @@ extension LoginController {
 
             switch notification.name {
             
-            case .NewCannedLocationsAvailable:
-                NotificationCenter.default.removeObserver(self, name: .NewCannedLocationsAvailable,
+            case .newCannedLocationsAvailable:
+                NotificationCenter.default.removeObserver(self, name: .newCannedLocationsAvailable,
                                                               object: nil)
                 self.activityIndicator.stopAnimating()
-                self.performSegue(withIdentifier: "SegueToTabBarController", sender: nil)
+                self.performSegue(withIdentifier: String.SegueID.toTabBarController, sender: nil)
 
             default: assertionFailure("Received unknown notification = \(notification)")
             }
@@ -91,27 +91,20 @@ extension LoginController: UITextFieldDelegate {
 
 private extension LoginController {
     
-    func isValidEmail(_ email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
-    }
-
     func login() {
 
         guard !emailField.text!.isEmpty else {
-            presentAlert(title: Alert.Title.BadUserLoginData, message: "Email address field is empty")
+            presentAlert(title: .badUserLoginData, message: .noEmailAddress)
             return
         }
         
-        guard isValidEmail(emailField.text!) else {
-            presentAlert(title: Alert.Title.BadUserLoginData, message: "Email address is malformed")
+        guard emailField.text!.isValidEmail else {
+            presentAlert(title: .badUserLoginData, message: .badEmailAddress)
             return
         }
         
         guard !passwordField.text!.isEmpty else {
-            presentAlert(title: Alert.Title.BadUserLoginData, message: "Password field is empty")
+            presentAlert(title: .badUserLoginData, message: .noPassword)
             return
         }
         
@@ -123,7 +116,7 @@ private extension LoginController {
     }
     
     func signUp() {
-        goToWebsite(withURLString: "https://auth.udacity.com/sign-up")
+        goToWebsite(withURLString: UdacityClient.URL.signupForUdacity)
     }
     
 }
@@ -138,7 +131,7 @@ private extension LoginController{
     var processUdacityLoginResponse: NetworkTaskCompletionHandler {
         
         return { (result, error) -> Void in
-            
+            #warning("take care of this error handling")
             guard error == nil else{
                 // need a alert thingy here
                 print("\(error!)")

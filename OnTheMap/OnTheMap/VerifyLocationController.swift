@@ -25,7 +25,7 @@ final class VerifyLocationController: UIViewController {
             
         case finishButton:
             dataMgr.addedLocations.add(annotation: addedLocationAnnotation)
-            performSegue(withIdentifier: "UnwindSegueToTabBarController", sender: self)
+            performSegue(withIdentifier: String.SegueID.unwindToTabBarController, sender: self)
             
         default:
             assertionFailure("Received event from unknown button")
@@ -72,8 +72,8 @@ final class VerifyLocationController: UIViewController {
 extension VerifyLocationController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let marker = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKMarkerAnnotationView ??
-                     MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+        let marker = mapView.dequeueReusableAnnotationView(withIdentifier: String.ReuseID.annotationView) as? MKMarkerAnnotationView ??
+                     MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: String.ReuseID.annotationView)
         
         addedLocationAnnotation.configure(annotationView: marker)
         return marker

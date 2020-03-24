@@ -21,8 +21,8 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let mapControllerNC  = storyboard?.instantiateViewController(withIdentifier: "MapControllerNC") as! UINavigationController
-        let listControllerNC = storyboard?.instantiateViewController(withIdentifier: "ListControllerNC") as! UINavigationController
+        let mapControllerNC  = storyboard?.instantiateViewController(withIdentifier: String.StoryboardID.mapControllerNC)  as! UINavigationController
+        let listControllerNC = storyboard?.instantiateViewController(withIdentifier: String.StoryboardID.listControllerNC) as! UINavigationController
         viewControllers = [mapControllerNC, listControllerNC]
     }
     

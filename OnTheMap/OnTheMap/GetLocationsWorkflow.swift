@@ -21,16 +21,9 @@ protocol GetLocationsWorkflowDelegate: class {
 // MARK: -
 
 final class GetLocationsWorkflow: NSObject {
-//    private weak var delegate: GetLocationsWorkflowDelegate?
-    
-//    init(delegate: GetLocationsWorkflowDelegate?) {
-//        self.delegate = delegate
-//    }
-//
-//    init()
     
     func get() {
-        ParseAPIClient.shared.refreshStudentLocations(completionHandler: processLocations)
+        UdacityClient.shared.refreshStudentLocations(completionHandler: processLocations)
     }
 
 }
@@ -42,12 +35,10 @@ final class GetLocationsWorkflow: NSObject {
 
 private extension GetLocationsWorkflow {
     
-    var processLocations: APIDataTaskWithRequestCompletionHandler {
+    var processLocations: NetworkTaskCompletionHandler {
         
-        return { [weak self] (result, error) -> Void in
-            
-            guard let strongSelf = self else { return }
-            
+        return { (result, error) -> Void in
+            #warning("take care of this error handling")
             guard error == nil else {
                 print("\(String(describing: error))")
 //                var message = String()
@@ -66,33 +57,8 @@ private extension GetLocationsWorkflow {
             let decoder   = JSONDecoder()
             let locations = try! decoder.decode(Locations.self, from: result as! Data)
             dataMgr.cannedLocations.put(newLocations: locations)
-//            dataMgr.cannedLocations.putNewLocations(locations)
-            
-            
-//            for location in locations.results {
-//                dataMgr.cannedLocationAnnotations.append(CannedLocationAnnotation(location: location))
-//            }
-            
-            
-            
-//            dataMgr.locations   = try! decoder.decode(Locations.self, from: result as! Data)
-//            dataMgr.annotations = [MKPointAnnotation]()
-//
-//            for location in dataMgr.locations!.results {
-//                let annotation = MKPointAnnotation()
-//
-//                annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude!, longitude: location.longitude!)
-//                annotation.title      = "\(location.firstName ?? "NFN") \(location.lastName ?? "NLN")"
-//                annotation.subtitle   = "\(location.mediaURL!)"
-//
-//                dataMgr.annotations!.append(annotation)
-//            }
-
-//            NotificationCenter.default.post(name: .New, object: <#T##Any?#>)
-//            strongSelf.delegate?.complete()
         }
         
     }
-
     
 }

@@ -24,27 +24,27 @@ final class AddLocationController: UIViewController {
     @IBAction func didTouchUpInside(_ button: UIButton) {
         
         guard !firstNameField.text!.isEmpty else {
-            presentAlert(title: "Invalid Student Location Data", message: "First name field is empty")
+            presentAlert(title: .badUserInput, message: .noFirstName)
             return
         }
         
         guard !lastNameField.text!.isEmpty else {
-            presentAlert(title: "Invalid Input Data", message: "Last name field is empty")
+            presentAlert(title: .badUserInput, message: .noLastName)
             return
         }
         
         guard !locationField.text!.isEmpty else {
-            presentAlert(title: "Invalid Input Data", message: "Location field is empty")
+            presentAlert(title: .badUserInput, message: .noLocation)
             return
         }
         
         guard !urlField.text!.isEmpty else {
-            presentAlert(title: "Invalid Input Data", message: "URL field is empty")
+            presentAlert(title: .badUserInput, message: .noURL)
             return
         }
         
         guard urlField.text!.isValidURL else {
-            presentAlert(title: "Bad URL", message: "The URL string is malformed")
+            presentAlert(title: .badURL, message: .badURL)
             return
         }
         
@@ -68,12 +68,12 @@ private extension AddLocationController {
             guard let strongSelf = self else { return }
                         
             guard error == nil else {
-                strongSelf.presentAlert(title: Alert.Title.BadGeocode, message: error!.localizedDescription)
+                strongSelf.presentAlert(title: .badGeocode, message: .serverError)
                 return
             }
             
             guard placemarks != nil, !placemarks!.isEmpty else {
-                strongSelf.presentAlert(title: Alert.Title.BadGeocode, message: Alert.Message.NoPlacemarks)
+                strongSelf.presentAlert(title: .badGeocode, message:.noPlacemarks)
                 return
             }
             
@@ -83,7 +83,7 @@ private extension AddLocationController {
                                                                         url: strongSelf.urlField.text!)
             
             DispatchQueue.main.async(execute: {
-                let verifyLocationVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: "VerifyLocationVC") as! VerifyLocationController
+                let verifyLocationVC = strongSelf.storyboard?.instantiateViewController(withIdentifier: String.StoryboardID.verifyLocationVC) as! VerifyLocationController
                 verifyLocationVC.addedLocationAnnotation = addedLocationAnnotation
                 strongSelf.navigationController?.pushViewController(verifyLocationVC, animated: true)
             })

@@ -27,15 +27,24 @@ final class ListController: UITableViewController {
         
     }
     
-    enum SectionType {
+    // MARK: - Variables
+    
+    private enum SectionType {
         case addedLocations
         case cannedLocations
+        
+        var title: String {
+            switch self {
+            case .addedLocations:  return "Added Locations"
+            case .cannedLocations: return "Canned Locations"
+            }
+        }
+        
     }
     
-    struct ListSection {
-        let type: SectionType
+    private struct ListSection {
+        let type:         SectionType
         let numberOfRows: Int
-        let title: String
     }
     
     private var sections = [ListSection]()
@@ -48,17 +57,17 @@ final class ListController: UITableViewController {
         self.sections.removeAll()
         
         if dataMgr.addedLocations.count > 0 {
-            self.sections.append(ListSection(type: .addedLocations, numberOfRows: dataMgr.addedLocations.count, title: "Added Locations"))
+            self.sections.append(ListSection(type: .addedLocations, numberOfRows: dataMgr.addedLocations.count))
         }
         
-        self.sections.append(ListSection(type: .cannedLocations, numberOfRows: dataMgr.cannedLocations.locations.count, title: "Canned Locations"))
+        self.sections.append(ListSection(type: .cannedLocations, numberOfRows: dataMgr.cannedLocations.locations.count))
 
         NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
-                                                         name: .NewCannedLocationsAvailable,
+                                                         name: .newCannedLocationsAvailable,
                                                        object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
-                                                         name: .NewAddedLocationsAvailable,
+                                                         name: .newAddedLocationsAvailable,
                                                        object: nil)
     }
     
@@ -77,18 +86,17 @@ extension ListController {
 
             switch notification.name {
             
-            case .NewCannedLocationsAvailable:
-                print("list controller is refreshing")
+            case .newCannedLocationsAvailable:
                 self.tableView.reloadData()
 
-            case .NewAddedLocationsAvailable:
+            case .newAddedLocationsAvailable:
                 self.sections.removeAll()
                 
                 if dataMgr.addedLocations.count > 0 {
-                    self.sections.append(ListSection(type: .addedLocations, numberOfRows: dataMgr.addedLocations.count, title: "Added Locations"))
+                    self.sections.append(ListSection(type: .addedLocations, numberOfRows: dataMgr.addedLocations.count))
                 }
                 
-                self.sections.append(ListSection(type: .cannedLocations, numberOfRows: dataMgr.cannedLocations.locations.count, title: "Canned Locations"))
+                self.sections.append(ListSection(type: .cannedLocations, numberOfRows: dataMgr.cannedLocations.locations.count))
                 
                 self.tableView.reloadData()
 
@@ -114,8 +122,8 @@ extension ListController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell") ??
-                   UITableViewCell(style: .subtitle, reuseIdentifier: "ListCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: String.ReuseID.listCell) ??
+                   UITableViewCell(style: .subtitle, reuseIdentifier: String.ReuseID.listCell)
         
         switch sections[indexPath.section].type {
             
@@ -143,7 +151,7 @@ extension ListController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].title
+        return sections[section].type.title
     }
     
 }

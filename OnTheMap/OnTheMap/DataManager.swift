@@ -12,6 +12,14 @@ import MapKit
 // MARK: -
 // MARK: -
 
+protocol AnnotationViewable {
+    func configure(annotationView view: MKPinAnnotationView)
+    func configure(annotationView view: MKMarkerAnnotationView)
+}
+
+// MARK: -
+// MARK: -
+
 final class DataManager {
     
     // MARK: - Variables
@@ -48,7 +56,7 @@ final class AddedLocations {
     
     func add(annotation: AddedLocationAnnotation) {
         annotations.append(annotation)
-        NotificationCenter.default.post(name: .NewAddedLocationsAvailable, object: nil)
+        NotificationCenter.default.post(name: .newAddedLocationsAvailable, object: nil)
     }
     
     func getLocation(at index: Int) -> AddedLocationAnnotation {
@@ -90,7 +98,7 @@ final class CannedLocations {
             newAnnotations.append(CannedLocationAnnotation(location: location))
         }
 
-        NotificationCenter.default.post(name: .NewCannedLocationsAvailable, object: nil)
+        NotificationCenter.default.post(name: .newCannedLocationsAvailable, object: nil)
     }
 
 }

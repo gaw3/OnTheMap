@@ -61,11 +61,11 @@ final class MapController: UIViewController {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
-                                                         name: .NewCannedLocationsAvailable,
+                                                         name: .newCannedLocationsAvailable,
                                                        object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
-                                                         name: .NewAddedLocationsAvailable,
+                                                         name: .newAddedLocationsAvailable,
                                                        object: nil)
 
         mapType.configure()
@@ -96,14 +96,12 @@ extension MapController {
 
             switch notification.name {
             
-            case .NewCannedLocationsAvailable:
-                print("map controller is refreshing")
-                self.mapView.removeAnnotations(dataMgr.cannedLocations.oldAnnos)
+            case .newCannedLocationsAvailable:
+                 self.mapView.removeAnnotations(dataMgr.cannedLocations.oldAnnos)
                 self.mapView.addAnnotations(dataMgr.cannedLocations.newAnnos)
                 
-            case .NewAddedLocationsAvailable:
+            case .newAddedLocationsAvailable:
                 if let anno = dataMgr.addedLocations.newest {
-                    print("map controller is adding new location")
                     self.mapView.addAnnotation(anno)
                 }
 
@@ -127,14 +125,14 @@ extension MapController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotationStyle == .marker {
-            let marker = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKMarkerAnnotationView ??
-                         MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+            let marker = mapView.dequeueReusableAnnotationView(withIdentifier: String.ReuseID.annotationView) as? MKMarkerAnnotationView ??
+                         MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: String.ReuseID.annotationView)
             
             (annotation as! AnnotationViewable).configure(annotationView: marker)
             return marker
         } else {
-            let pin = mapView.dequeueReusableAnnotationView(withIdentifier: IB.ReuseID.StudentLocsPinAnnoView) as? MKPinAnnotationView ??
-                         MKPinAnnotationView(annotation: annotation, reuseIdentifier: IB.ReuseID.StudentLocsPinAnnoView)
+            let pin = mapView.dequeueReusableAnnotationView(withIdentifier: String.ReuseID.annotationView) as? MKPinAnnotationView ??
+                         MKPinAnnotationView(annotation: annotation, reuseIdentifier: String.ReuseID.annotationView)
             
             (annotation as! AnnotationViewable).configure(annotationView: pin)
             return pin
@@ -157,6 +155,8 @@ private extension MapController {
     }
     
     func toggleAnnotationStyle() {
+        
+        #warning("put this in a enum")
         
         if annotationStyle == .marker {
             annotationStyle = .pin
