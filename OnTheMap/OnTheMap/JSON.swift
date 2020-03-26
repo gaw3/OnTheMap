@@ -43,6 +43,19 @@ struct UdacityLoginResponse: Decodable {
 // MARK: -
 // MARK: -
 
+struct UdacityLogoutResponse: Decodable {
+    let session: Session
+    
+    struct Session: Decodable {
+        let id:         String
+        let expiration: String
+    }
+    
+}
+
+// MARK: -
+// MARK: -
+
 struct Locations: Decodable {
     let results: [Location]
     

@@ -26,7 +26,9 @@ final class DataManager {
     
     static let shared = DataManager()
     
-    var udacityLoginResponse: UdacityLoginResponse? = nil
+    var udacityLoginResponse:  UdacityLoginResponse?  = nil
+    var udacityLogoutResponse: UdacityLogoutResponse? = nil
+    
     var getLocationsWorkflow = GetLocationsWorkflow()
     var addedLocations       = AddedLocations()
     var cannedLocations      = CannedLocations()

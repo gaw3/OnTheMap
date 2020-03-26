@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fuY-MV-4uI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fuY-MV-4uI">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -166,6 +166,7 @@
                             <barButtonItem title="Logout" id="IGx-fB-I1s">
                                 <connections>
                                     <action selector="didTapBarButtonItem:" destination="PaG-us-LeO" id="Ew4-8t-M0s"/>
+                                    <segue destination="SNl-nl-5AD" kind="unwind" unwindAction="unwindToLoginController:" id="rdb-ar-5vR"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem image="MapPin" id="70M-bX-2uy">
@@ -196,6 +197,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zf2-Yc-wJl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="SNl-nl-5AD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1591.2" y="-1133.8830584707648"/>
         </scene>
@@ -489,6 +491,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="Xhb-LK-Kf5">
                             <connections>
                                 <action selector="didTapBarButtonItem:" destination="ktc-FA-PuH" id="nlr-Jq-wEJ"/>
+                                <segue destination="hw0-N5-k3I" kind="unwind" unwindAction="unwindToLoginController:" id="DtH-tz-mBs"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
@@ -512,6 +515,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jR1-kY-FVL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="hw0-N5-k3I" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1590" y="-466"/>
         </scene>
@@ -534,6 +538,9 @@
             <point key="canvasLocation" x="-801" y="-818"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="e2s-6t-4OA"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="ListIcon" width="75" height="50"/>
         <image name="MapIcon" width="75" height="50"/>
@@ -545,7 +552,4 @@
             <color red="0.0039215686274509803" green="0.70196078431372544" blue="0.89411764705882357" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="e2s-6t-4OA"/>
-    </inferredMetricsTieBreakers>
 </document>

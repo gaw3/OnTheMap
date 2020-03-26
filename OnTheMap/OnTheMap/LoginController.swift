@@ -30,16 +30,10 @@ final class LoginController: UIViewController {
         
     }
     
-    // MARK: - View Events
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
-                                                         name: .newCannedLocationsAvailable,
-                                                       object: nil)
+    @IBAction func unwindToLoginController(_ segue: UIStoryboardSegue) {
+        UdacityClient.shared.logout(completionHandler: processUdacityLogoutResponse)
     }
-    
+
 }
 
 
@@ -58,6 +52,9 @@ extension LoginController {
             case .newCannedLocationsAvailable:
                 NotificationCenter.default.removeObserver(self, name: .newCannedLocationsAvailable,
                                                               object: nil)
+                self.loginButton.isEnabled  = true
+                self.signUpButton.isEnabled = true
+                
                 self.activityIndicator.stopAnimating()
                 self.performSegue(withIdentifier: String.SegueID.toTabBarController, sender: nil)
 
@@ -108,6 +105,13 @@ private extension LoginController {
             return
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(process(notification:)),
+                                                         name: .newCannedLocationsAvailable,
+                                                       object: nil)
+        
+        loginButton.isEnabled  = false
+        signUpButton.isEnabled = false
+        
         activityIndicator.startAnimating()
         
         UdacityClient.shared.login(username: emailField.text!,
@@ -146,4 +150,22 @@ private extension LoginController{
 
     }
     
+    var processUdacityLogoutResponse: NetworkTaskCompletionHandler {
+        
+        return { (result, error) -> Void in
+            
+            #warning("take care of this error handling")
+            guard error == nil else{
+                // need a alert thingy here
+                print("\(error!)")
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            dataMgr.udacityLogoutResponse = try! decoder.decode(UdacityLogoutResponse.self, from: result as! Data)
+            print("logout was successful")
+        }
+        
+    }
+
 }
