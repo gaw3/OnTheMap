@@ -57,6 +57,20 @@ final class AddLocationController: UIViewController {
 
 
 // MARK: -
+// MARK: - Text Field Delegate
+
+extension AddLocationController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+}
+
+
+
+// MARK: -
 // MARK: - Private Completion Handlers
 
 private extension AddLocationController {

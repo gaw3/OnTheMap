@@ -18,7 +18,7 @@ extension UIViewController {
             presentAlert(title: .badURL, message: .badURL)
             return
         }
-        
+
         guard UIApplication.shared.canOpenURL(urlComponents.url!) else {
             presentAlert(title: .badURL, message: .noApp)
             return

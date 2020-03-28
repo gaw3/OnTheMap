@@ -17,7 +17,6 @@ final class MapController: UIViewController {
     @IBOutlet weak var mapType: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
     
-    @IBOutlet weak var logoutButton:          UIBarButtonItem!
     @IBOutlet weak var annotationStyleButton: UIBarButtonItem!
     @IBOutlet weak var refreshButton:         UIBarButtonItem!
     
@@ -26,8 +25,8 @@ final class MapController: UIViewController {
     @IBAction func didTapBarButtonItem(_ barButtonItem: UIBarButtonItem) {
         
         switch barButtonItem {
-        case logoutButton:  print("logout button was tapped")
-        case refreshButton: dataMgr.refreshCannedLocations()
+            
+        case refreshButton:         dataMgr.refreshCannedLocations()
         case annotationStyleButton: toggleAnnotationStyle()
 
         default:
@@ -165,6 +164,15 @@ extension MapController: MKMapViewDelegate {
             
             (annotation as! AnnotationViewable).configure(annotationView: pin)
             return pin
+        }
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if control == view.rightCalloutAccessoryView {
+            print("accessory control tapped")
+            goToWebsite(withURLString: view.annotation!.subtitle!!)
         }
         
     }

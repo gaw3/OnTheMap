@@ -190,7 +190,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="annotationStyleButton" destination="70M-bX-2uy" id="NuQ-Gc-ds2"/>
-                        <outlet property="logoutButton" destination="IGx-fB-I1s" id="EyX-pC-njE"/>
                         <outlet property="mapType" destination="Q5z-Py-tU6" id="JUv-G9-nOK"/>
                         <outlet property="mapView" destination="beA-vY-w2h" id="70C-pp-u1t"/>
                         <outlet property="refreshButton" destination="MzH-jV-Skf" id="b62-bV-g6W"/>
@@ -227,6 +226,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" textContentType="family-name"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2X3-MY-LnT" id="ddr-rY-bxh"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Austin, TX" borderStyle="bezel" placeholder="Location" textAlignment="natural" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="OPc-YX-TAB">
                                 <rect key="frame" x="40" y="316.5" width="295" height="34"/>
@@ -235,6 +237,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2X3-MY-LnT" id="i83-K5-RX7"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Greg" borderStyle="bezel" placeholder="First Name" textAlignment="natural" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="JQu-qQ-f6T">
                                 <rect key="frame" x="40" y="232.5" width="295" height="34"/>
@@ -243,6 +248,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" textContentType="given-name"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2X3-MY-LnT" id="Pzc-fG-Yoj"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://google.com" borderStyle="bezel" placeholder="URL" textAlignment="natural" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="TUS-KJ-l04">
                                 <rect key="frame" x="40" y="358.5" width="295" height="34"/>
@@ -251,6 +259,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" textContentType="url"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2X3-MY-LnT" id="dLO-De-uFY"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ite-tj-pzD">
                                 <rect key="frame" x="40" y="400.5" width="295" height="34"/>
@@ -451,7 +462,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ListCell" textLabel="vbj-6v-oyE" detailTextLabel="vpF-nk-xOe" imageView="FdV-bW-L2O" style="IBUITableViewCellStyleSubtitle" id="hP1-eo-r3E">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ListCell" textLabel="vbj-6v-oyE" detailTextLabel="vpF-nk-xOe" imageView="FdV-bW-L2O" style="IBUITableViewCellStyleSubtitle" id="hP1-eo-r3E">
                                 <rect key="frame" x="0.0" y="28" width="375" height="55.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hP1-eo-r3E" id="0dl-hu-nZD">
@@ -510,7 +521,6 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
-                        <outlet property="logoutButton" destination="Xhb-LK-Kf5" id="dM0-rF-R3P"/>
                         <outlet property="refreshButton" destination="xxr-La-ZRL" id="7qD-ry-Fiw"/>
                     </connections>
                 </tableViewController>
@@ -539,7 +549,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="e2s-6t-4OA"/>
+        <segue reference="ueT-QY-Dan"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ListIcon" width="75" height="50"/>

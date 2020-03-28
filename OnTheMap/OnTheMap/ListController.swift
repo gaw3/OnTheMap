@@ -12,7 +12,6 @@ final class ListController: UITableViewController {
 
     // MARK: - IB Outlets
     
-    @IBOutlet weak var logoutButton: UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
     // MARK: - IB Actions
@@ -20,7 +19,6 @@ final class ListController: UITableViewController {
     @IBAction func didTapBarButtonItem(_ barButtonItem: UIBarButtonItem) {
         
         switch barButtonItem {
-        case logoutButton:  print("logout button was tapped")
         case refreshButton: dataMgr.refreshCannedLocations()
         default:            assertionFailure("Received event from unknown button")
         }
@@ -138,7 +136,7 @@ extension ListController {
         case .addedLocations:
             let annotation = dataMgr.addedLocations.getLocation(at: indexPath.row)
             
-            cell.textLabel?.text = "\(annotation.firstName) \(annotation.lastName) (\(annotation.placemark.name ?? "Hell"))"
+            cell.textLabel?.text       = "\(annotation.firstName) \(annotation.lastName) (\(annotation.placemark.name ?? "Hell"))"
             cell.detailTextLabel?.text = annotation.url
 
             return cell
@@ -164,7 +162,11 @@ extension ListController {
 extension ListController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("did select row at \(indexPath)")
+        
+        if let cell = tableView.cellForRow(at: indexPath) {
+            goToWebsite(withURLString: cell.detailTextLabel!.text!)
+        }
+
     }
 
 }
