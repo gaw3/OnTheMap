@@ -87,7 +87,7 @@
                                 <color key="color" name="UdacityBlue"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="c1h-GZ-71W" firstAttribute="top" secondItem="CGA-e8-k53" secondAttribute="bottom" constant="8" id="6u7-3t-Gvl"/>
                             <constraint firstItem="o3b-Wb-XjT" firstAttribute="top" secondItem="6Nt-Hs-hSD" secondAttribute="bottom" constant="40" id="7Fm-Fi-2wx"/>
