@@ -63,6 +63,7 @@ extension AddedLocationAnnotation: AnnotationViewable {
         view.markerTintColor   = .blue
         view.glyphText         = "👨‍🎓"
         view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        view.clusteringIdentifier      = "ClusterID"
     }
 
     func configure(annotationView view: MKPinAnnotationView) {
@@ -70,6 +71,7 @@ extension AddedLocationAnnotation: AnnotationViewable {
         view.animatesDrop   = true
         view.pinTintColor   = .blue
         view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        view.clusteringIdentifier      = "ClusterID"
     }
     
 }

@@ -69,6 +69,7 @@ final class MapController: UIViewController {
         mapType.configure()
         mapView.addAnnotations(dataMgr.cannedLocations.newAnnos)
         mapView.showsUserLocation = false
+      
 
         locationManager = CLLocationManager()
         locationManager?.delegate        = self
@@ -166,10 +167,25 @@ extension MapController: CLLocationManagerDelegate {
 // MARK: - Map View Delegate
 
 extension MapController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
+        if control == view.rightCalloutAccessoryView {
+            goToWebsite(withURLString: view.annotation!.subtitle!!)
+        }
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        let clusterAnnotation = MKClusterAnnotation(memberAnnotations: memberAnnotations)
+        clusterAnnotation.title = "Student Cluster"
+        clusterAnnotation.subtitle = "\(memberAnnotations.count) Students"
+        return clusterAnnotation
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        if type(of: annotation) == MKUserLocation.self {
+        if type(of: annotation) == MKUserLocation.self  || type(of: annotation) == MKClusterAnnotation.self {
             return nil
         }
         
@@ -181,18 +197,11 @@ extension MapController: MKMapViewDelegate {
             return marker
         } else {
             let pin = mapView.dequeueReusableAnnotationView(withIdentifier: String.ReuseID.annotationView) as? MKPinAnnotationView ??
-                         MKPinAnnotationView(annotation: annotation, reuseIdentifier: String.ReuseID.annotationView)
+                      MKPinAnnotationView(annotation: annotation, reuseIdentifier: String.ReuseID.annotationView)
             
             (annotation as! AnnotationViewable).configure(annotationView: pin)
+
             return pin
-        }
-        
-    }
-    
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
-        if control == view.rightCalloutAccessoryView {
-            goToWebsite(withURLString: view.annotation!.subtitle!!)
         }
         
     }
