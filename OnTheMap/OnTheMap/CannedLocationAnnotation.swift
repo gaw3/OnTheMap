@@ -43,5 +43,7 @@ extension CannedLocationAnnotation: AnnotationViewable {
         view.animatesDrop   = true
         view.pinTintColor   = .red
         view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        view.clusteringIdentifier      = "ClusterID"    }
+        view.clusteringIdentifier      = "ClusterID"
+    }
+    
 }
