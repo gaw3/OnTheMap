@@ -74,13 +74,6 @@ final class MapController: UIViewController {
         locationManager?.delegate        = self
         locationManager?.desiredAccuracy = kCLLocationAccuracyBest
         locationManager?.distanceFilter  = kCLDistanceFilterNone
-        
-        if CLLocationManager.locationServicesEnabled() {
-           checkLocationAuthorization()
-        } else {
-           assertionFailure("Received unknown location auth status")
-        }
-
     }
     
 }
@@ -124,14 +117,43 @@ extension MapController {
 
 extension MapController: CLLocationManagerDelegate {
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        #warning("take care of this error handling")
-        let clError = error as! CLError
-        print("\(clError)")
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
+        switch status {
+            
+        case .notDetermined:
+            if !mapView.showsUserLocation {
+                locationManager?.requestWhenInUseAuthorization()
+            }
+            
+        case .authorizedWhenInUse, .authorizedAlways:
+            if !mapView.showsUserLocation {
+                mapView.showsUserLocation = true
+                locationManager?.startUpdatingLocation()
+            }
+            
+        case .denied, .restricted:
+            if mapView.showsUserLocation {
+                mapView.showsUserLocation = false
+                locationManager?.stopUpdatingLocation()
+            }
 
-        if clError.code == .denied {
-            locationManager = nil
-            print("location services denied by the user")
+        @unknown default:
+            assertionFailure("Received unknown location auth status")
+        }
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        let clError = error as! CLError
+        
+        if clError.code != .denied {
+            presentAlert(title: .locSvcError, message: .unableToUpdUsrLoc)
+        }
+        
+        if mapView.showsUserLocation {
+            mapView.showsUserLocation = false
+            locationManager?.stopUpdatingLocation()
         }
         
     }
@@ -148,7 +170,6 @@ extension MapController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if type(of: annotation) == MKUserLocation.self {
-            print("skipping user location annotation")
             return nil
         }
         
@@ -171,7 +192,6 @@ extension MapController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         if control == view.rightCalloutAccessoryView {
-            print("accessory control tapped")
             goToWebsite(withURLString: view.annotation!.subtitle!!)
         }
         
@@ -207,41 +227,6 @@ private extension MapController {
         mapView.removeAnnotations(dataMgr.addedLocations.annos)
         mapView.addAnnotations(dataMgr.cannedLocations.newAnnos)
         mapView.addAnnotations(dataMgr.addedLocations.annos)
-
     }
-    
-    func checkLocationAuthorization() {
         
-        switch CLLocationManager.authorizationStatus() {
-            
-        case .authorizedWhenInUse:
-            print("auth status = authorizedWhenInUse")
-            locationManager?.startUpdatingLocation()
-            mapView.showsUserLocation = true
-            
-        case .denied: // Show alert telling users how to turn on permissions
-            print("auth status = denied")
-//            mapView.showsUserLocation = false
-            break
-            
-        case .notDetermined:
-            print("auth status = notDetermined")
-            locationManager?.requestWhenInUseAuthorization()
-            locationManager?.startUpdatingLocation()
-            mapView.showsUserLocation = true
-            
-        case .restricted: // Show an alert letting them know what’s up
-            print("auth status = restricted")
-            break
-            
-        case .authorizedAlways:
-            print("auth status = authorizedAlways")
-            break
-            
-        @unknown default:
-            assertionFailure("Received unknown location auth status")
-        }
-        
-    }
-    
 }

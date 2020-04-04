@@ -53,20 +53,22 @@ extension String {
         case badUserLoginData = "Login User Data Insufficient"
         case badUserInput     = "Invalid Input Data"
         case badURL           = "Bad URL"
+        case locSvcError      = "Location Services Error"
     }
     
     enum AlertMessage: String {
-        case badEmailAddress = "Email address is malformed"
-        case badURL          = "The URL string is malformed"
-        case noApp           = "Your device does not contain an app that can handle the URL"
-        case noEmailAddress  = "Email address field is empty"
-        case noFirstName     = "First name field is empty"
-        case noLastName      = "Last name field is empty"
-        case noLocation      = "Location field is empty"
-        case noPassword      = "Password field is empty"
-        case noPlacemarks    = "Did not receive any placemarks"
-        case noURL           = "URL field is empty"
-        case serverError     = "Server Error"
+        case badEmailAddress   = "Email address is malformed"
+        case badURL            = "The URL string is malformed"
+        case noApp             = "Your device does not contain an app that can handle the URL"
+        case noEmailAddress    = "Email address field is empty"
+        case noFirstName       = "First name field is empty"
+        case noLastName        = "Last name field is empty"
+        case noLocation        = "Location field is empty"
+        case noPassword        = "Password field is empty"
+        case noPlacemarks      = "Did not receive any placemarks"
+        case noURL             = "URL field is empty"
+        case serverError       = "Server Error"
+        case unableToUpdUsrLoc = "Unable to update user location"
     }
     
     enum ReuseID {
