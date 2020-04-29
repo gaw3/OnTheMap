@@ -12,15 +12,13 @@ OnTheMap is Portfolio Project #3 of the Udacity iOS Developer Nanodegree Program
 * [Udacity Git Commit Message Style Guide][CommitMsgStyleGuide]
 * [Udacity Project Review][ProjectReview]<br/><br/>
 
-| [Change Log][ChangeLog] | Current iOS 10 Build   | Final iOS 9 Build   | Project Submission - ***Exceeds Expectations*** |
-| :----------             | :-----------------     | :-------------      | :-------------                                  |
-| GitHub Tag              | v2.1                   | v1.3                | v1.1                                            |
-| App Version:            | 2.1                    | 1.3                 | 1.1                                             |
-| Environment:            | Xcode 8.3 / iOS 10.3   | Xcode 7.3 / iOS 9.3 | Xcode 7.2.1 / iOS 9.2                           |
-| Devices:                | iPhone Only            | iPhone Only         | iPhone Only                                     |
-| Orientations:           | Portrait Only          | Portrait Only       | Portrait Only                                   |
-
-**NOTA BENE:**  Runtime warnings will appear when running on the simulator due to simulator bugs;  however, running on a device with debugger attached will show that the runtime warnings do not appear.  See those runtime warnings [here][RWarn].
+| [Change Log][ChangeLog] | Current Build          | Project Submission - ***Exceeds Expectations*** |
+| :----------             | :-----------------     | :-------------                                  |
+| GitHub Tag              | v2.1                   | v1.1                                            |
+| App Version:            | 2.1                    | 1.1                                             |
+| Environment:            | iOS 13.4 / Swift 5     | iOS 9.2 / Swift 2                               |
+| Devices:                | iPhone Only            | iPhone Only                                     |
+| Orientations:           | Portrait Only          | Portrait Only                                   |
 
 ## Design  
 
@@ -92,7 +90,7 @@ Tap the **Cancel** button in the upper right-hand corner at any time to interrup
 * `Swift.gitignore`, the template used to create the local `.gitignore` file, lives in this [repo][GitIgnoreRepo].
 
 ---
-**Copyright © 2016-2017 Gregory White. All rights reserved.**
+**Copyright © 2016-2020 Gregory White. All rights reserved.**
 
 
 
