@@ -20,52 +20,7 @@ OnTheMap is Portfolio Project #3 of the Udacity iOS Developer Nanodegree Program
 | Devices:                | iPhone Only            | iPhone Only                                     |
 | Orientations:           | Portrait Only          | Portrait Only                                   |
 
-## Design  
-
-### Udacity Login View
-
-Upon app launch, the initial view is the [Udacity Login View][ULV].
-
-The user must have a Udacity account to be able to login with this app.  If the user does not have an account, tap the **Sign Up!** button in order to open the system browser with the [Udacity Sign Up][USU] webpage.
-
-Enter email address and password, and tap the **Login** button in order to login with Udacity authentication.
-
-Tap on the **Continue with Facebook** button in order to login with Facebook authentication.  Email address and password fields are ignored.
-
-### Student Location Tabbed View
-
-Upon successful login, the [Student Locations Tabbed View][SLTV] is presented with the [Map Tab][SLTV] activated.  
-
-The [Map Tab][SLTV] is the default tab, and presents a map view with pins dropped at the locations specified in the 100 most-recent student postings.  Tap a pin to display an annotation containing the students name and URL of interest.  Tap the annotation to open the system browser with that URL (provided the URL is valid).  All pins are red except for the user's pin, which is green.
-
-Tap the [List Tab][SLTV] to display a table view containing information from the 100 most-recent student postings, sorted by most-recent update time.  Each row of the table contains the name, location & URL of interest.  Tap a row to open the system browser with the contained URL (provided the URL is valid).  The two tabs share a common navigation bar containing the following buttons:
-
-* Logout - tap to logout from Udacity, and optionally, Facebook.  The [Student Location Tabbed View][SLTV] disappears, and the [Udacity Login View][ULV] is displayed.  
-
-* Post ![][PinButton] - Tap to present the Post Student Location View to allow for student location entry.  If this is the user's first post, the Post Student Location View is presented straightaway.  Otherwise, a **Confirm Update or Cancel** alert appears.  Tap **Confirm** to present the Post Student Location View with text fields populated with current data.
-
-* Refresh ![][RefreshButton] - Tap to retrieve a new list of the 100 most-recent student postings, sorted by most-recent update time.
-
-### Post Student Location View
-
-[PSLV]: ./Paperwork/READMEFiles/PostStudentLocationView.md
-
-The Post Student Location View first presents an ["Enter Location"][PSLV] view.
-
-Enter a location into the **Enter Your Location Here** field and tap the **Find On A Map** button to initiate forward-geocoding of said location.  If forward-geocoding is successful, the view transitions to the ["Enter Link"][PSLV] view and a map appears.  The map is animated to zoom in on said location and drop a green pin.
-
-Enter a URL in the **Enter a Link to Share Here** field and tap the **Submit** button in order to initiate the student posting.  The Post Student Location View then disappears, and the current tab of the [Student Location Tabbed View][SLTV] is displayed.
-
-Tap the **Cancel** button in the upper right-hand corner at any time to interrupt the posting and return to the current tab of the [Student Location Tabbed View][SLTV].
-
-### General
-
-* Implemented the ```FBSDKLoginButtonDelegate``` protocol.
-* The network activity indicator in the status bar is enabled when the app is performing network operations.
-* Network operations & time-consuming data operations are performed asynchronously on background queues via GCD.
-* Local notifications are posted to inform interested view controllers that:
-  - the local copy of the student location database has been modified
-  - various steps in the Udacity login/logout sequence have completed
+## Design - discussion is forthcoming GW 4/29/2020
 
 ### iOS Frameworks
 
@@ -82,10 +37,6 @@ Tap the **Cancel** button in the upper right-hand corner at any time to interrup
 
 ### 3rd-Party
 
-* Facebook SDK for **iOS 9** (v4.19.0).&nbsp;&nbsp;iOS 10 version not available.&nbsp;&nbsp;[Repo][FBRepo], [License][FBLicense] & [README][FBREADME].
-  - ```Bolts.framework```
-  - ```FBSDKCoreKit.framework```
-  - ```FBSDKLoginKit.framework```
 * *GitHub Swift Style Guide* lives in this [repo][StyleGuideRepo].
 * `Swift.gitignore`, the template used to create the local `.gitignore` file, lives in this [repo][GitIgnoreRepo].
 
