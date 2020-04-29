@@ -135,9 +135,11 @@ private extension LoginController{
     var processUdacityLoginResponse: NetworkTaskCompletionHandler {
         
         return { (result, error) -> Void in
-            #warning("take care of this error handling")
-            guard error == nil else{
-                // need a alert thingy here
+            
+            guard error == nil else {
+                
+                // TODO: need an alert here
+                
                 print("\(error!)")
                 return
             }
@@ -154,16 +156,16 @@ private extension LoginController{
         
         return { (result, error) -> Void in
             
-            #warning("take care of this error handling")
-            guard error == nil else{
-                // need a alert thingy here
+            guard error == nil else {
+                
+                // TODO: need an alert here
+                
                 print("\(error!)")
                 return
             }
             
             let decoder = JSONDecoder()
             dataMgr.udacityLogoutResponse = try! decoder.decode(UdacityLogoutResponse.self, from: result as! Data)
-            print("logout was successful")
         }
         
     }

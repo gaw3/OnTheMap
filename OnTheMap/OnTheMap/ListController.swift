@@ -99,7 +99,8 @@ extension ListController {
                 self.tableView.reloadData()
 
                 
-            default: assertionFailure("Received unknown notification = \(notification)")
+            default:
+                assertionFailure("Received unknown notification = \(notification)")
             }
             
         })

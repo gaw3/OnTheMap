@@ -22,26 +22,6 @@ extension Notification.Name {
 
 extension String {
     
-    var isValidEmail: Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: self)
-    }
-
-    var isValidURL: Bool {
-        
-        guard let urlComponents = URLComponents(string: self) else {
-            return false
-        }
-        
-        guard UIApplication.shared.canOpenURL(urlComponents.url!) else {
-             return false
-        }
-
-        return true
-    }
-    
     enum ActionTitle {
         static let no  = "No"
         static let ok  = "OK"
@@ -71,9 +51,30 @@ extension String {
         case unableToUpdUsrLoc = "Unable to update user location"
     }
     
+    enum HTTP {
+        
+        enum HeaderField {
+            static let accept      = "Accept"
+            static let contentType = "Content-Type"
+        }
+        
+        enum Method {
+            static let delete = "DELETE"
+            static let get    = "GET"
+            static let post   = "POST"
+            static let put    = "PUT"
+        }
+        
+        enum MIMEType {
+            static let applicationJSON = "application/json"
+        }
+        
+    }
+    
     enum ReuseID {
         static let annotationView = "AnnotationView"
         static let listCell       = "ListCell"
+        static let clusterAnnoID  = "ClusterID"
     }
     
     enum SegueID {
@@ -85,6 +86,26 @@ extension String {
         static let listControllerNC = "ListControllerNC"
         static let mapControllerNC  = "MapControllerNC"
         static let verifyLocationVC = "VerifyLocationVC"
+    }
+    
+    var isValidEmail: Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: self)
+    }
+
+    var isValidURL: Bool {
+        
+        guard let urlComponents = URLComponents(string: self) else {
+            return false
+        }
+        
+        guard UIApplication.shared.canOpenURL(urlComponents.url!) else {
+             return false
+        }
+
+        return true
     }
     
 }

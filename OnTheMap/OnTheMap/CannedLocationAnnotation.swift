@@ -30,20 +30,20 @@ class CannedLocationAnnotation: MKPointAnnotation {
 extension CannedLocationAnnotation: AnnotationViewable {
     
     func configure(annotationView view: MKMarkerAnnotationView) {
-        view.canShowCallout    = true
-        view.animatesWhenAdded = true
-        view.markerTintColor   = .red
-        view.glyphText         = "🥫"
+        view.canShowCallout            = true
+        view.animatesWhenAdded         = true
+        view.markerTintColor           = .red
+        view.glyphText                 = "🥫"
         view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        view.clusteringIdentifier      = "ClusterID"
+        view.clusteringIdentifier      = String.ReuseID.clusterAnnoID
     }
 
     func configure(annotationView view: MKPinAnnotationView) {
-        view.canShowCallout = true
-        view.animatesDrop   = true
-        view.pinTintColor   = .red
+        view.canShowCallout            = true
+        view.animatesDrop              = true
+        view.pinTintColor              = .red
         view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        view.clusteringIdentifier      = "ClusterID"
+        view.clusteringIdentifier      = String.ReuseID.clusterAnnoID
     }
     
 }

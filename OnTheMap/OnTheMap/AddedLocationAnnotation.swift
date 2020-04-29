@@ -8,7 +8,7 @@
 
 import MapKit
 
-class AddedLocationAnnotation: MKPointAnnotation {
+final class AddedLocationAnnotation: MKPointAnnotation {
     
     // MARK: - Variables
         
@@ -58,20 +58,20 @@ class AddedLocationAnnotation: MKPointAnnotation {
 extension AddedLocationAnnotation: AnnotationViewable {
     
     func configure(annotationView view: MKMarkerAnnotationView) {
-        view.canShowCallout    = true
-        view.animatesWhenAdded = true
-        view.markerTintColor   = .blue
-        view.glyphText         = "👨‍🎓"
+        view.canShowCallout            = true
+        view.animatesWhenAdded         = true
+        view.markerTintColor           = .blue
+        view.glyphText                 = "👨‍🎓"
         view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        view.clusteringIdentifier      = "ClusterID"
+        view.clusteringIdentifier      = String.ReuseID.clusterAnnoID
     }
 
     func configure(annotationView view: MKPinAnnotationView) {
-        view.canShowCallout = true
-        view.animatesDrop   = true
-        view.pinTintColor   = .blue
+        view.canShowCallout            = true
+        view.animatesDrop              = true
+        view.pinTintColor              = .blue
         view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        view.clusteringIdentifier      = "ClusterID"
+        view.clusteringIdentifier      = String.ReuseID.clusterAnnoID
     }
     
 }

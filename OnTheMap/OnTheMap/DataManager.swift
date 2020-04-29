@@ -41,6 +41,8 @@ final class DataManager {
     
 }
 
+
+
 // MARK: -
 // MARK: -
 
@@ -66,6 +68,7 @@ final class AddedLocations {
     }
     
 }
+
 
 
 // MARK: -

@@ -6,25 +6,6 @@
 //  Copyright © 2016 Gregory White. All rights reserved.
 //
 
-enum HTTP {
-    
-    enum HeaderField {
-        static let accept      = "Accept"
-        static let contentType = "Content-Type"
-    }
-    
-    enum Method {
-        static let delete = "DELETE"
-        static let get    = "GET"
-        static let post   = "POST"
-        static let put    = "PUT"
-    }
-    
-    enum MIMEType {
-        static let applicationJSON = "application/json"
-    }
-    
-}
 
 struct LocalizedError {
     static let Domain          = "OnTheMapExternalAPIInterfaceError"

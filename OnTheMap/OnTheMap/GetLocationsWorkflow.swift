@@ -38,8 +38,9 @@ private extension GetLocationsWorkflow {
     var processLocations: NetworkTaskCompletionHandler {
         
         return { (result, error) -> Void in
-            #warning("take care of this error handling")
+            
             guard error == nil else {
+                // TODO: handle this error condition
                 print("\(String(describing: error))")
 //                var message = String()
 //

@@ -19,13 +19,15 @@ final class APIDataTaskWithRequest {
     private var completionHandler: NetworkTaskCompletionHandler
     private var isSessionURL:      Bool
     
-    // MARK: - API
+    // MARK: - Initializers
     
     init(urlRequest: NSMutableURLRequest, isSessionURL: Bool = true, completionHandler: @escaping NetworkTaskCompletionHandler) {
         self.urlRequest        = urlRequest
         self.completionHandler = completionHandler
         self.isSessionURL      = isSessionURL
     }
+    
+    // MARK: - API
     
     func resume() {
         

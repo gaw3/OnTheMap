@@ -178,7 +178,7 @@ extension MapController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
         let clusterAnnotation = MKClusterAnnotation(memberAnnotations: memberAnnotations)
-        clusterAnnotation.title = "Student Cluster"
+        clusterAnnotation.title    = "Student Cluster"
         clusterAnnotation.subtitle = "\(memberAnnotations.count) Students"
         return clusterAnnotation
     }
@@ -222,7 +222,8 @@ private extension MapController {
     
     func toggleAnnotationStyle() {
         
-        #warning("put this in a enum")
+        // TODO: add stuff below in an enum
+        
         if annotationStyle == .marker {
             annotationStyle = .pin
             annotationStyleButton.image = UIImage(named: "MapMarker")
